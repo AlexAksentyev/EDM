@@ -62,13 +62,15 @@ The log-likelihood derivatives:
 	& -\XpctO{\ell''_{\omega^2}} = \frac1\nu\sum_i\bkt{\bkt{t_i\mupp}^2 - \mudpp\XpctO{t_i^2\epsilon_i}} = \frac1\nu\sum_i\bkt{t_i\mupp}^2.
 \end{align*}
 
+\section{Variances}
+
 The Fisher matrix
 \[
-	I(\pars_0) = \begin{bmatrix}
+	I(\pars_0) = \begin{pmatrix}
 	\sfrac{K}{2\nu} & 0 								& 0 \\
 	0 				& \sfrac1\nu\sum\bkt{t_i\mupp}^2	& \sfrac1\nu\sum t_i\bkt{\mupp}^2 \\
 	0				& \sfrac1\nu\sum t_i\bkt{\mupp}^2	&\sfrac1\nu\sum\bkt{\mupp}^2
-	\end{bmatrix}.
+	\end{pmatrix}.
 \]
 The determinant
 \newcommand{\STM}{\Omega}
@@ -77,11 +79,11 @@ The determinant
 \]
 The variance-covariance matrix
 \[
-vcov = \begin{bmatrix}
+vcov = \begin{pmatrix}
 	2\sfrac{\nu^2}{K}& 0									& 0				\\
 	0				&\nu\frac{\sum\bkt{\mupp}^2}{\STM}		&\nu\frac{\sum t_i\bkt{\mupp}^2}{\STM}\\
 	0				&\nu\frac{\sum t_i\bkt{\mupp}^2}{\STM}	&\nu\frac{\sum\bkt{t_i\mupp}^2}{\STM}
-\end{bmatrix}.
+\end{pmatrix}.
 \]
 
 Variance of the frequency estimate
@@ -99,15 +101,35 @@ Variance of the frequency estimate
 \newcommand{\SSX}{\sum\bkt{t_i - \avg{t}}^2}
 and the variance-covariance matrix becomes
 \[
-vcov = \begin{bmatrix}
+vcov = \begin{pmatrix}
 	2\sfrac{\nu^2}{K}& 0									& 0				\\
 	0				&\frac{\nu}{\SSX}		&\nu\frac{\sum t_i}{K\SSX}\\
 	0				&\nu\frac{\sum t_i}{K\SSX}	&\nu\frac{\sum t_i^2}{K\SSX}
-\end{bmatrix},
+\end{pmatrix},
 \]
 with the well-known expression for the slope variance
 \[
 	var(\hat\omega) = \frac{\nu}{\SSX}.
 \]
+
+\newcommand{\M}{\underline{\mathrm{M}}}
+\newcommand{\T}{\underline{\mathrm{T}}}
+\newcommand{\diag}[1]{\mathcal{D}_{#1}}
+\newcommand{\diagM}{\diag{\mu}}
+In matrix form, the frequency variance is written as
+\begin{align*}
+var(\hat\omega) &= \nu\frac{\M'\M}{\bkt{\T'\diagM\T}\bkt{\M'\M} - \bkt{\T'\diagM\M}^2}, 
+\shortintertext{with}
+\T &= \bkt{t_0,\dots, t_{K-1}}', ~ \M = \bkt{\mupp*(t_0),\dots,\mupp*(t_{K-1})}', \\
+\diagM &= \begin{pmatrix}
+	\mupp*(t_0) & 0				& \cdots & 0 \\
+	0			& \mupp*(t_1)	& \cdots & 0 \\
+	\vdots		& \cdots		&\ddots	 & \vdots \\
+	0			& 0				&\cdots  & \mupp*(t_{K-1})
+\end{pmatrix}.
+\end{align*}
+
+\section{Estimates}
+
 
 \end{document}
