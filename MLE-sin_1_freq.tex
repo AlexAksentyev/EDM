@@ -1,5 +1,7 @@
 \documentclass{article}
 \usepackage[left=1cm,top=1cm,right=1cm,bottom=1.5cm]{geometry}
+\setlength{\parindent}{0pt}
+\usepackage{parskip}
 
 \usepackage{mathtools}
 
@@ -18,28 +20,29 @@
 
 \begin{document}
 
-The probability of observing  the value $y_i \equiv y(t_i)$ when the expectation value is $\mu(t_i)$ and the error is gaussian:
+The probability of observing  the value $y_i \equiv y(t_i)$ when the expectation value is $\mu(t_i)$ and the error is gaussian is
 \begin{align*}
 	f(y_i|\pars) &= \frac{1}{\sqrt{2\pi\nu}}\exp\bkt{-\frac12\frac{(y_i - \mu(t_i))^2}{\nu}}, \\
 	\pars 		  &= (\nu,\omega,\phi),\\
 	\mu(t_i) 	  &= N_0\bkt{1 + P\sin(\omega t_i + \phi)}.
 \end{align*}
 
-The likelihood of observing a set of observations $\y = (y_1,\dots, y_K)$ is
+The likelihood of observing a set of observations $\y = (y_1,\dots, y_K)$, under the i.i.d. assumption, is the product of propabilities taken as a function of the parameters:
 \begin{align*}
 	\mathcal{L}(\pars|\y) &= \prod_i f(y_i|\pars),
-\shortintertext{and the log-likelihood is}
+\shortintertext{and the log-likelihood}
 	\ell(\pars|\y) &= -\frac{K}{2}\log2\pi - \frac{K}{2}\log\nu - \frac{1}{2\nu}\sum_i\epsilon_i^2,
-	~ \epsilon_i = y_i- \mu(t_i)
+	~ \epsilon_i = y_i- \mu(t_i).
 \end{align*}
-
+The usual assumptions for the error term are zero expectation and strict exogeneity
 \begin{align*}
+	\XpctO{\epsilon_i} &= \XpctO{t_i\epsilon_i} = 0,
+\intertext{and the relations between the mean's derivatives are}
 	\mu'_\phi	&= N_0P\cos(\omega t + \phi), \\
-	\mu'_\omega &= t\cdot\mu'_\phi, \epsilon'_\xi = -\mu'_\xi \\
-	\XpctO{\epsilon_i} &= \XpctO{t_i\epsilon_i} = 0.
+	\mu'_\omega &= t\cdot\mu'_\phi, \epsilon'_\xi = -\mu'_\xi.
 \end{align*}
 
-The derivatives:
+The log-likelihood derivatives:
 \begin{align*}
 \ell'_\nu 		&= -\frac{K}{2\nu} + \frac{1}{2\nu^2}\sum_i\epsilon_i^2;  & \\
 \ell'_\omega 	&= \frac1\nu\sum_i\mupp t_i\epsilon_i;  & \\
@@ -84,6 +87,27 @@ vcov = \begin{bmatrix}
 Variance of the frequency estimate
 \[
 	var(\hat{\omega}) = \nu\frac{\sum\bkt{\mupp}^2}{\sum\bkt{t_i\mupp}^2\sum\bkt{\mupp}^2 - \bkt{\sum t_i\bkt{\mupp}^2}^2}.
+\]
+
+\newcommand{\avg}[1]{\langle #1\rangle}
+\paragraph{Cross-check.} Let $\mu(t_i) = \phi + \omega t_i$. In that case $\mupp = 1$, $\mu'_\omega(t_i) = t_i = t_i\cdot\mupp$, the determinant of the Fisher matrix simplifies to 
+\begin{align*}
+	|I(\pars_0)| &= \frac{K}{2\nu^4}\bkt{K\sum_i t_i^2 - \bkt{\sum t_i}^2} \\
+				 &= \frac{K^3}{2\nu^4}\bkt{\frac1K\sum t_i^2 - \avg{t}^2} \\
+				 &= \frac{K}{2\nu^4}\cdot\underbrace{K\sum\bkt{t_i - \avg{t}}^2}_{\STM}
+\end{align*}
+\newcommand{\SSX}{\sum\bkt{t_i - \avg{t}}^2}
+and the variance-covariance matrix becomes
+\[
+vcov = \begin{bmatrix}
+	2\sfrac{\nu^2}{K}& 0									& 0				\\
+	0				&\frac{\nu}{\SSX}		&\nu\frac{\sum t_i}{K\SSX}\\
+	0				&\nu\frac{\sum t_i}{K\SSX}	&\nu\frac{\sum t_i^2}{K\SSX}
+\end{bmatrix},
+\]
+with the well-known expression for the slope variance
+\[
+	var(\hat\omega) = \frac{\nu}{\SSX}.
 \]
 
 \end{document}
