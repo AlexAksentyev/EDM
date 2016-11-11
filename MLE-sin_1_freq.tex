@@ -118,7 +118,7 @@ with the well-known expression for the slope variance
 \newcommand{\diagM}{\diag{\mu}}
 In matrix form, the frequency variance is written as
 \begin{align*}
-var(\hat\omega) &= \nu\frac{\M'\M}{\bkt{\T'\diagM\T}\bkt{\M'\M} - \bkt{\T'\diagM\M}^2}, 
+var(\hat\omega) &= \nu\frac{\M'\M}{\bkt{\T'\diagM^2\T}\bkt{\M'\M} - \bkt{\T'\diagM\M}^2}, 
 \shortintertext{with}
 \T &= \bkt{t_0,\dots, t_{K-1}}', ~ \M = \bkt{\mupp*(t_0),\dots,\mupp*(t_{K-1})}', \\
 \diagM &= \begin{pmatrix}
