@@ -5,6 +5,8 @@
 
 \usepackage{mathtools}
 
+\usepackage{subcaption}
+
 \usepackage{xparse}
 \usepackage{xfrac}
 
@@ -16,6 +18,10 @@
 
 \DeclareDocumentCommand{\mupp}{s}{\mu'_\phi\IfBooleanTF{#1}{}{(t_i)}}
 \DeclareDocumentCommand{\mudpp}{s}{\mu''_{\phi^2}\IfBooleanTF{#1}{}{(t_i)}}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepgfplotslibrary{fillbetween}
 
 
 \begin{document}
@@ -129,7 +135,47 @@ var(\hat\omega) &= \nu\frac{\M'\M}{\bkt{\T'\diagM^2\T}\bkt{\M'\M} - \bkt{\T'\dia
 \end{pmatrix}.
 \end{align*}
 
-\section{Estimates}
+\section{Sampling modulation}
+
+\[
+	I(\pars_0) = \sum_i I_i(\pars_0); 
+	~I_i(\pars_0) = \frac1\nu\begin{pmatrix}
+	\sfrac12 & 0 		& 0 \\
+	0		 & t_i^2 	& t_i \\
+	0		 &	t_i	    & 1
+	\end{pmatrix}\cdot\bkt{\mupp}^2.
+\]
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.5\textwidth}
+\begin{tikzpicture}
+	  \draw[->] (-1.5,0) -- (1.5,0) node[right] {$\mupp$};
+      \draw[->] (0,-.5) -- (0, 2.3) node[above] {$I_i(\pars_0)$};
+      \draw[scale=1,domain=-1.5:1.5,smooth,variable=\x,red] plot ({\x},{\x*\x});
+\end{tikzpicture}
+\caption{Fisher information of a point is a parabola of the signal derivative.}
+\end{subfigure}~
+\begin{subfigure}{.5\textwidth}
+\begin{tikzpicture}
+\begin{axis}[axis lines=center, xlabel=$t$, domain=-.5:2*pi, legend pos=outer north east]
+	\addplot[color=blue, name path=signal, domain=-.1:2*pi] {sin(deg(x))}; \addlegendentry{the signal}
+	\addplot[color=red] {cos(deg(x))^2}; \addlegendentry{$\bkt{I(\pars_0)}(t_i)$}
+	\addplot[mark=none,dashed, domain=0:2*pi]{.5};
+	\draw[dashed] (axis cs:.785,0) -- (axis cs:.785,{sin(deg(.785))});
+	\draw[dashed] (axis cs:2.36,0) -- (axis cs:2.36,{sin(deg(2.36))});
+	\draw[dashed] (axis cs:3.93,0) -- (axis cs:3.93,{sin(deg(3.93))});
+	\draw[dashed] (axis cs:5.5,0) -- (axis cs:5.5,{sin(deg(5.5))});
+	\path[name path=axis] (axis cs:0,0) -- (axis cs:2*pi,0);
+	\addplot[fill=blue, opacity=.05] fill between [of=signal and axis, soft clip={domain=0:.785}];
+	\addplot[fill=blue, opacity=.05] fill between [of=signal and axis, soft clip={domain=2.36:3.93}];
+	\addplot[fill=blue, opacity=.05] fill between [of=signal and axis, soft clip={domain=5.5:2*pi}];
+\end{axis}     
+\end{tikzpicture}
+\caption{Filled areas are where the points are more informative.}
+\end{subfigure}
+\end{figure}
+
+
 
 
 \end{document}
