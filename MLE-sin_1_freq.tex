@@ -20,6 +20,8 @@
 \DeclareDocumentCommand{\mudpp}{s}{\mu''_{\phi^2}\IfBooleanTF{#1}{}{(t_i)}}
 \DeclareDocumentCommand{\Fisher}{O{}}{I_{#1}(\pars_0)}
 
+\DeclareDocumentCommand{\var}{mO{}}{\mathrm{var}_{#2}\bkt{#1}}
+
 \newcommand{\td}{\mathrm{d}}
 
 \usepackage{tikz}
@@ -96,9 +98,9 @@ vcov = \begin{pmatrix}
 \]
 
 Variance of the frequency estimate
-\[
-	var(\hat{\omega}) = \nu\frac{\sum\bkt{\mupp}^2}{\sum\bkt{t_i\mupp}^2\sum\bkt{\mupp}^2 - \bkt{\sum t_i\bkt{\mupp}^2}^2}.
-\]
+\begin{equation}\label{eq:Var1}
+	\var{\hat{\omega}} = \nu\frac{\sum\bkt{\mupp}^2}{\sum\bkt{t_i\mupp}^2\sum\bkt{\mupp}^2 - \bkt{\sum t_i\bkt{\mupp}^2}^2}.
+\end{equation}
 
 \newcommand{\avg}[1]{\langle #1\rangle}
 \paragraph{Cross-check.} Let $\mu(t_i) = \phi + \omega t_i$. In that case $\mupp = 1$, $\mu'_\omega(t_i) = t_i = t_i\cdot\mupp$, the determinant of the Fisher matrix simplifies to 
@@ -118,8 +120,15 @@ vcov = \begin{pmatrix}
 \]
 with the well-known expression for the slope variance
 \[
-	var(\hat\omega) = \frac{\nu}{\SSX}.
+	\var{\hat\omega} = \frac{\nu}{\SSX}.
 \]
+
+Let us denote $\bkt{\mupp}^2 = (N_0P)^2\cos^2(\omega t_i + \phi) \equiv x_i$. Eq.~\eqref{eq:Var1} can be rewritten in the following form:
+\begin{align}
+\var{\hat\omega} &= \frac{\nu}{\sum_j x_j \bkt{\sum_i t_i^2 \frac{x_i}{\sum_j x_j} - \bkt{\sum_i t_i \frac{x_i}{\sum_j x_j}}^2}} \notag\\
+				&= \frac{\nu}{\sum_j x_j \sum_i w_i\bkt{t_i - \avg{t}_w}^2} \notag\\
+				&= \frac{\nu}{\sum_j x_j \cdot\var{t}[w]}. \label{eq:Var2}
+\end{align}
 
 \newcommand{\M}{\underline{\mathrm{M}}}
 \newcommand{\T}{\underline{\mathrm{T}}}
@@ -127,7 +136,7 @@ with the well-known expression for the slope variance
 \newcommand{\diagM}{\diag{\mu}}
 In matrix form, the frequency variance is written as
 \begin{align*}
-var(\hat\omega) &= \nu\frac{\M'\M}{\bkt{\T'\diagM^2\T}\bkt{\M'\M} - \bkt{\T'\diagM\M}^2}, 
+\var{\hat\omega} &= \frac{\nu}{\bkt{\T'\diagM^2\T} - \bkt{\T'\diagM\M}^2/\bkt{\M'\M}}, 
 \shortintertext{with}
 \T &= \bkt{t_0,\dots, t_{K-1}}', ~ \M = \bkt{\mupp*(t_0),\dots,\mupp*(t_{K-1})}', \\
 \diagM &= \begin{pmatrix}
