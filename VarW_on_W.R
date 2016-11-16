@@ -15,7 +15,7 @@ fancy_scientific <- function(l) {
 
 Prd = 1000
 st = seq(1,Prd, length.out = 100)
-f = c(2,5,10,20,50)%o%10^(-4)%>%c; names(f) <- as.character(f)
+f = c(1,2,5)%o%10^(-5:-2)%>%c; names(f) <- as.character(f)
 
 wt = ldply(st, function(t) (cos(f*t))^2) %>% 
   melt(variable.name="Freq", value.name="X") %>%
@@ -26,7 +26,7 @@ wt = ldply(st, function(t) (cos(f*t))^2) %>%
 ggplot(wt, aes(X, col = Freq)) + geom_density() + 
   scale_x_continuous(name=expression(cos^2~(omega%.%t), ")")) +
   theme_minimal() +
-  ggtitle("Distribution of the denominator weights")
+  ggtitle("Point Fisher information distributions for different signal frequencies")
 
 
 nu = 1e-3
@@ -40,5 +40,5 @@ ddply(wt, "Freq", function(s){
 ggplot(varW.w, aes(Freq, varW/min(varW))) + geom_point() + theme_minimal() +
   scale_y_continuous(name=expression(sigma^2~group("(",list(hat(omega), omega),")"))) +
   scale_x_discrete(name=expression(omega), labels = fancy_scientific) + 
-  ggtitle("Variance of the omega estimate conditional on the value")
+  ggtitle("Variance of the omega estimate conditional on its value")
 
