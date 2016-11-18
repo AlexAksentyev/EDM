@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.3.29)  16 NOV 2016 13:25
-=======
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.3.29)  16 NOV 2016 13:19
->>>>>>> abbe03da2ba3511518cc99de5844fe2fe3a8488e
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.3.29)  18 NOV 2016 17:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1067,16 +1063,6 @@ Overfull \hbox (4.44441pt too wide) in paragraph at lines 164--190
  []$[]$  $[]$ 
  []
 
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \ddw with sig. 'G{}' on line 200.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \ang with sig. 'm' on line 201.
-.................................................
 [3] (./MLE-sin_1_freq.aux)
 
 LaTeX Font Warning: Size substitutions with differences
@@ -1084,10 +1070,10 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 30348 strings out of 494466
- 733347 string characters out of 6172530
+ 30345 strings out of 494466
+ 733333 string characters out of 6172530
  863189 words of memory out of 5000000
- 33126 multiletter control sequences out of 15000+600000
+ 33123 multiletter control sequences out of 15000+600000
  13304 words of font info for 49 fonts, out of 8000000 for 9000
  452 hyphenation exceptions out of 8191
  69i,19n,107p,10383b,2180s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1112,11 +1098,7 @@ fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/ty
 pe1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmsy7.pfb>
-<<<<<<< HEAD
-Output written on MLE-sin_1_freq.pdf (3 pages, 222247 bytes).
-=======
-Output written on MLE-sin_1_freq.pdf (3 pages, 222458 bytes).
->>>>>>> abbe03da2ba3511518cc99de5844fe2fe3a8488e
+Output written on MLE-sin_1_freq.pdf (3 pages, 223177 bytes).
 PDF statistics:
  105 PDF objects out of 1000 (max. 8388607)
  77 compressed objects within 1 object stream

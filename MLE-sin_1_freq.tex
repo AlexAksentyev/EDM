@@ -194,17 +194,19 @@ If we attribute each point a weight proportional to its Fisher information, i.e.
 	\int_{t_0}^{t_1}\cos^2(\omega t + \phi)\td t = \frac1\omega\int_{\omega t_0}^{\omega t_1} \cos^2\theta\td\theta = \frac{\Delta t}{2} + \frac{1}{2\omega}\sin\omega\Delta t\cos\omega\Sigma t \approx 1.9.
 \end{align*}
 
-The implication is that increasing the number of points measured the signal rise and fall is roughly twice as beneficial as doing so during the peaks and troughs.
+The implication is that increasing the number of points measured during the signal's rise and fall is roughly twice as beneficial as doing so during the peaks and troughs.
 
 \section{The dependence of $\var{\hat{\omega}}$ on $\omega$}
-\DeclareDocumentCommand{\ddw}{G{}}{\frac{\partial {#1}}{\partial\omega}}
-\DeclareDocumentCommand{\ang}{m}{\omega t_{#1} + \phi}
-The variance in eq.~\eqref{eq:Var2} is conditional on the frequency of the signal. 
+\newcommand{\acos}{\mathrm{acos}}
+The variance in eq.~\eqref{eq:Var2} is conditional on the frequency $\omega$ and phase $\phi$ of the signal. The conditioning happens because the parameters determine the sampling range of the distribution of the $x_i$ weights.
+
+That distribution is 
+\[
+	f(x_i) = \frac{1}{\pi}\cdot\bkt*{\frac{x_i}{N_0P}\bkt{1-\frac{x_i}{N_0P}}}^{-\sfrac12}.
+\]
 
 \begin{align*}
-	\ddw{x_j} &= -(N_0P)^2\cdot t_j\cdot\sin 2(\ang{j}), \\
-	\ddw{w_i} &= \frac{1}{\sum_j x_j}\bkt{\ddw{x_i} - x_i\frac{\sum_j\ddw{x_j}}{\sum_j x_j}} \\
-			  &= \frac{1}{\sum_j \cos^2(\ang{j})}\bkt{\cos^2(\ang{i})\frac{\sum_j t_j\sin 2(\ang{j})}{\sum_j \cos^2(\ang{j})} - t_i \sin 2(\ang{i})}
+\Xpct{\sum_i x_i}[(\omega,\phi)] &= \sum_i \int_{\cos^2\phi}^{\cos^2(\omega t_i + \phi)}x_if(x_i)\td x_i;
 \end{align*}
 
 
