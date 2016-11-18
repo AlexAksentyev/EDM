@@ -14,8 +14,8 @@ fancy_scientific <- function(l) {
 }
 
 Prd = 1000
-st = seq(3,Prd, by=.1)
-f = c(1,2,5)%o%10^(c(0:3))%>%c; names(f) <- as.character(f)
+st = seq(3,Prd, by=.01)
+f = c(1,2,5)%o%10^(c(-5))%>%c; names(f) <- as.character(f)
 
 wt = ldply(st, function(t) (cos(f*t))^2) %>% 
   melt(variable.name="Freq", value.name="X") %>%
