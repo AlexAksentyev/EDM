@@ -4,10 +4,12 @@ library(reshape2)
 library(ggplot2)
 library(parallel); library(doParallel); registerDoParallel(detectCores()-1)
 
+## definitions ####
 fancy <- function(x) formatC(x, 4, format = "e")
 .se <- function(x) sd(x)/sqrt(length(x))
 
 .dcs <- function(x, w = w0) N0 * (1 + P*sin(w*x + phi)) # structural model/expectation
+.ddcs <- function(x, w = w0) N0*P*cos(w*x + phi) # signal derivative
 
 .fit <- function(trl){
   nls(Sgl~ n*(1 + p*sin(frq*Time + phi)), data=trl, start=list(n = 5000, p = 1, frq=w.g)) -> m3
@@ -29,23 +31,24 @@ fancy <- function(x) formatC(x, 4, format = "e")
   rm(x)
   min(length(t1), length(t2))->l
   t1 <- t1[1:l]; t2 = t2[1:l]
-  x1 = .dcs(t1); x2 = .dcs(t2)
-  names(x1) <- t1; names(x2) <- t2
-  list("uniform" = x1, "modulated" = x2)
+  df1 = data.frame("Type" = "uniform","Time" = t1, "Sgl" = .dcs(t1), "Drvt" = .ddcs(t1))
+  df2 = data.frame("Type" = "modulated","Time" = t2, "Sgl" = .dcs(t2), "Drvt" = .ddcs(t2))
+  rbind(df1,df2)
 }
+
 #### preparations ####
 ## I should show that my formula for var omega is the correct one
 w0=3; phi=pi/36; N0=6730; P=.8 # signal
 fs=5000; comptn=.33; w.g=rnorm(1,3,0) ## sampling
-Es = .sample(3) # expected values for the two samplings
-l = length(Es[[1]])
-## modeling ##
-Ntrial = 50 #number of trials
 errS = 3e-2*N0*P #absolute measurement error
 
-## trials differ by error ####
-matrix(rnorm(Ntrial*l, sd=errS), ncol=Ntrial) -> s
-llply(Es, function(e){e+s -> x; rownames(x) <- names(e); x}) %>% melt ->s; names(s) <- c("Time","Trl","Sgl", "Type")
+## modeling ##
+# the first two will have to be adjusted b/c now I return a list of data frames from .sample
+## 1) trials with different error ####
+Ntrial = 5 #number of trials
+Es = .sample(3) # expected values for the two samplings
+l = nrow(Es)
+Es[rep(seq(l),Ntrial),] %>% mutate(Trl = rep(seq(Ntrial), each=l), Sgl = Sgl + rnorm(Ntrial*l, sd=errS)) -> s
 .stats <- .simul(s)
 
 ## plotting results ##
@@ -63,15 +66,11 @@ ggplot(x, aes(Time, Sgl)) + geom_pointrange(aes(ymin=Sgl-errS, ymax=Sgl+errS,col
 
 ggplot(.stats) + geom_boxplot(aes(Type, B.frq)) + theme_bw() + labs(y=expression(sigma[hat(omega)]))
 
-## checking the growth of omega se with total time ####
-## take the first super test and compute the se for this case
-## then exclude the last m periods, recalculate the se
-## repeat this reduction-recomputation
-## plot results
-Es <- .sample(480); length(Es[[1]])->l
-rnorm(l, sd=errS)  -> s
-ldply(Es, function(e) data.frame("Time"= as.numeric(names(e)), "Sgl"=e+s), .id="Type") %>% mutate(Trl=1)->s
-(1:10)*l/10 -> m
+## 2) checking the growth of omega se with total time ####
+Es <- .sample(15); nrow(Es)->l
+mutate(Es, Trl=1, Sgl = Sgl + rnorm(l, sd=errS))  -> s
+
+(1:10)*l/length(unique(s$Type))/10 -> m
 llply(m, function(i) s%>%ddply("Type", function(x) slice(x,1:i))) -> s
 ldply(s, function(df) .simul(df)%>%mutate(NUM = nrow(df))) %>% 
   mutate(MEAN.SE = SE.frq/sqrt(NUM))->.stats
@@ -79,12 +78,18 @@ ldply(s, function(df) .simul(df)%>%mutate(NUM = nrow(df))) %>%
 ggplot(.stats, aes(NUM, MEAN.SE, col=Type)) + geom_point() + 
   scale_y_log10() + scale_x_log10() +
   theme_bw() + labs(x="Sample size",y=expression(sigma[bar(omega)])) + theme(legend.position="top")
-.stats %>% group_by(Type)
 
-filter(.stats, Type=="uniform")->x
-x[1,c("NUM","MEAN.SE")]/x[9,c("NUM","MEAN.SE")]
-write.table(.stats, file="CumFit.txt", quote=FALSE)
-
-## question ##
-x = filter(.stats, Type=="uniform") %>% mutate(Time = NUM/fs)
-nls(MEAN.SE~I(1/sqrt(Time)), data=x)
+## 3) checking the analytical formula ####
+## the formula is
+## SEw = SE error / sqrt(sum xj * (sum ti^2 xi/sum xj) - (sum ti xi/sum xj)^2)
+.compVarF <- function(df, err = errS){
+  ftr <- sum(df$Drvt^2)
+  mutate(df, Wt = Drvt^2/ftr, WtT = Time*Wt, WtTT = Time^2*Wt)->df
+  (sum(df$WtTT) - sum(df$WtT)^2)*ftr -> denom
+  err/sqrt(denom)
+}
+Es = .sample(10); l = nrow(Es[[1]])
+rnorm(l, sd=errS)%>%rep(length(Es)) -> s
+ldply(Es, .id="Type") %>% mutate(Sgl = Sgl + s, Trl=1) -> s
+.stats <- .simul(s) %>% mutate(SEAN.frq = daply(s, "Type", .compVarF))
+ 
