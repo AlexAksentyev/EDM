@@ -11,14 +11,12 @@ fancy <- function(x) formatC(x, 4, format = "e")
 .dcs <- function(x, w = w0) N0 * (1 + P*sin(w*x + phi)) # structural model/expectation
 .ddcs <- function(x, w = w0) N0*P*cos(w*x + phi) # signal derivative
 
-.fit <- function(trl){
-  nls(Sgl~ n*(1 + p*sin(frq*Time + phi)), data=trl, start=list(n = 5000, p = 1, frq=w.g)) -> m3
-  .est = coef(m3); names(.est) <- paste("X",names(.est), sep=".")
-  .ster = sqrt(diag(vcov(m3))); names(.ster) <- paste("SE",names(.ster), sep=".")
-  data.frame(c(.est, .ster)%>%t)
+.compVarF <- function(df, err = errS){
+  ftr <- sum(df$Drvt^2)
+  mutate(df, Wt = Drvt^2/ftr, WtT = Time*Wt, WtTT = Time^2*Wt)->df
+  (sum(df$WtTT) - sum(df$WtT)^2)*ftr -> denom
+  err/sqrt(denom)
 }
-.simul <- function(data) data %>% ddply(.(Type, Trl), .fit, .parallel=FALSE) %>% 
-  mutate(B.frq = X.frq - w0, RB.frq = B.frq/w0, Type = as.factor(Type)) 
 
 .sample <- function(Nprd){
   Ttot = (Nprd*2*pi-phi)/w0 #total measurement time
@@ -35,6 +33,16 @@ fancy <- function(x) formatC(x, 4, format = "e")
   df2 = data.frame("Type" = "modulated","Time" = t2, "Sgl" = .dcs(t2), "Drvt" = .ddcs(t2))
   rbind(df1,df2)
 }
+.fit <- function(trl){
+  nls(Sgl~ n*(1 + p*sin(frq*Time + phi)), data=trl, start=list(n = 5000, p = 1, frq=w.g)) -> m3
+  .est = coef(m3); names(.est) <- paste("X",names(.est), sep=".")
+  .ster = sqrt(diag(vcov(m3))); names(.ster) <- paste("SE",names(.ster), sep=".")
+  data.frame(c(.est, .ster)%>%t)
+}
+.simul <- function(data) data %>% ddply(.(Type, Trl), .fit, .parallel=FALSE) %>% 
+  mutate(B.frq = X.frq - w0, RB.frq = B.frq/w0, Type = as.factor(Type)) 
+
+
 
 #### preparations ####
 ## I should show that my formula for var omega is the correct one
@@ -72,22 +80,19 @@ mutate(Es, Trl=1, Sgl = Sgl + rnorm(l, sd=errS))  -> s
 
 (1:10)*l/length(unique(s$Type))/10 -> m
 llply(m, function(i) s%>%ddply("Type", function(x) slice(x,1:i))) -> s
-ldply(s, function(df) .simul(df)%>%mutate(NUM = nrow(df))) %>% 
+ldply(s, function(df) .simul(df)%>%mutate(NUM = nrow(df), SEAN.frq = .compVarF(df))) %>% 
   mutate(MEAN.SE = SE.frq/sqrt(NUM))->.stats
 
 ggplot(.stats, aes(NUM, MEAN.SE, col=Type)) + geom_point() + 
   scale_y_log10() + scale_x_log10() +
   theme_bw() + labs(x="Sample size",y=expression(sigma[bar(omega)])) + theme(legend.position="top")
 
-## 3) checking the analytical formula ####
+ggplot(mutate(.stats, Dev = SE.frq-SEAN.frq), aes(NUM, Dev, col=Type)) + geom_point() + 
+  theme_bw() + labs(x="Sample size", y="Simulation - Analytic SE") + theme(legend.position="top")
+
+  ## 3) checking the analytical formula ####
 ## the formula is
 ## SEw = SE error / sqrt(sum xj * (sum ti^2 xi/sum xj) - (sum ti xi/sum xj)^2)
-.compVarF <- function(df, err = errS){
-  ftr <- sum(df$Drvt^2)
-  mutate(df, Wt = Drvt^2/ftr, WtT = Time*Wt, WtTT = Time^2*Wt)->df
-  (sum(df$WtTT) - sum(df$WtT)^2)*ftr -> denom
-  err/sqrt(denom)
-}
 Es = .sample(10); l = nrow(Es[[1]])
 rnorm(l, sd=errS)%>%rep(length(Es)) -> s
 ldply(Es, .id="Type") %>% mutate(Sgl = Sgl + s, Trl=1) -> s
