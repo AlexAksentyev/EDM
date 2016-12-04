@@ -20,6 +20,8 @@
 \DeclareDocumentCommand{\mudpp}{s}{\mu''_{\phi^2}\IfBooleanTF{#1}{}{(t_i)}}
 \DeclareDocumentCommand{\Fisher}{O{}}{I_{#1}(\pars_0)}
 
+\DeclareDocumentCommand{\var}{O{}mo}{\mathrm{var}_{#1}\bkt*{#2\IfValueT{#3}{\vert~ #3}}}
+
 \newcommand{\td}{\mathrm{d}}
 
 \usepackage{tikz}
@@ -95,10 +97,10 @@ vcov = \begin{pmatrix}
 \end{pmatrix}.
 \]
 
-Variance of the frequency estimate
-\[
-	var(\hat{\omega}) = \nu\frac{\sum\bkt{\mupp}^2}{\sum\bkt{t_i\mupp}^2\sum\bkt{\mupp}^2 - \bkt{\sum t_i\bkt{\mupp}^2}^2}.
-\]
+The variance of the frequency estimate
+\begin{equation}\label{eq:Var1}
+	\var{\hat{\omega}} = \nu\frac{\sum\bkt{\mupp}^2}{\sum\bkt{t_i\mupp}^2\sum\bkt{\mupp}^2 - \bkt{\sum t_i\bkt{\mupp}^2}^2}.
+\end{equation}
 
 \newcommand{\avg}[1]{\langle #1\rangle}
 \paragraph{Cross-check.} Let $\mu(t_i) = \phi + \omega t_i$. In that case $\mupp = 1$, $\mu'_\omega(t_i) = t_i = t_i\cdot\mupp$, the determinant of the Fisher matrix simplifies to 
@@ -118,8 +120,15 @@ vcov = \begin{pmatrix}
 \]
 with the well-known expression for the slope variance
 \[
-	var(\hat\omega) = \frac{\nu}{\SSX}.
+	\var{\hat\omega} = \frac{\nu}{\SSX}.
 \]
+
+Let us denote $\bkt{\mupp}^2 = (N_0P)^2\cos^2(\omega t_i + \phi) \equiv x_i$. Eq.~\eqref{eq:Var1} can be rewritten in the following form:
+\begin{align}
+\var{\hat\omega} &= \frac{\nu}{\sum_j x_j \bkt{\sum_i t_i^2 \frac{x_i}{\sum_j x_j} - \bkt{\sum_i t_i \frac{x_i}{\sum_j x_j}}^2}} \notag\\
+				&= \frac{\nu}{\sum_j x_j \sum_i w_i\bkt{t_i - \avg{t}_w}^2} \notag\\
+				&= \frac{\nu}{\sum_j x_j \cdot\var[w]{t}}. \label{eq:Var2}
+\end{align}
 
 \newcommand{\M}{\underline{\mathrm{M}}}
 \newcommand{\T}{\underline{\mathrm{T}}}
@@ -127,7 +136,7 @@ with the well-known expression for the slope variance
 \newcommand{\diagM}{\diag{\mu}}
 In matrix form, the frequency variance is written as
 \begin{align*}
-var(\hat\omega) &= \nu\frac{\M'\M}{\bkt{\T'\diagM^2\T}\bkt{\M'\M} - \bkt{\T'\diagM\M}^2}, 
+\var{\hat\omega} &= \frac{\nu}{\bkt{\T'\diagM^2\T} - \bkt{\T'\diagM\M}^2/\bkt{\M'\M}}, 
 \shortintertext{with}
 \T &= \bkt{t_0,\dots, t_{K-1}}', ~ \M = \bkt{\mupp*(t_0),\dots,\mupp*(t_{K-1})}', \\
 \diagM &= \begin{pmatrix}
@@ -143,7 +152,7 @@ Suppose we write the Fisher matrix as a sum:
 \begin{equation}\label{eq:FisherSum}
 	\Fisher = \sum_i \Fisher[i]; 
 	~\Fisher[i] = \frac1\nu\begin{pmatrix}
-	\sfrac12 & 0 		& 0 \\
+	\bkt{\sqrt2\cdot\mupp}^{-2} & 0 		& 0 \\
 	0		 & t_i^2 	& t_i \\
 	0		 &	t_i	    & 1
 	\end{pmatrix}\cdot\bkt{\mupp}^2.
@@ -163,7 +172,7 @@ $\Fisher[i] = -\XpctO{\frac{\partial^2}{\partial\pars^2}\log f(y_i|\pars)\vert_{
 \begin{subfigure}{.5\textwidth}
 \begin{tikzpicture}
 \begin{axis}[axis lines=center, xlabel=$t$, domain=-.5:2*pi, legend pos=outer north east]
-	\addplot[color=blue, name path=signal, domain=-.1:2*pi] {sin(deg(x))}; \addlegendentry{the signal}
+	\addplot[color=blue, name path=signal, domain=-.1:2*pi] {sin(deg(x))}; \addlegendentry{signal}
 	\addplot[color=red] {cos(deg(x))^2}; \addlegendentry{$\bkt{\mupp}^2$}
 	\addplot[mark=none,dashed, domain=0:2*pi]{.5};
 	\draw[dashed] (axis cs:.785,0) -- (axis cs:.785,{sin(deg(.785))});
@@ -185,7 +194,20 @@ If we attribute each point a weight proportional to its Fisher information, i.e.
 	\int_{t_0}^{t_1}\cos^2(\omega t + \phi)\td t = \frac1\omega\int_{\omega t_0}^{\omega t_1} \cos^2\theta\td\theta = \frac{\Delta t}{2} + \frac{1}{2\omega}\sin\omega\Delta t\cos\omega\Sigma t \approx 1.9.
 \end{align*}
 
-The implication is that increasing the number of points measured the signal rise and fall is roughly twice as beneficial as doing so during the peaks and troughs.
+The implication is that increasing the number of points measured during the signal's rise and fall is roughly twice as beneficial as doing so during the peaks and troughs.
+
+\section{The dependence of $\var{\hat{\omega}}$ on $\omega$}
+\newcommand{\acos}{\mathrm{acos}}
+The variance in eq.~\eqref{eq:Var2} is conditional on the frequency $\omega$ and phase $\phi$ of the signal. The conditioning happens because the parameters determine the sampling range of the distribution of the $x_i$ weights.
+
+That distribution is 
+\[
+	f(x_i) = \frac{1}{\pi}\cdot\bkt*{\frac{x_i}{N_0P}\bkt{1-\frac{x_i}{N_0P}}}^{-\sfrac12}.
+\]
+
+\begin{align*}
+\Xpct{\sum_i x_i}[(\omega,\phi)] &= \sum_i \int_{\cos^2\phi}^{\cos^2(\omega t_i + \phi)}x_if(x_i)\td x_i;
+\end{align*}
 
 
 \end{document}
