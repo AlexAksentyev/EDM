@@ -8,8 +8,8 @@ library(parallel); library(doParallel); registerDoParallel(detectCores()-1)
 fancy <- function(x) formatC(x, 4, format = "e")
 .se <- function(x) sd(x)/sqrt(length(x))
 
-.dcs <- function(x, w = w0) N0 * (1 + P*sin(w*x + phi)) # structural model/expectation
-.ddcs <- function(x, w = w0) N0*P*cos(w*x + phi) # signal derivative
+.dcs <- function(x, w = w0) N0 * (1 + P*exp(lam.decoh*x)*sin(w*x + phi)) # structural model/expectation
+.ddcs <- function(x, w = w0) N0*P*exp(lam.decoh*x)*cos(w*x + phi) # signal derivative
 
 .compVarF <- function(df, err = errS){
   ftr <- sum(df$Drvt^2)
@@ -18,7 +18,7 @@ fancy <- function(x) formatC(x, 4, format = "e")
   err/sqrt(denom)
 }
 
-.sample <- function(Nprd){
+.sample <- function(Nprd, Ntrl = 1){
   Ttot = (Nprd*2*pi-phi)/w0 #total measurement time
   assign("Ttot", Ttot, envir = .GlobalEnv)
   t1 = seq(0, Ttot, by = 1/fs) #uniform sampling
@@ -29,9 +29,10 @@ fancy <- function(x) formatC(x, 4, format = "e")
   rm(x)
   min(length(t1), length(t2))->l
   t1 <- t1[1:l]; t2 = t2[1:l]
-  df1 = data.frame("Type" = "uniform","Time" = t1, "Sgl" = .dcs(t1), "Drvt" = .ddcs(t1))
-  df2 = data.frame("Type" = "modulated","Time" = t2, "Sgl" = .dcs(t2), "Drvt" = .ddcs(t2))
-  rbind(df1,df2)
+  df1 = data.frame("Type" = "uniform","Time" = t1, "XSgl" = .dcs(t1), "Drvt" = .ddcs(t1))
+  df2 = data.frame("Type" = "modulated","Time" = t2, "XSgl" = .dcs(t2), "Drvt" = .ddcs(t2))
+  rbind(df1,df2)[rep(seq(2*l),Ntrl),] %>% arrange(Type) %>%
+    mutate(Trl = rep(seq(Ntrl), each=l)%>%rep(2), Sgl = XSgl + rnorm(Ntrl*l, sd=errS)%>%rep(2))
 }
 .fit <- function(trl){
   nls(Sgl~ n*(1 + p*sin(frq*Time + phi)), data=trl, start=list(n = 5000, p = 1, frq=w.g)) -> m3
@@ -39,23 +40,19 @@ fancy <- function(x) formatC(x, 4, format = "e")
   .ster = sqrt(diag(vcov(m3))); names(.ster) <- paste("SE",names(.ster), sep=".")
   data.frame(c(.est, .ster)%>%t)
 }
-.simul <- function(data) data %>% ddply(.(Type, Trl), .fit, .parallel=FALSE) %>% 
-  mutate(B.frq = X.frq - w0, RB.frq = B.frq/w0, Type = as.factor(Type)) 
 
 #### preparations ####
 ## I should show that my formula for var omega is the correct one
-w0=3; phi=pi/36; N0=6730; P=.8 # signal
-fs=5000; comptn=.33; w.g=rnorm(1,3,0) ## sampling
+w0=3; phi=pi/36; N0=6730; P=.4 ; lam.decoh = log(.1/.4)/10# signal
+fs=5000; comptn=.33; w.g=rnorm(1,w0,0*w0) ## sampling
 errS = 3e-2*N0*P #absolute measurement error
 
 ## modeling ##
 
 ## 1) trials with different error ####
-Ntrial = 10 #number of trials
-Es = .sample(30) # expected values for the two samplings
-l = nrow(Es)
-Es[rep(seq(l),Ntrial),] %>% mutate(Trl = rep(seq(Ntrial), each=l), Sgl = Sgl + rnorm(Ntrial*l, sd=errS)) %>%
-  ddply(.(Type, Trl), function(trl) .fit(trl)%>%mutate(SEAN.frq = .compVarF(trl))) -> .stats
+s = .sample(2) # sample signal for the two samplings
+# for each type of sampling, and each trial, fit
+s %>% ddply(.(Type, Trl), function(trl) .fit(trl)%>%mutate(SEAN.frq = .compVarF(trl))) -> .stats
 
 .stats%>%group_by(Type) %>% dplyr::summarise(NUM = n(), SE = sd(X.frq), SEAN = SEAN.frq[1], RD = (SE-SEAN)/SEAN)
 
@@ -70,11 +67,13 @@ ggplot(x, aes(Time, Sgl)) + geom_pointrange(aes(ymin=Sgl-errS, ymax=Sgl+errS,col
   geom_line(aes(Time, Sgl), data.frame(Time = seq(0, Ttot, by=1/fs)) %>% mutate(Sgl=.dcs(Time)))
 
 ## 2) checking the growth of omega se with total time ####
-Es <- .sample(15); nrow(Es)->l
-mutate(Es, Sgl = Sgl + rnorm(l, sd=errS))  -> s
+s <- .sample(15); nrow(s)/2->l #divide by 2 b/c 2 sampling types
 
-(1:10)*l/length(unique(s$Type))/10 -> m
+(1:10)*l/10 -> m # split the super-sample into a sequence of cumulatively increasing subsamples;
+                  # m contains the lengths of the subsamples 
+# for a given length i, pick the first i measurements from each sampling; this is the subsample; combine the samplings
 llply(m, function(i) s%>%ddply("Type", function(x) slice(x,1:i))) -> s
+# fit the subsamples
 ldply(s, function(df) df%>%ddply("Type", .fit)%>%mutate(NUM = nrow(df), SEAN.frq = .compVarF(df))) %>% 
   mutate(SE.MEAN = SE.frq/sqrt(NUM))->.stats
 
@@ -93,8 +92,13 @@ ggplot(.stats, aes(SEAN.frq, SE.frq, col=Type)) + geom_point() +
 ## 3) checking the analytical formula ####
 ## the formula is
 ## SEw = SE error / sqrt(sum xj * (sum ti^2 xi/sum xj) - (sum ti xi/sum xj)^2)
-Es = .sample(10); l = nrow(Es[[1]])
-rnorm(l, sd=errS)%>%rep(length(Es)) -> s
-ldply(Es, .id="Type") %>% mutate(Sgl = Sgl + s) -> s
+## this doesn't account for damping
+## !!!!!!! have to see if damping matters, though !!!!!!
+s = .sample(6)
 .stats <- ddply(s,"Type", .fit) %>% mutate(SEAN.frq = daply(s, "Type", .compVarF))
+
+x = mutate(s, errY = Sgl-XSgl) %>% slice(seq(1,2*l, length.out=250))
+ggplot(x, aes(Time, Sgl)) + geom_pointrange(aes(ymin=Sgl-errS, ymax=Sgl+errS,col=Type), size=.3) + theme_bw() + 
+  geom_line(aes(Time, Sgl), data.frame(Time = seq(0, Ttot, by=1/fs)) %>% mutate(Sgl=.dcs(Time)))
+
  
