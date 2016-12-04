@@ -43,14 +43,14 @@ fancy <- function(x) formatC(x, 4, format = "e")
 
 #### preparations ####
 ## I should show that my formula for var omega is the correct one
-w0=3; phi=pi/36; N0=6730; P=.4 ; lam.decoh = log(.1/.4)/10# signal
+w0=3; phi=pi/36; N0=6730; P=.4 ; lam.decoh = log(.1/.4)/1000# signal
 fs=5000; comptn=.33; w.g=rnorm(1,w0,0*w0) ## sampling
 errS = 3e-2*N0*P #absolute measurement error
 
 ## modeling ##
 
 ## 1) trials with different error ####
-s = .sample(2) # sample signal for the two samplings
+s = .sample(5,15) # sample signal for the two samplings
 # for each type of sampling, and each trial, fit
 s %>% ddply(.(Type, Trl), function(trl) .fit(trl)%>%mutate(SEAN.frq = .compVarF(trl))) -> .stats
 
@@ -62,8 +62,9 @@ print(x)
 c("SE ratio" = x["uniform"]/x["modulated"], "wg/w0" = w.g/w0) %>% print
 
 ## plot of sample points on signal
-x = filter(s, Trl==1) %>% mutate(Sgl.o = .dcs(Time), errY = Sgl-Sgl.o) %>% slice(seq(1,2*l, length.out=250))
-ggplot(x, aes(Time, Sgl)) + geom_pointrange(aes(ymin=Sgl-errS, ymax=Sgl+errS,col=Type), size=.3) + theme_bw() + 
+x = filter(s, Trl==1) 
+x %>% mutate(errY = Sgl-XSgl) %>% slice(seq(1,nrow(x), length.out=250)) %>% 
+  ggplot(aes(Time, Sgl)) + geom_pointrange(aes(ymin=Sgl-errS, ymax=Sgl+errS,col=Type), size=.3) + theme_bw() + 
   geom_line(aes(Time, Sgl), data.frame(Time = seq(0, Ttot, by=1/fs)) %>% mutate(Sgl=.dcs(Time)))
 
 ## 2) checking the growth of omega se with total time ####
@@ -78,7 +79,7 @@ ldply(s, function(df) df%>%ddply("Type", .fit)%>%mutate(NUM = nrow(df), SEAN.frq
   mutate(SE.MEAN = SE.frq/sqrt(NUM))->.stats
 
 ggplot(.stats, aes(NUM, SE.MEAN, col=Type)) + geom_point() + 
-  scale_y_log10() + scale_x_log10() +
+  scale_y_log10() +
   theme_bw() + labs(x="Sample size",y=expression(sigma[bar(omega)])) + theme(legend.position="top")
 
 ggplot(mutate(.stats, Dev = (SE.frq-SEAN.frq)/SEAN.frq), aes(NUM, abs(Dev), col=Type)) + geom_point() + 
@@ -96,6 +97,8 @@ ggplot(.stats, aes(SEAN.frq, SE.frq, col=Type)) + geom_point() +
 ## !!!!!!! have to see if damping matters, though !!!!!!
 s = .sample(6)
 .stats <- ddply(s,"Type", .fit) %>% mutate(SEAN.frq = daply(s, "Type", .compVarF))
+
+
 
 x = mutate(s, errY = Sgl-XSgl) %>% slice(seq(1,2*l, length.out=250))
 ggplot(x, aes(Time, Sgl)) + geom_pointrange(aes(ymin=Sgl-errS, ymax=Sgl+errS,col=Type), size=.3) + theme_bw() + 
