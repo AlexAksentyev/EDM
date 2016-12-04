@@ -95,13 +95,15 @@ ggplot(.stats, aes(SEAN.frq, SE.frq, col=Type)) + geom_point() +
 ## SEw = SE error / sqrt(sum xj * (sum ti^2 xi/sum xj) - (sum ti xi/sum xj)^2)
 ## this doesn't account for damping
 ## !!!!!!! have to see if damping matters, though !!!!!!
-s = .sample(6)
+s = .sample(480); l = nrow(s)
 .stats <- ddply(s,"Type", .fit) %>% mutate(SEAN.frq = daply(s, "Type", .compVarF))
 
+.stats[1,"SE.frq"]/.stats[2,"SE.frq"]
+.stats[1,"SEAN.frq"]/.stats[2,"SEAN.frq"]
 
-
-x = mutate(s, errY = Sgl-XSgl) %>% slice(seq(1,2*l, length.out=250))
+x = mutate(s, errY = Sgl-XSgl) %>% slice(seq(1,l, length.out=250))
 ggplot(x, aes(Time, Sgl)) + geom_pointrange(aes(ymin=Sgl-errS, ymax=Sgl+errS,col=Type), size=.3) + theme_bw() + 
-  geom_line(aes(Time, Sgl), data.frame(Time = seq(0, Ttot, by=1/fs)) %>% mutate(Sgl=.dcs(Time)))
+  geom_line(aes(Time, Sgl), data.frame(Time = seq(0, Ttot, length.out=250)) %>% mutate(Sgl=.dcs(Time))) +
+  theme(legend.position="top")
 
  
