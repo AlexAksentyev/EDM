@@ -24,14 +24,31 @@ fancy <- function(x) formatC(x, 4, format = "e")
   t1 = seq(0, Ttot, by = 1/fs) #uniform sampling
   
   ## modulated sampling if the measurements are taken uniformly in time
-  t2 = seq(0, Ttot, by = comptn/fs)
-  x = .dcs(t2, w=w.g) #w.g reflects the fact that we don't know exactly the frequency we estimate;
-          # so, the points that pass the `goodness` test below pass it for the guessed signal,
-          #but not for the actual one
-  t2 <- t2[x > N0*(1 - P*comptn) & x < N0*(1 + P*comptn)] #pick the good points
-  rm(x)
+  # t2 = seq(0, Ttot, by = comptn/fs)
+  # x = .dcs(t2, w=w.g) #w.g reflects the fact that we don't know exactly the frequency we estimate;
+  #         # so, the points that pass the `goodness` test below pass it for the guessed signal,
+  #         #but not for the actual one
+  # DeltaS = P*comptn*exp(lam.decoh*t2)
+  # t2 <- t2[x > N0*(1 - DeltaS) & x < N0*(1 + DeltaS)] #pick the good points
+  # rm(x) 
+  # min(length(t1), length(t2))->l
+  # t1 <- t1[1:l]; t2 <- t2[1:l]
+  ##
+  ## modulated sampling if the measurements are aggregated about the signal zero-crossing
+  ## the zero-crossing times are tn = (n*pi - phi)/w0 (but in our case we guess, so, w0 -> w.g)
+  ## the local sampling range should still correspond to the compaction factored signal range, 
+  ## this determines Dt; Dt'll have to change with time, if we are to keep the modulation efficiency gain
+  ## !!!! this will have to be done analytically, but for now I'll just 
+  Dt = c(seq(-3,3,2/fs), seq(-2,2,1/fs)); Dt <- Dt[order(Dt)] #time range about the z-crossings
+  tn = ((0:(2*Nprd))*pi - phi)/w.g # guessed z-crossing times
+  t2 = laply(tn, function(ti) ti+Dt) %>% c 
+  x = .dcs(t2);  DeltaS = P*comptn*exp(lam.decoh*t2) # information condition
+  t2 <- t2[x > N0*(1 - DeltaS) & x < N0*(1 + DeltaS) & t2 >= 0] #picking the good points
+  rm(x) 
   min(length(t1), length(t2))->l
   t1 <- t1[1:l]; t2 <- t2[1:l]
+  ##
+
   df1 = data.frame("Type" = "uniform","Time" = t1, "XSgl" = .dcs(t1), "Drvt" = .ddcs(t1))
   df2 = data.frame("Type" = "modulated","Time" = t2, "XSgl" = .dcs(t2), "Drvt" = .ddcs(t2))
   rbind(df1,df2)[rep(seq(2*l),Ntrl),] %>% arrange(Type) %>%
@@ -46,7 +63,7 @@ fancy <- function(x) formatC(x, 4, format = "e")
 
 #### preparations ####
 ## I should show that my formula for var omega is the correct one
-w0=3; phi=pi/36; N0=6730; P=.4 ; lam.decoh = log(.25)/25# signal; /25 b/c I want to model 1000 secs by 25 secs (12 periods)
+w0=3; phi=pi/36; N0=6730; P=.4 ; lam.decoh = log(.25)/100# signal; /25 b/c I want to model 1000 secs by 25 secs (12 periods)
 fs=5000; comptn=.33; w.g=rnorm(1,w0,.001*w0) ## sampling; we guess the true frequency with 1% precision
 errS = 3e-2*N0*P #absolute measurement error
 
@@ -99,11 +116,13 @@ if(FALSE){
 ## SEw = SE error / sqrt(sum xj * (sum ti^2 xi/sum xj) - (sum ti xi/sum xj)^2)
 ## this doesn't account for damping
 ## !!!!!!! have to see if damping matters, though !!!!!!
-s = .sample(12); l = nrow(s)
+s = .sample(48); l = nrow(s)
 .stats <- ddply(s,"Type", .fit) %>% mutate(SEAN.frq = daply(s, "Type", .compVarF))
 .stats%>% print()
 paste("SE ratio uni/mod", round(.stats[1,"SE.frq"]/.stats[2,"SE.frq"],2)) %>% print()
 paste("SEAN ratio uni/mod", round(.stats[1,"SEAN.frq"]/.stats[2,"SEAN.frq"],2)) %>% print()
+paste("SE/SEAN ratio, uni", round(.stats[1,"SE.frq"]/.stats[1,"SEAN.frq"],2))%>%print()
+paste("SE/SEAN ratio, mod", round(.stats[2,"SE.frq"]/.stats[2,"SEAN.frq"],2))%>%print()
 
 x = mutate(s, errY = Sgl-XSgl) %>% slice(seq(1,l, length.out=250))
 ggplot(x, aes(Time, Sgl)) + geom_pointrange(aes(ymin=Sgl-errS, ymax=Sgl+errS,col=Type), size=.3) + theme_bw() + 
