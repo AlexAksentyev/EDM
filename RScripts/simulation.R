@@ -46,7 +46,7 @@ fancy <- function(x) formatC(x, 4, format = "e")
   t2 <- t2[x > N0*(1 - DeltaS) & x < N0*(1 + DeltaS) & t2 >= 0] #picking the good points
   rm(x) 
   min(length(t1), length(t2))->l
-  t1 <- t1[1:l]; t2 <- t2[1:l]
+  t1 <- t1[1:l]; t2 <- t2[order(t2)][1:l]
   ##
 
   df1 = data.frame("Type" = "uniform","Time" = t1, "XSgl" = .dcs(t1), "Drvt" = .ddcs(t1))
@@ -61,10 +61,27 @@ fancy <- function(x) formatC(x, 4, format = "e")
   data.frame(c(.est, .ster)%>%t)
 }
 
+#only modulated sampling
+.msampleF <- function(Nprd = 5, fs = 5000, len = 1000, comptn = .5){
+  Ttot = (Nprd*2*pi-phi)/w0 #total measurement time
+  assign("Ttot",Ttot, envir = .GlobalEnv)
+  Dt = c(seq(-3,3,2/fs), seq(-1.5,1.5,1/fs)); Dt <- Dt[order(Dt)] #time range about the z-crossings
+  tn = ((0:(2*Nprd))*pi - phi)/w.g # guessed z-crossing times
+  t2 = laply(tn, function(ti) ti+Dt) %>% c 
+  x = .dcs(t2);  DeltaS = P*comptn*exp(lam.decoh*t2) # information condition
+  t2 <- t2[x > N0*(1 - DeltaS) & x < N0*(1 + DeltaS) & t2 >= 0] #picking the good points
+  rm(x)
+  if(is.na(len)) len <- length(t2)
+  t2 <- t2[order(t2)][1:len]
+  
+  data.frame("Time" = t2, "XSgl" = .dcs(t2), "Drvt" = .ddcs(t2)) -> df
+  df %>%  mutate(Sgl = XSgl + rnorm(len, sd=errS))
+}
+
 #### preparations ####
 ## I should show that my formula for var omega is the correct one
-w0=3; phi=pi/36; N0=6730; P=.4 ; lam.decoh = 1*log(.25)/100# signal; /25 b/c I want to model 1000 secs by 25 secs (12 periods)
-fs=5000; comptn=.33; w.g=rnorm(1,w0,.001*w0) ## sampling; we guess the true frequency with 1% precision
+w0=3; phi=pi/36; N0=6730; P=.4 ; lam.decoh = 0*log(.25)/100# signal; /25 b/c I want to model 1000 secs by 25 secs (12 periods)
+fs=5000; comptn=.3; w.g=rnorm(1,w0,.001*w0) ## sampling; we guess the true frequency with 1% precision
 errS = 3e-2*N0*P #absolute measurement error
 
 ## modeling ##
@@ -88,7 +105,7 @@ if(FALSE){
     geom_line(aes(Time, Sgl), data.frame(Time = seq(0, Ttot, by=1/fs)) %>% mutate(Sgl=.dcs(Time)))
   
   ## 2) checking the growth of omega se with total time ####
-  s <- .sample(15); nrow(s)/2->l #divide by 2 b/c 2 sampling types
+  s <- .sample(30); nrow(s)/2->l #divide by 2 b/c 2 sampling types
   
   (1:10)*l/10 -> m # split the super-sample into a sequence of cumulatively increasing subsamples;
   # m contains the lengths of the subsamples 
@@ -103,29 +120,46 @@ if(FALSE){
     theme_bw() + labs(x="Sample size",y=expression(sigma[bar(omega)])) + theme(legend.position="top")
   
   ggplot(mutate(.stats, Dev = (SE.frq-SEAN.frq)/SEAN.frq), aes(NUM, abs(Dev), col=Type)) + geom_point() + 
-    theme_bw() + labs(x="Sample size", y="(Simulation - Analytic)/Analytic SE") + theme(legend.position="top")
+    theme_bw() + labs(x="Sample size", y="(Simulation - Analytic)/Analytic SE") + theme(legend.position="top") +
+    scale_y_log10()
   
   ggplot(.stats, aes(SEAN.frq, SE.frq, col=Type)) + geom_point() + 
     theme_bw() + labs(x="Analytic SE", y="Simulation SE") + theme(legend.position="top") + 
     geom_abline(slope=1,intercept=0) + 
     scale_y_log10() + scale_x_log10()
+  
+  ## 3) checking the analytical formula ####
+  ## the formula is
+  ## SEw = SE error / sqrt(sum xj * (sum ti^2 xi/sum xj) - (sum ti xi/sum xj)^2)
+  ## this doesn't account for damping
+  ## !!!!!!! have to see if damping matters, though !!!!!!
+  s = .sample(10); l = nrow(s)
+  .stats <- ddply(s,"Type", .fit, .parallel = TRUE) %>% mutate(SEAN.frq = daply(s, "Type", .compVarF))
+  paste("Compaction factor: ", comptn) %>% print()
+  .stats%>% print()
+  paste("SE ratio uni/mod", round(.stats[1,"SE.frq"]/.stats[2,"SE.frq"],2)) %>% print()
+  paste("SEAN ratio uni/mod", round(.stats[1,"SEAN.frq"]/.stats[2,"SEAN.frq"],2)) %>% print()
+  paste("SE/SEAN ratio, uni", round(.stats[1,"SE.frq"]/.stats[1,"SEAN.frq"],2))%>%print()
+  paste("SE/SEAN ratio, mod", round(.stats[2,"SE.frq"]/.stats[2,"SEAN.frq"],2))%>%print()
+  
+  x = mutate(s, errY = Sgl-XSgl) %>% slice(seq(1,l, length.out=250))
+  ggplot(x, aes(Time, Sgl)) + geom_pointrange(aes(ymin=Sgl-errS, ymax=Sgl+errS,col=Type), size=.3) + theme_bw() + 
+    geom_line(aes(Time, Sgl), data.frame(Time = seq(0, Ttot, length.out=250)) %>% mutate(Sgl=.dcs(Time))) +
+    theme(legend.position="top") ->p
+  p
 }
 
-## 3) checking the analytical formula ####
-## the formula is
-## SEw = SE error / sqrt(sum xj * (sum ti^2 xi/sum xj) - (sum ti xi/sum xj)^2)
-## this doesn't account for damping
-## !!!!!!! have to see if damping matters, though !!!!!!
-s = .sample(30); l = nrow(s)
-.stats <- ddply(s,"Type", .fit, .parallel = TRUE) %>% mutate(SEAN.frq = daply(s, "Type", .compVarF))
-.stats%>% print()
-paste("SE ratio uni/mod", round(.stats[1,"SE.frq"]/.stats[2,"SE.frq"],2)) %>% print()
-paste("SEAN ratio uni/mod", round(.stats[1,"SEAN.frq"]/.stats[2,"SEAN.frq"],2)) %>% print()
-paste("SE/SEAN ratio, uni", round(.stats[1,"SE.frq"]/.stats[1,"SEAN.frq"],2))%>%print()
-paste("SE/SEAN ratio, mod", round(.stats[2,"SE.frq"]/.stats[2,"SEAN.frq"],2))%>%print()
+## 4) testing different compaction factors ####
+c(seq(.5,.1,-.1), seq(.05,.01,-.01)) -> alphas;# names(alphas) <- alphas
+alphas = c(1:10)%o%10^(-2:-1) %>%c
+ldply(alphas, function(al) { 
+  dat=.msampleF(Nprd=15, comptn = al, len=5200);
+  data.frame("SE" = .fit(dat)["SE.frq"], "SEAN.frq" = .compVarF(dat))
+},.parallel=TRUE) %>% cbind("Comptn"=alphas) %>% melt(id.vars="Comptn", variable.name="Which") -> x
+ggplot(x, aes(Comptn,value, col=Which)) + geom_point() + 
+  scale_y_log10() + scale_x_log10() + 
+  theme_bw() + labs(x="compaction factor", y=expression(sigma[hat(omega)])) + 
+  scale_color_discrete(breaks=c("SE.frq","SEAN.frq"), labels=c("Simulation","Formula")) -> p
 
-x = mutate(s, errY = Sgl-XSgl) %>% slice(seq(1,l, length.out=250))
-ggplot(x, aes(Time, Sgl)) + geom_pointrange(aes(ymin=Sgl-errS, ymax=Sgl+errS,col=Type), size=.3) + theme_bw() + 
-  geom_line(aes(Time, Sgl), data.frame(Time = seq(0, Ttot, length.out=250)) %>% mutate(Sgl=.dcs(Time))) +
-  theme(legend.position="top") ->p
 p
+
