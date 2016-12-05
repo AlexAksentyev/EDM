@@ -20,7 +20,7 @@ fancy <- function(x) formatC(x, 4, format = "e")
 ## I should show that my formula for var omega is the correct one
 ## define the measurement model
 P = .8; N0 = 6730
-errS = 1e-1*N0*P #absolute measurement error
+errS = 3e-2*N0*P #absolute measurement error
 
 phi = pi/36 #initial signal phase
 w0 = 3 #signal frequency
