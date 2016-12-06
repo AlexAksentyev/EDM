@@ -54,15 +54,19 @@ fancy <- function(x) formatC(x, 4, format = "e")
   rbind(df1,df2)[rep(seq(2*l),Ntrl),] %>% arrange(Type) %>%
     mutate(Trl = rep(seq(Ntrl), each=l)%>%rep(2), Sgl = XSgl + rnorm(Ntrl*l, sd=errS)%>%rep(2))
 }
-.fit <- function(trl){
+.fit <- function(trl, model = FALSE){
   nls(Sgl~ n*(1 + p*exp(lam.decoh*Time)*sin(frq*Time + phi)), data=trl, start=list(n = 5000, p = 1, frq=w.g)) -> m3
-  .est = coef(m3); names(.est) <- paste("X",names(.est), sep=".")
-  .ster = sqrt(diag(vcov(m3))); names(.ster) <- paste("SE",names(.ster), sep=".")
+  if(model) return(m3)
+  
+  .extract.stats(m3)
+}
+.extract.stats <- function(m){
+  .est = coef(m); names(.est) <- paste("X",names(.est), sep=".")
+  .ster = sqrt(diag(vcov(m))); names(.ster) <- paste("SE",names(.ster), sep=".")
   data.frame(c(.est, .ster)%>%t)
 }
-
 #only modulated sampling
-.msampleF <- function(Nprd = 5, fs = 5000, len = 1000, comptn = .5){
+.msampleF <- function(Nprd = 5, fs = 5000, len = NA, comptn = .5){
   Ttot = (Nprd*2*pi-phi)/w0 #total measurement time
   assign("Ttot",Ttot, envir = .GlobalEnv)
   Dt = c(seq(-3,3,2/fs), seq(-1.5,1.5,1/fs)); Dt <- Dt[order(Dt)] #time range about the z-crossings
@@ -153,11 +157,11 @@ if(FALSE){
 c(seq(.5,.1,-.1), seq(.05,.01,-.01)) -> alphas;# names(alphas) <- alphas
 alphas = c(1:10)%o%10^(-2:-1) %>%c
 ldply(alphas, function(al) { 
-  dat=.msampleF(Nprd=15, comptn = al, len=5200);
+  dat=.msampleF(Nprd=45, comptn = al, len=15600);
   data.frame("SE" = .fit(dat)["SE.frq"], "SEAN.frq" = .compVarF(dat))
 },.parallel=TRUE) %>% cbind("Comptn"=alphas) %>% melt(id.vars="Comptn", variable.name="Which") -> x
 ggplot(x, aes(Comptn,value, col=Which)) + geom_point() + 
-  scale_y_log10() + scale_x_log10() + 
+  scale_y_log10() + scale_x_log10() +
   theme_bw() + labs(x="compaction factor", y=expression(sigma[hat(omega)])) + 
   scale_color_discrete(breaks=c("SE.frq","SEAN.frq"), labels=c("Simulation","Formula")) -> p
 
