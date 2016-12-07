@@ -24,7 +24,6 @@ if(FALSE){
     geom_line(aes(Time, Sgl), data.frame(Time = seq(0, Ttot, by=1/fs)) %>% mutate(Sgl=.dcs(Time))) 
 }
 
-
 ## 2) checking the growth of omega se with total time ####
 if(FALSE){
   s <- .sample(30); nrow(s)/2->l #divide by 2 b/c 2 sampling types
@@ -91,4 +90,3 @@ if(FALSE){
 
 
 ## 
-
