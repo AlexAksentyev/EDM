@@ -4,8 +4,8 @@ library(ggplot2)
 library(parallel); library(doParallel); registerDoParallel(detectCores()-1)
 
 ## modeling ##
+## 1) trials with different error ####
 if(FALSE){
-  ## 1) trials with different error ####
   s = .sample(5,15) # sample signal for the two samplings
   # for each type of sampling, and each trial, fit
   s %>% ddply(.(Type, Trl), function(trl) .fit(trl)%>%mutate(SEAN.frq = .compVarF(trl))) -> .stats
@@ -21,9 +21,12 @@ if(FALSE){
   x = filter(s, Trl==1) 
   x %>% mutate(errY = Sgl-XSgl) %>% slice(seq(1,nrow(x), length.out=250)) %>% 
     ggplot(aes(Time, Sgl)) + geom_pointrange(aes(ymin=Sgl-errS, ymax=Sgl+errS,col=Type), size=.3) + theme_bw() + 
-    geom_line(aes(Time, Sgl), data.frame(Time = seq(0, Ttot, by=1/fs)) %>% mutate(Sgl=.dcs(Time)))
-  
-  ## 2) checking the growth of omega se with total time ####
+    geom_line(aes(Time, Sgl), data.frame(Time = seq(0, Ttot, by=1/fs)) %>% mutate(Sgl=.dcs(Time))) 
+}
+
+
+## 2) checking the growth of omega se with total time ####
+if(FALSE){
   s <- .sample(30); nrow(s)/2->l #divide by 2 b/c 2 sampling types
   
   (1:10)*l/10 -> m # split the super-sample into a sequence of cumulatively increasing subsamples;
@@ -46,8 +49,10 @@ if(FALSE){
     theme_bw() + labs(x="Analytic SE", y="Simulation SE") + theme(legend.position="top") + 
     geom_abline(slope=1,intercept=0) + 
     scale_y_log10() + scale_x_log10()
-  
-  ## 3) checking the analytical formula ####
+}
+
+## 3) checking the analytical formula ####
+if(FALSE){
   ## the formula is
   ## SEw = SE error / sqrt(sum xj * (sum ti^2 xi/sum xj) - (sum ti xi/sum xj)^2)
   ## this doesn't account for damping
@@ -69,18 +74,21 @@ if(FALSE){
 }
 
 ## 4) testing different compaction factors ####
-c(seq(.5,.1,-.1), seq(.05,.01,-.01)) -> alphas;# names(alphas) <- alphas
-alphas = c(1:10)%o%10^(-2:-1) %>%c
-ldply(alphas, function(al) { 
-  dat=.msampleF(Nprd=45, comptn = al, len=15600);
-  data.frame("SE" = .fit(dat)["SE.frq"], "SEAN.frq" = .compVarF(dat))
-},.parallel=TRUE) %>% cbind("Comptn"=alphas) %>% melt(id.vars="Comptn", variable.name="Which") -> x
-ggplot(x, aes(Comptn,value, col=Which)) + geom_point() + 
-  scale_y_log10() + scale_x_log10() +
-  theme_bw() + labs(x="compaction factor", y=expression(sigma[hat(omega)])) + 
-  scale_color_discrete(breaks=c("SE.frq","SEAN.frq"), labels=c("Simulation","Formula")) -> p
+if(FALSE){
+  c(seq(.5,.1,-.1), seq(.05,.01,-.01)) -> alphas;# names(alphas) <- alphas
+  alphas = c(1:10)%o%10^(-2:-1) %>%c
+  ldply(alphas, function(al) { 
+    dat=.msampleF(Nprd=45, comptn = al, len=15600);
+    data.frame("SE" = .fit(dat)["SE.frq"], "SEAN.frq" = .compVarF(dat))
+  },.parallel=TRUE) %>% cbind("Comptn"=alphas) %>% melt(id.vars="Comptn", variable.name="Which") -> x
+  ggplot(x, aes(Comptn,value, col=Which)) + geom_point() + 
+    scale_y_log10() + scale_x_log10() +
+    theme_bw() + labs(x="compaction factor", y=expression(sigma[hat(omega)])) + 
+    scale_color_discrete(breaks=c("SE.frq","SEAN.frq"), labels=c("Simulation","Formula")) -> p
+  
+  p
+}
 
-p
 
-
+## 
 
