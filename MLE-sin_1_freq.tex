@@ -24,8 +24,6 @@
 
 \newcommand{\td}{\mathrm{d}}
 
-\usepackage{tikz}
-\usepackage{pgfplots}
 \usepgfplotslibrary{fillbetween}
 
 
@@ -196,18 +194,18 @@ If we attribute each point a weight proportional to its Fisher information, i.e.
 
 The implication is that increasing the number of points measured during the signal's rise and fall is roughly twice as beneficial as doing so during the peaks and troughs.
 
-\section{The dependence of $\var{\hat{\omega}}$ on $\omega$}
-\newcommand{\acos}{\mathrm{acos}}
-The variance in eq.~\eqref{eq:Var2} is conditional on the frequency $\omega$ and phase $\phi$ of the signal. The conditioning happens because the parameters determine the sampling range of the distribution of the $x_i$ weights.
-
-That distribution is 
-\[
-	f(x_i) = \frac{1}{\pi}\cdot\bkt*{\frac{x_i}{N_0P}\bkt{1-\frac{x_i}{N_0P}}}^{-\sfrac12}.
-\]
-
-\begin{align*}
-\Xpct{\sum_i x_i}[(\omega,\phi)] &= \sum_i \int_{\cos^2\phi}^{\cos^2(\omega t_i + \phi)}x_if(x_i)\td x_i;
-\end{align*}
+%\section{The dependence of $\var{\hat{\omega}}$ on $\omega$}
+%\newcommand{\acos}{\mathrm{acos}}
+%The variance in eq.~\eqref{eq:Var2} is conditional on the frequency $\omega$ and phase $\phi$ of the signal. The conditioning happens because the parameters determine the sampling range of the distribution of the $x_i$ weights.
+%
+%That distribution is 
+%\[
+%	f(x_i) = \frac{1}{\pi}\cdot\bkt*{\frac{x_i}{N_0P}\bkt{1-\frac{x_i}{N_0P}}}^{-\sfrac12}.
+%\]
+%
+%\begin{align*}
+%\Xpct{\sum_i x_i}[(\omega,\phi)] &= \sum_i \int_{\cos^2\phi}^{\cos^2(\omega t_i + \phi)}x_if(x_i)\td x_i;
+%\end{align*}
 
 
 \end{document}
