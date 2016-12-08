@@ -56,7 +56,7 @@ if(FALSE){
   ## SEw = SE error / sqrt(sum xj * (sum ti^2 xi/sum xj) - (sum ti xi/sum xj)^2)
   ## this doesn't account for damping
   ## !!!!!!! have to see if damping matters, though !!!!!!
-  s = .sample(10); l = nrow(s)
+  s = .sample(480); #l = nrow(s)
   .stats <- ddply(s,"Type", .fit, .parallel = TRUE) %>% mutate(SEAN.frq = daply(s, "Type", .compVarF))
   paste("Compaction factor: ", comptn) %>% print()
   .stats%>% print()
@@ -86,6 +86,36 @@ if(FALSE){
     scale_color_discrete(breaks=c("SE.frq","SEAN.frq"), labels=c("Simulation","Formula")) -> p
   
   p
+}
+
+## 5) changing the signal frequency ####
+if(FALSE){
+  .varW0_test <- function(w.sgl, Ttot = 100){
+    w0 = w.sgl; w.g = rnorm(1,w0,.001*w0)
+    n = (w0*Ttot + phi)/(2*pi)
+    .usampleF(Ttot, w0) -> s; l = nrow(s)/2
+    .fit(s) -> .stats
+    list("Sgl" = s, "Stat" = .stats)
+  }
+  w0s = w0*c(.001,.005, .01,.05,.1,.5, 1, 5, 10); names(w0s) <- w0s
+  llply(w0s, .varW0_test, .parallel=TRUE) -> dat
+  
+  .stats = ldply(dat, function(e) e$Stat, .id="Freq")
+  
+  ggplot(.stats, aes(W0, SE.frq)) + geom_point() + 
+    scale_x_log10() +
+    theme_bw() + labs(x=expression(omega), y=expression(sigma[hat(omega)])) + 
+    theme(legend.position="top") 
+  
+  x = dat[[1]]$Sgl[seq(1,nrow(dat[[1]]$Sgl),length.out=250),]
+  ggplot(x, aes(Time, Sgl)) + geom_point() +
+    theme_bw() + theme(legend.position="top") +
+    geom_line(aes(Time, Sgl), data.frame("Time" = seq(0,100, length.out = 500))%>%mutate(Sgl = .dcs(Time, .1*w0)))
+  
+  X = ldply(dat, function(e) e$Sgl, .id="Freq")
+  ggplot(X) + geom_density(aes(Sgl, col=Freq)) + theme_bw() + labs(x=expression(N[0]*(1+P*exp(lambda*t)*sin(omega*t+phi))))
+  
+  
 }
 
 

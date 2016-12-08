@@ -77,8 +77,19 @@ fancy <- function(x) formatC(x, 4, format = "e")
   data.frame("Time" = t2, "XSgl" = .dcs(t2), "Drvt" = .ddcs(t2)) -> df
   df %>%  mutate(Sgl = XSgl + rnorm(len, sd=errS))
 }
+#only uniform sampling
+.usampleF <- function(Ttot, w0, fs = 5000){
+  n = (w0*Ttot + phi)/(2*pi) #total measurement time
+  assign("Ttot", Ttot, envir = .GlobalEnv)
+  t1 = seq(0, Ttot, by = 1/fs) #uniform sampling
+  
+  cat(paste("period", round(n,2), "SS", length(t1), "last t", t1[length(t1)], "\n\n"))
+  
+  data.frame("Time" = t1, "XSgl" = .dcs(t1), "Drvt" = .ddcs(t1)) -> df
+  df %>%  mutate(Sgl = XSgl + rnorm(length(t1), sd=errS))
+}
 
 #### parameters ####
-w0=3; phi=pi/36; N0=6730; P=.4 ; lam.decoh = 0*log(.25)/100# signal; /25 b/c I want to model 1000 secs by 25 secs (12 periods)
+w0=3; phi=pi/36; N0=6730; P=.4 ; lam.decoh = log(.25)/1000# signal; /25 b/c I want to model 1000 secs by 25 secs (12 periods)
 fs=5000; comptn=.3; w.g=rnorm(1,w0,.001*w0) ## sampling; we guess the true frequency with 1% precision
 errS = 3e-2*N0*P #absolute measurement error
