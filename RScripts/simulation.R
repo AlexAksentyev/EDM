@@ -90,25 +90,25 @@ if(FALSE){
 
 ## 5) changing the signal frequency ####
 if(TRUE){
-  .varW0_test <- function(w0, model, Time){
-    setWFreq(model, w0) -> .mod
-    cat(paste("model frequency", .mod$wfreq, "\n"))
+  varW0_test <- function(.mod, .Time){
+    # cat(paste("model frequency", .mod$wfreq, "\n"))
     
-    sample(.mod, stu, Time) -> .spl
-    cat(paste("sample size", nrow(.spl), "\n"))
+    sample(.mod, stu, .Time) -> .spl
+    # cat(paste("sample size", nrow(.spl), "\n"))
     
     .fit(.spl, .mod) -> .stats
     
     list("Stats" = .stats, "Sample" = .spl)
   }
-  mod <- model(phs=pi/2); Ttot = 100
+  mod <- model(phs=pi/2); stu <- usampling(); Ttot = 100
   w0s = mod$wfreq*c(.01,.1,.5, 1, 5, 10); names(w0s) <- w0s
-  llply(w0s, function(frq) .varW0_test(frq, mod, Ttot), .parallel=FALSE) -> dat
+  llply(w0s, function(w) setWFreq(mod, w)) -> mods
+  llply(mods, function(x) varW0_test(x, Ttot), .parallel=FALSE) -> dat
   
-  .stats = ldply(dat, function(e) e$Stats, .id="Freq")
+  .stats = ldply(dat, function(e) e$Stats, .id="Freq"); .stats
   
   ggplot(.stats, aes(Freq, SE.frq)) + geom_point() + 
-    # scale_y_log10() +
+    scale_y_log10() +
     theme_bw() + labs(x=expression(omega), y=expression(sigma[hat(omega)])) + 
     theme(legend.position="top") 
   

@@ -60,6 +60,8 @@ fancy <- function(x) formatC(x, 4, format = "e")
   w.g = rnorm(1, model$wfreq, .001*model$wfreq)
   n.g = rnorm(1, model$Num0, .1*model$Num0)
   p.g = rnorm(1, model$Pol, .1*model$Pol)
+  lam.decoh = model$lam.decoh
+  phi = model$phase
   
   cat("guessed frequency:", w.g, "\n\n")
   
@@ -105,10 +107,10 @@ model <- function(wfreq=3, phs=pi/36, N0=6730, Pol=.4, decoh.LT = log(.25)/1000)
   return(me)
   
 }
-msampling <- function(Param = list(freq=5000, freq.guess = NA, compaction =.3)){
-  guess = ifelse(is.na(Param$freq.guess), rnorm(1, 3, .003), Param$freq.guess)
+msampling <- function(freq=5000, freq.guess = NA, compaction =.3){
+  guess = ifelse(is.na(freq.guess), rnorm(1, 3, .003), freq.guess)
   me <- list(
-    freq = Param$freq, cmptn = Param$compaction,
+    freq = freq, cmptn = compaction,
     sglWfreq.guess = guess
   )
   
@@ -121,7 +123,7 @@ usampling <- function(freq=5000){
   class(me) <- append(class(me), "usampling")
   return(me)
 }
-errS = 3e-2*N0*P #absolute measurement error
+# errS = 3e-2*N0*P #absolute measurement error
 
 #### methods ####
 setWFreq <- function(whose, value) UseMethod("setWFreq", whose)
@@ -137,7 +139,9 @@ expectation.model <- function(model, at.points){
 }
 derivative <- function(whose, where) UseMethod("derivative", whose)
 derivative.model <- function(model, at.points){
-  N0 <- model$Num0; P <- model$Pol; w <- model$wfreq; phi <- model$phase
+  N0 <- model$Num0; P <- model$Pol; 
+  w <- model$wfreq; phi <- model$phase
+  lam.decoh = model$lam.decoh
   
   N0*P*exp(lam.decoh*at.points)*cos(w*at.points + phi)
   
@@ -160,9 +164,9 @@ sample.msampling <- function(model, how, how.long, err = NA){
   fs = how$freq; wg = how$sglWfreq
   cptn = how$cmptn
   
-  Nprd = (how.long*w0 + phi)/(2*pi)
+  Nprd = round((how.long*w0 + phi)/(2*pi)); cat(paste("periods", Nprd, "\n"))
   Dt = c(seq(-3,3,2/fs), seq(-1.5,1.5,1/fs)); Dt <- Dt[order(Dt)]
-  tn = ((0:(2*Nprd))*pi - phi)/wg
+  tn = ((0:(2*Nprd))*pi - phi)/wg; cat(paste("last z-c", tn[length(tn)], "\n"))
   t2 = laply(tn, function(ti) ti+Dt) %>% c 
   
   x = expectation(model, t2);  DeltaS = P*cptn*exp(lam.decoh*t2) # information condition
