@@ -90,33 +90,36 @@ if(FALSE){
 
 ## 5) changing the signal frequency ####
 if(TRUE){
-  .varW0_test <- function(w.sgl, Ttot = 100){
-    cat(paste("freq guess", w.g, "\n"))
-    assign("w0", w.sgl); assign("w.g", rnorm(1,w0,.001*w0))
-    cat(paste("freq guess", w.g, "\n"))
-    n = (w0*Ttot + phi)/(2*pi)
-    .usampleF(Ttot, w0) -> s; l = nrow(s)/2
-    .fit(s) -> .stats
-    list("Sgl" = s, "Stat" = .stats)
+  .varW0_test <- function(w0, model, Time){
+    setWFreq(model, w0) -> .mod
+    cat(paste("model frequency", .mod$wfreq, "\n"))
+    
+    sample(.mod, stu, Time) -> .spl
+    cat(paste("sample size", nrow(.spl), "\n"))
+    
+    .fit(.spl, .mod) -> .stats
+    
+    list("Stats" = .stats, "Sample" = .spl)
   }
-  w0s = w0*c(.01,.1,.5, 1, 5, 10); names(w0s) <- w0s
-  llply(w0s, .varW0_test, .parallel=FALSE) -> dat
+  mod <- model(phs=pi/2); Ttot = 100
+  w0s = mod$wfreq*c(.01,.1,.5, 1, 5, 10); names(w0s) <- w0s
+  llply(w0s, function(frq) .varW0_test(frq, mod, Ttot), .parallel=FALSE) -> dat
   
-  .stats = ldply(dat, function(e) e$Stat, .id="Freq")
+  .stats = ldply(dat, function(e) e$Stats, .id="Freq")
   
   ggplot(.stats, aes(Freq, SE.frq)) + geom_point() + 
-    scale_y_log10() +
+    # scale_y_log10() +
     theme_bw() + labs(x=expression(omega), y=expression(sigma[hat(omega)])) + 
     theme(legend.position="top") 
   
-  x = dat[[1]]$Sgl[seq(1,nrow(dat[[1]]$Sgl),length.out=250),]
+  i = 1
+  x = dat[[i]]$Sample[seq(1,nrow(dat[[i]]$Sample),length.out=250),]
   ggplot(x, aes(Time, Sgl)) + geom_point() +
-    theme_bw() + theme(legend.position="top") +
-    geom_line(aes(Time, Sgl), data.frame("Time" = seq(0,100, length.out = 500))%>%mutate(Sgl = .dcs(Time, .1*w0)))
+    theme_bw() + theme(legend.position="top") + labs(y="signal") +
+    geom_line(aes(Time, Sgl), data.frame("Time" = seq(0,Ttot, length.out = 500)) %>% mutate(Sgl = expectation(mod, Time)))
   
-  X = ldply(dat, function(e) e$Sgl, .id="Freq")
+  X = ldply(dat, function(e) e$Sample, .id="Freq")
   ggplot(X) + geom_density(aes(Sgl, col=Freq)) + theme_bw() + labs(x=expression(N[0]*(1+P*exp(lambda*t)*sin(omega*t+phi))))
-  
   
 }
 
