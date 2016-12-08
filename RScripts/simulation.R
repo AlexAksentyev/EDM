@@ -89,21 +89,23 @@ if(FALSE){
 }
 
 ## 5) changing the signal frequency ####
-if(FALSE){
+if(TRUE){
   .varW0_test <- function(w.sgl, Ttot = 100){
-    w0 = w.sgl; w.g = rnorm(1,w0,.001*w0)
+    cat(paste("freq guess", w.g, "\n"))
+    assign("w0", w.sgl); assign("w.g", rnorm(1,w0,.001*w0))
+    cat(paste("freq guess", w.g, "\n"))
     n = (w0*Ttot + phi)/(2*pi)
     .usampleF(Ttot, w0) -> s; l = nrow(s)/2
     .fit(s) -> .stats
     list("Sgl" = s, "Stat" = .stats)
   }
-  w0s = w0*c(.001,.005, .01,.05,.1,.5, 1, 5, 10); names(w0s) <- w0s
-  llply(w0s, .varW0_test, .parallel=TRUE) -> dat
+  w0s = w0*c(.01,.1,.5, 1, 5, 10); names(w0s) <- w0s
+  llply(w0s, .varW0_test, .parallel=FALSE) -> dat
   
   .stats = ldply(dat, function(e) e$Stat, .id="Freq")
   
-  ggplot(.stats, aes(W0, SE.frq)) + geom_point() + 
-    scale_x_log10() +
+  ggplot(.stats, aes(Freq, SE.frq)) + geom_point() + 
+    scale_y_log10() +
     theme_bw() + labs(x=expression(omega), y=expression(sigma[hat(omega)])) + 
     theme(legend.position="top") 
   
