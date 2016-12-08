@@ -1,8 +1,18 @@
 \documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{xfrac}
 \usepackage{xparse}
+\usepackage{tikz}
+\usetikzlibrary{trees, positioning}
+
 
 \NewDocumentCommand{\vp}{mm}{{#1}\cdot 10^{#2}}
-
+\newcommand{\unc}[1]{\Delta{#1}}
+\newcommand{\uncEvt}{\unc{\epsilon}}
+\newcommand{\Nevt}{N_{\epsilon}}
+\newcommand{\Nmpe}{N_{m:e}}
+\newcommand{\CF}{\alpha_{cptn}}
 
 \begin{document}
 \title{RuPAC submission structure}
@@ -43,4 +53,23 @@
 				\item Simulation results
 			\end{itemize}
 	\end{itemize}
+	
+	
+\section{Relationships}
+\begin{figure}
+	\begin{tikzpicture}
+		\node (Nmpe) {$\Nmpe$};
+		\node[above right=of Nmpe] (UncX) {$\unc{t}$};
+		\node[above left=of Nmpe] (UncY) {$\uncEvt$};
+		\node[below left=of Nmpe] (Nevt) {$\Nevt$};
+		\node[below right=of Nmpe] (Cptn) {$\CF$};
+		
+		\draw[->] (Nmpe) -- (UncX); \draw[->] (Nmpe) -- (UncY); %the number of measurements/event strictly determine the uncertainties of an event
+		\draw[->] (Nmpe) -- (Nevt); % and the number of events
+		\draw[->,dashed] (UncY) -- (Nevt); % the event uncertainty determines for a given precision the number of events that are **required**
+		\draw[->] (Nevt) -- (Nmpe); % Nevt*Nmpe = const, so 
+		
+	\end{tikzpicture}
+\end{figure}
+
 \end{document}
