@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage{xparse}
+
+\NewDocumentCommand{\vp}{mm}{{#1}\cdot 10^{#2}}
+
+
+\begin{document}
+\title{RuPAC submission structure}
+\date{}
+\maketitle
+	\begin{itemize}
+		\item abstract
+		\item Introduction
+		\begin{enumerate}
+			\item Baryon asymmetry
+			\item Sakharov conditions (CP violation)
+			\item EDM indicates CP-violation
+			\item JEDI a precursor experiment
+			\item Experimental conditions for the dedicated experiment
+				\begin{itemize}
+					\item \textbf{Lattice}: motion stability, beam loss
+					\item \textbf{Polarization}: life-time 1000 secs
+					\item \textbf{Systematic errors}: small enough to measure the frequency with $\vp{1}{-9}$ precision				
+				\end{itemize}
+		\end{enumerate}
+		\item FS and QFS concepts
+		\item Spin tune decoherence
+			\begin{itemize}
+				\item Definition
+				\item Problem for the measurement of the EDM
+				\item Cause
+				\item Reduction: RF, Sextupoles.
+			\end{itemize}
+		\item Systematic errors
+		\item Statistical requirements
+			\begin{itemize}
+				\item Factors affecting statistical precision
+					\begin{itemize}
+						\item Predictor variable spread (total measurement time)
+						\item Measurement uncertainty (dependent \& independent variable)
+						\item Modulation and \emph{spacing} of sampling times
+					\end{itemize}
+				\item Simulation results
+			\end{itemize}
+	\end{itemize}
+\end{document}
