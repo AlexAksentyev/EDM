@@ -1,4 +1,5 @@
-library(dplyr); library(plyr)
+library(dplyr)
+library(methods)
 
 #### functions ####
 fancy <- function(x) formatC(x, 4, format = "e")
@@ -57,7 +58,7 @@ fancy <- function(x) formatC(x, 4, format = "e")
 #     mutate(Trl = rep(seq(Ntrl), each=l)%>%rep(2), Sgl = XSgl + rnorm(Ntrl*l, sd=errS)%>%rep(2))
 # }
 .fit <- function(.sample, model, return.model = FALSE){
-  w.g = rnorm(1, model$wfreq, .001*model$wfreq)
+  w.g = rnorm(1, model$wfreq, .001)
   n.g = rnorm(1, model$Num0, .1*model$Num0)
   p.g = rnorm(1, model$Pol, .1*model$Pol)
   lam.decoh = model$lam.decoh
@@ -93,6 +94,9 @@ fancy <- function(x) formatC(x, 4, format = "e")
 #   data.frame("Time" = t1, "XSgl" = .dcs(t1), "Drvt" = .ddcs(t1)) -> df
 #   df %>%  mutate(Sgl = XSgl + rnorm(length(t1), sd=errS))
 # }
+
+varW0test1 <- function(x) x*x
+
 
 #### classes ####
 model <- function(wfreq=3, phs=pi/36, N0=6730, Pol=.4, decoh.LT = log(.25)/1000){
@@ -147,8 +151,15 @@ derivative.model <- function(model, at.points){
   
 }
 
-sample <- function(whom, how, how.long, err = NA) UseMethod("sample", how)
-sample.usampling <- function(model, how, how.long, err = NA){
+# setClass(
+#   "Sampling",
+#   representation(Type="character", Freq="numeric"),
+#   prototype(Type=NA_character_, Freq=NA_real_)
+# )
+# setClass("uSampling", contains = "Sampling")
+
+sample <- function(how, model, how.long, err = NA) UseMethod("sample", how)
+sample.usampling <- function(how, model, how.long, err = NA){
   if(is.na(err)) err <- 3e-2 * model$Num0*model$Pol
   
   t1 = seq(0, how.long, by = 1/how$freq) #uniform sampling
@@ -156,7 +167,7 @@ sample.usampling <- function(model, how, how.long, err = NA){
   data.frame("Time" = t1, "XSgl" = expectation(model, t1), "Drvt" = derivative(model, t1)) %>%  
     mutate(Sgl = XSgl + rnorm(length(t1), sd=err))
 }
-sample.msampling <- function(model, how, how.long, err = NA){
+sample.msampling <- function(how, model, how.long, err = NA){
   if(is.na(err)) err <- 3e-2 * model$Num0*model$Pol
   
   phi = model$phase; w0 = model$wfreq; lam.decoh = model$lam.decoh; 

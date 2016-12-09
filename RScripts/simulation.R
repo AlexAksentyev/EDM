@@ -1,7 +1,10 @@
 source("./RScripts/definitions.R")
 
+library(plyr)
 library(ggplot2)
-library(parallel); library(doParallel); registerDoParallel(detectCores()-1)
+library(parallel); library(doParallel); n.cores = detectCores()
+clus <- makeCluster(n.cores)
+registerDoParallel(clus)
 
 ## modeling ##
 ## 1) trials with different error ####
@@ -90,20 +93,35 @@ if(FALSE){
 
 ## 5) changing the signal frequency ####
 if(TRUE){
+  stu <- usampling(freq=50); Ttot = 100
   varW0_test <- function(.mod, .Time){
     # cat(paste("model frequency", .mod$wfreq, "\n"))
     
-    sample(.mod, stu, .Time) -> .spl
+    sample.usampling(how = stu, model = .mod, how.long = .Time) -> .spl
     # cat(paste("sample size", nrow(.spl), "\n"))
     
     .fit(.spl, .mod) -> .stats
+    # .stats = NULL
     
     list("Stats" = .stats, "Sample" = .spl)
   }
-  mod <- model(phs=pi/2); stu <- usampling(); Ttot = 100
-  w0s = mod$wfreq*c(.01,.1,.5, 1, 5, 10); names(w0s) <- w0s
+  
+  mod <- model(phs=pi/2); 
+  w0s = mod$wfreq*c(.01, .1,.5, 1, 5, 10); names(w0s) <- w0s
   llply(w0s, function(w) setWFreq(mod, w)) -> mods
-  llply(mods, function(x) varW0_test(x, Ttot), .parallel=FALSE) -> dat
+  rtns <- c("stu",".extract.stats", 
+            "sample","sample.usampling",
+            "derivative", "derivative.model",
+            "expectation", "expectation.model",
+            ".fit", "varW0_test"
+           )
+  # clusterExport(clus, rtns)
+  llply(
+    mods, varW0_test, Ttot, 
+    .inform = FALSE,
+    .parallel=TRUE, 
+    .paropts = list(.packages=c("dplyr"), .export = rtns)
+  ) -> dat
   
   .stats = ldply(dat, function(e) e$Stats, .id="Freq"); .stats
   
@@ -112,14 +130,14 @@ if(TRUE){
     theme_bw() + labs(x=expression(omega), y=expression(sigma[hat(omega)])) + 
     theme(legend.position="top") 
   
-  i = 1
+  i = "15"
   x = dat[[i]]$Sample[seq(1,nrow(dat[[i]]$Sample),length.out=250),]
   ggplot(x, aes(Time, Sgl)) + geom_point() +
     theme_bw() + theme(legend.position="top") + labs(y="signal") +
     geom_line(aes(Time, Sgl), data.frame("Time" = seq(0,Ttot, length.out = 500)) %>% mutate(Sgl = expectation(mod, Time)))
   
   X = ldply(dat, function(e) e$Sample, .id="Freq")
-  ggplot(X) + geom_density(aes(Sgl, col=Freq)) + theme_bw() + labs(x=expression(N[0]*(1+P*exp(lambda*t)*sin(omega*t+phi))))
+  ggplot(X%>%filter(Freq%in%c("15","30"))) + geom_density(aes(Sgl, col=Freq)) + theme_bw() + labs(x=expression(N[0]*(1+P*exp(lambda*t)*sin(omega*t+phi))))
   
 }
 
