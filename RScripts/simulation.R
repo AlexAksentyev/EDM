@@ -95,20 +95,20 @@ if(FALSE){
 
 ## 5) changing the signal frequency ####
 if(TRUE){
-  stu <- CuSampling(Freq=50); mod <- CModel(Phase=pi/2); Ttot = 100
+  stu <- CuSampling(Freq=5000); mod <- CModel(Phase=0); Ttot = 100
  
-  varW0_test(mod, stu) -> dat
+  varW0_test(mod, stu, Ttot, wfreqs=c(.05, .3, 1, 3, 5)) -> dat
   
-  .stats = ldply(dat, function(e) e$Stats, .id="Freq"); 
+  .stats = ldply(dat, function(e) e$Stats, .id="Freq") #%>% mutate(SE.meanFrq = SE.frq/sqrt(6000*3.6)) 
   
   .stats %>% transmute(Freq, Simulation = SE.frq, Formula = SEAN.frq) %>% 
     reshape2::melt("Freq", variable.name = "Method", value.name = "SE") %>%
     ggplot(aes(Freq, SE, col=Method)) + geom_point() +
-    scale_y_log10() +
+    # scale_y_log10() +
     theme_bw() + labs(x=expression(omega), y=expression(sigma[hat(omega)])) + 
     theme(legend.position="top") 
   
-  i = "0.01"
+  i = "1"
   x = dat[[i]]$Sample[seq(1,nrow(dat[[i]]$Sample),length.out=250),]
   ggplot(x, aes(Time, Sgl)) + geom_point() +
     theme_bw() + theme(legend.position="top") + labs(y="signal") +
