@@ -1,5 +1,4 @@
 library(dplyr)
-library(methods)
 
 #### functions ####
 fancy <- function(x) formatC(x, 4, format = "e")
@@ -58,17 +57,29 @@ fancy <- function(x) formatC(x, 4, format = "e")
 #     mutate(Trl = rep(seq(Ntrl), each=l)%>%rep(2), Sgl = XSgl + rnorm(Ntrl*l, sd=errS)%>%rep(2))
 # }
 .fit <- function(.sample, model, return.model = FALSE){
-  w.g = rnorm(1, model$wfreq, .001)
-  n.g = rnorm(1, model$Num0, .1*model$Num0)
-  p.g = rnorm(1, model$Pol, .1*model$Pol)
-  lam.decoh = model$lam.decoh
-  phi = model$phase
+  w.g = rnorm(1, model@wFreq, .001)
+  n.g = rnorm(1, model@Num0, .1*model@Num0)
+  p.g = rnorm(1, model@Pol, .1*model@Pol)
+  lam.decoh = model@decohLT
+  phi = model@Phase
   
   cat("guessed frequency:", w.g, "\n\n")
   
   nls(Sgl ~ n*(1 + p*exp(lam.decoh*Time)*sin(frq*Time + phi)), data=.sample, start=list(n = n.g, p = p.g, frq = w.g)) -> m3
   
   if(return.model) return(m3) else return(.extract.stats(m3))
+}
+
+varW0_test <- function(.mod, .Time){
+  # cat(paste("model frequency", .mod$wfreq, "\n"))
+  
+  simSample(stu, .mod, .Time) -> .spl
+  # cat(paste("sample size", nrow(.spl), "\n"))
+  
+  .fit(.spl, .mod) -> .stats
+  # .stats = NULL
+  
+  list("Stats" = .stats, "Sample" = .spl)
 }
 
 #only modulated sampling
@@ -147,13 +158,6 @@ derivative.model <- function(model, at.points){
   N0*P*exp(lam.decoh*at.points)*cos(w*at.points + phi)
   
 }
-
-# setClass(
-#   "Sampling",
-#   representation(Type="character", Freq="numeric"),
-#   prototype(Type=NA_character_, Freq=NA_real_)
-# )
-# setClass("uSampling", contains = "Sampling")
 
 sample <- function(how, model, how.long, err = NA) UseMethod("sample", how)
 sample.usampling <- function(how, model, how.long, err = NA){

@@ -1,4 +1,5 @@
 source("./RScripts/definitions.R")
+source("./RScripts/classes.R")
 
 library(plyr)
 library(ggplot2)
@@ -93,34 +94,20 @@ if(FALSE){
 
 ## 5) changing the signal frequency ####
 if(TRUE){
-  stu <- usampling(freq=50); Ttot = 100
-  varW0_test <- function(.mod, .Time){
-    # cat(paste("model frequency", .mod$wfreq, "\n"))
-    
-    sample.usampling(how = stu, model = .mod, how.long = .Time) -> .spl
-    # cat(paste("sample size", nrow(.spl), "\n"))
-    
-    .fit(.spl, .mod) -> .stats
-    # .stats = NULL
-    
-    list("Stats" = .stats, "Sample" = .spl)
-  }
+  stu <- CuSampling(Freq=50); Ttot = 100
   
-  mod <- model(phs=pi/2); 
-  w0s = mod$wfreq*c(.01, .1,.5, 1, 5, 10); names(w0s) <- w0s
-  llply(w0s, function(w) setWFreq(mod, w)) -> mods
+  mod <- CModel(Phase=pi/2); 
+  w0s = mod@wFreq*c(.01, .1,.5, 1, 5, 10); names(w0s) <- w0s
+  llply(w0s, function(w) setValue(mod, c("wFreq" = w))) -> mods
   rtns <- c("stu",".extract.stats", 
-            "sample","sample.usampling",
-            "derivative", "derivative.model",
-            "expectation", "expectation.model",
+            "simSample","fisherInfo","expectation", 
             ".fit", "varW0_test"
            )
-  # clusterExport(clus, rtns)
+  clusterExport(clus, rtns)
   llply(
     mods, varW0_test, Ttot, 
-    .inform = FALSE,
     .parallel=TRUE, 
-    .paropts = list(.packages=c("dplyr"), .export = rtns)
+    .paropts = list(.packages=c("dplyr"))
   ) -> dat
   
   .stats = ldply(dat, function(e) e$Stats, .id="Freq"); .stats
@@ -137,7 +124,7 @@ if(TRUE){
     geom_line(aes(Time, Sgl), data.frame("Time" = seq(0,Ttot, length.out = 500)) %>% mutate(Sgl = expectation(mod, Time)))
   
   X = ldply(dat, function(e) e$Sample, .id="Freq")
-  ggplot(X%>%filter(Freq%in%c("15","30"))) + geom_density(aes(Sgl, col=Freq)) + theme_bw() + labs(x=expression(N[0]*(1+P*exp(lambda*t)*sin(omega*t+phi))))
+  ggplot(X%>%filter(Freq%in%c("3","15","30"))) + geom_density(aes(Sgl, col=Freq)) + theme_bw() + labs(x=expression(N[0]*(1+P*exp(lambda*t)*sin(omega*t+phi))))
   
 }
 
