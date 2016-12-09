@@ -106,7 +106,7 @@ if(TRUE){
     list("Stats" = .stats, "Sample" = .spl)
   }
   
-  mod <- model(phs=pi/2); 
+  mod <- model(phs=pi/12); 
   w0s = mod$wfreq*c(.01, .1,.5, 1, 5, 10); names(w0s) <- w0s
   llply(w0s, function(w) setWFreq(mod, w)) -> mods
   rtns <- c("stu",".extract.stats", 
@@ -130,14 +130,14 @@ if(TRUE){
     theme_bw() + labs(x=expression(omega), y=expression(sigma[hat(omega)])) + 
     theme(legend.position="top") 
   
-  i = "15"
+  i = "0.03"
   x = dat[[i]]$Sample[seq(1,nrow(dat[[i]]$Sample),length.out=250),]
   ggplot(x, aes(Time, Sgl)) + geom_point() +
     theme_bw() + theme(legend.position="top") + labs(y="signal") +
     geom_line(aes(Time, Sgl), data.frame("Time" = seq(0,Ttot, length.out = 500)) %>% mutate(Sgl = expectation(mod, Time)))
   
   X = ldply(dat, function(e) e$Sample, .id="Freq")
-  ggplot(X%>%filter(Freq%in%c("15","30"))) + geom_density(aes(Sgl, col=Freq)) + theme_bw() + labs(x=expression(N[0]*(1+P*exp(lambda*t)*sin(omega*t+phi))))
+  ggplot(X) + geom_density(aes(Sgl, col=Freq)) + theme_bw() + labs(x=expression(N[0]*(1+P*exp(lambda*t)*sin(omega*t+phi))))
   
 }
 
