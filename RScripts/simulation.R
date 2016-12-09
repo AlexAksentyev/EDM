@@ -126,7 +126,7 @@ if(TRUE){
   .stats = ldply(dat, function(e) e$Stats, .id="Freq"); .stats
   
   ggplot(.stats, aes(Freq, SE.frq)) + geom_point() + 
-    scale_y_log10() +
+    # scale_y_log10() +
     theme_bw() + labs(x=expression(omega), y=expression(sigma[hat(omega)])) + 
     theme(legend.position="top") 
   

@@ -95,9 +95,6 @@ fancy <- function(x) formatC(x, 4, format = "e")
 #   df %>%  mutate(Sgl = XSgl + rnorm(length(t1), sd=errS))
 # }
 
-varW0test1 <- function(x) x*x
-
-
 #### classes ####
 model <- function(wfreq=3, phs=pi/36, N0=6730, Pol=.4, decoh.LT = log(.25)/1000){
 
