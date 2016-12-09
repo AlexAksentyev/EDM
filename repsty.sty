@@ -21,25 +21,18 @@
 \usepackage{pgfplots}
 
 % SYNTACTIC DEFINITIONS
-\newcommand{\err}{\epsilon}
-
-\DeclareDocumentCommand{\CS}{sO{}}{\IfBooleanTF{#1}{\hat{\sigma}_{#2}}{\sigma_{#2}}}
-\DeclareDocumentCommand{\slp}{sO{}}{\IfBooleanTF{#1}{\hat{\beta}_{#2}}{\beta_{#2}}}
-\DeclareDocumentCommand{\Thick}{O{}}{\Theta_{#1}}
-
-\DeclareDocumentCommand{\SE}{sm}{\IfBooleanTF{#1}{\hat{\sigma}\bkt*{#2}}{\sigma\bkt*{#2}}}
+\DeclareDocumentCommand{\bkt}{sm}{\IfBooleanTF{#1}{\left[ #2 \right]}{\left(#2\right)}}
+\DeclareDocumentCommand{\Xpct}{mo}{\mathrm{E}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
 \newcommand{\avg}[1]{\langle #1\rangle}
 
-\DeclareDocumentCommand{\bkt}{sm}{\IfBooleanTF{#1}{\left[ #2 \right]}{\left(#2\right)}}
+\DeclareDocumentCommand{\var}{O{}mo}{\mathrm{var}_{#1}\bkt*{#2\IfValueT{#3}{\vert~ #3}}}
+
 \newcommand{\td}{\mathrm{d}}
 
-\DeclareDocumentCommand{\A}{sO{}}{\IfBooleanT{#1}{\hat}A_{#2}}
-\DeclareDocumentCommand{\Ayy}{sO{}}{\IfBooleanT{#1}{\hat}A_{y,y}}
-\DeclareDocumentCommand{\Ayxz}{s}{\IfBooleanT{#1}{\hat}A_{y,xz}}
+\newcommand{\pars}{\boldsymbol{\theta}}
+\DeclareDocumentCommand{\Fisher}{O{}}{I_{#1}(\pars_0)}
 
-\DeclareDocumentCommand{\D}{s}{\IfBooleanTF{#1}{\hat{D}}{D}}
-\DeclareDocumentCommand{\R}{s}{\IfBooleanTF{#1}{\hat{R}}{R}}
-\DeclareDocumentCommand{\DP}{s}{\IfBooleanTF{#1}{(P^+ - P^-)}{\Delta P}}
-\DeclareDocumentCommand{\SP}{s}{\IfBooleanTF{#1}{(P^+ + P^-)}{\Sigma P}}
+\DeclareDocumentCommand{\XpctO}{m}{\Xpct{#1}[\pars_0]}
 
-\newcommand{\Dim}[1]{\mathrm{#1}}
+\DeclareDocumentCommand{\mupp}{s}{\mu'_\phi\IfBooleanTF{#1}{}{(t_i)}}
+\DeclareDocumentCommand{\mudpp}{s}{\mu''_{\phi^2}\IfBooleanTF{#1}{}{(t_i)}}
