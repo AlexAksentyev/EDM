@@ -1,5 +1,6 @@
-source("./RScripts/definitions.R")
 source("./RScripts/classes.R")
+source("./RScripts/definitions.R")
+
 
 library(plyr)
 library(ggplot2)
@@ -94,37 +95,27 @@ if(FALSE){
 
 ## 5) changing the signal frequency ####
 if(TRUE){
-  stu <- CuSampling(Freq=50); Ttot = 100
+  stu <- CuSampling(Freq=50); mod <- CModel(Phase=pi/2); Ttot = 100
+ 
+  varW0_test(mod, stu) -> dat
   
-  mod <- CModel(Phase=pi/2); 
-  w0s = mod@wFreq*c(.01, .1,.5, 1, 5, 10); names(w0s) <- w0s
-  llply(w0s, function(w) setValue(mod, c("wFreq" = w))) -> mods
-  rtns <- c("stu",".extract.stats", 
-            "simSample","fisherInfo","expectation", 
-            ".fit", "varW0_test"
-           )
-  clusterExport(clus, rtns)
-  llply(
-    mods, varW0_test, Ttot, 
-    .parallel=TRUE, 
-    .paropts = list(.packages=c("dplyr"))
-  ) -> dat
+  .stats = ldply(dat, function(e) e$Stats, .id="Freq"); 
   
-  .stats = ldply(dat, function(e) e$Stats, .id="Freq"); .stats
-  
-  ggplot(.stats, aes(Freq, SE.frq)) + geom_point() + 
-    # scale_y_log10() +
+  .stats %>% transmute(Freq, Simulation = SE.frq, Formula = SEAN.frq) %>% 
+    reshape2::melt("Freq", variable.name = "Method", value.name = "SE") %>%
+    ggplot(aes(Freq, SE, col=Method)) + geom_point() +
+    scale_y_log10() +
     theme_bw() + labs(x=expression(omega), y=expression(sigma[hat(omega)])) + 
     theme(legend.position="top") 
   
-  i = "15"
+  i = "0.01"
   x = dat[[i]]$Sample[seq(1,nrow(dat[[i]]$Sample),length.out=250),]
   ggplot(x, aes(Time, Sgl)) + geom_point() +
     theme_bw() + theme(legend.position="top") + labs(y="signal") +
     geom_line(aes(Time, Sgl), data.frame("Time" = seq(0,Ttot, length.out = 500)) %>% mutate(Sgl = expectation(mod, Time)))
   
   X = ldply(dat, function(e) e$Sample, .id="Freq")
-  ggplot(X%>%filter(Freq%in%c("3","15","30"))) + geom_density(aes(Sgl, col=Freq)) + theme_bw() + labs(x=expression(N[0]*(1+P*exp(lambda*t)*sin(omega*t+phi))))
+  ggplot(X%>%filter(Freq%in%c("0.01","0.3","3"))) + geom_density(aes(Sgl, col=Freq)) + theme_bw() + labs(x=expression(N[0]*(1+P*exp(lambda*t)*sin(omega*t+phi))))
   
 }
 
