@@ -1,35 +1,14 @@
 \documentclass{article}
-\usepackage[left=1cm,top=1cm,right=1cm,bottom=1.5cm]{geometry}
-\setlength{\parindent}{0pt}
-\usepackage{parskip}
+\usepackage{repsty}
 
-\usepackage{mathtools}
-
-\usepackage{subcaption}
-
-\usepackage{xparse}
-\usepackage{xfrac}
-
-\DeclareDocumentCommand{\bkt}{sm}{\IfBooleanTF{#1}{\left[ #2 \right]}{\left(#2\right)}}
 \newcommand{\y}{\mathbf{y}}
-\newcommand{\pars}{\boldsymbol{\theta}}
-\DeclareDocumentCommand{\Xpct}{mo}{\mathrm{E}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
-\DeclareDocumentCommand{\XpctO}{m}{\Xpct{#1}[\pars_0]}
-
-\DeclareDocumentCommand{\mupp}{s}{\mu'_\phi\IfBooleanTF{#1}{}{(t_i)}}
-\DeclareDocumentCommand{\mudpp}{s}{\mu''_{\phi^2}\IfBooleanTF{#1}{}{(t_i)}}
-\DeclareDocumentCommand{\Fisher}{O{}}{I_{#1}(\pars_0)}
-
-\DeclareDocumentCommand{\var}{O{}mo}{\mathrm{var}_{#1}\bkt*{#2\IfValueT{#3}{\vert~ #3}}}
-
-\newcommand{\td}{\mathrm{d}}
 
 \usepgfplotslibrary{fillbetween}
 
 
 \begin{document}
 
-The probability of observing  the value $y_i \equiv y(t_i)$ when the expectation value is $\mu(t_i)$ and the error is gaussian is
+The probability of observing  the value $y_i \equiv y(t_i)$ when the expectation value is $\mu(t_i)$ and the error is Gaussian is
 \begin{align*}
 	f(y_i|\pars) &= \frac{1}{\sqrt{2\pi\nu}}\exp\bkt{-\frac12\frac{(y_i - \mu(t_i))^2}{\nu}}, \\
 	\pars 		  &= (\nu,\omega,\phi),\\
@@ -100,7 +79,6 @@ The variance of the frequency estimate
 	\var{\hat{\omega}} = \nu\frac{\sum\bkt{\mupp}^2}{\sum\bkt{t_i\mupp}^2\sum\bkt{\mupp}^2 - \bkt{\sum t_i\bkt{\mupp}^2}^2}.
 \end{equation}
 
-\newcommand{\avg}[1]{\langle #1\rangle}
 \paragraph{Cross-check.} Let $\mu(t_i) = \phi + \omega t_i$. In that case $\mupp = 1$, $\mu'_\omega(t_i) = t_i = t_i\cdot\mupp$, the determinant of the Fisher matrix simplifies to 
 \begin{align*}
 	|\Fisher| &= \frac{K}{2\nu^4}\bkt{K\sum_i t_i^2 - \bkt{\sum t_i}^2} \\
