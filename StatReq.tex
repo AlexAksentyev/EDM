@@ -11,7 +11,41 @@ The questions are:
 	\item How congregated about the zero-crossings the measurements should be?
 \end{enumerate}
 
-The measurement time is determined by the spin tune decoherence time. This question should be answered first, because it doesn't depend on anything else, and because it is the major factor affecting the standard error of the estimate. We want the events to be as spread out as makes sense statistically. Varying the number of measurements per event won't change the spread, but it will the precision and number of events, as well as their compaction factor.
+The analytical expression of the variance of the estimate is\footnote{This expression consistently overestimates the standard error by a factor of 2; however, when used on a function with $x_i = (N_0P)^2$ (linear regression), it yields the same expression as the fitter. The fitter also computes the standard error according to some formula. As far as I can tell, the difference between this one and the one the fitter uses (which I haven't seen yet), is the $sum_j x_j$ factor in the denominator.}
+\begin{equation}
+\begin{cases}
+	\var{\hat\omega} &= \sfrac{\nu}{\sum_j x_j\var[w]{t}}, \\
+	\var[w]{t} &= \sum_i w_i \bkt{t_i - \avg{t}_w}^2,~ \avg{t}_w = \sum_i t_i w_i, \\
+	w_i &= \frac{x_i}{\sum_j x_j},~ x_i = (N_0P\exp(\lambda t_i))^2\cos^2(\omega t_i + \phi) = \bkt{\mupp}^2.
+\end{cases}	
+\end{equation}
+
+As one can see, the variance inversely depends on the spread of the predictor variable. This spread is determined mainly by the total duration of measurement, and hence the spin tune decoherence time. Variation in the number of polarimetry measurements per event has only a second-order effect on $\var[w]{t}$.
 
 The two questions that follow both condition the measurement distribution across time. The number of measurements per event determine, with regard to this statistical aspect, the number of events per second, and hence the number of events that can fit within a compaction region. If that number is large, there will be fewer (but more precise) measurements within the high-information regions, and we will have to increase the compaction factor in order to collect enough events, at which point our use of the beam is sub-optimal.
+
+
+\section{Spin tune decoherence time}
+
+I will write the expression for point Fisher information again:
+\[
+	\Fisher[i] = \frac{1}{\nu}\begin{pmatrix}
+		\bkt{\sqrt{2}\cdot\mupp}^{-2} & 0     & 0   \\
+		0                             & t_i^2 & t_i \\
+		0                             & t_i   & 1
+	\end{pmatrix}\cdot \bkt{\mupp}^2.
+\]
+
+For any given point $t_i$, its informational content varies linearly with $x_i$. 
+
+Let $\tau_d$ denote decoherence time; then $x(t_i)/x(t_i + \tau_d) = e^2$.
+
+\begin{figure}[h]
+	\begin{tikzpicture}
+	\draw[->] (-1.5,0) -- (1.5,0) node[right] {$\mupp$};
+	\draw[->] (0,-.5) -- (0, 2.3) node[above] {$I_i(\pars_0)$};
+	\draw[scale=1,domain=-1.5:1.5,smooth,variable=\x,red] plot ({\x},{\x*\x});
+	\end{tikzpicture}
+\end{figure}
+
 \end{document}
