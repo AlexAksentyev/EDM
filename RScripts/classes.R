@@ -4,13 +4,14 @@ library(methods)
 
 CModel = setClass(
   "CModel",
-  slots = c(wFreq="numeric", Phase="numeric",Num0="numeric", Pol="numeric", decohLT="numeric"),
-  prototype = list(wFreq=3, Phase=0, Num0=6730, Pol=.4, decohLT=log(.25)/1000)
+  slots = c(wFreq="numeric", Phase="numeric",Num0="numeric", Pol="numeric", decohLam="numeric"),
+  prototype = list(wFreq=3, Phase=0, Num0=6730, Pol=.4, decohLam=log(.25)/1000)
 )
 
 setGeneric("setValue",def=function(object, value) standardGeneric("setValue"))
 setGeneric("expectation", def=function(object, at) standardGeneric("expectation"))
-setGeneric("derivative", def=function(object, at) standardGeneric("derivative"))
+setGeneric("fiDer", def=function(object, at) standardGeneric("fiDer"))
+setGeneric("timeDer", def=function(object, at) standardGeneric("timeDer"))
 
 #### Sampling types ####
 CSampling = setClass(
@@ -41,18 +42,29 @@ setMethod(
   f="expectation", signature="CModel",
   definition=function(object, at){
     N0 <- object@Num0; P <- object@Pol; w <- object@wFreq; phi <- object@Phase
-    lam.decoh <- object@decohLT
+    lam.decoh <- object@decohLam
     
     N0 * (1 + P*exp(lam.decoh*at)*sin(w*at + phi))
   }
 )
 setMethod(
-  f="derivative", signature="CModel",
+  f="fiDer", signature="CModel",
   definition=function(object, at){
     N0 <- object@Num0; P <- object@Pol; w <- object@wFreq; phi <- object@Phase
-    lam.decoh <- object@decohLT
+    lam.decoh <- object@decohLam
     
     N0*P*exp(lam.decoh*at)*cos(w*at + phi)
+  }
+)
+setMethod(
+  f="timeDer", signature = "CModel",
+  definition = function(object, at){
+    N0 <- object@Num0; P <- object@Pol; w <- object@wFreq; phi <- object@Phase
+    lam.decoh <- object@decohLam
+    
+    et = exp(lam.decoh*at)
+    
+    N0*P*(lam.decoh*et*sin(w*at + phi) + w*et*cos(w*at + phi))
   }
 )
 
@@ -65,7 +77,7 @@ setMethod(
     
     t1 = seq(0, duration, by = 1/object@Freq) #uniform sampling
     
-    data.frame("Time" = t1, "XSgl" = expectation(signal, t1), "Drvt" = derivative(signal, t1)) %>%  
+    data.frame("Time" = t1, "XSgl" = expectation(signal, t1), "FIDrvt" = fiDer(signal, t1)) %>%  
       mutate(Sgl = XSgl + rnorm(length(t1), sd=aerror))
   }
 )
@@ -75,7 +87,7 @@ setMethod(
     
     if(is.na(rerror)) rerror <- 3e-2 
     
-    phi = signal@Phase; w0 = signal@wFreq; lam.decoh = signal@decohLT
+    phi = signal@Phase; w0 = signal@wFreq; lam.decoh = signal@decohLam
     P = signal@Pol; N0 = signal@Num0
     fs = object@Freq; wg = object@sglFreqGuess
     cptn = object@Compaction
@@ -91,7 +103,8 @@ setMethod(
     t2 <- t2[x > N0*(1 - DeltaS) & x < N0*(1 + DeltaS) & t2 >= 0 & t2 <= duration]
     t2 <- t2[order(t2)]
     
-    data.frame("Time" = t2, "XSgl" = expectation(signal, t2), "Drvt" = derivative(signal, t2)) %>%
+    data.frame("Time" = t2, "XSgl" = expectation(signal, t2), "FIDrvt" = fiDer(signal, t2)) %>% 
+      `attr<-`("Compaction", object@Compaction) %>% 
       mutate(Sgl = XSgl + rnorm(length(t2), sd=aerror))
   }
 )

@@ -20,8 +20,8 @@ library(dplyr)
 
 .compVarF <- function(df, err = 3e-2){
   err <- err*df$XSgl[1]
-  ftr <- sum(df$Drvt^2)
-  mutate(df, Wt = Drvt^2/ftr, WtT = Time*Wt, WtTT = Time^2*Wt)->df
+  ftr <- sum(df$FIDrvt^2)
+  mutate(df, Wt = FIDrvt^2/ftr, WtT = Time*Wt, WtTT = Time^2*Wt)->df
   (sum(df$WtTT) - sum(df$WtT)^2)*ftr -> denom
   err/sqrt(denom)
 }
@@ -30,7 +30,7 @@ library(dplyr)
   w.g = rnorm(1, model@wFreq, .001)
   n.g = rnorm(1, model@Num0, .1*model@Num0)
   p.g = rnorm(1, model@Pol, .1*model@Pol)
-  lam.decoh = model@decohLT
+  lam.decoh = model@decohLam
   phi = model@Phase
   
   cat("guessed frequency:", w.g, "\n\n")
@@ -43,10 +43,10 @@ library(dplyr)
 #### tests ####
 #### SE(estimate(freq)) vs freq ####
 varW0_test <- function(model, sampling, duration, wfreqs = c(.01,.1,.3,1,3,10)){
-  require(parallel); require(doParallel); n.cores = detectCores()-1
+  require(doParallel); n.cores = detectCores()
   clus <- makeCluster(n.cores)
   registerDoParallel(clus)
-  rtns <- c(".extract.stats", ".fit", ".compVarF", "simSample","fisherInfo","expectation")
+  rtns <- c(".extract.stats", ".fit", ".compVarF", "simSample","fiDer","expectation")
   clusterExport(clus, rtns)
   
   names(wfreqs) <- wfreqs
@@ -59,6 +59,8 @@ varW0_test <- function(model, sampling, duration, wfreqs = c(.01,.1,.3,1,3,10)){
     .parallel=TRUE, 
     .paropts = list(.export=c(rtns), .packages=c("dplyr"))
   ) -> dat
+  
+  stopCluster(clus)
   
   dat
   
