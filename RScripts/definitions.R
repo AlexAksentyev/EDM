@@ -65,3 +65,62 @@ varW0_test <- function(model, sampling, duration, wfreqs = c(.01,.1,.3,1,3,10)){
   dat
   
 }
+
+#### total time test ####
+.diagWrap <- function(model, samplings){
+  require(doParallel); n.cores = detectCores()
+  clus <- makeCluster(n.cores)
+  registerDoParallel(clus)
+  rtns <- c(".extract.stats", ".fit", ".compVarF", ".diagnosis", "simSample","fiDer","expectation")
+  clusterExport(clus, rtns)
+  
+  tau = -1/model@decohLam; Ttot = 5*tau; sptt <- seq(5)*tau
+  
+  llply(samplings, function(s)
+    simSample(s, model, Ttot) %>% mutate(Group = derivedFactor(
+      "A" = Time <= sptt[1],
+      "B" = Time <= sptt[2],
+      "C" = Time <= sptt[3],
+      "D" = Time <= sptt[4],
+      "E" = Time <= sptt[5],
+      .method = "first"
+    )) %>% .diagnosis(model),
+    .parallel = TRUE, 
+    .paropts = list(.packages = c("dplyr", "mosaic"))
+  ) -> dat; stopCluster(clus)
+  
+  dat
+}
+.diagnosis <- function(smpl, mod){
+  N0P = mod@Num0*mod@Pol
+  smpl <- mutate(smpl, 
+                 DDtNorm = mod@wFreq*FIDrvt/N0P
+  )
+  
+  smplslc <- smpl[seq(1,nrow(smpl), length.out=500),]
+  psigscat <- ggplot(smplslc, aes(Time, Sgl, col=Group)) + geom_point() + 
+    geom_line(
+      aes(Time, XSgl), linetype=3, 
+      data=data.frame(Group=NA, Time = seq(0, smpl[nrow(smpl), "Time"], length.out=500))%>%
+        mutate(XSgl = expectation(mod, Time))
+    ) + theme_bw()
+  
+  ddply(smpl, "Group", function(g) .fit(g, mod)%>%
+          mutate(SEAN.frq = .compVarF(g), FItot = sum((g$FIDrvt/N0P)^2))
+  )  -> .stats
+  .stats %>% transmute(Group, SE = SE.frq, SEAN = SEAN.frq, FItot) %>%
+    reshape2::melt(id.vars=c("Group","FItot"), variable.name = "How", value.name="SE") -> .stats
+  pse <- ggplot(.stats, aes(Group, SE, shape=How)) + geom_point() + theme_bw()
+  
+  pchar <- ggplot(.stats) + geom_point(aes(FItot, SE, col=Group, shape=How)) +
+    labs(x="Total information")
+  
+  pddt <- ggplot(smpl) + geom_density(aes(DDtNorm, col=Group)) +
+    labs(x=expression(1/(N0P)~d/dt~s(w*t+phi)))
+  
+  list(
+    "SglPlot" = psigscat, "SEPlot" = pse, 
+    "CharPlot" = pchar, "ddtPlot" = pddt,
+    "Sample" = smpl, "Stats" = .stats
+  )
+}
