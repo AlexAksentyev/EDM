@@ -94,7 +94,8 @@ varW0_test <- function(model, sampling, duration, wfreqs = c(.01,.1,.3,1,3,10)){
 .diagnosis <- function(smpl, mod){
   N0P = mod@Num0*mod@Pol
   smpl <- mutate(smpl, 
-                 DDtNorm = mod@wFreq*FIDrvt/N0P
+                 DDtNorm = mod@wFreq*FIDrvt/N0P,
+                 Wt = FIDrvt^2/sum(FIDrvt^2)
   )
   
   smplslc <- smpl[seq(1,nrow(smpl), length.out=500),]
@@ -105,14 +106,20 @@ varW0_test <- function(model, sampling, duration, wfreqs = c(.01,.1,.3,1,3,10)){
         mutate(XSgl = expectation(mod, Time))
     ) + theme_bw()
   
-  ddply(smpl, "Group", function(g) .fit(g, mod)%>%
-          mutate(SEAN.frq = .compVarF(g), FItot = sum((g$FIDrvt/N0P)^2))
+  ddply(smpl, "Group", function(g) {mutate(g, Wt = FIDrvt^2/sum(FIDrvt^2)) ->g;
+    .fit(g, mod)%>% mutate(SEAN.frq = .compVarF(g), 
+                 FItot = sum((g$FIDrvt/N0P)^2),
+                 meanT = mean(g$Time),
+                 WmeanT = sum(g$Time*g$Wt),
+                 varT = var(g$Time),
+                 WvarT = sum(g$Wt*(g$Time - WmeanT)^2)
+          )}
   )  -> .stats
   .stats %>% transmute(Group, SE = SE.frq, SEAN = SEAN.frq, FItot) %>%
-    reshape2::melt(id.vars=c("Group","FItot"), variable.name = "How", value.name="SE") -> .stats
-  pse <- ggplot(.stats, aes(Group, SE, shape=How)) + geom_point() + theme_bw()
+    reshape2::melt(id.vars=c("Group","FItot"), variable.name = "How", value.name="SE") -> .tstats
+  pse <- ggplot(.tstats, aes(Group, SE, shape=How)) + geom_point() + theme_bw()
   
-  pchar <- ggplot(.stats) + geom_point(aes(FItot, SE, col=Group, shape=How)) +
+  pchar <- ggplot(.tstats) + geom_point(aes(FItot, SE, col=Group, shape=How)) +
     labs(x="Total information")
   
   pddt <- ggplot(smpl) + geom_density(aes(DDtNorm, col=Group)) +

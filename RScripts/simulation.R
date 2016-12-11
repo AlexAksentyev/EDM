@@ -34,7 +34,7 @@ if(FALSE){
 ## checking the growth of SE with time ####
 if(TRUE){
   library(mosaic) #for derivedFactor
-  tau = 120; fs = 50
+  tau = 100; fs = 500
   
   mod = CModel(decohLam=-1/tau)
   stu = CuSampling(Freq=fs); stm <- CmSampling(Freq=fs, Compaction=.2)
@@ -44,27 +44,27 @@ if(TRUE){
   ## split them, and do the analysis
   
   ## .diagnosis code in here as well
-  
-  simSample(stu, mod, Ttot, rerror=err) %>% mutate(Group = derivedFactor(
-    "A" = Time <= sptt[1],
-    "B" = Time <= sptt[2],
-    "C" = Time <= sptt[3],
-    "D" = Time <= sptt[4],
-    "E" = Time <= sptt[5],
-    .method = "first"
-  )) -> usmpl
-  
-  simSample(stm, mod, Ttot, rerror=err) %>% mutate(Group = derivedFactor(
-    "A" = Time <= sptt[1],
-    "B" = Time <= sptt[2],
-    "C" = Time <= sptt[3],
-    "D" = Time <= sptt[4],
-    "E" = Time <= sptt[5],
-    .method = "first"
-  )) -> msmpl
-  
-  udat <- .diagnosis(usmpl)
-  mdat <- .diagnosis(msmpl)
+  # 
+  # simSample(stu, mod, Ttot, rerror=err) %>% mutate(Group = derivedFactor(
+  #   "A" = Time <= sptt[1],
+  #   "B" = Time <= sptt[2],
+  #   "C" = Time <= sptt[3],
+  #   "D" = Time <= sptt[4],
+  #   "E" = Time <= sptt[5],
+  #   .method = "first"
+  # )) -> usmpl
+  # 
+  # simSample(stm, mod, Ttot, rerror=err) %>% mutate(Group = derivedFactor(
+  #   "A" = Time <= sptt[1],
+  #   "B" = Time <= sptt[2],
+  #   "C" = Time <= sptt[3],
+  #   "D" = Time <= sptt[4],
+  #   "E" = Time <= sptt[5],
+  #   .method = "first"
+  # )) -> msmpl
+  # 
+  # udat <- .diagnosis(usmpl)
+  # mdat <- .diagnosis(msmpl)
   
   ## and from here on it's the results, so it'll remain in simulation.R ##
 
@@ -73,8 +73,11 @@ if(TRUE){
   dat$Uni$CharPlot + scale_y_log10() + scale_x_log10() + theme_bw()
   dat$Mod$CharPlot + scale_y_log10() + scale_x_log10() + theme_bw()
   
-  .stats <- rbind(udat$Stats%>%mutate(Smpl="Uni"), mdat$Stats%>%mutate(Smpl="Mod"))
-  ggplot(.stats, aes(Group, SE, col=Smpl)) + geom_point() + theme_bw()
+  .stats <- rbind(dat$Uni$Stats%>%mutate(Smpl="Uni"), dat$Mod$Stats%>%mutate(Smpl="Mod"))
+  ggplot(.stats, aes(Group, SE, col=Smpl, shape=How)) + geom_point() + theme_bw()
+  
+  reshape2::dcast(dat$Mod$Stats, Group+FItot~How) -> .stats
+  ggplot(.stats, aes(SEAN, SE, col=Group)) + geom_point() + theme_bw()
 }
 
 ## 
