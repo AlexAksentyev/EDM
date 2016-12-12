@@ -136,11 +136,16 @@ varW0_test <- function(model, sampling, duration, wfreqs = c(.01,.1,.3,1,3,10)){
   )
 }
 
-.varT <- function(df){
+.varWT <- function(df){
   ftr = sum(df$FIDrvt^2)
   mutate(df, Wt = FIDrvt^2/ftr, WtT = Time*Wt)->df
   with(df, sum(Wt*(Time - WtT)^2)) -> VarWT
   sum(df$WtT) -> MeanWT
   
   data.frame("NUM" = nrow(df), "Ftr" = ftr, "MWT" = MeanWT, "VarT" = var(df$Time),"VarWT" = VarWT, Denom = ftr*VarWT)
+}
+
+.meanWT <- function(mwt){
+  m = length(mwt)-1
+  sum(mwt*exp(-2*(0:m)))/sum(exp(-2*(0:m)))
 }

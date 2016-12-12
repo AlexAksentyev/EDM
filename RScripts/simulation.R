@@ -96,7 +96,15 @@ smpl.list = simSample(stu, mod, 4*tau) %>% mutate(Group = derivedFactor(
 smpl.list[["BC"]] <- rbind(smpl.list[["B"]], smpl.list[["C"]])
 smpl.list[["BCD"]] <- rbind(smpl.list[["BC"]], smpl.list[["D"]])
 
-ldply(smpl.list, .varT, .id="SmplID") -> res
+ldply(smpl.list, .varWT, .id="SmplID") -> res
+
+.meanWT(res[1, "MWT"])
+.meanWT(res[2, "MWT"])
+.meanWT(res[3, "MWT"])
+.meanWT(res[2:3,"MWT"])
+.meanWT(res[2:4,"MWT"])
+
+
 i = "BCD"
 ggplot(smpl.list[[i]][seq(1,nrow(smpl.list[[i]]),length.out = 500),], aes(Time, Sgl, col=Group)) + geom_point()
-ggplot(res, aes(VarT, VarWT)) + geom_point()
+ggplot(res[c(2,5,6),], aes(NUM/50000, Denom)) + geom_point()
