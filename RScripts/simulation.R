@@ -1,5 +1,4 @@
-source("./RScripts/classes.R")
-source("./RScripts/definitions.R")
+source("./RScripts/definitions.R") #this one includes classes.R
 
 library(plyr)
 library(ggplot2)
@@ -7,7 +6,7 @@ library(ggplot2)
 ## modeling ##
 ## changing the signal frequency ####
 if(FALSE){
-  stu <- CuSampling(Freq=50); mod <- CModel(Phase=0); Ttot = 100
+  stu <- CuSampling(Freq=500); mod <- CModel(Phase=pi/32); Ttot = 100
  
   varW0_test(mod, stu, Ttot, wfreqs=c(.05, .3, 1, 3, 5)) -> dat
   
@@ -73,11 +72,12 @@ if(TRUE){
   dat$Uni$CharPlot + scale_y_log10() + scale_x_log10() + theme_bw()
   dat$Mod$CharPlot + scale_y_log10() + scale_x_log10() + theme_bw()
   
-  .stats <- rbind(dat$Uni$Stats%>%mutate(Smpl="Uni"), dat$Mod$Stats%>%mutate(Smpl="Mod"))
+  .stats <- rbind(
+    dat$Uni$Stats%>%transmute(Group, SE = SE.frq, SEAN = SEAN.frq, FItot, Smpl="Uni"), 
+    dat$Mod$Stats%>%transmute(Group, SE = SE.frq, SEAN = SEAN.frq, FItot, Smpl="Mod")
+  ) %>% reshape2::melt(id.vars=c("Smpl","Group","FItot"), variable.name="How", value.name="SE")
   ggplot(.stats, aes(Group, SE, col=Smpl, shape=How)) + geom_point() + theme_bw()
   
-  reshape2::dcast(dat$Mod$Stats, Group+FItot~How) -> .stats
-  ggplot(.stats, aes(SEAN, SE, col=Group)) + geom_point() + theme_bw()
 }
 
 ## 
