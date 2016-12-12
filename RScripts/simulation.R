@@ -2,6 +2,7 @@ source("./RScripts/definitions.R") #this one includes classes.R
 
 library(plyr)
 library(ggplot2)
+library(mosaic); library(reshape2)
 
 ## modeling ##
 ## changing the signal frequency ####
@@ -83,7 +84,8 @@ if(TRUE){
 ## 
 
 ## checking whether var(t|n*tau) = n*var(t|tau)
-tau = -1/mod@decohLam
+tau = 100; mod = CModel(decohLam=-1/tau); stu = CuSampling(Freq=500)
+
 smpl.list = simSample(stu, mod, 4*tau) %>% mutate(Group = derivedFactor(
   "A" = Time <= 1*tau,
   "B" = Time <= 2*tau,
@@ -93,15 +95,6 @@ smpl.list = simSample(stu, mod, 4*tau) %>% mutate(Group = derivedFactor(
 )) %>% dlply("Group")
 smpl.list[["BC"]] <- rbind(smpl.list[["B"]], smpl.list[["C"]])
 smpl.list[["BCD"]] <- rbind(smpl.list[["BC"]], smpl.list[["D"]])
-
-.varT <- function(df){
-  ftr = sum(df$FIDrvt^2)
-  mutate(df, Wt = FIDrvt^2/ftr, WtT = Time*Wt)->df
-  with(df, sum(Wt*(Time - WtT)^2)) -> VarWT
-  sum(df$WtT) -> MeanWT
-  
-  data.frame("NUM" = nrow(df), "Ftr" = ftr, "MWT" = MeanWT, "VarT" = var(df$Time),"VarWT" = VarWT, Denom = ftr*VarWT)
-}
 
 ldply(smpl.list, .varT, .id="SmplID") -> res
 i = "BCD"
