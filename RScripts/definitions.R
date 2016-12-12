@@ -1,3 +1,4 @@
+source("./RScripts/classes.R")
 library(dplyr)
 
 #### utility functions ####
@@ -18,16 +19,16 @@ library(dplyr)
   data.frame(c(.est, .ster)%>%t)
 }
 
-.compVarF <- function(df, err = 3e-2){
-  err <- err*df$XSgl[1]
+.compAnaWSE <- function(df, aerr = NA){
+  if(is.na(aerr)) {print("\t\t\t SE of the error is unavailable.\n\n"); return(NA)}
   ftr <- sum(df$FIDrvt^2)
   mutate(df, Wt = FIDrvt^2/ftr, WtT = Time*Wt, WtTT = Time^2*Wt)->df
   (sum(df$WtTT) - sum(df$WtT)^2)*ftr -> denom
-  err/sqrt(denom)
+  aerr/sqrt(denom)
 }
 
 .fit <- function(.sample, model, return.model = FALSE){
-  w.g = rnorm(1, model@wFreq, .001)
+  w.g = rnorm(1, model@wFreq, .01)
   n.g = rnorm(1, model@Num0, .1*model@Num0)
   p.g = rnorm(1, model@Pol, .1*model@Pol)
   lam.decoh = model@decohLam
@@ -46,14 +47,15 @@ varW0_test <- function(model, sampling, duration, wfreqs = c(.01,.1,.3,1,3,10)){
   require(doParallel); n.cores = detectCores()
   clus <- makeCluster(n.cores)
   registerDoParallel(clus)
-  rtns <- c(".extract.stats", ".fit", ".compVarF", "simSample","fiDer","expectation")
+  rtns <- lsf.str(all=TRUE, envir=.GlobalEnv) #c(".extract.stats", ".fit", ".compVarF", "simSample","fiDer","expectation")
   clusterExport(clus, rtns)
   
   names(wfreqs) <- wfreqs
   llply(wfreqs, function(w) setValue(model, c("wFreq" = w))) %>%
     llply(
     function(.mod, .splstg, .Time){
-      simSample(.splstg, .mod, .Time) -> .spl; .fit(.spl, .mod) %>%mutate(SEAN.frq=.compVarF(.spl))-> .stats; 
+      err = .splstg@rerror * .mod@Num0*.mod@Pol
+      simSample(.splstg, .mod, .Time) -> .spl; .fit(.spl, .mod) %>%mutate(SEAN.frq=.compAnaWSE(.spl, err))-> .stats; 
       list("Stats" = .stats, "Sample" = .spl)
     }, .splstg = sampling, .Time = duration, 
     .parallel=TRUE, 
@@ -71,7 +73,7 @@ varW0_test <- function(model, sampling, duration, wfreqs = c(.01,.1,.3,1,3,10)){
   require(doParallel); n.cores = detectCores()
   clus <- makeCluster(n.cores)
   registerDoParallel(clus)
-  rtns <- c(".extract.stats", ".fit", ".compVarF", ".diagnosis", "simSample","fiDer","expectation")
+  rtns <- lsf.str(all=TRUE, envir = .GlobalEnv) #c(".extract.stats", ".fit", ".compVarF", ".diagnosis", "simSample","fiDer","expectation")
   clusterExport(clus, rtns)
   
   tau = -1/model@decohLam; Ttot = 5*tau; sptt <- seq(5)*tau
@@ -107,7 +109,7 @@ varW0_test <- function(model, sampling, duration, wfreqs = c(.01,.1,.3,1,3,10)){
     ) + theme_bw()
   
   ddply(smpl, "Group", function(g) {mutate(g, Wt = FIDrvt^2/sum(FIDrvt^2)) ->g;
-    .fit(g, mod)%>% mutate(SEAN.frq = .compVarF(g), 
+    .fit(g, mod)%>% mutate(SEAN.frq = .compAnaWSE(g), 
                  FItot = sum((g$FIDrvt/N0P)^2),
                  meanT = mean(g$Time),
                  WmeanT = sum(g$Time*g$Wt),

@@ -16,19 +16,19 @@ setGeneric("timeDer", def=function(object, at) standardGeneric("timeDer"))
 #### Sampling types ####
 CSampling = setClass(
   "CSampling",
-  slots = c(Type = "character", Freq = "numeric"),
-  prototype = list(Type = NULL, Freq=5000),
+  slots = c(Type = "character", Freq = "numeric", rerror = "numeric"),
+  prototype = list(Type = NULL, Freq=5000, rerror = 3e-2),
   contains = "VIRTUAL"
 )
 CuSampling = setClass("CuSampling", contains = "CSampling", prototype = list(Type="Uniform"))
 CmSampling = setClass(
   "CmSampling", contains = "CSampling",
   slots = c(Compaction="numeric", sglFreqGuess = "numeric"),
-  prototype = list(Type="Modulated", Compaction=.33, sglFreqGuess = rnorm(1, 3, .001))
+  prototype = list(Type="Modulated", Compaction=.33, sglFreqGuess = rnorm(1, 3, .01))
 )
 
 
-setGeneric("simSample", def=function(object, signal, duration, rerror=NA) standardGeneric("simSample"))
+setGeneric("simSample", def=function(object, signal, duration, rerror=object@rerror) standardGeneric("simSample"))
 
 #### method definitions ####
 setMethod(
@@ -70,8 +70,7 @@ setMethod(
 
 setMethod(
   f="simSample", signature = "CuSampling",
-  definition=function(object, signal, duration, rerror = NA){
-    if(is.na(rerror)) rerror <- 3e-2
+  definition=function(object, signal, duration, rerror = object@rerror){
     
     aerror <- rerror * signal@Num0*signal@Pol
     
@@ -83,9 +82,7 @@ setMethod(
 )
 setMethod(
   f="simSample", signature = "CmSampling",
-  definition=function(object, signal, duration, rerror = NA){
-    
-    if(is.na(rerror)) rerror <- 3e-2 
+  definition=function(object, signal, duration, rerror = object@rerror){
     
     phi = signal@Phase; w0 = signal@wFreq; lam.decoh = signal@decohLam
     P = signal@Pol; N0 = signal@Num0
