@@ -76,8 +76,34 @@ if(TRUE){
     dat$Uni$Stats%>%transmute(Group, SE = SE.frq, SEAN = SEAN.frq, FItot, Smpl="Uni"), 
     dat$Mod$Stats%>%transmute(Group, SE = SE.frq, SEAN = SEAN.frq, FItot, Smpl="Mod")
   ) %>% reshape2::melt(id.vars=c("Smpl","Group","FItot"), variable.name="How", value.name="SE")
-  ggplot(.stats, aes(Group, SE, col=Smpl, shape=How)) + geom_point() + theme_bw()
+  ggplot(.stats, aes(Group, SE, col=Smpl, shape=How)) + geom_point() + theme_bw() + scale_y_log10()
   
 }
 
 ## 
+
+## checking whether var(t|n*tau) = n*var(t|tau)
+tau = -1/mod@decohLam
+smpl.list = simSample(stu, mod, 4*tau) %>% mutate(Group = derivedFactor(
+  "A" = Time <= 1*tau,
+  "B" = Time <= 2*tau,
+  "C" = Time <= 3*tau,
+  "D" = Time <= 4*tau,
+  .method = "first" 
+)) %>% dlply("Group")
+smpl.list[["BC"]] <- rbind(smpl.list[["B"]], smpl.list[["C"]])
+smpl.list[["BCD"]] <- rbind(smpl.list[["BC"]], smpl.list[["D"]])
+
+.varT <- function(df){
+  ftr = sum(df$FIDrvt^2)
+  mutate(df, Wt = FIDrvt^2/ftr, WtT = Time*Wt)->df
+  with(df, sum(Wt*(Time - WtT)^2)) -> VarWT
+  sum(df$WtT) -> MeanWT
+  
+  data.frame("NUM" = nrow(df), "Ftr" = ftr, "MWT" = MeanWT, "VarT" = var(df$Time),"VarWT" = VarWT, Denom = ftr*VarWT)
+}
+
+ldply(smpl.list, .varT, .id="SmplID") -> res
+i = "BCD"
+ggplot(smpl.list[[i]][seq(1,nrow(smpl.list[[i]]),length.out = 500),], aes(Time, Sgl, col=Group)) + geom_point()
+ggplot(res, aes(VarT, VarWT)) + geom_point()
