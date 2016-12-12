@@ -22,8 +22,8 @@ library(dplyr)
 .compAnaWSE <- function(df, aerr = NA){
   if(is.na(aerr)) {print("\t\t\t SE of the error is unavailable.\n\n"); return(NA)}
   ftr <- sum(df$FIDrvt^2)
-  mutate(df, Wt = FIDrvt^2/ftr, WtT = Time*Wt, WtTT = Time^2*Wt)->df
-  (sum(df$WtTT) - sum(df$WtT)^2)*ftr -> denom
+  mutate(df, Wt = FIDrvt^2/ftr, WtT = Time*Wt)->df
+  with(df, sum(Wt*(Time - WtT)^2))*ftr -> denom
   aerr/sqrt(denom)
 }
 
@@ -86,15 +86,16 @@ varW0_test <- function(model, sampling, duration, wfreqs = c(.01,.1,.3,1,3,10)){
       "D" = Time <= sptt[4],
       "E" = Time <= sptt[5],
       .method = "first"
-    )) %>% .diagnosis(model),
+    )) %>% .diagnosis(model, s@rerror),
     .parallel = TRUE, 
     .paropts = list(.packages = c("dplyr", "mosaic"))
   ) -> dat; stopCluster(clus)
   
   dat
 }
-.diagnosis <- function(smpl, mod){
+.diagnosis <- function(smpl, mod, rerr){
   N0P = mod@Num0*mod@Pol
+  err = rerr * N0P
   smpl <- mutate(smpl, 
                  DDtNorm = mod@wFreq*FIDrvt/N0P,
                  Wt = FIDrvt^2/sum(FIDrvt^2)
@@ -108,8 +109,9 @@ varW0_test <- function(model, sampling, duration, wfreqs = c(.01,.1,.3,1,3,10)){
         mutate(XSgl = expectation(mod, Time))
     ) + theme_bw()
   
-  ddply(smpl, "Group", function(g) {mutate(g, Wt = FIDrvt^2/sum(FIDrvt^2)) ->g;
-    .fit(g, mod)%>% mutate(SEAN.frq = .compAnaWSE(g), 
+  ddply(smpl, "Group", function(g) {
+    mutate(g, Wt = FIDrvt^2/sum(FIDrvt^2)) ->g;
+    .fit(g, mod)%>% mutate(SEAN.frq = .compAnaWSE(g, err), 
                  FItot = sum((g$FIDrvt/N0P)^2),
                  meanT = mean(g$Time),
                  WmeanT = sum(g$Time*g$Wt),
