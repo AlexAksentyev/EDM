@@ -23,6 +23,7 @@
 % SYNTACTIC DEFINITIONS
 \DeclareDocumentCommand{\bkt}{sm}{\IfBooleanTF{#1}{\left[ #2 \right]}{\left(#2\right)}}
 \DeclareDocumentCommand{\Xpct}{mo}{\mathrm{E}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
+\DeclareDocumentCommand{\SE}{mo}{\mathrm{SE}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
 \newcommand{\avg}[1]{\langle #1\rangle}
 
 \DeclareDocumentCommand{\var}{O{}mo}{\mathrm{var}_{#1}\bkt*{#2\IfValueT{#3}{\vert~ #3}}}

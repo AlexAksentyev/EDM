@@ -38,7 +38,11 @@ I will write the expression for point Fisher information again:
 
 For any given point $t_i$, its informational content varies linearly with $x_i$. 
 
-Let $\tau_d$ denote decoherence time; then $x(t_i)/x(t_i + \tau_d) = e^2$.
+Let $\tau_d$ denote decoherence time; then $x(t_i)/x(t_i + \tau_d) = e^2$. This means the following (assuming $\nu$ remains constant):
+\begin{itemize}
+	\item $\avg{t}_w|_{\sum_i\tau_{d,i}} = \bkt{\sum_{i=1}^n e^{-2(i-1)}}^{-1}\cdot \sum_{i=1}^n\bkt*{\avg{t}_w|_{\tau_{d,i}}\cdot e^{-2(i-1)}}$;
+	\item 
+\end{itemize}
 
 \begin{figure}[h]
 	\begin{tikzpicture}
