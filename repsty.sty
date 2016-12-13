@@ -31,7 +31,7 @@
 \newcommand{\td}{\mathrm{d}}
 
 \newcommand{\pars}{\boldsymbol{\theta}}
-\DeclareDocumentCommand{\Fisher}{O{}}{I_{#1}(\pars_0)}
+\DeclareDocumentCommand{\Fisher}{O{}D(){\pars_0}}{I_{#1}(#2)}
 
 \DeclareDocumentCommand{\XpctO}{m}{\Xpct{#1}[\pars_0]}
 

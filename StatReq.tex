@@ -1,6 +1,7 @@
 \documentclass{article}
 
 \usepackage{repsty}
+\usepackage{wrapfig}
 
 
 \begin{document}
@@ -27,7 +28,11 @@ The two questions that follow both condition the measurement distribution across
 
 \section{Spin tune decoherence time}
 
-I will write the expression for point Fisher information again:
+We have the Cram\'er-Rao inequality to tell us what's the minimum variance of an estimator is possible:
+\[
+	\var{\hat{\omega}} \geq \frac{1}{\Fisher(\omega)}.
+\]
+Fisher information is additive, and what I call \emph{point Fisher information} can be expressed as:
 \[
 	\Fisher[i] = \frac{1}{\nu}\begin{pmatrix}
 		\bkt{\sqrt{2}\cdot\mupp}^{-2} & 0     & 0   \\
@@ -36,20 +41,16 @@ I will write the expression for point Fisher information again:
 	\end{pmatrix}\cdot \bkt{\mupp}^2.
 \]
 
-For any given point $t_i$, its informational content varies linearly with $x_i$. 
-
-Let $\tau_d$ denote decoherence time; then $x(t_i)/x(t_i + \tau_d) = e^2$. This means the following (assuming $\nu$ remains constant):
-\begin{itemize}
-	\item $\avg{t}_w|_{\sum_i\tau_{d,i}} = \bkt{\sum_{i=1}^n e^{-2(i-1)}}^{-1}\cdot \sum_{i=1}^n\bkt*{\avg{t}_w|_{\tau_{d,i}}\cdot e^{-2(i-1)}}$;
-	\item 
-\end{itemize}
-
-\begin{figure}[h]
+\begin{wrapfigure}{l}{.25\textwidth}
 	\begin{tikzpicture}
 	\draw[->] (-1.5,0) -- (1.5,0) node[right] {$\mupp$};
 	\draw[->] (0,-.5) -- (0, 2.3) node[above] {$I_i(\pars_0)$};
 	\draw[scale=1,domain=-1.5:1.5,smooth,variable=\x,red] plot ({\x},{\x*\x});
 	\end{tikzpicture}
-\end{figure}
+\end{wrapfigure}
+
+
+
+
 
 \end{document}
