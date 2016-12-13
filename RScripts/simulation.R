@@ -84,35 +84,15 @@ if(TRUE){
 ## 
 
 ## checking whether var(t|n*tau) = n*var(t|tau)
-tau = 100; mod = CModel(decohLam=-1/tau); stu = CuSampling(Freq=500)
+library(doParallel)
+makeCluster(detectCores()) -> clus; registerDoParallel(clus)
+rtns <- lsf.str(envir=.GlobalEnv, all=TRUE)
+clusterExport(clus, rtns)
 
-smpl.list = simSample(stu, mod, 4*tau) %>% mutate(Group = derivedFactor(
-  "A" = Time <= 1*tau,
-  "B" = Time <= 2*tau,
-  "C" = Time <= 3*tau,
-  "D" = Time <= 4*tau,
-  .method = "first" 
-)) %>% dlply("Group")
+tau = 1000; mod = CModel(decohLam=-1/tau)
+stus = llply(c("5" = 5, "50" = 50, "500" = 500, "5000" = 5000), function(f) CuSampling(Freq=f))
 
-smpl.list[["AB"]] <- rbind(smpl.list[["A"]], smpl.list[["B"]])
-smpl.list[["ABC"]] <- rbind(smpl.list[["AB"]], smpl.list[["C"]])
-smpl.list[["ABCD"]] <- rbind(smpl.list[["ABC"]], smpl.list[["D"]])
-smpl.list[["BC"]] <- rbind(smpl.list[["B"]], smpl.list[["C"]])
-smpl.list[["BCD"]] <- rbind(smpl.list[["BC"]], smpl.list[["D"]])
+ldply(stus, function(stu, .mod, .tau){
+  simSample(stu, .mod, .tau) %>% .varWT()
+}, mod, tau, .parallel = TRUE, .paropts = list(.packages="dplyr")) -> .stats; .stats
 
-ldply(smpl.list, .varWT, .id="SmplID") -> res
-
-.meanWT(res[1, "MWT"])
-.meanWT(res[2, "MWT"])
-.meanWT(res[3, "MWT"])
-.meanWT(res[2:3,"MWT"])
-.meanWT(res[2:4,"MWT"])
-
-
-i = "BCD"
-ggplot(smpl.list[[i]][seq(1,nrow(smpl.list[[i]]),length.out = 500),], aes(Time, Sgl, col=Group)) + geom_point()
-ggplot(res[c(1,7:9),], aes(NUM/50000, Denom)) + geom_point()
-
-## looking how the sqrt(denom) varies with the total amount of information gathered
-ggplot(res, aes(Ftr, Denom)) + geom_point() + geom_label(label=res$SmplID) + 
-  scale_x_log10() + scale_y_log10()
