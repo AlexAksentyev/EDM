@@ -63,12 +63,12 @@ The Fisher matrix
 The determinant
 \newcommand{\STM}{\Omega}
 \[
-	|\Fisher| = \frac{K}{2\nu^4}\underbrace{\bkt{\sum\bkt{t_i\mupp}^2\sum\bkt{\mupp}^2 - \bkt{\sum t_i\bkt{\mupp}^2}^2}}_{\STM}.
+	|\Fisher| = \frac{K}{2\nu^3}\underbrace{\bkt{\sum\bkt{t_i\mupp}^2\sum\bkt{\mupp}^2 - \bkt{\sum t_i\bkt{\mupp}^2}^2}}_{\STM}.
 \]
 The variance-covariance matrix
 \[
 vcov = \begin{pmatrix}
-	2\sfrac{\nu^2}{K}& 0									& 0				\\
+	\sfrac{2\nu}{K}& 0									& 0				\\
 	0				&\nu\frac{\sum\bkt{\mupp}^2}{\STM}		&\nu\frac{\sum t_i\bkt{\mupp}^2}{\STM}\\
 	0				&\nu\frac{\sum t_i\bkt{\mupp}^2}{\STM}	&\nu\frac{\sum\bkt{t_i\mupp}^2}{\STM}
 \end{pmatrix}.

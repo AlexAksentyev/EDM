@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.3.29)  9 DEC 2016 15:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.3.29)  13 DEC 2016 14:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -556,11 +556,19 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip57
 )
+(/usr/share/texlive/texmf-dist/tex/latex/paralist/paralist.sty
+Package: paralist 2013/06/09 v2.4 Extended list environments
+\pltopsep=\skip58
+\plpartopsep=\skip59
+\plitemsep=\skip60
+\plparsep=\skip61
+\pl@lab=\toks21
+)
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
-\pgfutil@everybye=\toks21
+\pgfutil@everybye=\toks22
 \pgfutil@tempdima=\dimen179
 \pgfutil@tempdimb=\dimen180
 
@@ -581,12 +589,12 @@ Package: pgf 2013/12/18 v3.0.0 (rcs-revision 1.14)
 Package: pgfsys 2013/11/30 v3.0.0 (rcs-revision 1.47)
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
-\pgfkeys@pathtoks=\toks22
-\pgfkeys@temptoks=\toks23
+\pgfkeys@pathtoks=\toks23
+\pgfkeys@temptoks=\toks24
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.code.t
 ex
-\pgfkeys@tmptoks=\toks24
+\pgfkeys@tmptoks=\toks25
 ))
 \pgf@x=\dimen181
 \pgf@y=\dimen182
@@ -602,9 +610,9 @@ ex
 \c@pgf@countb=\count151
 \c@pgf@countc=\count152
 \c@pgf@countd=\count153
-\t@pgf@toka=\toks25
-\t@pgf@tokb=\toks26
-\t@pgf@tokc=\toks27
+\t@pgf@toka=\toks26
+\t@pgf@tokb=\toks27
+\t@pgf@tokc=\toks28
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2008/05/14  (rcs-revision 1.7)
 )
@@ -653,9 +661,9 @@ Package: pgfcore 2010/04/11 v3.0.0 (rcs-revision 1.7)
 \pgfmath@dimen=\dimen189
 \pgfmath@count=\count156
 \pgfmath@box=\box47
-\pgfmath@toks=\toks28
-\pgfmath@stack@operand=\toks29
-\pgfmath@stack@operation=\toks30
+\pgfmath@toks=\toks29
+\pgfmath@stack@operand=\toks30
+\pgfmath@stack@operation=\toks31
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code
@@ -795,8 +803,8 @@ Package: pgffor 2013/12/13 v3.0.0 (rcs-revision 1.25)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
 \pgffor@iter=\dimen270
 \pgffor@skip=\dimen271
-\pgffor@stack=\toks31
-\pgffor@toks=\toks32
+\pgffor@stack=\toks32
+\pgffor@toks=\toks33
 ))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
 Package: tikz 2013/12/13 v3.0.0 (rcs-revision 1.142)
@@ -840,9 +848,9 @@ Package: pgfplots 2014/08/04 v1.11 Data Visualization (1.11-3-g4c99d7a)
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.code.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotscore.code.tex
-\t@pgfplots@toka=\toks33
-\t@pgfplots@tokb=\toks34
-\t@pgfplots@tokc=\toks35
+\t@pgfplots@toka=\toks34
+\t@pgfplots@tokb=\toks35
+\t@pgfplots@tokc=\toks36
 \pgfplots@tmpa=\dimen279
 \c@pgfplots@coordindex=\count169
 \c@pgfplots@scanlineindex=\count170
@@ -871,7 +879,7 @@ x.code.tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/numtable/pgfplotstableshare
 d.code.tex
 \c@pgfplotstable@counta=\count172
-\t@pgfplotstable@a=\toks36
+\t@pgfplotstable@a=\toks37
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsdeque
 .code.tex)
@@ -946,40 +954,44 @@ File: pgflibraryplotmarks.code.tex 2013/07/20 v3.0.0 (rcs-revision 1.13)
 .................................................
 . LaTeX info: "xparse/define-command"
 . 
-. Defining command \bkt with sig. 'sm' on line 24.
+. Defining command \bkt with sig. 'sm' on line 26.
 .................................................
 .................................................
 . LaTeX info: "xparse/define-command"
 . 
-. Defining command \Xpct with sig. 'mo' on line 25.
+. Defining command \Xpct with sig. 'mo' on line 27.
 .................................................
 .................................................
 . LaTeX info: "xparse/define-command"
 . 
-. Defining command \var with sig. 'O{}mo' on line 28.
+. Defining command \SE with sig. 'mo' on line 28.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining command \var with sig. 'O{}mo' on line 31.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining command \Fisher with sig. 'O{}D(){\pars _0}' on line 36.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining command \XpctO with sig. 'm' on line 38.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining command \mupp with sig. 's' on line 40.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining command \mudpp with sig. 's' on line 41.
 .................................................
 )
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \XpctO with sig. 'm' on line 6.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \mupp with sig. 's' on line 8.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \mudpp with sig. 's' on line 9.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \Fisher with sig. 'O{}' on line 10.
-.................................................
-
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/libs/tikzlibrarypgfplots.fi
 llbetween.code.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfcontrib/tikzlibraryfillb
@@ -1005,27 +1017,27 @@ Package pgfplots: loading complementary 'name path' implementation for your pgf
 corations.softclip.code.tex)) (./MLE-sin_1_freq.aux)
 \openout1 = `MLE-sin_1_freq.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 16.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 16.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 9.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 9.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1072,12 +1084,12 @@ Package caption Info: End \AtBeginDocument code.
 \scratchbox=\box58
 \nofMPsegments=\count179
 \nofMParguments=\count180
-\everyMPshowfont=\toks37
+\everyMPshowfont=\toks38
 \MPscratchCnt=\count181
 \MPscratchDim=\dimen294
 \MPnumerator=\count182
 \makeMPintoPDFobject=\count183
-\everyMPtoPDFconversion=\toks38
+\everyMPtoPDFconversion=\toks39
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
@@ -1094,7 +1106,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box59
-Package hyperref Info: Link coloring OFF on input line 16.
+Package hyperref Info: Link coloring OFF on input line 9.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -1104,9 +1116,9 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count184
 )
-LaTeX Info: Redefining \ref on input line 16.
-LaTeX Info: Redefining \pageref on input line 16.
-LaTeX Info: Redefining \nameref on input line 16.
+LaTeX Info: Redefining \ref on input line 9.
+LaTeX Info: Redefining \pageref on input line 9.
+LaTeX Info: Redefining \nameref on input line 9.
 
 (./MLE-sin_1_freq.out) (./MLE-sin_1_freq.out)
 \@outlinefile=\write4
@@ -1118,25 +1130,25 @@ ABD: EveryShipout initializing macros
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
 ick labels; missing features). Consider writing \pgfplotsset{compat=1.11} into 
 your preamble.
- on input line 16.
+ on input line 9.
 
-LaTeX Font Info:    Calculating math sizes for size <6.99997> on input line 65.
+LaTeX Font Info:    Calculating math sizes for size <6.99997> on input line 58.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <3.49998> not available
-(Font)              size <5> substituted on input line 65.
+(Font)              size <5> substituted on input line 58.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <3.49998> not available
-(Font)              size <5> substituted on input line 65.
+(Font)              size <5> substituted on input line 58.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <3.49998> not available
-(Font)              size <5> substituted on input line 65.
+(Font)              size <5> substituted on input line 58.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <3.49998> not available
-(Font)              size <5> substituted on input line 65.
+(Font)              size <5> substituted on input line 58.
 
 [1
 
@@ -1165,21 +1177,21 @@ s lines,axis tick labels,pre main,main,axis descriptions,axis foreground'...
 Package pgfplots info: 'cell picture=if necessary' resulted in 'cell picture=fa
 lse'
 
-Overfull \hbox (7.69057pt too wide) in paragraph at lines 170--171
+Overfull \hbox (7.69057pt too wide) in paragraph at lines 163--164
 [][] 
  []
 
 
-Overfull \hbox (4.44441pt too wide) in paragraph at lines 147--173
+Overfull \hbox (4.44441pt too wide) in paragraph at lines 140--166
  []$[]$  $[]$ 
  []
 
 [3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 196.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 196.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 189.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 189.
  (./MLE-sin_1_freq.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 196.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 196.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 189.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 189.
 Package rerunfilecheck Info: File `MLE-sin_1_freq.out' has not changed.
 (rerunfilecheck)             Checksum: 2EA30BD9C04251A914BC598377576BCF;98.
 
@@ -1187,13 +1199,13 @@ Package rerunfilecheck Info: File `MLE-sin_1_freq.out' has not changed.
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 3.25002pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 196.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 189.
  ) 
 Here is how much of TeX's memory you used:
- 33816 strings out of 494466
- 786407 string characters out of 6172530
- 948698 words of memory out of 5000000
- 36553 multiletter control sequences out of 15000+600000
+ 33944 strings out of 494466
+ 788183 string characters out of 6172530
+ 950717 words of memory out of 5000000
+ 36677 multiletter control sequences out of 15000+600000
  12465 words of font info for 46 fonts, out of 8000000 for 9000
  452 hyphenation exceptions out of 8191
  69i,19n,107p,10384b,2193s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1216,7 +1228,7 @@ e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/ty
 pe1/public/amsfonts/cm/cmsy7.pfb>
-Output written on MLE-sin_1_freq.pdf (3 pages, 206495 bytes).
+Output written on MLE-sin_1_freq.pdf (3 pages, 206507 bytes).
 PDF statistics:
  128 PDF objects out of 1000 (max. 8388607)
  101 compressed objects within 2 object streams
