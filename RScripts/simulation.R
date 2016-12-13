@@ -93,6 +93,10 @@ smpl.list = simSample(stu, mod, 4*tau) %>% mutate(Group = derivedFactor(
   "D" = Time <= 4*tau,
   .method = "first" 
 )) %>% dlply("Group")
+
+smpl.list[["AB"]] <- rbind(smpl.list[["A"]], smpl.list[["B"]])
+smpl.list[["ABC"]] <- rbind(smpl.list[["AB"]], smpl.list[["C"]])
+smpl.list[["ABCD"]] <- rbind(smpl.list[["ABC"]], smpl.list[["D"]])
 smpl.list[["BC"]] <- rbind(smpl.list[["B"]], smpl.list[["C"]])
 smpl.list[["BCD"]] <- rbind(smpl.list[["BC"]], smpl.list[["D"]])
 
@@ -107,4 +111,8 @@ ldply(smpl.list, .varWT, .id="SmplID") -> res
 
 i = "BCD"
 ggplot(smpl.list[[i]][seq(1,nrow(smpl.list[[i]]),length.out = 500),], aes(Time, Sgl, col=Group)) + geom_point()
-ggplot(res[c(2,5,6),], aes(NUM/50000, Denom)) + geom_point()
+ggplot(res[c(1,7:9),], aes(NUM/50000, Denom)) + geom_point()
+
+## looking how the sqrt(denom) varies with the total amount of information gathered
+ggplot(res, aes(Ftr, Denom)) + geom_point() + geom_label(label=res$SmplID) + 
+  scale_x_log10() + scale_y_log10()
