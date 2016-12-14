@@ -32,42 +32,12 @@ if(FALSE){
 }
 
 ## checking the growth of SE with time ####
-if(TRUE){
-  library(mosaic) #for derivedFactor
+if(FALSE){
   tau = 100; fs = 500
   
   mod = CModel(decohLam=-1/tau)
   stu = CuSampling(Freq=fs); stm <- CmSampling(Freq=fs, Compaction=.2)
   
-  ## this here will go into a single test function akin to varW0_test ##
-  ## so, give it a model and maybe a list of samplings, and then compute the samples,
-  ## split them, and do the analysis
-  
-  ## .diagnosis code in here as well
-  # 
-  # simSample(stu, mod, Ttot, rerror=err) %>% mutate(Group = derivedFactor(
-  #   "A" = Time <= sptt[1],
-  #   "B" = Time <= sptt[2],
-  #   "C" = Time <= sptt[3],
-  #   "D" = Time <= sptt[4],
-  #   "E" = Time <= sptt[5],
-  #   .method = "first"
-  # )) -> usmpl
-  # 
-  # simSample(stm, mod, Ttot, rerror=err) %>% mutate(Group = derivedFactor(
-  #   "A" = Time <= sptt[1],
-  #   "B" = Time <= sptt[2],
-  #   "C" = Time <= sptt[3],
-  #   "D" = Time <= sptt[4],
-  #   "E" = Time <= sptt[5],
-  #   .method = "first"
-  # )) -> msmpl
-  # 
-  # udat <- .diagnosis(usmpl)
-  # mdat <- .diagnosis(msmpl)
-  
-  ## and from here on it's the results, so it'll remain in simulation.R ##
-
   .diagWrap(mod, list("Uni" = stu, "Mod" = stm)) -> dat
   
   dat$Uni$CharPlot + scale_y_log10() + scale_x_log10() + theme_bw()
@@ -81,18 +51,53 @@ if(TRUE){
   
 }
 
-## 
+## number of measurements per observation ####
+if(FALSE){
+  library(doParallel)
+  makeCluster(detectCores()) -> clus; registerDoParallel(clus)
+  rtns <- lsf.str(envir=.GlobalEnv, all=TRUE)
+  clusterExport(clus, rtns)
+  
+  tau = 1000; mod = CModel(decohLam=-1/tau)
+  stus = llply(c("5" = 5, "50" = 50, "500" = 500, "5000" = 5000), function(f) CuSampling(Freq=f))
+  
+  ldply(stus, function(stu, .mod, .tau){
+    simSample(stu, .mod, .tau) %>% .varWT()
+  }, mod, tau, .parallel = TRUE, .paropts = list(.packages="dplyr")) -> .stats; .stats
+  # increase in the number of observations has little effect on VarWT so long as the total
+  # measurement time remains constant
+  # the information Ftr is linearly dependent on the number of observations, confirming the
+  # Xtot[zc = s] = n[event/zc] * x0s expression
+  
+  verr = 10^(0:(nrow(.stats)-1))
+  mutate(.stats, VarErr = verr, VarWW = VarErr/Ftr/VarWT) -> .stats; .stats
+  # hence, if indeed SD[obs]^2 = SD[meas]^2/n, VarWW should remain the same 
+  # and it does
+  
+  stopCluster(clus)
+  
+}
 
-## checking whether var(t|n*tau) = n*var(t|tau)
-library(doParallel)
-makeCluster(detectCores()) -> clus; registerDoParallel(clus)
-rtns <- lsf.str(envir=.GlobalEnv, all=TRUE)
-clusterExport(clus, rtns)
-
-tau = 1000; mod = CModel(decohLam=-1/tau)
-stus = llply(c("5" = 5, "50" = 50, "500" = 500, "5000" = 5000), function(f) CuSampling(Freq=f))
-
-ldply(stus, function(stu, .mod, .tau){
-  simSample(stu, .mod, .tau) %>% .varWT()
-}, mod, tau, .parallel = TRUE, .paropts = list(.packages="dplyr")) -> .stats; .stats
-
+## varying the compaction factor while keeping the total time constant ####
+if(TRUE){
+  library(doParallel)
+  makeCluster(detectCores()) -> clus; registerDoParallel(clus)
+  rtns <- lsf.str(envir=.GlobalEnv, all=TRUE)
+  clusterExport(clus, rtns)
+  
+  mod = CModel()
+  msmpls = llply(c("1.10" = 1.1, ".50" = .5, ".25" = .25, ".10" = .1), 
+                 function(cmpt) CmSampling(Freq=500, Compaction=cmpt))
+  
+  ldply(
+    msmpls,
+    function(stm, .mod){
+      simSample(stm, .mod, 1730) -> smpl
+      .varWT(smpl)
+    }, mod,
+    .parallel = TRUE,
+    .paropts = list(.packages = "dplyr"),
+    .id = "Compact"
+  ) -> .stats; .stats
+  
+}
