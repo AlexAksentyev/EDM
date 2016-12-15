@@ -99,7 +99,13 @@ In sum, assuming one observation is the mean of the measurements ($\SD{\obs} = \
 	\var[w]{\hat{\omega}} &= \frac{\SD{\meas}^2\cdot \sfrac{1}{\Nmo}}{g(\Nzc)\cdot \frac{\Delta t_{zc}}{\Delta t_{\meas}}\cdot \sfrac{1}{\Nmo} \cdot \var[w]{t}} \\
 		&= \frac{\SD{\meas}^2}{g(\Nzc)\cdot \frac{\Delta t_{zc}}{\Delta t_{\meas}} \cdot \var[w]{t}}.
 \end{align*}
+There's no benefit to increasing the number of measurements per observation.
 
+\section{Modulation}
+
+In order to increase beam use efficiency, it is advantageous to sample the signal only during rapid change. That way, the yield of Fisher information per scattered particle is maximized. However, one has to take into account that the beam polarization dissipates continuously, whether the beam is being sampled or not, and so there's a finite window in which sampling yields statistically significant results. We will estimate how long that is in the next section, but for now we will assume that it is less than the beam lifetime when it is scattered continuously.
+
+Then frequency-modulated sampling will perform worse than uniform sampling. That is because, unless observations are made proportionally faster, there will be fewer points sampled by the time the signal is indistinguishable from noise. But the increase in sampling frequency has no effect on the result, because observation variance is increased proportionally.
 
 \section{Spin tune decoherence time}
 

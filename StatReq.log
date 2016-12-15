@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.9.30)  14 DEC 2016 20:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.9.30)  15 DEC 2016 09:52
 entering extended mode
 **./StatReq.tex
 (StatReq.tex
@@ -1222,23 +1222,29 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 {C:/Users/Аксентьев/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 ] [2] [3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 142.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 142.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 148.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 148.
  (StatReq.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 142.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 142.
-Package rerunfilecheck Info: File `StatReq.out' has not changed.
-(rerunfilecheck)             Checksum: B494515BB51810C292CDCCB2CEBAFB49;146.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 148.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 148.
 
+
+Package rerunfilecheck Warning: File `StatReq.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `StatReq.out':
+(rerunfilecheck)             Before: B494515BB51810C292CDCCB2CEBAFB49;146
+(rerunfilecheck)             After:  B54C20041474FB0D14E8089B3C70875A;192.
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 4.12502pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 142.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 148.
  ) 
 Here is how much of TeX's memory you used:
- 36293 strings out of 493334
- 856541 string characters out of 3136633
+ 36294 strings out of 493334
+ 856550 string characters out of 3136633
  1032410 words of memory out of 3000000
  39314 multiletter control sequences out of 15000+200000
  13480 words of font info for 51 fonts, out of 3000000 for 9000
@@ -1261,9 +1267,9 @@ KTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x86)/MiKTeX
 /fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiKTeX 2.9/f
 onts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files (x86)/MiKTeX 2.9/font
 s/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on StatReq.pdf (3 pages, 196776 bytes).
+Output written on StatReq.pdf (3 pages, 198571 bytes).
 PDF statistics:
- 117 PDF objects out of 1000 (max. 8388607)
- 19 named destinations out of 1000 (max. 500000)
+ 118 PDF objects out of 1000 (max. 8388607)
+ 20 named destinations out of 1000 (max. 500000)
  29 words of extra memory for PDF output out of 10000 (max. 10000000)
 
