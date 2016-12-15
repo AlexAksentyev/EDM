@@ -36,7 +36,7 @@ Regarding the former, the weighting by the derivative of the signal has a twofol
 The above considerations prompt the following series of questions:
 \begin{enumerate}
 	\item How long to measure the signal?
-	\item How many measurements per observations are optimal?
+	\item How many measurements per observation are optimal?
 	\item How congregated about the zero-crossings the measurements should be?
 \end{enumerate}
 We will try to answer them in what follows.
@@ -105,11 +105,11 @@ There's no benefit to increasing the number of measurements per observation.
 
 In order to increase beam use efficiency, it is advantageous to sample the signal only during rapid change. That way, the yield of Fisher information per scattered particle is maximized. However, one has to take into account that the beam polarization dissipates continuously, whether the beam is being sampled or not, and so there's a finite window in which sampling yields statistically significant results. We will estimate how long that is in the next section, but for now we will assume that it is less than the beam lifetime when it is scattered continuously.
 
-Then frequency-modulated sampling will perform worse than uniform sampling. That is because, unless observations are made proportionally faster, there will be fewer points sampled by the time the signal is indistinguishable from noise. But the increase in sampling frequency has no effect on the result, because observation variance is increased proportionally.
+Then frequency-modulated sampling will perform worse than uniform sampling. That is because, unless observations are made proportionally faster, there will be fewer points sampled by the time the signal is indistinguishable from noise. But an increase in sampling frequency would not have any effect on the result, because observation variance is increased proportionally.
 
 \section{Spin tune decoherence time}
 
-A rough estimate of the maximum sensible experiment duration could be done by considering the time when the signal oscillation is indistinguishable from noise. If we denote by $\SD{\obs}$ the standard deviation of the observation error, the sensibility condition would require
+A rough estimate of the maximum sensible experiment duration could be done by considering the time when the signal oscillation is indistinguishable from noise. If we denote by $\SD{\obs}$ the standard deviation of the observation error, sensibility would require
 \[
 	N_0P\cdot e^{-\sfrac t\tau_d} \geq Z_\alpha \SD{\obs}.
 \]
@@ -118,28 +118,28 @@ Then
 	t_{max} = \tau_d\cdot \log\bkt{Z_\alpha^{-1}\frac{N_0P}{\SD{\obs}}}.
 \]
 
-At a three percent error $\SD{\obs} = 3\%\cdot N_0P$, the signal will be indistinguishable from noise at three standard deviations ($Z_\alpha = 3$), by $t_{max} = 2.4\cdot \tau_d$. However, sampling will become impractical long before that.
+At a three percent error $\SD{\obs} = 3\%\cdot N_0P$ the signal will be indistinguishable from noise at three standard deviations ($Z_\alpha = 3$), by $t_{max} = 2.4\cdot \tau_d$. 
 
-We have the Cram\'er-Rao inequality to tell us what's the minimum variance of an estimator is possible:
-\[
-	\var{\hat{\omega}} \geq \frac{1}{\Fisher(\omega)}.
-\]
-Fisher information is additive, and what I call \emph{point Fisher information} can be expressed as:
-\[
-	\Fisher[i] = \frac{1}{\nu}\begin{pmatrix}
-		\bkt{\sqrt{2}\cdot\mupp}^{-2} & 0     & 0   \\
-		0                             & t_i^2 & t_i \\
-		0                             & t_i   & 1
-	\end{pmatrix}\cdot \bkt{\mupp}^2.
-\]
-
-\begin{wrapfigure}{l}{.25\textwidth}
-	\begin{tikzpicture}
-	\draw[->] (-1.5,0) -- (1.5,0) node[right] {$\mupp$};
-	\draw[->] (0,-.5) -- (0, 2.3) node[above] {$I_i(\pars_0)$};
-	\draw[scale=1,domain=-1.5:1.5,smooth,variable=\x,red] plot ({\x},{\x*\x});
-	\end{tikzpicture}
-\end{wrapfigure}
+%We have the Cram\'er-Rao inequality to tell us what's the minimum variance of an estimator is possible:
+%\[
+%	\var{\hat{\omega}} \geq \frac{1}{\Fisher(\omega)}.
+%\]
+%Fisher information is additive, and what I call \emph{point Fisher information} can be expressed as:
+%\[
+%	\Fisher[i] = \frac{1}{\nu}\begin{pmatrix}
+%		\bkt{\sqrt{2}\cdot\mupp}^{-2} & 0     & 0   \\
+%		0                             & t_i^2 & t_i \\
+%		0                             & t_i   & 1
+%	\end{pmatrix}\cdot \bkt{\mupp}^2.
+%\]
+%
+%\begin{wrapfigure}{l}{.25\textwidth}
+%	\begin{tikzpicture}
+%	\draw[->] (-1.5,0) -- (1.5,0) node[right] {$\mupp$};
+%	\draw[->] (0,-.5) -- (0, 2.3) node[above] {$I_i(\pars_0)$};
+%	\draw[scale=1,domain=-1.5:1.5,smooth,variable=\x,red] plot ({\x},{\x*\x});
+%	\end{tikzpicture}
+%\end{wrapfigure}
 
 
 
