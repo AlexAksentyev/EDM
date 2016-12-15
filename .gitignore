@@ -6,3 +6,7 @@ texput.log
 Reports/*
 !Reports/*.tex
 !Reports/*.sty
+Abstracts/*
+!Abstracts/*.tex
+!Abstracts/*.sty
+!Abstracts/*.doc
