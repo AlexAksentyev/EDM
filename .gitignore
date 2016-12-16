@@ -2,7 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
-texput.log
 Reports/*
 !Reports/*.tex
 !Reports/*.sty
