@@ -40,3 +40,13 @@
 
 \DeclareDocumentCommand{\mupp}{s}{\mu'_\phi\IfBooleanTF{#1}{}{(t_i)}}
 \DeclareDocumentCommand{\mudpp}{s}{\mu''_{\phi^2}\IfBooleanTF{#1}{}{(t_i)}}
+
+% % Statistical requirements definitions
+
+\newcommand{\obs}{\epsilon}
+\newcommand{\meas}{m}
+
+\newcommand{\Nmo}{n_{\sfrac{\meas}{\obs}}}
+\newcommand{\Nozc}{n_{\sfrac{\obs}{zc}}}
+\newcommand{\Nzc}{n_{zc}}
+\newcommand{\No}{n_{\obs}}
