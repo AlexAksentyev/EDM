@@ -1,0 +1,56 @@
+\documentclass[14pt]{article}
+
+\usepackage{repsty}
+
+
+\begin{document}
+
+The original expression for the standard error:	
+\begin{equation}
+\begin{cases}
+		\SE{\hat{\omega}}^2 &= \frac{\SD{\obs}^2}{\Nozc\cdot g(\Nzc)\cdot \sum_{s=1}^{\Nzc}\sum_{j=1}^{\Nozc} w_{js} (t_{js} - \avg{t}_w)^2}, \\
+		g(\Nzc) &= \frac{1-\exp{(-\sfrac{\pi}{\omega\tau_d}\cdot \Nzc)}}{1 - \exp{(-\sfrac{\pi}{\omega\tau_d})}}.
+\end{cases}
+\end{equation}
+	
+If our sample consists of observations made exclusively at the signal nodes with error standard deviation $\SD{\obs}$: $\Nozc = 1$, $w_{js} = w_{1s} = 1/\Nzc$,\footnote{This is actually false; a succeeding node observation carries exponentially less information than a preceding one because of decoherence, hence $w_{1s} = w_{11}\exp\bkt{-\frac{\pi}{\omega\tau_d}(s-1)}$.} and
+\begin{equation}
+	\begin{cases}
+	\SE{\hat{\omega}}^2 &= \frac{\Nzc}{g(\Nzc)}\cdot \frac{\SD{\obs}^2}{\sum_{s=1}^{\Nzc}(t_{1s} - \avg{t}_w)^2}, \\
+	t_{1s} &= h\cdot s, ~ h = \frac{1}{2}\frac{1}{2\pi\omega}.
+	\end{cases}
+\end{equation}
+
+\begin{align*}
+	\avg{t}_w &= \Nzc^{-1}\sum_{s=1}^{\Nzc}h\cdot s = \frac{h}{2}(\Nzc+1), \\
+	\sum_{s=1}^{\Nzc}(t_{1s} - \avg{t}_w)^2 &= \sum_s t_{1s}^2 - \Nzc\avg{t}_w^2 \\
+			&= h^2\frac{\Nzc(\Nzc+1)(2\Nzc+1)}{6} - h^2\frac{\Nzc(\Nzc+1)^2}{4} \\
+			&= \frac{h^2}{12}\Nzc(\Nzc^2-1).
+\end{align*}
+	
+\begin{align}
+	\SE{\hat{\omega}}^2 &= \frac{12}{g(\Nzc)}\frac{\SD{\obs}^2}{h^2(\Nzc^2-1)} \approx \frac{12}{g(\Nzc)}\frac{\SD{\obs}^2}{h^2\Nzc^2} \notag \\
+		&= 3\cdot(8\pi)^2\cdot \omega^2\cdot \frac{\SD{\obs}^2}{g(\Nzc)\Nzc^2}.
+\end{align}
+
+Rewriting in terms of total time: $t_n = (n\cdot\pi - \phi)/\omega$, $T_{tot} = (\Nzc\cdot\pi-\phi)/\omega$, and
+\begin{equation}
+	\SE{\hat{\omega}} = 8\pi^2\sqrt{3}\cdot\frac{\SD{\obs}}{\sqrt{\tilde{g}(T_{tot})}\cdot\bkt{T_{tot} + \phi/\omega}}, ~ \tilde{g}(T_{tot}) = \frac{1-\exp{\bkt{-\frac{T_{tot}}{\tau_d} - \frac{\phi/\omega}{\tau_d}}}}{1-\exp{(-\sfrac{\pi}{\omega\tau_d})}}.
+\end{equation}
+
+	
+\paragraph{Simplifying.}
+Let $\phi = 0$, then
+\[
+	\SE{\hat{\omega}} = 8\pi^2\sqrt{3}\cdot\sqrt{\frac{\bkt{1-e^{-\sfrac{\pi}{\omega\tau_d}}}}{\bkt{1 - e^{-T_{tot}/\tau_d}}}}\cdot\frac{\SD{\obs}}{T_{tot}}.
+\]
+
+If there's no spin tune decoherence, $\lambda = -1/\tau_d = 0$ and
+\[
+	\SE{\hat{\omega}} = 8\pi^2\sqrt{3}\cdot \sqrt{\frac{\pi}{\omega T_{tot}}}\cdot\frac{\SD{\obs}}{ T_{tot}}.
+\]
+
+The $\sqrt{\sfrac{\pi}{\omega T_{tot}}}$ factor just means that to get enough nodes from a slow signal one must measure it longer.
+
+\end{document}
+
