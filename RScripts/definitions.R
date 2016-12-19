@@ -140,11 +140,22 @@ varW0_test <- function(model, sampling, duration, wfreqs = c(.01,.1,.3,1,3,10)){
   )
 }
 
-.varWT <- function(df){ #this is how I compute the denominator in .compAnaWSE
+#### useful functions ####
+## this is how I compute the denominator in .compAnaWSE
+.varWT <- function(df){ 
   ftr = sum(df$FIDrvt^2)
   mutate(df, Wt = FIDrvt^2/ftr, WtT = Time*Wt)->df
   sum(df$WtT) -> MeanWT
   with(df, sum(Wt*(Time - MeanWT)^2)) -> VarWT
   
   data.frame("NUM" = nrow(df), "Ftr" = ftr, "MWT" = MeanWT, "VarT" = var(df$Time),"VarWT" = VarWT, Denom = ftr*VarWT)
+}
+
+## SingSam false formula
+.SSSE <- function(sampling, model, Ttot){
+  sderr = sampling@rerror*model@Num0*model@Pol
+  w = model@wFreq; taud = -1/model@decohLam
+  
+  ftr = ifelse(model@decohLam == 0, pi/w/Ttot, (1-exp(-pi/w/taud))/(1-exp(-Ttot/taud)))
+  sqrt(12 * ftr) *sderr/Ttot
 }

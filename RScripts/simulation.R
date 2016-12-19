@@ -5,6 +5,27 @@ library(ggplot2)
 library(mosaic); library(reshape2)
 
 ## modeling ##
+## simple simulation ####
+if(TRUE){
+  mod = CModel(wFreq=3); stu = CuSampling(Freq=mod@wFreq/pi);
+  
+  simSample(stu, mod, 721) %>%mutate(N = Time*mod@wFreq/pi) -> smpl; tail(smpl)[6,"Time"] -> Ttot
+  xpct = data.frame(Time = seq(0, Ttot, length.out=721))%>%mutate(Sgl=expectation(mod, Time), FIDrvt = fiDer(mod, Time))
+  ggplot(smpl, aes(Time, Sgl)) + geom_point() + 
+    geom_line(aes(Time, Sgl), data=xpct, linetype=3) + 
+    geom_hline(yintercept=mod@Num0, col="red") +
+    theme_bw()
+  ggplot(smpl, aes(Time, FIDrvt^2)) + geom_line() + theme_bw() + labs(y=expression(x[i]))
+  .fit(smpl, mod)->.stats
+  
+  ## comparing with SingSam
+  .SSSE(stu, mod, Ttot)->x; 
+  cat(paste("SSSE result", formatC(x,3,format="e"), 
+            "\t Fit result", formatC(.stats[1,"SE.frq"],3,format="e"),
+            "\t Ratio ", round(x/.stats[1,"SE.frq"],3), "\n"))
+  
+}
+
 ## changing the signal frequency ####
 if(FALSE){
   stu <- CuSampling(Freq=500); mod <- CModel(Phase=pi/32); Ttot = 100
@@ -79,7 +100,7 @@ if(FALSE){
 }
 
 ## varying the compaction factor while keeping the total time constant ####
-if(TRUE){
+if(FALSE){
   library(doParallel)
   makeCluster(detectCores()) -> clus; registerDoParallel(clus)
   rtns <- lsf.str(envir=.GlobalEnv, all=TRUE)
