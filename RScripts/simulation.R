@@ -7,22 +7,22 @@ library(mosaic); library(reshape2)
 ## modeling ##
 ## simple simulation ####
 if(TRUE){
-  mod = CModel(wFreq=3); stu = CuSampling(Freq=mod@wFreq/pi);
+  mod = CModel(); stu = CuSampling(); Ttot = 1400
   
-  simSample(stu, mod, 721) %>%mutate(N = Time*mod@wFreq/pi) -> smpl; tail(smpl)[6,"Time"] -> Ttot
-  xpct = data.frame(Time = seq(0, Ttot, length.out=721))%>%mutate(Sgl=expectation(mod, Time), FIDrvt = fiDer(mod, Time))
-  ggplot(smpl, aes(Time, Sgl)) + geom_point() + 
+  simSample(stu, mod, Ttot) -> smpl
+  .fit(smpl, mod)->.stats; .stats
+  .compAnaWSE(smpl, .stats$SD.err) -> sean
+  .stats[1,"SE.frq"] -> se
+  x = .form(c(se, sean, sean/se))
+  cat(paste("SE, sim:", x[1], " SE, ana:", x[2], "Ratio:", x[3]))
+  
+  ## plots
+  xpct = data.frame(Time = seq(0, Ttot, length.out=500))%>%mutate(Sgl=expectation(mod, Time), FIDrvt = fiDer(mod, Time))
+  ggplot(smpl[seq(1, nrow(smpl), length.out=500),], aes(Time, Sgl)) + geom_point() + 
     geom_line(aes(Time, Sgl), data=xpct, linetype=3) + 
     geom_hline(yintercept=mod@Num0, col="red") +
     theme_bw()
-  ggplot(smpl, aes(Time, FIDrvt^2)) + geom_line() + theme_bw() + labs(y=expression(x[i]))
-  .fit(smpl, mod)->.stats
-  
-  ## comparing with SingSam
-  .SSSE(stu, mod, Ttot)->x; 
-  cat(paste("SSSE result", formatC(x,3,format="e"), 
-            "\t Fit result", formatC(.stats[1,"SE.frq"],3,format="e"),
-            "\t Ratio ", round(x/.stats[1,"SE.frq"],3), "\n"))
+  ggplot(smpl[seq(1,nrow(smpl),length.out=500),], aes(Time, FIDrvt^2)) + geom_line() + theme_bw() + labs(y=expression(x[i]))
   
 }
 
