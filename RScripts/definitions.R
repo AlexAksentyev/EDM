@@ -2,6 +2,7 @@ source("./RScripts/classes.R")
 library(dplyr)
 
 #### utility functions ####
+.form <- function(x, n=3, spec="e") formatC(x,n,format=spec)
 .fancy_scientific <- function(l) {
   # turn in to character string in scientific notation
   l <- format(l, scientific = TRUE)
@@ -20,7 +21,7 @@ library(dplyr)
 }
 
 .compAnaWSE <- function(df, aerr = NA){
-  if(is.na(aerr)) {print("\t\t\t SE of the error is unavailable.\n\n"); return(NA)}
+  if(is.na(aerr)) {cat("\t\t\t SE of the error is unavailable.\n\n"); return(NA)}
   ftr <- sum(df$FIDrvt^2)
   mutate(df, Wt = FIDrvt^2/ftr, WtT = Time*Wt)->df
   sum(df$WtT) -> MeanWT
@@ -38,11 +39,11 @@ library(dplyr)
   lam.decoh = model@decohLam
   phi = model@Phase
   
-  cat("guessed frequency:", w.g, "\n\n")
+  cat("Frequency guess:", w.g, "\n\n")
   
   nls(Sgl ~ n*(1 + p*exp(lam.decoh*Time)*sin(frq*Time + phi)), data=.sample, start=list(n = n.g, p = p.g, frq = w.g)) -> m3
   
-  if(return.model) return(m3) else return(.extract.stats(m3))
+  if(return.model) return(m3) else return(.extract.stats(m3)%>%cbind(SD.err = summary(m3)$sigma))
 }
 
 #### tests ####
