@@ -5,6 +5,27 @@ library(ggplot2)
 library(mosaic); library(reshape2)
 
 ## modeling ##
+## simple simulation ####
+if(FALSE){
+  mod = CModel(); stu = CuSampling(); Ttot = 1400
+  
+  simSample(stu, mod, Ttot) -> smpl
+  .fit(smpl, mod)->.stats; .stats
+  .compAnaWSE(smpl, .stats$SD.err) -> sean
+  .stats[1,"SE.frq"] -> se
+  x = .form(c(se, sean, sean/se))
+  cat(paste("SE, sim:", x[1], " SE, ana:", x[2], "Ratio:", x[3]))
+  
+  ## plots
+  xpct = data.frame(Time = seq(0, Ttot, length.out=500))%>%mutate(Sgl=expectation(mod, Time), FIDrvt = fiDer(mod, Time))
+  ggplot(smpl[seq(1, nrow(smpl), length.out=500),], aes(Time, Sgl)) + geom_point() + 
+    geom_line(aes(Time, Sgl), data=xpct, linetype=3) + 
+    geom_hline(yintercept=mod@Num0, col="red") +
+    theme_bw()
+  ggplot(smpl[seq(1,nrow(smpl),length.out=500),], aes(Time, FIDrvt^2)) + geom_line() + theme_bw() + labs(y=expression(x[i]))
+  
+}
+
 ## changing the signal frequency ####
 if(FALSE){
   stu <- CuSampling(Freq=500); mod <- CModel(Phase=pi/32); Ttot = 100
@@ -79,25 +100,15 @@ if(FALSE){
 }
 
 ## varying the compaction factor while keeping the total time constant ####
-if(TRUE){
-  library(doParallel)
-  makeCluster(detectCores()) -> clus; registerDoParallel(clus)
-  rtns <- lsf.str(envir=.GlobalEnv, all=TRUE)
-  clusterExport(clus, rtns)
-  
+if(FALSE){
+
   mod = CModel()
-  msmpls = llply(c("1.10" = 1.1, ".50" = .5, ".25" = .25, ".10" = .1), 
-                 function(cmpt) CmSampling(Freq=500, Compaction=cmpt))
+  list("1.10" = list(Cmpt = 1.1, Freq = 500),
+       ".50"  = list(Cmpt = .5,  Freq = 500*2),
+       ".25"  = list(Cmpt = .25, Freq = 500*2*2),
+       ".10"  = list(Cmpt = .1,  Freq = 500*2*2*2.5)) %>%
+    llply(function(e) CmSampling(Freq=500, Compaction=e$Cmpt, rerror = e$rerror)) -> msmpls
   
-  ldply(
-    msmpls,
-    function(stm, .mod){
-      simSample(stm, .mod, 1730) -> smpl
-      .varWT(smpl)
-    }, mod,
-    .parallel = TRUE,
-    .paropts = list(.packages = "dplyr"),
-    .id = "Compact"
-  ) -> .stats; .stats
+  Comp_test(mod, msmpls, 100) -> .stats
   
 }

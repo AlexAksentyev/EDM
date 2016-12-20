@@ -2,6 +2,7 @@ source("./RScripts/classes.R")
 library(dplyr)
 
 #### utility functions ####
+.form <- function(x, n=3, spec="e") formatC(x,n,format=spec)
 .fancy_scientific <- function(l) {
   # turn in to character string in scientific notation
   l <- format(l, scientific = TRUE)
@@ -20,7 +21,7 @@ library(dplyr)
 }
 
 .compAnaWSE <- function(df, aerr = NA){
-  if(is.na(aerr)) {print("\t\t\t SE of the error is unavailable.\n\n"); return(NA)}
+  if(is.na(aerr)) {cat("\t\t\t SE of the error is unavailable.\n\n"); return(NA)}
   ftr <- sum(df$FIDrvt^2)
   mutate(df, Wt = FIDrvt^2/ftr, WtT = Time*Wt)->df
   sum(df$WtT) -> MeanWT
@@ -38,11 +39,11 @@ library(dplyr)
   lam.decoh = model@decohLam
   phi = model@Phase
   
-  cat("guessed frequency:", w.g, "\n\n")
+  cat("Frequency guess:", w.g, "\n\n")
   
   nls(Sgl ~ n*(1 + p*exp(lam.decoh*Time)*sin(frq*Time + phi)), data=.sample, start=list(n = n.g, p = p.g, frq = w.g)) -> m3
   
-  if(return.model) return(m3) else return(.extract.stats(m3))
+  if(return.model) return(m3) else return(.extract.stats(m3)%>%cbind(SD.err = summary(m3)$sigma))
 }
 
 #### tests ####
@@ -51,7 +52,7 @@ varW0_test <- function(model, sampling, duration, wfreqs = c(.01,.1,.3,1,3,10)){
   require(doParallel); n.cores = detectCores()
   clus <- makeCluster(n.cores)
   registerDoParallel(clus)
-  rtns <- lsf.str(all=TRUE, envir=.GlobalEnv) #c(".extract.stats", ".fit", ".compVarF", "simSample","fiDer","expectation")
+  rtns <- lsf.str(all=TRUE, envir=.GlobalEnv)
   clusterExport(clus, rtns)
   
   names(wfreqs) <- wfreqs
@@ -140,11 +141,43 @@ varW0_test <- function(model, sampling, duration, wfreqs = c(.01,.1,.3,1,3,10)){
   )
 }
 
-.varWT <- function(df){ #this is how I compute the denominator in .compAnaWSE
+#### Compaction factor test ####
+Comp_test <- function(model, samplings, Ttot){
+  library(doParallel)
+  makeCluster(detectCores()) -> clus; registerDoParallel(clus)
+  rtns <- lsf.str(envir=.GlobalEnv, all=TRUE)
+  clusterExport(clus, rtns)
+  
+  ldply(
+    samplings,
+    function(stm, model, Ttot){
+      simSample(stm, model, Ttot) -> smpl
+      .varWT(smpl)
+    }, model, Ttot,
+    .parallel = TRUE,
+    .paropts = list(.packages = "dplyr"),
+    .id = "Compact"
+  ) -> dat; stopCluster(clus)
+  
+  dat
+}
+
+#### useful functions ####
+## this is how I compute the denominator in .compAnaWSE
+.varWT <- function(df){ 
   ftr = sum(df$FIDrvt^2)
   mutate(df, Wt = FIDrvt^2/ftr, WtT = Time*Wt)->df
   sum(df$WtT) -> MeanWT
   with(df, sum(Wt*(Time - MeanWT)^2)) -> VarWT
   
   data.frame("NUM" = nrow(df), "Ftr" = ftr, "MWT" = MeanWT, "VarT" = var(df$Time),"VarWT" = VarWT, Denom = ftr*VarWT)
+}
+
+## SingSam false formula
+.SSSE <- function(sampling, model, Ttot){
+  sderr = sampling@rerror*model@Num0*model@Pol
+  w = model@wFreq; taud = -1/model@decohLam
+  
+  ftr = ifelse(model@decohLam == 0, pi/w/Ttot, (1-exp(-pi/w/taud))/(1-exp(-Ttot/taud)))
+  sqrt(12 * ftr) *sderr/Ttot
 }
