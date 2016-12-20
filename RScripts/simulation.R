@@ -10,11 +10,9 @@ if(FALSE){
   mod = CModel(Phase=-pi/16); stu = CuSampling(Freq=500); Ttot = 300
   
   simSample(stu, mod, Ttot) -> smpl
-  .fit(smpl, mod)%>%mutate(X.phi = atan(X.b/X.a), SE.phi = sqrt((SE.b/X.a)^2+(X.b/X.a*SE.a/X.a)^2)/(1+(X.a/X.b)^2))->.stats; .stats
-  .compAnaWSE(smpl, .stats$SD.err) -> sean
-  .stats[1,"SE.frq"] -> se
-  x = .form(c(se, sean, sean/se))
-  cat(paste("SE, sim:", x[1], " SE, ana:", x[2], "Ratio:", x[3]))
+  .fit(smpl, mod)->.stats; .stats
+  
+  .SSSE(stu, mod, Ttot)
   
   ## plots
   xpct = data.frame(Time = seq(0, Ttot, length.out=500))%>%mutate(Sgl=expectation(mod, Time), FIDrvt = fiDer(mod, Time))
@@ -53,6 +51,7 @@ if(FALSE){
 }
 
 ## checking the growth of SE with time ####
+# !! number of iterations exceeded maximum of 50 !!
 if(FALSE){
   tau = 100; fs = 500
   
@@ -104,11 +103,12 @@ if(FALSE){
 
   mod = CModel()
   list("1.10" = list(Cmpt = 1.1, Freq = 500),
-       ".50"  = list(Cmpt = .5,  Freq = 500*2),
-       ".25"  = list(Cmpt = .25, Freq = 500*2*2),
-       ".10"  = list(Cmpt = .1,  Freq = 500*2*2*2.5)) %>%
-    llply(function(e) CmSampling(Freq=500, Compaction=e$Cmpt, rerror = e$rerror)) -> msmpls
+       ".50"  = list(Cmpt = .5,  Freq = 500*3),
+       ".25"  = list(Cmpt = .25, Freq = 500*3*2.2),
+       ".10"  = list(Cmpt = .1,  Freq = 500*3*2.2*2.5)) %>%
+    llply(function(e) CmSampling(Compaction=e$Cmpt, Freq = e$Freq)) -> msmpls
   
-  Comp_test(mod, msmpls, 100) -> .stats
+  Comp_test(mod, msmpls, 100) -> .stats; .stats
   
 }
+

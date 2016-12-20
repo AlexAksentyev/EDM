@@ -26,9 +26,6 @@ library(dplyr)
   mutate(df, Wt = FIDrvt^2/ftr, WtT = Time*Wt)->df
   sum(df$WtT) -> MeanWT
   with(df, sum(Wt*(Time - MeanWT)^2))*ftr -> denom 
-    # sum(Wt * (Time - MeanWT)^2) is analytically correct (I checked my derivation),
-    # but the result is twice as large as the SE given by R.
-    # sum(Wt* (Time - WtT)^2) doesn't seem to be correct analytically, but it seems to give R's SE
   aerr/sqrt(denom)
 }
 
@@ -49,7 +46,12 @@ library(dplyr)
     data=.sample, start=list(frq = w.g, a=sin(phi.g), b=cos(phi.g))
   ) -> m3
   
-  if(return.model) return(m3) else return(.extract.stats(m3)%>%cbind(SD.err = summary(m3)$sigma))
+  if(return.model) return(m3) else 
+    return(
+      .extract.stats(m3) %>%
+        mutate(X.phi = atan(X.b/X.a), SE.phi = sqrt((SE.b/X.a)^2+(X.b/X.a*SE.a/X.a)^2)/(1+(X.a/X.b)^2)) %>%
+        cbind(SD.err = summary(m3)$sigma)
+    )
 }
 
 #### tests ####
@@ -181,7 +183,7 @@ Comp_test <- function(model, samplings, Ttot){
 
 ## SingSam false formula
 .SSSE <- function(sampling, model, Ttot){
-  sderr = sampling@rerror*model@Num0*model@Pol
+  sderr = sampling@rerror*model@Num0*model@Pol; cat("SDerr = ", sderr, "\n\n")
   w = model@wFreq; taud = -1/model@decohLam
   
   ftr = ifelse(model@decohLam == 0, pi/w/Ttot, (1-exp(-pi/w/taud))/(1-exp(-Ttot/taud)))
