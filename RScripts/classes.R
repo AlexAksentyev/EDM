@@ -28,7 +28,7 @@ CmSampling = setClass(
 )
 
 
-setGeneric("simSample", def=function(object, signal, duration, rerror=object@rerror) standardGeneric("simSample"))
+setGeneric("simSample", def=function(sampling, signal, duration, rerror=sampling@rerror) standardGeneric("simSample"))
 
 #### method definitions ####
 setMethod(
@@ -70,11 +70,11 @@ setMethod(
 
 setMethod(
   f="simSample", signature = "CuSampling",
-  definition=function(object, signal, duration, rerror = object@rerror){
+  definition=function(sampling, signal, duration, rerror = sampling@rerror){
     
     aerror <- rerror * signal@Num0*signal@Pol
     
-    t1 = seq(0, duration, by = 1/object@Freq) #uniform sampling
+    t1 = seq(0, duration, by = 1/sampling@Freq) #uniform sampling
     
     data.frame("Time" = t1, "XSgl" = expectation(signal, t1), "FIDrvt" = fiDer(signal, t1)) %>%  
       mutate(Sgl = XSgl + rnorm(length(t1), sd=aerror))
@@ -82,12 +82,12 @@ setMethod(
 )
 setMethod(
   f="simSample", signature = "CmSampling",
-  definition=function(object, signal, duration, rerror = object@rerror){
+  definition=function(sampling, signal, duration, rerror = sampling@rerror){
     
     phi = signal@Phase; w0 = signal@wFreq; lam.decoh = signal@decohLam
     P = signal@Pol; N0 = signal@Num0
-    fs = object@Freq; wg = object@sglFreqGuess
-    cptn = object@Compaction
+    fs = sampling@Freq; wg = sampling@sglFreqGuess
+    cptn = sampling@Compaction
     
     aerror <- rerror * N0*P
     
@@ -101,7 +101,7 @@ setMethod(
     t2 <- t2[order(t2)]
     
     data.frame("Time" = t2, "XSgl" = expectation(signal, t2), "FIDrvt" = fiDer(signal, t2)) %>% 
-      `attr<-`("Compaction", object@Compaction) %>% 
+      `attr<-`("Compaction", sampling@Compaction) %>% 
       mutate(Sgl = XSgl + rnorm(length(t2), sd=aerror))
   }
 )
