@@ -16,8 +16,8 @@ Our goal is to estimate the frequency $\omega$ of the signal
 \end{equation}
 where $\tau_d$ is the spin tune lifetime. One observation $N_i = N(t_i)$ takes anywhere between 1--10 milliseconds, and involves two to three thousands of polarimetry measurements.
 
-Assuming the Normal error distribution with mean zero and variance $\nu = \SD{\obs}^2$, the maximum likelihood estimator for the variance of the frequency estimate can be expressed as\footnote{This expression consistently overestimates the standard error by a factor of 2; however, when used on a function with $x_i = (N_0P)^2$ (linear regression), it yields the same expression as the fitter. The fitter also computes the standard error according to some formula (which I haven't seen yet).}
-\begin{equation}
+Assuming the Normal error distribution with mean zero and variance $\nu = \SD{\obs}^2$, the maximum likelihood estimator for the variance of the frequency estimate can be expressed as
+\begin{equation}\label{eq:SEFreqEst}
 \begin{cases}
 \var{\hat\omega} &= \nu\bkt{\sum_j x_j\cdot \var[w]{t}}^{-1}, \\
 \var[w]{t} &= \sum_i w_i \bkt{t_i - \avg{t}_w}^2,~ \avg{t}_w = \sum_i t_i w_i, \\
@@ -28,7 +28,7 @@ As expected, the variance is inversely proportional to the (weighted) spread of 
 % times the normalizing constant that is a measure of the sample's informational content, 
 and directly proportional to the variance of the error. 
 
-Regarding the former, the weighting by the derivative of the signal has a twofold effect: in the first place, observations that are made when the derivative is maximal contribute more to the spread than those made when the signal changes slowly. Considering the number of possible observations during a fill is limited, a more cost-effective use of the beam is a concern; one that could be addressed by sampling only during the periods of rapid change in the signal. In the second place, due to spin tune decoherence, the observations' contribution goes down with time. This aspect restricts our ability to maximize sampling efficiency. A possible trade-off would be to reduce the number of polarimetry measurements involved in, and thus the time of, making an observation. That way, more observations could be squeezed in the periods when the sine changes sign (zero-crossings), but simultaneously, the uncertainty of an observation would be increased. 
+Regarding the former, the weighting by the derivative of the signal has a twofold effect: in the first place, observations that are made when the derivative is maximal to the spread more than those made when the signal changes slowly. Considering the number of possible observations during a fill is limited, a more cost-effective use of the beam is a concern; one that could be addressed by sampling only during the periods of rapid change in the signal. In the second place, due to spin tune decoherence, the observations' contribution goes down with time. This aspect restricts our ability to maximize sampling efficiency. A possible trade-off would be to reduce the number of polarimetry measurements involved in, and thus the time of, making an observation. That way, more observations could be squeezed in the periods when the sine changes sign (zero-crossings), but simultaneously, the uncertainty of an observation would be increased. 
 
 The above considerations prompt the following series of questions:
 \begin{enumerate}
@@ -100,6 +100,7 @@ In order to increase beam use efficiency, it is advantageous to sample the signa
 
 Then frequency-modulated sampling will perform worse than uniform sampling. That is because, unless observations are made proportionally faster, there will be fewer points sampled by the time the signal is indistinguishable from noise. But an increase in sampling frequency would not have any effect on the result, because observation variance is increased proportionally.
 
+
 \section{Spin tune decoherence time}
 
 A rough estimate of the maximum sensible experiment duration could be done by considering the time when the signal oscillation is indistinguishable from noise. If we denote by $\SD{\obs}$ the standard deviation of the observation error, sensibility would require
@@ -134,7 +135,8 @@ At a three percent error $\SD{\obs} = 3\%\cdot N_0P$ the signal will be indistin
 %	\end{tikzpicture}
 %\end{wrapfigure}
 
-
+\section*{Summary}
+To minimize the standard error in~\eqref{eq:SEFreqEst} we need to maximize the measurement time (to increase $\var[w]{t}$), minimize observation error $\SD{\obs}$, and 
 
 
 
