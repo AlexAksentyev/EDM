@@ -6,7 +6,7 @@ library(mosaic); library(reshape2)
 
 ## modeling ##
 ## simple simulation ####
-if(TRUE){
+if(FALSE){
   mod = CModel(); stu = CuSampling(); Ttot = 1400
   
   simSample(stu, mod, Ttot) -> smpl
@@ -101,24 +101,14 @@ if(FALSE){
 
 ## varying the compaction factor while keeping the total time constant ####
 if(FALSE){
-  library(doParallel)
-  makeCluster(detectCores()) -> clus; registerDoParallel(clus)
-  rtns <- lsf.str(envir=.GlobalEnv, all=TRUE)
-  clusterExport(clus, rtns)
-  
+
   mod = CModel()
-  msmpls = llply(c("1.10" = 1.1, ".50" = .5, ".25" = .25, ".10" = .1), 
-                 function(cmpt) CmSampling(Freq=500, Compaction=cmpt))
+  list("1.10" = list(Cmpt = 1.1, Freq = 500),
+       ".50"  = list(Cmpt = .5,  Freq = 500*2),
+       ".25"  = list(Cmpt = .25, Freq = 500*2*2),
+       ".10"  = list(Cmpt = .1,  Freq = 500*2*2*2.5)) %>%
+    llply(function(e) CmSampling(Freq=500, Compaction=e$Cmpt, rerror = e$rerror)) -> msmpls
   
-  ldply(
-    msmpls,
-    function(stm, .mod){
-      simSample(stm, .mod, 1730) -> smpl
-      .varWT(smpl)
-    }, mod,
-    .parallel = TRUE,
-    .paropts = list(.packages = "dplyr"),
-    .id = "Compact"
-  ) -> .stats; .stats
+  Comp_test(mod, msmpls, 100) -> .stats
   
 }

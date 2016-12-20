@@ -52,7 +52,7 @@ varW0_test <- function(model, sampling, duration, wfreqs = c(.01,.1,.3,1,3,10)){
   require(doParallel); n.cores = detectCores()
   clus <- makeCluster(n.cores)
   registerDoParallel(clus)
-  rtns <- lsf.str(all=TRUE, envir=.GlobalEnv) #c(".extract.stats", ".fit", ".compVarF", "simSample","fiDer","expectation")
+  rtns <- lsf.str(all=TRUE, envir=.GlobalEnv)
   clusterExport(clus, rtns)
   
   names(wfreqs) <- wfreqs
@@ -139,6 +139,27 @@ varW0_test <- function(model, sampling, duration, wfreqs = c(.01,.1,.3,1,3,10)){
     "CharPlot" = pchar, "ddtPlot" = pddt,
     "Sample" = smpl, "Stats" = .stats
   )
+}
+
+#### Compaction factor test ####
+Comp_test <- function(model, samplings, Ttot){
+  library(doParallel)
+  makeCluster(detectCores()) -> clus; registerDoParallel(clus)
+  rtns <- lsf.str(envir=.GlobalEnv, all=TRUE)
+  clusterExport(clus, rtns)
+  
+  ldply(
+    samplings,
+    function(stm, model, Ttot){
+      simSample(stm, model, Ttot) -> smpl
+      .varWT(smpl)
+    }, model, Ttot,
+    .parallel = TRUE,
+    .paropts = list(.packages = "dplyr"),
+    .id = "Compact"
+  ) -> dat; stopCluster(clus)
+  
+  dat
 }
 
 #### useful functions ####
