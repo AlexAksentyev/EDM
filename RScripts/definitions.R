@@ -38,10 +38,16 @@ library(dplyr)
   p.g = rnorm(1, model@Pol, .1*model@Pol)
   lam.decoh = model@decohLam
   phi = model@Phase
+  N0 = model@Num0; P = model@Pol
+  phi.g = rnorm(1, phi, .05*abs(phi))
   
   cat("Frequency guess:", w.g, "\n\n")
   
-  nls(Sgl ~ n*(1 + p*exp(lam.decoh*Time)*sin(frq*Time + phi)), data=.sample, start=list(n = n.g, p = p.g, frq = w.g)) -> m3
+  # nls(Sgl ~ n*(1 + p*exp(lam.decoh*Time)*sin(frq*Time + phi)), data=.sample, start=list(n = n.g, p = p.g, frq = w.g)) -> m3
+  nls(
+    Sgl ~ N0*(1 + P*exp(lam.decoh*Time)*(a*sin(frq*Time) + b*cos(frq*Time))), 
+    data=.sample, start=list(frq = w.g, a=sin(phi.g), b=cos(phi.g))
+  ) -> m3
   
   if(return.model) return(m3) else return(.extract.stats(m3)%>%cbind(SD.err = summary(m3)$sigma))
 }

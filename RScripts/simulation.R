@@ -7,10 +7,10 @@ library(mosaic); library(reshape2)
 ## modeling ##
 ## simple simulation ####
 if(FALSE){
-  mod = CModel(); stu = CuSampling(); Ttot = 1400
+  mod = CModel(Phase=-pi/16); stu = CuSampling(Freq=500); Ttot = 300
   
   simSample(stu, mod, Ttot) -> smpl
-  .fit(smpl, mod)->.stats; .stats
+  .fit(smpl, mod)%>%mutate(X.phi = atan(X.b/X.a), SE.phi = sqrt((SE.b/X.a)^2+(X.b/X.a*SE.a/X.a)^2)/(1+(X.a/X.b)^2))->.stats; .stats
   .compAnaWSE(smpl, .stats$SD.err) -> sean
   .stats[1,"SE.frq"] -> se
   x = .form(c(se, sean, sean/se))
