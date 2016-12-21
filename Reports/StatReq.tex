@@ -24,6 +24,17 @@ Assuming the Normal error distribution with mean zero and variance $\nu = \SD{\m
 w_i &= \frac{x_i}{\sum_j x_j},~ x_i = (N_0P\exp(\lambda t_i))^2\cos^2(\omega t_i + \phi) = \bkt{\mupp}^2.
 \end{cases}	
 \end{equation}
+
+The three factors, contributing to the standard error of the estimate are:
+\begin{inparaenum}[\itshape a\upshape)]
+	\item the error variance $\nu \equiv \SD{\meas}^2$ (governed by the number $\Ncm$ of detector counts per measurement), 
+	\item the time spread $\sum_i w_i (t_i - \avg{t}_w)^2$ of the sample measurements, and
+	\item their net informational content $X_{tot} = \sum_i \bkt{\mupp}^2$.
+\end{inparaenum}
+
+The latter two quantities are related as a consequence of spin tune decoherence: in order to increase the measurement time spread, one has to raise the beam lifetime, which in turn increases the proportion of less informative measurements in the sample. The error variance is related to the time spread by virtue of 
+
+
 The variance is inversely proportional to the (weighted) spread of the predictor variable, and directly proportional to the variance of the error. 
 
 Regarding the former, the weighting by the derivative of the signal has a twofold effect: in the first place, measurements that are taken when the derivative is maximal contribute more to the spread than those made when the signal changes slowly. Considering the number of possible measurements during a fill is limited, a more cost-effective use of the beam is a concern; one that could be addressed by sampling only during the periods of rapid change in the signal. In the second place, due to spin tune decoherence, the measurements' contribution goes down with time. This aspect restricts our ability to maximize sampling efficiency. A possible trade-off would be to reduce the number of counts involved in, and thus the time of, taking a measurement. That way, more measurements could be squeezed in the periods when the sine changes sign (node), but simultaneously, the uncertainty of a measurement would be increased. 
