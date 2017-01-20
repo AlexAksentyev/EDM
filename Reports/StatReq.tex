@@ -153,9 +153,11 @@ There's no benefit to increasing the number of counts per measurement.
 	x_{01}	&= \int_{-\dt/2}^{+\dt/2}\cos^2(\omega\cdot t)\td t = \frac12\cdot \bkt{\dt + \frac{\sin\omega\dt}{\omega}}.
 \end{align*}
 
-\begin{align*}
-	\dt + \frac{\sin\omega\dt}{\omega}	&= 2\cdot \stat* \cdot \bkt{\Nmnd\cdot \tilde{g}(\Nnd)}^{-1}, \\
-	\Nmnd	&= \frac{\dt}{\dt_{meas}}.
-\end{align*}
+\begin{align}\label{eq:CmpTimeEq}
+	\dt + \frac{\sin\omega\dt}{\omega} - 2\cdot \stat* \cdot \bkt{\Nmnd\cdot \tilde{g}(\Nnd)}^{-1}	&=0, \\
+	\Nmnd	&= \frac{\dt}{\dt_{meas}}. \notag
+\end{align}
+
+The factor $\stat*$ reflects the amount of necessary Fisher information to reach the required statistical precision. The less the ratio $\SE{\hat{\omega}}/\SD{\meas}$, the more information is required. That information requirement can be fulfilled in two ways: via the increase in the number of nodes (total time), or the increase of the compaction time. The gain in information provided by the former is limited by the term $\tilde{g}(\Nnd)$ due to decoherence. Because of it, the compaction factor in my simulation is $\approx 1$ (i.e. no sense in modulation), for the ratio $\approx 1$, and total measurement time $\approx 2.4\tau_d$. For even less ratios, there doesn't even exist a solution for~\eqref{eq:CmpTimeEq}. That is, because of the decoherence, even if we collect the data uniformly in time (with frequency 5000 measurements per second), we won't have enough information to estimate $\omega$ with the required precision.
 
 \end{document}
