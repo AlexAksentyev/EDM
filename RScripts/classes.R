@@ -1,4 +1,5 @@
 library(methods)
+library(dplyr); library(plyr)
 
 #### structural model ####
 
