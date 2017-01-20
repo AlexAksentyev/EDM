@@ -17,7 +17,7 @@ lam = mod@decohLam * pi/mod@wFreq
 const = 2*as.numeric((err/sew)^2/v["VarWT"]) * dtmeas * (exp(lam)-1)/(exp(lam*Nnd)-1)
 
 f <- function(dt) dt^2 + dt*sin(mod@wFreq*dt)/mod@wFreq - const
-x = seq(-.1,1.5,.1); y = f(x); plot(x,y, type="l"); abline(h=0, col="red")
+# x = seq(-.1,1.5,.1); y = f(x); plot(x,y, type="l"); abline(h=0, col="red")
 
 uniroot(f, c(0,2*pi/(2*mod@wFreq)))$root -> cmptime
 cmptime/(pi/mod@wFreq) * 100 # percents of compaction time per node time

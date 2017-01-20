@@ -120,11 +120,11 @@ We can express $\sum_{j=1}^{\Nmnd} x_{js} = \Nmnd \cdot x_{0s}$, for some mean v
 
 The number of events per node 
 \[
-	\Nmnd = \frac{\Delta t_{zc}}{\Ncm\cdot \Delta t_{\meas}},
+	\Nmnd = \frac{\Delta t_{zc}}{\Ncm\cdot \Delta t_{\cnt}},
 \]
 hence
 \[
-	X_{tot} = g(\Nnd) \cdot \frac{\Delta t_{zc}}{\Delta t_{\meas}}\cdot \frac{1}{\Ncm}.
+	X_{tot} = g(\Nnd) \cdot \frac{\Delta t_{zc}}{\Delta t_{\cnt}}\cdot \frac{1}{\Ncm}.
 \]
 
 The variance $\var[w]{t}$ is also practically independent of how many measurements there are per one node (and by extension, the number $\Ncm$), and depends primarily on the $\Nnd$ and decoherence life time.
@@ -137,10 +137,25 @@ In sum, assuming one measurement is the mean of the counts ($\SD{\meas} = \SD{\m
 There's no benefit to increasing the number of counts per measurement.
 
 \section{Modulation}
+% THE OLD VERSION
+% is based on the results of the previous section; the premises that var(measurement) = var(count)/number_of_counts and that the informativity of measurements in one region can be uniformalized to x01 %%%%%%
 
-In order to increase beam use efficiency, it is advantageous to sample the signal only during rapid change. That way, the yield of Fisher information per scattered particle is maximized. However, one has to take into account that the beam polarization dissipates continuously, whether the beam is being sampled or not, and so there's a finite window in which sampling yields statistically significant results. We will estimate how long that is in the next section, but for now we will assume that it is less than the beam lifetime when it is scattered continuously.
+%In order to increase beam use efficiency, it is advantageous to sample the signal only during rapid change. That way, the yield of Fisher information per scattered particle is maximized. However, one has to take into account that the beam polarization dissipates continuously, whether the beam is being sampled or not, and so there's a finite window in which sampling yields statistically significant results. We will estimate how long that is in the next section, but for now we will assume that it is less than the beam lifetime when it is scattered continuously.
+%
+%Then frequency-modulated sampling will perform worse than uniform sampling. That is because, unless measurements are made proportionally faster, there will be fewer points sampled by the time the signal is indistinguishable from noise. But an increase in sampling frequency would not have any effect on the result, because measurement variance is increased proportionally.
 
-Then frequency-modulated sampling will perform worse than uniform sampling. That is because, unless measurements are made proportionally faster, there will be fewer points sampled by the time the signal is indistinguishable from noise. But an increase in sampling frequency would not have any effect on the result, because measurement variance is increased proportionally.
+% THE NEW VERSION begins here
+\newcommand{\dt}{\Delta t}
+\DeclareDocumentCommand{\stat}{s}{\IfBooleanTF{#1}{\alpha}{\frac{\SD{\meas}^2}{\SE{\hat\omega}^2\cdot \var[w]{t}}}}
+\begin{align*}
+	X_{tot}	&= \Nmnd\cdot \tilde{g}(\Nnd)\cdot x_{01}, \\
+	X_{tot}	&= \stat = \stat*, \\
+	x_{01}	&= \int_{-\dt/2}^{+\dt/2}\cos^2(\omega\cdot t)\td t = \frac12\cdot \bkt{\dt + \frac{\sin\omega\dt}{\omega}}.
+\end{align*}
 
+\begin{align*}
+	\dt + \frac{\sin\omega\dt}{\omega}	&= 2\cdot \stat* \cdot \bkt{\Nmnd\cdot \tilde{g}(\Nnd)}^{-1}, \\
+	\Nmnd	&= \frac{\dt}{\dt_{meas}}.
+\end{align*}
 
 \end{document}
