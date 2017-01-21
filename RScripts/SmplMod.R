@@ -30,3 +30,20 @@ df[seq(1,ptime,length.out=250),]%>%ggplot(aes(Time, Sgl)) + geom_line() + theme_
   geom_vline(xintercept = -.5*cmptime + nds, col="blue") +
   geom_vline(xintercept = .5*cmptime + nds, col="red") +
   geom_point(aes(x,y), data.frame(x=nds, y=mod@Num0))
+
+## LOOOKING FOR TOTAL MEASUREMENT TIME #### 
+## THIS TIME, VIA AN INFORMATIVITY CRITERION
+g <- function(x, dlt, limit = FALSE){
+  lam = -1/dlt; denom = exp(lam/mod@wFreq * pi)-1; 
+  
+  if(limit) return (- 1/denom)
+  else return ((exp(lam*x)-1)/denom)
+} 
+
+x = 0:Ttot; LTs = c("1000" = 1000, "721" = 721, "500" = 500, "250" = 250)
+g(0, LTs, TRUE) -> inflims
+ldply(0:Ttot, function(x) c("Time" = x, g(x, LTs))) %>% melt(id.vars="Time", variable.name="dLT", value.name = "g") -> dat
+ggplot(dat) + geom_line(aes(Time, g, col=dLT)) + theme_bw() +
+  geom_hline(yintercept = inflims)
+
+

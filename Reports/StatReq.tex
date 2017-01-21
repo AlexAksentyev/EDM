@@ -146,10 +146,10 @@ There's no benefit to increasing the number of counts per measurement.
 
 % THE NEW VERSION begins here
 \newcommand{\dt}{\Delta t}
-\DeclareDocumentCommand{\stat}{s}{\IfBooleanTF{#1}{\alpha}{\frac{\SD{\meas}^2}{\SE{\hat\omega}^2\cdot \var[w]{t}}}}
+\DeclareDocumentCommand{\stat}{s}{\IfBooleanTF{#1}{X_{tot}}{\frac{\SD{\meas}^2}{\SE{\hat\omega}^2\cdot \var[w]{t}}}}
 \begin{align*}
 	X_{tot}	&= \Nmnd\cdot \tilde{g}(\Nnd)\cdot x_{01}, \\
-	X_{tot}	&= \stat = \stat*, \\
+	X_{tot}	&= \stat, \\
 	x_{01}	&= \int_{-\dt/2}^{+\dt/2}\cos^2(\omega\cdot t)\td t = \frac12\cdot \bkt{\dt + \frac{\sin\omega\dt}{\omega}}.
 \end{align*}
 
