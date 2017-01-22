@@ -2,6 +2,7 @@ source("./RScripts/classes.R")
 source("./RScripts/definitions.R")
 
 library(ggplot2)
+library(reshape2)
 
 mod = CModel()
 smpl = CuSampling()
@@ -43,7 +44,15 @@ g <- function(x, dlt, limit = FALSE){
 x = 0:Ttot; LTs = c("1000" = 1000, "721" = 721, "500" = 500, "250" = 250)
 g(0, LTs, TRUE) -> inflims
 ldply(0:Ttot, function(x) c("Time" = x, g(x, LTs))) %>% melt(id.vars="Time", variable.name="dLT", value.name = "g") -> dat
-ggplot(dat) + geom_line(aes(Time, g, col=dLT)) + theme_bw() +
-  geom_hline(yintercept = inflims)
+
+lblfnt=20
+thm = theme_bw() + theme(axis.text=element_text(size=lblfnt), axis.title=element_text(size=lblfnt), 
+                         legend.title=element_text(size=lblfnt), legend.text=element_text(size=lblfnt), legend.position="top")
+
+ggplot(dat) + geom_line(aes(Time, g, col=dLT)) + thm +
+  geom_hline(yintercept = inflims, lty=2) +
+  scale_color_discrete(guide = guide_legend(title=expression(tau[d]~" "))) +
+  scale_x_continuous(name="Measurement time (s)") +
+  scale_y_continuous(name="")
 
 
