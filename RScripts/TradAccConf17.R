@@ -4,7 +4,7 @@ source("./RScripts/definitions.R")
 library(ggplot2)
 library(reshape2)
 
-## LOOOKING FOR TOTAL MEASUREMENT TIME #### 
+## LOOKING FOR TOTAL MEASUREMENT TIME #### 
 ## THIS TIME, VIA AN INFORMATIVITY CRITERION
 Ttot = 1800
 g <- function(x, dlt, limit = FALSE){
@@ -42,6 +42,7 @@ library(doParallel)
 makeCluster(detectCores()) -> clus; registerDoParallel(clus)
 rtns <- lsf.str(envir=.GlobalEnv, all=TRUE)
 clusterExport(clus, rtns)
+
 part = c(.7, 1.2, 2.3, 3.0)
 Ttot = -1/mod@decohLam*part; Nnd = floor(mod@wFreq*Ttot/pi)
 laply(Ttot, function(x) .varWT(simSample(smpl, mod, x))["VarWT"], 
@@ -49,23 +50,10 @@ laply(Ttot, function(x) .varWT(simSample(smpl, mod, x))["VarWT"],
 stopCluster(clus)
 names(v) <- as.character(part)
 
+## the relevant constant values
 const = 2*outer((err/sew)^2,v,"/") * dtmeas * (exp(lam)-1)/(exp(lam*Nnd)-1); rownames(const)<-as.character(sew)
 
-# f<- function(dt) dt + sin(mod@wFreq*dt)/mod@wFreq - const[5,3]
-# x=seq(.01, 2, .01); y=f(x)
-# plot(y~x, type="l", xlab=expression(Delta~t), ylab="Target function"); abline(h=0, col="red")
-# lines(x, sin(mod@wFreq*x)*exp(mod@decohLam*x) + median(y), col="blue", lty=2)
-# uniroot(f, c(0,pi/mod@wFreq))$root -> cmptime; abline(v=cmptime, col="red")
-# print(paste("compaction time/half period:", round(cmptime/(pi/mod@wFreq) * 100), "%")) # percents of compaction time per node time
-## plots
-# n=5 #number of seconds
-# ptime = smpl@Freq*n
-# nds = c(0, seq(n)*pi/mod@wFreq)
-# df[seq(1,ptime,length.out=250),]%>%ggplot(aes(Time, Sgl)) + geom_line() + theme_bw() +
-#   geom_vline(xintercept = -.5*cmptime + nds, col="blue") +
-#   geom_vline(xintercept = .5*cmptime + nds, col="red") +
-#   geom_point(aes(x,y), data.frame(x=nds, y=mod@Num0))
-
+## searching for the solutions
 adply(const, c(1,2), function(a) 
   tryCatch(uniroot(function(dt) dt + sin(mod@wFreq*dt)/mod@wFreq - a, c(0,pi/mod@wFreq))$root, 
            error=function(e) pi/mod@wFreq)

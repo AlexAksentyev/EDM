@@ -150,11 +150,11 @@ There's no benefit to increasing the number of counts per measurement.
 \begin{align*}
 	X_{tot}	&= \Nmnd\cdot \tilde{g}(\Nnd)\cdot x_{01}, \\
 	X_{tot}	&= \stat, \\
-	x_{01}	&= \int_{-\dt/2}^{+\dt/2}\cos^2(\omega\cdot t)\td t = \frac12\cdot \bkt{\dt + \frac{\sin\omega\dt}{\omega}}.
+	x_{01}	&= \frac{1}{\dt}\int_{-\dt/2}^{+\dt/2}\cos^2(\omega\cdot t)\td t = \frac12\cdot \bkt{1 + \frac{\sin\omega\dt}{\omega\dt}}.
 \end{align*}
 
 \begin{align}\label{eq:CmpTimeEq}
-	\dt + \frac{\sin\omega\dt}{\omega} - 2\cdot \stat* \cdot \bkt{\Nmnd\cdot \tilde{g}(\Nnd)}^{-1}	&=0, \\
+	1 + \frac{\sin\omega\dt}{\omega\dt} - 2\cdot \stat* \cdot \bkt{\Nmnd\cdot \tilde{g}(\Nnd)}^{-1} &=0, \\
 	\Nmnd	&= \frac{\dt}{\dt_{meas}}. \notag
 \end{align}
 
