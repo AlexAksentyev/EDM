@@ -164,7 +164,7 @@ Comp_test <- function(model, samplings, Ttot){
     }, model, Ttot,
     .parallel = TRUE,
     .paropts = list(.packages = "dplyr"),
-    .id = "Compact"
+    .id = "CMPT"
   ) -> dat; stopCluster(clus)
   
   dat

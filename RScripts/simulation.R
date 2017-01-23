@@ -106,7 +106,7 @@ if(FALSE){
        ".50"  = list(Cmpt = .5,  Freq = 500*3),
        ".25"  = list(Cmpt = .25, Freq = 500*3*2.2),
        ".10"  = list(Cmpt = .1,  Freq = 500*3*2.2*2.5)) %>%
-    llply(function(e) CmSampling(Compaction=e$Cmpt, Freq = e$Freq)) -> msmpls
+    llply(function(e) CmSampling(CMPT=e$Cmpt, Freq = e$Freq)) -> msmpls
   
   Comp_test(mod, msmpls, 100) -> .stats; .stats
   
