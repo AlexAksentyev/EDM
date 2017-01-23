@@ -4,6 +4,13 @@ source("./RScripts/definitions.R")
 library(ggplot2)
 library(reshape2)
 
+lblfnt=20
+thm = theme_bw() + theme(axis.text=element_text(size=lblfnt), axis.title=element_text(size=lblfnt), 
+                         legend.title=element_text(size=lblfnt), legend.text=element_text(size=lblfnt), legend.position="top")
+
+mod = CModel()
+smpl = CuSampling()
+
 ## LOOKING FOR TOTAL MEASUREMENT TIME #### 
 ## THIS TIME, VIA AN INFORMATIVITY CRITERION
 Ttot = 1800
@@ -18,10 +25,6 @@ x = 0:Ttot; LTs = c("1000" = 1000, "721" = 721, "500" = 500, "250" = 250)
 g(0, LTs, TRUE) -> inflims
 ldply(0:Ttot, function(x) c("Time" = x, g(x, LTs))) %>% melt(id.vars="Time", variable.name="dLT", value.name = "g") -> dat
 
-lblfnt=20
-thm = theme_bw() + theme(axis.text=element_text(size=lblfnt), axis.title=element_text(size=lblfnt), 
-                         legend.title=element_text(size=lblfnt), legend.text=element_text(size=lblfnt), legend.position="top")
-
 ggplot(dat) + geom_line(aes(Time, g, col=dLT)) + thm +
   geom_hline(yintercept = inflims, lty=2) +
   scale_color_discrete(guide = guide_legend(title=expression(tau[d]~" "))) +
@@ -29,8 +32,6 @@ ggplot(dat) + geom_line(aes(Time, g, col=dLT)) + thm +
   scale_y_continuous(name="")
 
 ## MODULATION ####
-mod = CModel()
-smpl = CuSampling()
 err = smpl@rerror*mod@Pol*mod@Num0
 lam = mod@decohLam * pi/mod@wFreq
 
@@ -44,7 +45,8 @@ rtns <- lsf.str(envir=.GlobalEnv, all=TRUE)
 clusterExport(clus, rtns)
 
 part = c(.7, 1.2, 2.3, 3.0)
-Ttot = -1/mod@decohLam*part; Nnd = floor(mod@wFreq*Ttot/pi)
+Ttot = -1/mod@decohLam*part; names(Ttot) <- as.character(part)
+Nnd = floor(mod@wFreq*Ttot/pi)
 laply(Ttot, function(x) .varWT(simSample(smpl, mod, x))["VarWT"], 
       .parallel = TRUE, .paropts = list(.export=c("smpl","mod"), .packages="dplyr"))%>%unlist->v
 stopCluster(clus)
@@ -73,3 +75,6 @@ ggplot(cmptime) + geom_tile(aes(SEW,Part,fill=fCMPT)) +
   labs(x=expression(sigma[hat(omega)]), y=expression(""%*%tau[d])) + thm +
   scale_fill_discrete(guide=guide_legend(title="")) +
   scale_x_discrete(breaks=sew[seq(1,length(sew),length.out = 5)], labels=.fancy_scientific)
+
+##  STATISTICAL PRECISION ####
+simSample(smpl, mod, Ttot["2.3"]) -> s
