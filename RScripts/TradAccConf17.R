@@ -77,4 +77,11 @@ ggplot(cmptime) + geom_tile(aes(SEW,Part,fill=fCMPT)) +
   scale_x_discrete(breaks=sew[seq(1,length(sew),length.out = 5)], labels=.fancy_scientific)
 
 ##  STATISTICAL PRECISION ####
-simSample(smpl, mod, Ttot["2.3"]) -> s
+msmpl = CmSampling(sglFreqGuess = mod@wFreq, CMPT=.01)
+simSample(msmpl, mod, 72) -> s
+ggplot(s[seq(1,nrow(s),length.out=250),]) + 
+  geom_line(aes(Time, XSgl), 
+            data = data.frame(Time=seq(0,72,length.out = 250))%>%
+              mutate(XSgl=expectation(mod, Time))) +
+  geom_point(aes(Time, Sgl)) + geom_point(aes(Node, mod@Num0, col="red"), show.legend = FALSE) +
+  theme_bw()
