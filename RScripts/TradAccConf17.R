@@ -1,0 +1,87 @@
+source("./RScripts/classes.R")
+source("./RScripts/definitions.R")
+
+library(ggplot2)
+library(reshape2)
+
+## LOOOKING FOR TOTAL MEASUREMENT TIME #### 
+## THIS TIME, VIA AN INFORMATIVITY CRITERION
+Ttot = 1800
+g <- function(x, dlt, limit = FALSE){
+  lam = -1/dlt; denom = exp(lam/mod@wFreq * pi)-1; 
+  
+  if(limit) return (- 1/denom)
+  else return ((exp(lam*x)-1)/denom)
+} 
+
+x = 0:Ttot; LTs = c("1000" = 1000, "721" = 721, "500" = 500, "250" = 250)
+g(0, LTs, TRUE) -> inflims
+ldply(0:Ttot, function(x) c("Time" = x, g(x, LTs))) %>% melt(id.vars="Time", variable.name="dLT", value.name = "g") -> dat
+
+lblfnt=20
+thm = theme_bw() + theme(axis.text=element_text(size=lblfnt), axis.title=element_text(size=lblfnt), 
+                         legend.title=element_text(size=lblfnt), legend.text=element_text(size=lblfnt), legend.position="top")
+
+ggplot(dat) + geom_line(aes(Time, g, col=dLT)) + thm +
+  geom_hline(yintercept = inflims, lty=2) +
+  scale_color_discrete(guide = guide_legend(title=expression(tau[d]~" "))) +
+  scale_x_continuous(name="Measurement time (s)") +
+  scale_y_continuous(name="")
+
+## MODULATION ####
+mod = CModel()
+smpl = CuSampling()
+err = smpl@rerror*mod@Pol*mod@Num0
+lam = mod@decohLam * pi/mod@wFreq
+
+sew = c(c(1,2,5)%o%10^(-4:-2))
+dtmeas = 5e-3
+
+## VarWT for the different experiment durations
+library(doParallel)
+makeCluster(detectCores()) -> clus; registerDoParallel(clus)
+rtns <- lsf.str(envir=.GlobalEnv, all=TRUE)
+clusterExport(clus, rtns)
+part = c(.7, 1.2, 2.3, 3.0)
+Ttot = -1/mod@decohLam*part; Nnd = floor(mod@wFreq*Ttot/pi)
+laply(Ttot, function(x) .varWT(simSample(smpl, mod, x))["VarWT"], 
+      .parallel = TRUE, .paropts = list(.export=c("smpl","mod"), .packages="dplyr"))%>%unlist->v
+stopCluster(clus)
+names(v) <- as.character(part)
+
+const = 2*outer((err/sew)^2,v,"/") * dtmeas * (exp(lam)-1)/(exp(lam*Nnd)-1); rownames(const)<-as.character(sew)
+
+# f<- function(dt) dt + sin(mod@wFreq*dt)/mod@wFreq - const[5,3]
+# x=seq(.01, 2, .01); y=f(x)
+# plot(y~x, type="l", xlab=expression(Delta~t), ylab="Target function"); abline(h=0, col="red")
+# lines(x, sin(mod@wFreq*x)*exp(mod@decohLam*x) + median(y), col="blue", lty=2)
+# uniroot(f, c(0,pi/mod@wFreq))$root -> cmptime; abline(v=cmptime, col="red")
+# print(paste("compaction time/half period:", round(cmptime/(pi/mod@wFreq) * 100), "%")) # percents of compaction time per node time
+## plots
+# n=5 #number of seconds
+# ptime = smpl@Freq*n
+# nds = c(0, seq(n)*pi/mod@wFreq)
+# df[seq(1,ptime,length.out=250),]%>%ggplot(aes(Time, Sgl)) + geom_line() + theme_bw() +
+#   geom_vline(xintercept = -.5*cmptime + nds, col="blue") +
+#   geom_vline(xintercept = .5*cmptime + nds, col="red") +
+#   geom_point(aes(x,y), data.frame(x=nds, y=mod@Num0))
+
+adply(const, c(1,2), function(a) 
+  tryCatch(uniroot(function(dt) dt + sin(mod@wFreq*dt)/mod@wFreq - a, c(0,pi/mod@wFreq))$root, 
+           error=function(e) pi/mod@wFreq)
+) %>% `names<-`(c("SEW", "Part", "CMPT"))-> cmptime
+
+library(mosaic)
+mutate(cmptime, fCMPT = derivedFactor(
+  ">50%" = CMPT/pi*mod@wFreq>.5,
+  ">25%" = CMPT/pi*mod@wFreq>.25,
+  ">10%" = CMPT/pi*mod@wFreq>.1,
+  .default = "<10%",
+  .method = "first"
+)) -> cmptime
+
+## plots 
+ggplot(cmptime) + geom_tile(aes(SEW,Part,fill=fCMPT)) + 
+  labs(x=expression(sigma[hat(omega)]), y=expression(""%*%tau[d])) + thm +
+  scale_fill_discrete(guide=guide_legend(title="")) +
+  scale_x_discrete(breaks=sew[seq(1,length(sew),length.out = 5)], labels=.fancy_scientific)
