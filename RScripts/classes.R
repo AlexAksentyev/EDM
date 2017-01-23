@@ -24,8 +24,8 @@ CSampling = setClass(
 CuSampling = setClass("CuSampling", contains = "CSampling", prototype = list(Type="Uniform"))
 CmSampling = setClass(
   "CmSampling", contains = "CSampling",
-  slots = c(Compaction="numeric", sglFreqGuess = "numeric"),
-  prototype = list(Type="Modulated", Compaction=.33, sglFreqGuess = rnorm(1, 3, .01))
+  slots = c(CMPT="numeric", sglFreqGuess = "numeric"),
+  prototype = list(Type="Modulated", CMPT=.33, sglFreqGuess = rnorm(1, 3, .01))
 )
 
 
@@ -113,15 +113,18 @@ setMethod(
     phi = signal@Phase; w0 = signal@wFreq; lam.decoh = signal@decohLam
     P = signal@Pol; N0 = signal@Num0
     fs = sampling@Freq; wg = sampling@sglFreqGuess
-    cptn = sampling@Compaction
+    Tpg = pi/wg
+    Dt = sampling@CMPT
     
     aerror <- rerror * N0*P
     
-    Nprd = round((duration*w0 + phi)/(2*pi)); cat(paste("periods", Nprd, "\n"))
+    Nnd = floor((duration*wg + phi)/pi); cat(paste("periods", Nnd, "\n"))
+    t1 = Tpg*0:Nnd
+    t2 = seq(-.5*Dt,.5*Dt, 1/fs)
+    t3 = rep(t2,length(t1))+rep(t1,each=length(t2))
     
-    
-    data.frame("Time" = t2, "XSgl" = expectation(signal, t2), "FIDrvt" = fiDer(signal, t2)) %>% 
-      `attr<-`("Compaction", sampling@Compaction) %>% 
-      mutate(Sgl = XSgl + rnorm(length(t2), sd=aerror))
+    data.frame("Node" = rep(t1,each=length(t2)),"Time" = t3, "XSgl" = expectation(signal, t3), "FIDrvt" = fiDer(signal, t3)) %>% 
+      `attr<-`("CMPT", sampling@CMPT) %>% 
+      mutate(Sgl = XSgl + rnorm(length(t3), sd=aerror))
   }
 )
