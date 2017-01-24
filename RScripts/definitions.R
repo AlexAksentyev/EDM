@@ -181,11 +181,23 @@ Comp_test <- function(model, samplings, Ttot){
   data.frame("NUM" = nrow(df), "Ftr" = ftr, "MWT" = MeanWT, "VarT" = var(df$Time),"VarWT" = VarWT, Denom = ftr*VarWT)
 }
 
-## SingSam false formula
+## SingSam FALSE formula
 .SSSE <- function(sampling, model, Ttot){
   sderr = sampling@rerror*model@Num0*model@Pol; cat("SDerr = ", sderr, "\n\n")
   w = model@wFreq; taud = -1/model@decohLam
   
   ftr = ifelse(model@decohLam == 0, pi/w/Ttot, (1-exp(-pi/w/taud))/(1-exp(-Ttot/taud)))
   sqrt(12 * ftr) *sderr/Ttot
+}
+
+## plot signal + sample
+.ggplot_XSmpl <- function(df, model){
+  n = nrow(df); ttot = df[n,"Time"]
+  
+  ggplot(df[seq(1,n,length.out=250),]) + 
+    geom_line(aes(Time, XSgl), 
+      data = data.frame(Time=seq(0,ttot,length.out = 250))%>%
+        mutate(XSgl=expectation(model, Time))
+    ) +
+    geom_point(aes(Time, Sgl))
 }
