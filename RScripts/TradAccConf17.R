@@ -64,7 +64,9 @@ adply(const, c(1,2), function(a)
 library(mosaic)
 mutate(cmptime, fCMPT = derivedFactor(
   ">50%" = CMPT/pi*mod@wFreq>.5,
-  ">25%" = CMPT/pi*mod@wFreq>.25,
+  ">40%" = CMPT/pi*mod@wFreq>.4,
+  ">30%" = CMPT/pi*mod@wFreq>.3,
+  ">20%" = CMPT/pi*mod@wFreq>.2,
   ">10%" = CMPT/pi*mod@wFreq>.1,
   .default = "<10%",
   .method = "first"
@@ -77,11 +79,23 @@ ggplot(cmptime) + geom_tile(aes(SEW,Part,fill=fCMPT)) +
   scale_x_discrete(breaks=sew[seq(1,length(sew),length.out = 5)], labels=.fancy_scientific)
 
 ##  STATISTICAL PRECISION ####
-msmpl = CmSampling(sglFreqGuess = mod@wFreq, CMPT=.01)
-simSample(msmpl, mod, 72) -> s
-ggplot(s[seq(1,nrow(s),length.out=250),]) + 
-  geom_line(aes(Time, XSgl), 
-            data = data.frame(Time=seq(0,72,length.out = 250))%>%
-              mutate(XSgl=expectation(mod, Time))) +
-  geom_point(aes(Time, Sgl)) + geom_point(aes(Node, mod@Num0, col="red"), show.legend = FALSE) +
+msmpl = CmSampling(sglFreqGuess=rnorm(1,3,3e-4), CMPT=.2)
+simSample(msmpl, mod, Ttot["2.3"]) -> s
+.ggplot_XSmpl(s, mod) + #geom_point(aes(Node, mod@Num0, col="red"), show.legend = FALSE) +
   theme_bw()
+
+part = c(.7, 1.2, 2.3, 3)
+Ttot = -1/mod@decohLam*part; names(Ttot) <- as.character(part)
+expand.grid(Ttot=Ttot, CMPT = c(.05,.2,.3,1)*pi/mod@wFreq) %>% 
+  adply(1, function(p, sampling, model){
+    s=setValue(sampling, c("CMPT"=p[,"CMPT"]))
+    simSample(s, model, p[,"Ttot"]) %>%
+      .compAnaWSE(aerr=sampling@rerror*model@Num0)%>% `names<-`("SE")
+    }, msmpl, mod
+  ) -> x
+
+mutate(x, fCMPT=as.factor(100*CMPT/pi*mod@wFreq%>%round(2))) %>% 
+  ggplot(aes(as.numeric(names(Ttot)), SE*1e6, col=fCMPT)) + 
+  geom_point() + geom_line() + thm +
+  labs(x=expression(""%*%tau[d]), y=expression(sigma[hat(omega)]%*%10^6)) +
+  scale_color_discrete(name="", labels=c("5%","20%","30%","100%"))
