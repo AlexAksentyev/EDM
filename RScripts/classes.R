@@ -28,7 +28,6 @@ CmSampling = setClass(
   prototype = list(Type="Modulated", CMPT=.33, sglFreqGuess = rnorm(1, 3, .01))
 )
 
-
 setGeneric("simSample", def=function(sampling, signal, duration, rerror=sampling@rerror) standardGeneric("simSample"))
 
 #### method definitions ####
@@ -69,6 +68,13 @@ setMethod(
   }
 )
 
+setMethod(
+  f="setValue", signature="CSampling",
+  definition=function(object, value){
+    for(n in names(value)) slot(object, n) <- value[n]
+    object
+  }
+)
 setMethod(
   f="simSample", signature = "CuSampling",
   definition=function(sampling, signal, duration, rerror = sampling@rerror){
