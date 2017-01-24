@@ -125,6 +125,7 @@ setMethod(
     
     data.frame("Node" = rep(t1,each=length(t2)),"Time" = t3, "XSgl" = expectation(signal, t3), "FIDrvt" = fiDer(signal, t3)) %>% 
       `attr<-`("CMPT", sampling@CMPT) %>% 
-      mutate(Sgl = XSgl + rnorm(length(t3), sd=aerror))
+      mutate(Sgl = XSgl + rnorm(length(t3), sd=aerror)) %>%
+      filter(Time >=0 & Time <= duration)
   }
 )
