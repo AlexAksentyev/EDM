@@ -192,4 +192,21 @@ I'll assume $\phi_R = \phi_L + \sfrac{\pi}{2}$, so that when the signal is maxim
 	\end{cases}
 \end{equation}
 
+\section{Adding beam life-time into the picture}
+\newcommand{\lamb}{\lambda_b}
+\newcommand{\dtm}{\dt_{\meas}}
+The beam decays as in
+\[
+	J(t) = J_0 \cdot \exp\bkt{\lamb(r)\cdot t}.
+\]
+The detector registers
+\[
+	N_0(t) = E\cdot r\cdot \int_{0}^{\dtm} J(t+\tau)\td\tau \approx \dtm\cdot ErJ_0\cdot\lamb\exp\bkt{\lamb\cdot t},
+\]
+with standard deviation
+\[
+	\SD{N_0}(t)/N_0(t) = \SD{r}/r.
+\]
+
+
 \end{document}
