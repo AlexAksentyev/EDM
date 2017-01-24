@@ -11,7 +11,7 @@
 \section*{Problem statement}
 
 Our goal is to estimate the frequency $\omega$ of the signal
-\begin{equation}
+\begin{equation}\label{eq:Signal}
 	N(t) = N_0\cdot\bkt{1 + P\cdot e^{-\sfrac{t}{\tau_d}}\cdot\sin(\omega\cdot t + \phi)},
 \end{equation}
 where $\tau_d$ is the spin tune lifetime. One measurement $N_i = N(t_i)$ takes anywhere between 1--10 milliseconds, and involves two to three thousand detector counts (Y. Senichev, personal communication Dec 9, 2016).
@@ -47,7 +47,7 @@ The above considerations prompt the following series of questions:
 \end{enumerate}
 We will try to answer them in what follows.
 
-\section{Spin tune decoherence time}
+\section{Spin tune decoherence time [Rewrite; cf. TradAccConf17 presentation for table]}
 A rough estimate of the maximum sensible experiment duration could be done by considering the time when the signal oscillation is indistinguishable from noise. If we denote by $\SD{\meas}$ the standard deviation of measurement error, sensibility would require
 \[
 N_0P\cdot e^{-\sfrac t\tau_d} \geq Z_\alpha \SD{\meas}.
@@ -155,9 +155,41 @@ There's no benefit to increasing the number of counts per measurement.
 
 \begin{align}\label{eq:CmpTimeEq}
 	1 + \frac{\sin\omega\dt}{\omega\dt} - 2\cdot \stat* \cdot \bkt{\Nmnd\cdot \tilde{g}(\Nnd)}^{-1} &=0, \\
-	\Nmnd	&= \frac{\dt}{\dt_{meas}}. \notag
+	\Nmnd	&= \frac{\dt}{\dt_{\meas}}. \notag
 \end{align}
 
 The factor $\stat*$ reflects the amount of necessary Fisher information to reach the required statistical precision. The less the ratio $\SE{\hat{\omega}}/\SD{\meas}$, the more information is required. That information requirement can be fulfilled in two ways: via the increase in the number of nodes (total time), or the increase of the compaction time. The gain in information provided by the former is limited by the term $\tilde{g}(\Nnd)$ due to decoherence. Because of it, the compaction factor in my simulation is $\approx 1$ (i.e. no sense in modulation), for the ratio $\approx 1$, and total measurement time $\approx 2.4\tau_d$. For even less ratios, there doesn't even exist a solution for~\eqref{eq:CmpTimeEq}. That is, because of the decoherence, even if we collect the data uniformly in time (with frequency 5000 measurements per second), we won't have enough information to estimate $\omega$ with the required precision.
+
+\section{Polarization error}
+More pellets per second implies faster scattering rate, i.e.,
+\begin{itemize}
+	\item less $\dt_{\meas}$ (faster collection of statistics),
+	\item less $\tau_d$.
+\end{itemize}
+
+Polarization is obtained as the ratio
+\begin{align*}
+	P	&= \frac{L-R}{L+R}, \\
+	\SE{P}	&= \sqrt{2}\cdot \frac{\SD{N}}{L+R}\cdot\sqrt{\bkt{L^2-R^2}^2+1}, \\
+	\SD{L} &= \SD{R} = \SD{N},
+\end{align*}
+where $L,R$ are detector rates from the left, right detectors; $N$ is from eq.~\eqref{eq:Signal}, that is
+\newcommand{\sgl}[1]{
+	{#1}_0\cdot\bkt{1 + P\cdot e^{-\sfrac{t}{\tau_d}}\cdot\sin\bkt{\omega\cdot t+\phi_{#1}}}
+}
+\begin{equation}
+	\begin{cases}
+		L(t) &= \sgl{L}, \\
+		R(t) &= \sgl{R}.
+	\end{cases}
+\end{equation}
+
+I'll assume $\phi_R = \phi_L + \sfrac{\pi}{2}$, so that when the signal is maximal at the L-detector, it is minimal at the R. Then
+\begin{equation}
+	\begin{cases}
+		L(t)-R(t)	&= (L_0-R_0) + P\cdot e^{-\sfrac{t}{\tau_d}}\cdot\sqrt{L_0^2+R_0^2}\cdot\sin\bkt*{\omega\cdot t + \phi_L - \arctan\bkt{\sfrac{R_0}{L_0}}}, \\
+		L(t)+R(t)	&= (L_0+R_0) + P\cdot e^{-\sfrac{t}{\tau_d}}\cdot\sqrt{L_0^2+R_0^2}\cdot\sin\bkt*{\omega\cdot t + \phi_L + \arctan\bkt{\sfrac{R_0}{L_0}}}.
+	\end{cases}
+\end{equation}
 
 \end{document}
