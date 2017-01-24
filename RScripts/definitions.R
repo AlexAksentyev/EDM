@@ -191,12 +191,12 @@ Comp_test <- function(model, samplings, Ttot){
 }
 
 ## plot signal + sample
-.ggplot_XSmpl <- function(df, model){
+.ggplot_XSmpl <- function(df, model, npts=250){
   n = nrow(df); ttot = df[n,"Time"]
   
-  ggplot(df[seq(1,n,length.out=250),]) + 
+  ggplot(df[seq(1,n,length.out=npts),]) + 
     geom_line(aes(Time, XSgl), 
-      data = data.frame(Time=seq(0,ttot,length.out = 250))%>%
+      data = data.frame(Time=seq(0,ttot,length.out = npts))%>%
         mutate(XSgl=expectation(model, Time))
     ) +
     geom_point(aes(Time, Sgl))
