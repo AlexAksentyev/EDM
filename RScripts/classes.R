@@ -81,31 +81,7 @@ setMethod(
       mutate(Sgl = XSgl + rnorm(length(t1), sd=aerror))
   }
 )
-# setMethod(
-#   f="simSample", signature = "CmSampling",
-#   definition=function(sampling, signal, duration, rerror = sampling@rerror){
-#     
-#     phi = signal@Phase; w0 = signal@wFreq; lam.decoh = signal@decohLam
-#     P = signal@Pol; N0 = signal@Num0
-#     fs = sampling@Freq; wg = sampling@sglFreqGuess
-#     cptn = sampling@Compaction
-#     
-#     aerror <- rerror * N0*P
-#     
-#     Nprd = round((duration*w0 + phi)/(2*pi)); cat(paste("periods", Nprd, "\n"))
-#     Dt = c(seq(-3,3,2/fs), seq(-1.5,1.5,1/fs)); Dt <- Dt[order(Dt)]
-#     tn = ((0:(2*Nprd))*pi - phi)/wg; cat(paste("last z-c", tn[length(tn)], "\n"))
-#     t2 = laply(tn, function(ti) ti+Dt) %>% c 
-#     
-#     x = expectation(signal, t2);  DeltaS = P*cptn*exp(lam.decoh*t2) # information condition
-#     t2 <- t2[x > N0*(1 - DeltaS) & x < N0*(1 + DeltaS) & t2 >= 0 & t2 <= duration]
-#     t2 <- t2[order(t2)]
-#     
-#     data.frame("Time" = t2, "XSgl" = expectation(signal, t2), "FIDrvt" = fiDer(signal, t2)) %>% 
-#       `attr<-`("Compaction", sampling@Compaction) %>% 
-#       mutate(Sgl = XSgl + rnorm(length(t2), sd=aerror))
-#   }
-# )
+
 setMethod(
   f="simSample", signature = "CmSampling",
   definition=function(sampling, signal, duration, rerror = sampling@rerror){
