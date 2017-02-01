@@ -84,7 +84,8 @@ simSample(msmpl, mod, Ttot["2.3"]) -> s
 .ggplot_XSmpl(s, mod) + #geom_point(aes(Node, mod@Num0, col="red"), show.legend = FALSE) +
   theme_bw()
 
-part = c(.7, 1.2, 2.3, 3)
+# part = c(.7, 1.2, 2.3, 3)
+part=seq(.5,.9,.1)
 Ttot = -1/mod@decohLam*part; names(Ttot) <- as.character(part)
 expand.grid(Ttot=Ttot, CMPT = c(.05,.2,.3,1)*pi/mod@wFreq) %>% 
   adply(1, function(p, sampling, model){
@@ -99,3 +100,11 @@ mutate(x, fCMPT=as.factor(100*CMPT/pi*mod@wFreq%>%round(2))) %>%
   geom_point() + geom_line() + thm +
   labs(x=expression(""%*%tau[d]), y=expression(sigma[hat(omega)]%*%10^6)) +
   scale_color_discrete(name="", labels=c("5%","20%","30%","100%"))
+
+
+## COMBINED DECOHERENCE+SCATTERING LT ####
+r = seq(.1,10,.25) #beam-LT/decoherence-LT
+rTauSum = r/(1+r) # -(1/tau_b + 1/tau_d) / decoherence-LT
+df=data.frame(R=r, rTS=rTauSum)
+plot(df$R~df$rTS, type="l")
+

@@ -5,12 +5,17 @@
 
 \usepgfplotslibrary{fillbetween}
 
+\newcommand{\dt}{\Delta t}
+\newcommand{\dtm}{\dt_{\meas}}
+\newcommand{\LTb}{\tau_b}
+\newcommand{\pdet}{p}
+\newcommand{\pscat}{p_s}
 
 \begin{document}
 	
 \section*{Problem statement}
 
-Our goal is to estimate the frequency $\omega$ of the signal
+Our goal is to estimate the frequency $\omega$ of the signal\footnote{The time-dependence of counting rates.}
 \begin{equation}\label{eq:Signal}
 	N(t) = N_0\cdot\bkt{1 + P\cdot e^{-\sfrac{t}{\tau_d}}\cdot\sin(\omega\cdot t + \phi)},
 \end{equation}
@@ -82,6 +87,8 @@ At a three percent error $\SD{\meas} = 3\%\cdot N_0P$ the signal will be indisti
 
 \section{Number of counts per measurement}
 
+\textbf{This question can be answered (only) after we've considered polarization error. (Or at least counting rate error!)}
+
 Define the following variables: \begin{inparaenum}[\itshape a\upshape)]
 	\item the number of counts per measurement: $\Ncm$;
 	\item the number of measurements per node: $\Nmnd$;
@@ -145,7 +152,6 @@ There's no benefit to increasing the number of counts per measurement.
 %Then frequency-modulated sampling will perform worse than uniform sampling. That is because, unless measurements are made proportionally faster, there will be fewer points sampled by the time the signal is indistinguishable from noise. But an increase in sampling frequency would not have any effect on the result, because measurement variance is increased proportionally.
 
 % THE NEW VERSION begins here
-\newcommand{\dt}{\Delta t}
 \DeclareDocumentCommand{\stat}{s}{\IfBooleanTF{#1}{X_{tot}}{\frac{\SD{\meas}^2}{\SE{\hat\omega}^2\cdot \var[w]{t}}}}
 \begin{align*}
 	X_{tot}	&= \Nmnd\cdot \tilde{g}(\Nnd)\cdot x_{01}, \\
@@ -159,6 +165,39 @@ There's no benefit to increasing the number of counts per measurement.
 \end{align}
 
 The factor $\stat*$ reflects the amount of necessary Fisher information to reach the required statistical precision. The less the ratio $\SE{\hat{\omega}}/\SD{\meas}$, the more information is required. That information requirement can be fulfilled in two ways: via the increase in the number of nodes (total time), or the increase of the compaction time. The gain in information provided by the former is limited by the term $\tilde{g}(\Nnd)$ due to decoherence. Because of it, the compaction factor in my simulation is $\approx 1$ (i.e. no sense in modulation), for the ratio $\approx 1$, and total measurement time $\approx 2.4\tau_d$. For even less ratios, there doesn't even exist a solution for~\eqref{eq:CmpTimeEq}. That is, because of the decoherence, even if we collect the data uniformly in time (with frequency 5000 measurements per second), we won't have enough information to estimate $\omega$ with the required precision.
+
+\section{Standard deviation of the counting rate}
+\paragraph{The current toward the detector. (Binomial distribution)}
+Expected to arrive $\dtm\nu n_b\cdot\pscat$ particles, with variance $\dtm\nu n_b\pscat(1-\pscat)$.
+
+The fraction of the detected to total counts (detector efficiency $\pdet$) is a sample proportion; the standard deviation of a sample proportion is
+\[
+\SD{\hat{\pdet}} = \frac{\sqrt{\pdet(1-\pdet)}}{\sqrt{n}}, 
+\]
+where $n$ is the number of trials.
+\[
+n = \int_{0}^{\dtm} j(t+\tau)\td\tau = \dtm\cdot\avg{j}(t),
+\]
+where $j(t) = j_0\cdot e^{-\sfrac{t}{\LTb}}$ is the \textbf{expectation} of the scattered beam flux toward the detector. 
+\[
+\avg{j}(t) = \frac{\LTb}{\dtm}\cdot\bkt*{1-\exp\bkt{-\frac{\dtm}{\LTb}}}\cdot j(t).
+\]
+
+In first approximation, $\avg{j}(t) \approx j(t)$, and $n = \dtm\cdot j(t)$; hence
+\[
+\SD{\hat{\pdet}} = \sqrt{\frac{\pdet(1-\pdet)}{\dtm}}\frac{1}{\sqrt{j(t)}}.
+\]
+\begin{align*}
+	\frac{\SD{N(t)}}{\Xpct{N(t)}} = \sqrt{\bkt{\frac{\SD{\hat{\pdet}}}{\pdet}}^2 + \bkt{\frac{\SD{j(t)}}{j(t)}}^2},
+\end{align*}
+with $\Xpct{N(t)} = \pdet\cdot n(t)$.
+
+Now, I model $j(t)$ as a binomially distributed variable, because it is the current of those particles that succeeded in scattering. Hence $j(t) \equiv \Xpct{\hat{j}(t)} = \pscat\cdot I(t)$, where $I(t)$ is the beam current; $\SD{j(t)}^2 = j(t)\cdot (1-\pscat)$, $\pscat$ the scattering probability.
+
+Therefore,
+\[
+\frac{\SD{N(t)}}{\Xpct{N(t)}} = \frac{1}{\sqrt{j(t)}}\sqrt{\frac{1-\pdet}{\pdet\dtm} + 1-\pscat}
+\]
 
 \section{Polarization error}
 More pellets per second implies faster scattering rate, i.e.,
@@ -184,29 +223,13 @@ where $L,R$ are detector rates from the left, right detectors; $N$ is from eq.~\
 	\end{cases}
 \end{equation}
 
-I'll assume $\phi_R = \phi_L + \sfrac{\pi}{2}$, so that when the signal is maximal at the L-detector, it is minimal at the R. Then
+I'll assume $\phi_R = \phi_L + \sfrac{\pi}{2}$, so that when the signal is maximal at the L-detector, it is minimal at the R one. Then
 \begin{equation}
 	\begin{cases}
 		L(t)-R(t)	&= (L_0-R_0) + P\cdot e^{-\sfrac{t}{\tau_d}}\cdot\sqrt{L_0^2+R_0^2}\cdot\sin\bkt*{\omega\cdot t + \phi_L - \arctan\bkt{\sfrac{R_0}{L_0}}}, \\
 		L(t)+R(t)	&= (L_0+R_0) + P\cdot e^{-\sfrac{t}{\tau_d}}\cdot\sqrt{L_0^2+R_0^2}\cdot\sin\bkt*{\omega\cdot t + \phi_L + \arctan\bkt{\sfrac{R_0}{L_0}}}.
 	\end{cases}
 \end{equation}
-
-\section{Adding beam life-time into the picture}
-\newcommand{\lamb}{\lambda_b}
-\newcommand{\dtm}{\dt_{\meas}}
-The beam decays as in
-\[
-	J(t) = J_0 \cdot \exp\bkt{\lamb(r)\cdot t}.
-\]
-The detector registers
-\[
-	N_0(t) = E\cdot r\cdot \int_{0}^{\dtm} J(t+\tau)\td\tau \approx \dtm\cdot ErJ_0\cdot\lamb\exp\bkt{\lamb\cdot t},
-\]
-with standard deviation
-\[
-	\SD{N_0}(t)/N_0(t) = \SD{r}/r.
-\]
 
 
 \end{document}
