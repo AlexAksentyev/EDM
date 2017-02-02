@@ -7,21 +7,56 @@
 
 \newcommand{\dt}{\Delta t}
 \newcommand{\dtm}{\dt_{\meas}}
+\newcommand{\dtc}{\dt_{\cnt}}
 \newcommand{\LTb}{\tau_b}
+\newcommand{\lamb}{\lambda_b}
 \newcommand{\pdet}{p}
 \newcommand{\pscat}{p_s}
 
 \begin{document}
 	
-\section*{Problem statement}
+		
+\section*{Preliminary}
 
-Our goal is to estimate the frequency $\omega$ of the signal\footnote{The time-dependence of counting rates.}
+The beam current falls according to the B-L law:
+\[
+	I(t) \equiv N^b(t)\nu = I_0\cdot e^{\lamb t}.
+\]
+
+A fraction $p$ of the beam particles will be scattered in the direction of the detector; in time $\dtm$, the number of particles collected at the detector will be
+\begin{align}
+	N_0(t) & = p\cdot\int_{-\dtc/2}^{+\dtc/2} I(t+\tau)\td\tau \notag                    \\
+	       & = p\cdot\frac{\nu N_0^b}{\lamb} e^{\lamb t}\cdot \bkt{e^{\lamb\sfrac{\dtc}{2}} - e^{-\lamb\sfrac{\dtc}{2}}} \notag \\
+	       & \approx \underbrace{p\cdot\nu N_0^b e^{\lamb t}}_{\text{rate}~r(t)} \cdot\dtc.~\footnotemark
+\end{align}
+\footnotetext{Average number of events in a time interval is rate times interval:~\cite{CountRateStat}.}
+
+This is on average. To model the actual number, the Poisson distribution will be appropriate:
+\[
+	P_{N_0(t)}(\tilde{N}_0) = \frac{\bkt{r(t)\dtc}^{\tilde{N}_0}}{\tilde{N}_0!}\cdot e^{-r(t)\dtc}.
+\]
+The variance is equal to the mean: $\SD{\tilde{N}_0}^2(t) = N_0(t)$. In the limit of large $N_0(t)$, the Poisson distribution becomes Gaussian.
+
+$\tilde{N}_0$ is what we actually measure in $\dtc$. To estimate the expectation $N_0(t)$ (and its variance), we have to take the mean (variance) of the Gaussian. For that we take several measurements, and estimate the parameters as usual, i.e. as sums of random variables, i.e. distributed normally. The number of measurements we can make during $\dtm$ is $M = \dtm/\dtc$. The standard error of the mean then is 
+\begin{align}
+	\SD{N_0}(t) & = \SD{\tilde{N}_0}(t)/\sqrt{M} = \sqrt{N_0(t)\frac{\dtc}{\dtm}}            \notag \\
+	            & \approx \sqrt{\frac{p\cdot\nu N_0^b}{\dtm}}\cdot\dtc \cdot\exp\bkt{\frac{\lamb}{2}\cdot t}.
+\end{align}
+
+Relative error,
+\[
+	\frac{\SD{N_0}(t)}{N_0(t)} \approx A\cdot\exp\bkt{-\frac{\lamb}{2}t} = A\cdot\exp\bkt{\frac{t}{2\LTb}},
+\]
+grows.
+
+\section{Problem statement}
+
+We have to fit the function
 \begin{equation}\label{eq:Signal}
-	N(t) = N_0\cdot\bkt{1 + P\cdot e^{-\sfrac{t}{\tau_d}}\cdot\sin(\omega\cdot t + \phi)},
+N(t) = N_0(t)\cdot\bkt{1 + P\cdot e^{-\sfrac{t}{\tau_d}}\cdot\sin(\omega\cdot t + \phi)}.
 \end{equation}
-where $\tau_d$ is the spin tune lifetime. One measurement $N_i = N(t_i)$ takes anywhere between 1--10 milliseconds, and involves two to three thousand detector counts (Y. Senichev, personal communication Dec 9, 2016).
 
-Assuming the Normal error distribution with mean zero and variance $\nu = \SD{\meas}^2$, the maximum likelihood estimator for the variance of the frequency estimate can be expressed as
+Assuming the Gaussian error distribution with mean zero and variance $\nu \equiv \SD{\meas}^2 = \SD{N_0}^2(t)$, the maximum likelihood estimator for the variance of the frequency estimate can be expressed as
 \begin{equation}
 \begin{cases}
 \var{\hat\omega} &= \nu\bkt{\sum_j x_j\cdot \var[w]{t}}^{-1}, \\
@@ -231,5 +266,11 @@ I'll assume $\phi_R = \phi_L + \sfrac{\pi}{2}$, so that when the signal is maxim
 	\end{cases}
 \end{equation}
 
+
+
+\begin{thebibliography}{9}
+	\bibitem{CountRateStat}
+	\url{http://www.owlnet.rice.edu/~dodds/Files331/stat_notes.pdf}.
+\end{thebibliography}
 
 \end{document}
