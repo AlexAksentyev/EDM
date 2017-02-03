@@ -5,8 +5,8 @@ library(dplyr); library(plyr)
 
 CModel = setClass(
   "CModel",
-  slots = c(wFreq="numeric", Phase="numeric",Num0="numeric", Pol="numeric", decohLam="numeric"),
-  prototype = list(wFreq=3, Phase=0, Num0=6730, Pol=.4, decohLam=log(.25)/1000)
+  slots = c(wFreq="numeric", Phase="numeric", Num0="numeric", beamLam = "numeric", Pol="numeric", decohLam="numeric"),
+  prototype = list(wFreq=3, Phase=0, Num0=6730, beamLam=-1/2000, Pol=.4, decohLam=log(.25)/1000)
 )
 
 setGeneric("setValue",def=function(object, value) standardGeneric("setValue"))
@@ -42,29 +42,31 @@ setMethod(
   f="expectation", signature="CModel",
   definition=function(object, at){
     N0 <- object@Num0; P <- object@Pol; w <- object@wFreq; phi <- object@Phase
-    lam.decoh <- object@decohLam
+    lam.decoh <- object@decohLam; lam.beam <- object@beamLam
     
-    N0 * (1 + P*exp(lam.decoh*at)*sin(w*at + phi))
+    N0 * exp(lam.beam*at) * (1 + P*exp(lam.decoh*at)*sin(w*at + phi))
   }
 )
 setMethod(
   f="fiDer", signature="CModel",
   definition=function(object, at){
     N0 <- object@Num0; P <- object@Pol; w <- object@wFreq; phi <- object@Phase
-    lam.decoh <- object@decohLam
+    lam.decoh <- object@decohLam; lam.beam <- object@beamLam
     
-    N0*P*exp(lam.decoh*at)*cos(w*at + phi)
+    N0*exp(lam.beam*at) * P*exp(lam.decoh*at) * cos(w*at + phi)
   }
 )
 setMethod(
   f="timeDer", signature = "CModel",
   definition = function(object, at){
     N0 <- object@Num0; P <- object@Pol; w <- object@wFreq; phi <- object@Phase
-    lam.decoh <- object@decohLam
+    lam.decoh <- object@decohLam; lam.beam <- object@beamLam
     
-    et = exp(lam.decoh*at)
+    etd = exp(lam.decoh*at)
+    etb = exp(lam.beam*at)
     
-    N0*P*(lam.decoh*et*sin(w*at + phi) + w*et*cos(w*at + phi))
+    lam.beam*N0*etb * (1 + P*etd*sin(w*at + phi)) +
+      N0*etb * P*(lam.decoh*etd*sin(w*at + phi) + w*etd*cos(w*at + phi))
   }
 )
 
