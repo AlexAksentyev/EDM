@@ -8,8 +8,10 @@ lblfnt=20
 thm = theme_bw() + theme(axis.text=element_text(size=lblfnt), axis.title=element_text(size=lblfnt), 
                          legend.title=element_text(size=lblfnt), legend.text=element_text(size=lblfnt), legend.position="top")
 
-mod = CModel()
 smpl = CuSampling()
+mod = CModel()
+simSample(smpl,mod,1800) -> s
+.ggplot_XSmpl(s, mod) + thm
 
 ## LOOKING FOR TOTAL MEASUREMENT TIME #### 
 ## THIS TIME, VIA AN INFORMATIVITY CRITERION
