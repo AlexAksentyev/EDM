@@ -27,7 +27,7 @@ ldply(0:Ttot, function(x) c("Time" = x, g(x, LTs))) %>% melt(id.vars="Time", var
 
 ggplot(dat) + geom_line(aes(Time, g, col=dLT)) + thm +
   geom_hline(yintercept = inflims, lty=2) +
-  scale_color_discrete(guide = guide_legend(title=expression(tau[d]~" "))) +
+  scale_color_discrete(guide = guide_legend(title=expression(tau~" "))) +
   scale_x_continuous(name="Measurement time (s)") +
   scale_y_continuous(name="")
 
@@ -78,7 +78,7 @@ ggplot(cmptime) + geom_tile(aes(SEW,Part,fill=fCMPT)) +
   scale_fill_discrete(guide=guide_legend(title="")) +
   scale_x_discrete(breaks=sew[seq(1,length(sew),length.out = 5)], labels=.fancy_scientific)
 
-##  STATISTICAL PRECISION ####
+## STATISTICAL PRECISION ####
 msmpl = CmSampling(sglFreqGuess=rnorm(1,3,3e-4), CMPT=.2)
 simSample(msmpl, mod, Ttot["2.3"]) -> s
 .ggplot_XSmpl(s, mod) + #geom_point(aes(Node, mod@Num0, col="red"), show.legend = FALSE) +
@@ -107,4 +107,31 @@ r = seq(.1,10,.25) #beam-LT/decoherence-LT
 rTauSum = r/(1+r) # -(1/tau_b + 1/tau_d) / decoherence-LT
 df=data.frame(R=r, rTS=rTauSum)
 plot(df$R~df$rTS, type="l")
+
+## RELATIVE ERROR OF THE COUTING RATE ####
+p = 1e-2 # the fraction of the useful beam scatterings
+nu = 1e6 # beam revolution frequency
+N0b = 5e11 # number of particles in one fill
+taud = -1/mod@decohLam #decoherence life-time
+taub = taud * 2 # beam lifetime
+lam = -1/taub-1/taud; tau = -1/lam
+dtc = 1/nu # polarimetry measurement duration
+dte = 2000*dtc # signal measurement duration
+
+B = p*nu*N0b * 1e-10
+N0 <- function(x) B*dtc*exp(-x/taub)
+osc <- function(x, ampl=FALSE) {
+  a = mod@Pol*exp(-x/taud); 
+  if(ampl) return(a) 
+  else return(a*sin(mod@wFreq*x+mod@Phase))
+}
+SEN0 <- function(x) sqrt(B/dte) * dtc * exp(-.5*x/taub)
+
+df = data.frame(Time=c(.5,.7,1.2,2.3,3)*tau) %>% 
+  mutate(rTime=Time/tau,
+         No = N0(Time), Sgl = No*(1+osc(Time)), 
+         SENo = SEN0(Time), rSENo=SENo/(No*(1+osc(Time,TRUE))), 
+         SNR = No*osc(Time,TRUE)/SENo
+  )
+ggplot(df, aes(Time/tau, SNR)) + geom_line() + geom_point() + theme_bw() #+ geom_smooth(se=FALSE,col="red")
 

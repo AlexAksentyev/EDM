@@ -9,6 +9,7 @@
 \newcommand{\dtm}{\dt_{\meas}}
 \newcommand{\dtc}{\dt_{\cnt}}
 \newcommand{\LTb}{\tau_b}
+\newcommand{\LTd}{\tau_d}
 \newcommand{\lamb}{\lambda_b}
 \newcommand{\pdet}{p}
 \newcommand{\pscat}{p_s}
@@ -58,15 +59,16 @@ Define the following variables: \begin{inparaenum}[\itshape a\upshape)]
 
 We have to fit the function
 \begin{equation}\label{eq:Signal}
-N(t) = N_0(t)\cdot\bkt{1 + P\cdot e^{-\sfrac{t}{\tau_d}}\cdot\sin(\omega\cdot t + \phi)},
+N(t) = N_0(t)\cdot\bkt{1 + P\cdot e^{-\sfrac{t}{\LTd}}\cdot\sin(\omega\cdot t + \phi)},
 \end{equation}
 given $\Nm = \Nnd\cdot\Nmnd$ sample points.
 
 Assuming the Gaussian error distribution with mean zero and variance $\nu \equiv \SD{\meas}^2 = \SD{N_0}^2(t)$, the maximum likelihood estimator for the variance of the frequency estimate can be expressed as
 \begin{align*}
-\var{\hat\omega} &= \frac{\nu}{X_{tot}\cdot \var[w]{t}}, \\
+\var{\hat\omega} &= \frac{\nu}{X_{tot}\cdot \var[w]{t}}, 
+\shortintertext{with}
 X_{tot} &= \sum_{j=1}^{\Nm} x_j = \sum_{s=1}^{\Nnd}\sum_{j=1}^{\Nmnd} x_{js}, \\
-\var[w]{t} &= \sum_i w_i \bkt{t_i - \avg{t}_w}^2,~ \avg{t}_w = \sum_i t_i w_i, \\
+\var[w]{t} &= \sum_i w_i \bkt{t_i - \avg{t}_w}^2,~ \avg{t}_w = \sum_i w_i t_i, \\
 w_i &= \frac{x_i}{\sum_j x_j},~ x_i = (N_0P\exp(\lambda t_i))^2\cos^2(\omega t_i + \phi) = \bkt{\mupp}^2.
 \end{align*}
 
@@ -90,23 +92,22 @@ We can express $\sum_{j=1}^{\Nmnd} x_{js} = \Nmnd \cdot x_{0s}$, for some mean v
 	\Nmnd   & = \frac{\dtnd}{\dtm}. \label{eq:NumMeasNode}
 \end{align}
 
-Eq.~\eqref{eq:FItot} can be used to estimate the reasonable experiment duration. $g(\Nnd)$ is a limited function; in Figure~\ref{fig:GofT} it is shown for different life-times. In Table~\ref{tbl:FItot} we have the time (in signal life-times) required to reach the different levels of information; the signal-to-noise ratios there are computed under the assumption of constant relative error.
+Eq.~\eqref{eq:FItot} can be used to estimate the reasonable experiment duration. $g(\Nnd)$ is a limited function; in Figure~\ref{fig:GofT} it is shown for different life-times. In Table~\ref{tbl:FItot} we have the time (in signal life-times) required to reach the different levels of information, $t(z)/\tau = -\ln(1-z)$. 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.5]{../MEPhI/img/XtotOnTime}
+	\includegraphics[scale=.5]{img/XtotOnTime}
 	\caption{$[g\circ t](\Nnd)$ for different life-times $\tau = \sfrac1\lambda$.\label{fig:GofT}}
 \end{figure}
 \begin{table}[h]
 	\centering
-	\caption{Total Fisher information table\label{tbl:FItot}}
+	\caption{Total Fisher information table.\label{tbl:FItot}}
 	\begin{tabular}{rrr}
 		\hline
-		FI limit (\%) & Reached ($\times\tau$) & SNR@3 \%error \\ \hline
-		95 &                    3.0 &            1.7 \\
-		90 &                    2.3 &            3.3 \\
-		70 &                    1.2 &           10.0 \\
-		50 &                    0.7 &           16.5 \\
-		\hline
+		FI limit (\%) & Reached ($\times\tau$) & SNR \\ \hline
+		           95 &                    3.0 & 1.0 \\
+		           90 &                    2.3 & 1.9 \\
+		           70 &                    1.2 & 4.7 \\
+		           50 &                    0.7 & 7.1 \\ \hline
 	\end{tabular}
 \end{table}
 
@@ -115,7 +116,7 @@ Eq.~\eqref{eq:MeanFIZC}, together with eq.~\eqref{eq:NumMeasNode} and
 	\stat* = \stat,
 \]
 produce an equation by which the required compaction time $\dtnd$ can be found:
-\begin{equation}
+\begin{equation}\label{eq:CmpTEq}
 	\dtnd + \frac{\sin\omega\dtnd}{\omega} - 2\cdot \stat* \cdot\dtm \cdot g(\Nnd)^{-1}= 0.
 \end{equation}
 
@@ -134,19 +135,21 @@ produce an equation by which the required compaction time $\dtnd$ can be found:
 	\caption{Explanation for $x_0$\label{fig:x0Expl}.}
 \end{figure}
 
-\pagebreak
+\newcommand{\SNR}{\text{SNR}}
+\newcommand{\deq}{\overset{\triangle}{=}}
+The signal-to-noise ratios in Table~\ref{fig:x0Expl} are computed as 
+\begin{equation}\label{eq:TauRatioSNR}
+	\SNR \deq \frac{N_0(t)\cdot P\cdot e^{-\sfrac{t}{\LTd}}}{\SD{N_0}(t)} 
+	= \frac{P}{A}\sqrt{\dtm}\cdot\exp\bkt{\frac{1-2x}{2x}\cdot\frac{t}{\LTd}},~ x\equiv \frac{\LTb}{\LTd}.
+\end{equation}
 
-\begin{align*}
-	X_{tot}	&= \Nmnd\cdot \tilde{g}(\Nnd)\cdot x_{01}, \\
-	X_{tot}	&= \stat
-\end{align*}
+\section{Beam/decoherence life-times}
 
-\begin{align}\label{eq:CmpTimeEq}
- \notag
-\end{align}
-
-The factor $\stat*$ reflects the amount of necessary Fisher information to reach the required statistical precision. The less the ratio $\SE{\hat{\omega}}/\SD{\meas}$, the more information is required. That information requirement can be fulfilled in two ways: via the increase in the number of nodes (total time), or the increase of the compaction time. The gain in information provided by the former is limited by the term $\tilde{g}(\Nnd)$ due to decoherence. Because of it, the compaction factor in my simulation is $\approx 1$ (i.e. no sense in modulation), for the ratio $\approx 1$, and total measurement time $\approx 2.4\tau_d$. For even less ratios, there doesn't even exist a solution for~\eqref{eq:CmpTimeEq}. That is, because of the decoherence, even if we collect the data uniformly in time (with frequency 5000 measurements per second), we won't have enough information to estimate $\omega$ with the required precision.
-
+Our want is to have the sample as spread out as possible; however, measurement time is limited by the signal life-time, which is 
+\[
+	\tau = \bkt{\sfrac{1}{\LTb} + \sfrac{1}{\LTd}}^{-1} = \frac{x}{1+x}\cdot \LTd,~ x \equiv \frac{\LTb}{\LTd}.
+\]
+By increasing $x$ we raise the signal life-time, and hence $\var[w]{t}$, but simultaneously the rate at which falls the SNR.
 
 
 \begin{thebibliography}{9}
