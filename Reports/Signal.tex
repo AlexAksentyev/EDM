@@ -1,0 +1,28 @@
+\documentclass{article}
+
+\usepackage{repsty}
+
+\newcommand{\uvec}[1]{\boldsymbol{\hat{#1}}}
+\newcommand{\abs}[1]{\vert#1\vert}
+\newcommand{\proj}[2]{\pi_{\uvec{#2}}\vec{#1}}
+
+\newcommand{\Dw}{\Delta\omega}
+\newcommand{\ii}{\imath}
+\begin{document}
+
+\section{Projection of polarization}
+\begin{align*}
+	\vec{P} &= \sum_i \vec{s}, \\
+	\proj{s}{y} &\equiv \uvec{y}\cdot\vec{s} = \abs{\vec{s}}\cos\Theta, \\
+	\proj{P}{y} &= \sum_i \proj{s_i}{y} = \abs{\vec{s}}\sum_i \cos\Theta_i, \\
+	\Theta_i &= \omega_i\cdot t + \phi_i,~ f(\phi_i),~g(\omega_i).
+\end{align*}
+$f$ and $g$ are distributions.
+
+\[
+	\cos\bkt{\omega_0t + \Dw_it + \phi_i} = \frac12\bkt{e^{\ii\omega_0t}e^{\ii\Dw_it}e^{\ii\phi_i} + e^{-\ii\omega_0t}e^{-\ii\Dw_it}e^{-\ii\phi_i}}
+\]
+
+
+
+\end{document}
