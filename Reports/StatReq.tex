@@ -74,7 +74,7 @@ w_i &= \frac{x_i}{\sum_j x_j},~ x_i = (N_0P\exp(\lambda t_i))^2\cos^2(\omega t_i
 
 The three factors, contributing to the standard error of the estimate are:
 \begin{inparaenum}[\itshape a\upshape)]
-	\item the error variance $\nu = \SD{N_0}(t)^2$ (governed by the number $\Ncm$ of polarimetry measurements per signal measurement~\eqref{eq:MeasSE}), 
+	\item the error variance $\nu = \SD{N_0}(t)^2$ (governed by the number $\Ncm$ of polarimetry measurements per signal measurement, eq.~\eqref{eq:MeasSE}), 
 	\item the time spread $\sum_i w_i (t_i - \avg{t}_w)^2$ of the sample measurements, and
 	\item their net informational content $X_{tot}$.
 \end{inparaenum}
@@ -123,7 +123,7 @@ produce an equation by which the required compaction time $\dtnd$ can be found:
 \begin{figure}[h]
 	\centering
 	\begin{tikzpicture}
-	\begin{axis}[axis lines=center, xlabel=$t$, domain=-.5:2*pi, legend pos=outer north east]
+	\begin{axis}[axis lines=center, xlabel=$t$, domain=-.5:2*pi, legend pos=outer north east, samples=40]
 	\addplot[color=blue, name path=signal, domain=-.1:2*pi] {sin(deg(x))}; \addlegendentry{signal}
 	\addplot[color=red] {cos(deg(x))^2}; \addlegendentry{$x$}
 	\addplot[mark=none, domain=0:2*pi]{.7}; \addlegendentry{$x_0$}
@@ -149,7 +149,7 @@ Our want is to have the sample as spread out as possible; however, measurement t
 \[
 	\tau = \bkt{\sfrac{1}{\LTb} + \sfrac{1}{\LTd}}^{-1} = \frac{x}{1+x}\cdot \LTd,~ x \equiv \frac{\LTb}{\LTd}.
 \]
-By increasing $x$ we raise the signal life-time, and hence $\var[w]{t}$, but simultaneously the rate at which falls the SNR.
+By increasing $x$ we raise the signal life-time, and hence the limit on $\var[w]{t}$, but simultaneously the rate at which falls the SNR.
 
 
 \begin{thebibliography}{9}
