@@ -48,10 +48,7 @@ ggplot(df.s, aes(Time, Sgl)) + geom_line() + geom_hline(yintercept = c(min(df.s$
 
 ## spectral analysis ####
 s = ts(df.s$Sgl, start=Tstt, end=Ttot, deltat=dt)
-spec.ar(s) -> sps
-sps$freq[which.max(sps$spec)] -> fsgl
-abline(v=c(fsgl,f0), col=c("black","red"),lty=2)
-legend("topright",lty=2,col=c("black","red"),legend = c("Bunch","Synchronous"))
-legend("top", bty="n", 
-       legend=bquote(frac(f[b]-f[s],f[s])~"="~.(round((fsgl-f0)/f0*100,2))~"%")
-)
+spec.ar(s,plot = FALSE) -> sps
+sps <- data.frame(Freq=sps$freq, Pow=sps$spec)
+filter(sps, Freq>.35, Freq<.6) %>% ggplot(aes(Freq, Pow))+geom_bar(stat="identity") + theme_bw() +
+  geom_vline(xintercept = f0, col="red")
