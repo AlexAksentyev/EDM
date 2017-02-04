@@ -31,13 +31,13 @@ w0 = 3; f0 = w0/2/pi # frequency of the reference particle
 p0 = pi/3 #phase of the reference particle
 sdw = w0*3e-3
 sdp = p0*3e-1
-dis = "skew"
+dis = "bi"
 
 ## particle distributions ####
 df.p = data.frame(
   wFreq = switch(dis,
     "skew" = skewedDistFunc(np, w0, sdw, 5),
-    "bi" = bimodalDistFunc(np,.4,w0-2*sdw,w0+2*sdw,sdw,sdw)
+    "bi" = bimodalDistFunc(np,.5,w0-3*sdw,w0+3*sdw,sdw,sdw)
   ), 
   Phi = rnorm(np, p0, sdp)
 )
@@ -56,15 +56,24 @@ df.s = data.frame(Time=seq(Tstt,Ttot,dt)) %>% mutate(Sgl=Pproj(df.p,Time))
 ## computing peaks ####
 Ntot = floor(.5*(w0*Ttot+p0)/pi)
 Nstt = floor(.5*(w0*Tstt+p0)/pi)
-tn = (pi*Nstt:(2*Ntot)-p0)/w0
+tnu = (2*pi*Nstt:Ntot-p0)/w0
+tnd = tnu+pi/w0
 
 ## plotting signal ####
 ggplot(df.s, aes(Time, Sgl)) + geom_line() + geom_hline(yintercept = c(min(df.s$Sgl), max(df.s$Sgl)), col="red") +
-  theme_bw() + geom_point(aes(col="red"), data=data.frame(Time=tn, Sgl=Pproj(df.p,tn)), show.legend = FALSE)
+  theme_bw() + 
+  geom_point(aes(col=Side), 
+             data=data.frame(
+               Time=c(tnu,tnd), 
+               Sgl=Pproj(df.p,c(tnu,tnd)), 
+               Side=rep(c("U","D"),c(length(tnu),length(tnd)))
+             ), show.legend = FALSE) +
+  scale_color_manual(breaks=c("D","U"), values = c("blue","red"))
 
 ## spectral analysis ####
 s = ts(df.s$Sgl, start=Tstt, end=Ttot, deltat=dt)
 spec.ar(s,plot = FALSE) -> sps
-sps <- data.frame(Freq=sps$freq, Pow=sps$spec)
-filter(sps, Freq>.35, Freq<.6) %>% ggplot(aes(Freq, Pow))+geom_bar(stat="identity") + theme_bw() +
-  geom_vline(xintercept = f0, col="red")
+sps <- data.frame(Freq=sps$freq, Pow=sps$spec) %>% mutate(wFreq=2*pi*Freq)
+filter(sps, Freq>.35, Freq<.6) %>% ggplot(aes(wFreq, Pow))+geom_bar(stat="identity", size=.5) + 
+  theme_bw() + labs(x=expression(omega)) +
+  geom_vline(xintercept = w0, col="red")
