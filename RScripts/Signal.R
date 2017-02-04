@@ -14,17 +14,33 @@ library(ggplot2)
   #        legend=bquote(frac(x[b]-x[s],x[s])~"="~.(formatC((xm-x0)/x0*100,2,format="e"))~"%")
   # )
 }
+skewedDistFunc <- function(n, mu, sd, skew){
+  w = rweibull(np, mu+skew,sd)
+  mu-mean(w)+w
+}
+bimodalDistFunc <- function (n,cpct, mu1, mu2, sig1, sig2) {
+  y0 <- rnorm(n,mean=mu1, sd = sig1)
+  y1 <- rnorm(n,mean=mu2, sd = sig2)
+  
+  flag <- rbinom(n,size=1,prob=cpct)
+  y <- y0*(1 - flag) + y1*flag 
+}
 
 np = 1000 # number of particles in bunch
 w0 = 3; f0 = w0/2/pi # frequency of the reference particle
 p0 = pi/3 #phase of the reference particle
 sdw = w0*3e-3
 sdp = p0*3e-1
+dis = "skew"
 
 ## particle distributions ####
-df.p = data.frame(wFreq = rweibull(np, w0+5,sdw)) %>% # particle spin precession frequencies
-  mutate(wFreq = w0-mean(wFreq)+wFreq) %>% # centering on w0 (actually centers only when shape=scale = Gauss)
-  mutate(Phi = rnorm(np, p0, sdp)) # initial phases
+df.p = data.frame(
+  wFreq = switch(dis,
+    "skew" = skewedDistFunc(np, w0, sdw, 5),
+    "bi" = bimodalDistFunc(np,.4,w0-2*sdw,w0+2*sdw,sdw,sdw)
+  ), 
+  Phi = rnorm(np, p0, sdp)
+)
 
 par(mfrow=c(2,1))
 .hist_plot(df.p$wFreq,w0,expression(omega))
