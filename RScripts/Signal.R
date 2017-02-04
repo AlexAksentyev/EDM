@@ -18,10 +18,11 @@ library(ggplot2)
 np = 1000 # number of particles in bunch
 w0 = 3; f0 = w0/2/pi # frequency of the reference particle
 p0 = pi/3 #phase of the reference particle
-sdw = w0*3e-4
+sdw = w0*3e-3
 sdp = p0*3e-1
 
-df.p = data.frame(wFreq = rweibull(np, 2,sdw)) %>% # particle spin precession frequencies
+## particle distributions ####
+df.p = data.frame(wFreq = rweibull(np, w0+5,sdw)) %>% # particle spin precession frequencies
   mutate(wFreq = w0-mean(wFreq)+wFreq) %>% # centering on w0 (actually centers only when shape=scale = Gauss)
   mutate(Phi = rnorm(np, p0, sdp)) # initial phases
 
@@ -30,21 +31,23 @@ par(mfrow=c(2,1))
 .hist_plot(df.p$Phi,p0,expression(phi))
 par(mfrow=c(1,1))
 
+## computing signal ####
 Pproj <- function(df, x) colSums(cos(df$wFreq%o%x + df$Phi))
 
 Tstt = 0; Ttot=500; dt = .5/w0
 df.s = data.frame(Time=seq(Tstt,Ttot,dt)) %>% mutate(Sgl=Pproj(df.p,Time))
-s = ts(df.s$Sgl, start=Tstt, end=Ttot, deltat=dt)
 
+## computing peaks ####
 Ntot = floor(.5*(w0*Ttot+p0)/pi)
 Nstt = floor(.5*(w0*Tstt+p0)/pi)
-tn = (2*pi*Nstt:Ntot-p0)/w0
+tn = (pi*Nstt:(2*Ntot)-p0)/w0
 
+## plotting signal ####
 ggplot(df.s, aes(Time, Sgl)) + geom_line() + geom_hline(yintercept = c(min(df.s$Sgl), max(df.s$Sgl)), col="red") +
   theme_bw() + geom_point(aes(col="red"), data=data.frame(Time=tn, Sgl=Pproj(df.p,tn)), show.legend = FALSE)
 
-# the signal frequency is determined by the MODE of the distribution
-
+## spectral analysis ####
+s = ts(df.s$Sgl, start=Tstt, end=Ttot, deltat=dt)
 spec.ar(s) -> sps
 sps$freq[which.max(sps$spec)] -> fsgl
 abline(v=c(fsgl,f0), col=c("black","red"),lty=2)
