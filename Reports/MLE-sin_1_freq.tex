@@ -1,37 +1,14 @@
 \documentclass{article}
-\usepackage[left=1cm,top=1cm,right=1cm,bottom=1.5cm]{geometry}
-\setlength{\parindent}{0pt}
-\usepackage{parskip}
+\usepackage{repsty}
 
-\usepackage{mathtools}
-
-\usepackage{subcaption}
-
-\usepackage{xparse}
-\usepackage{xfrac}
-
-\DeclareDocumentCommand{\bkt}{sm}{\IfBooleanTF{#1}{\left[ #2 \right]}{\left(#2\right)}}
 \newcommand{\y}{\mathbf{y}}
-\newcommand{\pars}{\boldsymbol{\theta}}
-\DeclareDocumentCommand{\Xpct}{mo}{\mathrm{E}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
-\DeclareDocumentCommand{\XpctO}{m}{\Xpct{#1}[\pars_0]}
 
-\DeclareDocumentCommand{\mupp}{s}{\mu'_\phi\IfBooleanTF{#1}{}{(t_i)}}
-\DeclareDocumentCommand{\mudpp}{s}{\mu''_{\phi^2}\IfBooleanTF{#1}{}{(t_i)}}
-\DeclareDocumentCommand{\Fisher}{O{}}{I_{#1}(\pars_0)}
-
-\DeclareDocumentCommand{\var}{O{}mo}{\mathrm{var}_{#1}\bkt*{#2\IfValueT{#3}{\vert~ #3}}}
-
-\newcommand{\td}{\mathrm{d}}
-
-\usepackage{tikz}
-\usepackage{pgfplots}
 \usepgfplotslibrary{fillbetween}
 
 
 \begin{document}
 
-The probability of observing  the value $y_i \equiv y(t_i)$ when the expectation value is $\mu(t_i)$ and the error is gaussian is
+The probability of observing  the value $y_i \equiv y(t_i)$ when the expectation value is $\mu(t_i)$ and the error is Gaussian is
 \begin{align*}
 	f(y_i|\pars) &= \frac{1}{\sqrt{2\pi\nu}}\exp\bkt{-\frac12\frac{(y_i - \mu(t_i))^2}{\nu}}, \\
 	\pars 		  &= (\nu,\omega,\phi),\\
@@ -86,12 +63,12 @@ The Fisher matrix
 The determinant
 \newcommand{\STM}{\Omega}
 \[
-	|\Fisher| = \frac{K}{2\nu^4}\underbrace{\bkt{\sum\bkt{t_i\mupp}^2\sum\bkt{\mupp}^2 - \bkt{\sum t_i\bkt{\mupp}^2}^2}}_{\STM}.
+	|\Fisher| = \frac{K}{2\nu^3}\underbrace{\bkt{\sum\bkt{t_i\mupp}^2\sum\bkt{\mupp}^2 - \bkt{\sum t_i\bkt{\mupp}^2}^2}}_{\STM}.
 \]
 The variance-covariance matrix
 \[
 vcov = \begin{pmatrix}
-	2\sfrac{\nu^2}{K}& 0									& 0				\\
+	\sfrac{2\nu}{K}& 0									& 0				\\
 	0				&\nu\frac{\sum\bkt{\mupp}^2}{\STM}		&\nu\frac{\sum t_i\bkt{\mupp}^2}{\STM}\\
 	0				&\nu\frac{\sum t_i\bkt{\mupp}^2}{\STM}	&\nu\frac{\sum\bkt{t_i\mupp}^2}{\STM}
 \end{pmatrix}.
@@ -102,7 +79,6 @@ The variance of the frequency estimate
 	\var{\hat{\omega}} = \nu\frac{\sum\bkt{\mupp}^2}{\sum\bkt{t_i\mupp}^2\sum\bkt{\mupp}^2 - \bkt{\sum t_i\bkt{\mupp}^2}^2}.
 \end{equation}
 
-\newcommand{\avg}[1]{\langle #1\rangle}
 \paragraph{Cross-check.} Let $\mu(t_i) = \phi + \omega t_i$. In that case $\mupp = 1$, $\mu'_\omega(t_i) = t_i = t_i\cdot\mupp$, the determinant of the Fisher matrix simplifies to 
 \begin{align*}
 	|\Fisher| &= \frac{K}{2\nu^4}\bkt{K\sum_i t_i^2 - \bkt{\sum t_i}^2} \\
@@ -196,18 +172,18 @@ If we attribute each point a weight proportional to its Fisher information, i.e.
 
 The implication is that increasing the number of points measured during the signal's rise and fall is roughly twice as beneficial as doing so during the peaks and troughs.
 
-\section{The dependence of $\var{\hat{\omega}}$ on $\omega$}
-\newcommand{\acos}{\mathrm{acos}}
-The variance in eq.~\eqref{eq:Var2} is conditional on the frequency $\omega$ and phase $\phi$ of the signal. The conditioning happens because the parameters determine the sampling range of the distribution of the $x_i$ weights.
-
-That distribution is 
-\[
-	f(x_i) = \frac{1}{\pi}\cdot\bkt*{\frac{x_i}{N_0P}\bkt{1-\frac{x_i}{N_0P}}}^{-\sfrac12}.
-\]
-
-\begin{align*}
-\Xpct{\sum_i x_i}[(\omega,\phi)] &= \sum_i \int_{\cos^2\phi}^{\cos^2(\omega t_i + \phi)}x_if(x_i)\td x_i;
-\end{align*}
+%\section{The dependence of $\var{\hat{\omega}}$ on $\omega$}
+%\newcommand{\acos}{\mathrm{acos}}
+%The variance in eq.~\eqref{eq:Var2} is conditional on the frequency $\omega$ and phase $\phi$ of the signal. The conditioning happens because the parameters determine the sampling range of the distribution of the $x_i$ weights.
+%
+%That distribution is 
+%\[
+%	f(x_i) = \frac{1}{\pi}\cdot\bkt*{\frac{x_i}{N_0P}\bkt{1-\frac{x_i}{N_0P}}}^{-\sfrac12}.
+%\]
+%
+%\begin{align*}
+%\Xpct{\sum_i x_i}[(\omega,\phi)] &= \sum_i \int_{\cos^2\phi}^{\cos^2(\omega t_i + \phi)}x_if(x_i)\td x_i;
+%\end{align*}
 
 
 \end{document}
