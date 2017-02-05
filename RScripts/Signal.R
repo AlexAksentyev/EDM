@@ -54,10 +54,10 @@ df.p = data.frame(
   ), 
   Phi = rnorm(np, p0, sdp) # bimodalDistFunc(np,0,p0-3*sdp,p0+3*sdp,sdp,sdp)
 )
-attr(df.p$wFreq, "Synch") = w0
-attr(df.p$wFreq, "SD") = sdw
-attr(df.p$Phi, "Synch") = p0
-attr(df.p$Phi, "SD") = sdp
+attr(df.p$wFreq, "Synch") <- w0
+attr(df.p$wFreq, "SD") <- sdw
+attr(df.p$Phi, "Synch") <- p0
+attr(df.p$Phi, "SD") <- sdp
 
 .gghist_plot(df.p, "wFreq") -> p1
 .gghist_plot(df.p, "Phi") -> p2
@@ -66,7 +66,7 @@ plot_grid(p1,p2,nrow=2)
 ## computing signal ####
 Pproj <- function(df, x) colSums(cos(df$wFreq%o%x + df$Phi))
 
-Tstt = 0; Ttot=721*2; dt = .5/w0 #.5 to satisfy the Nyquist condition
+Tstt = 0; Ttot=721; dt = .5/w0 #.5 to satisfy the Nyquist condition
 df.s = data.frame(Time=seq(Tstt,Ttot,dt)) %>% mutate(Sgl=Pproj(df.p,Time))
 
 ## computing signal peaks ####
@@ -76,7 +76,7 @@ tnu = (2*pi*Nstt:Ntot-p0)/w0
 tnd = tnu+pi/w0
 
 ## plotting signal ####
-ggplot(df.s, aes(Time, Sgl)) + geom_line() + 
+ggplot(df.s, aes(Time, Sgl)) + geom_line(col="gray") + 
   geom_hline(yintercept = c(min(df.s$Sgl), max(df.s$Sgl)), col="red") +
   theme_bw() + 
   geom_point(aes(col=Side), 
