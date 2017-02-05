@@ -40,7 +40,7 @@ injectBeam <- function(distrib){
   
   np = 1000 # number of particles in bunch
   w0 = 3; f0 = w0/2/pi # frequency of the reference particle
-  p0 = pi/3 #phase of the reference particle
+  p0 = pi/2 #phase of the reference particle
   sdw = w0*1e-3
   sdp = p0*3e-2
   sddy = 1e-3 #sd of the energy distribution
@@ -157,8 +157,17 @@ gg_qq <- function(x, distribution = "norm", ..., line.estimate = NULL, conf = 0.
 
 
 
-test(1000) -> s
-gg_qq(s)
+test(100) -> s
+gg_qq(s)->tqqplot
 
 ## Yup, I was right
+
+tn = (pi)/w0
+ldply(seq(tn-.05,tn+.05,length.out = 10), function(x) {test(100, x)->s; data.frame(At=rep(x,length(s)),Sgl=s)}) -> s
+library(mosaic)
+mean(Sgl~At, data=s) ->xs
+sd(Sgl~At, data=s) -> sds
+cbind(XSgl=xs, SD=sds) %>% as.data.frame() %>% mutate(At = as.numeric(names(xs))) -> s
+
+ggplot(s, aes(x=At, y=XSgl)) + geom_linerange(aes(ymin=XSgl-SD, ymax=XSgl+SD)) + geom_line(col="gray")
 
