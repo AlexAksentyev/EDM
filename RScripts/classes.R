@@ -13,6 +13,7 @@ setGeneric("setValue",def=function(object, value) standardGeneric("setValue"))
 setGeneric("expectation", def=function(object, at) standardGeneric("expectation"))
 setGeneric("fiDer", def=function(object, at) standardGeneric("fiDer"))
 setGeneric("timeDer", def=function(object, at) standardGeneric("timeDer"))
+setGeneric("nodes", def=function(object, number) standardGeneric("nodes"))
 
 #### Sampling types ####
 CSampling = setClass(
@@ -30,7 +31,7 @@ CmSampling = setClass(
 
 setGeneric("simSample", def=function(sampling, signal, duration, rerror=sampling@rerror) standardGeneric("simSample"))
 
-#### method definitions ####
+## MODEL METHODS ####
 setMethod(
   f="setValue", signature="CModel", 
   definition=function(object, value){
@@ -69,7 +70,16 @@ setMethod(
       N0*etb * P*(lam.decoh*etd*sin(w*at + phi) + w*etd*cos(w*at + phi))
   }
 )
+setMethod(
+  f="nodes", signature = "CModel",
+  definition = function(object, number){
+    w = object@wFreq; phi = object@Phase
+    
+    (pi*0:number-phi)/w
+  }
+)
 
+## SAMPLING METHODS ####
 setMethod(
   f="setValue", signature="CSampling",
   definition=function(object, value){
