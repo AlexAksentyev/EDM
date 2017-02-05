@@ -31,13 +31,15 @@ w0 = 3; f0 = w0/2/pi # frequency of the reference particle
 p0 = pi/3 #phase of the reference particle
 sdw = w0*1e-3
 sdp = p0*3e-2
-dis = "bi"
+sddy = 1e-3 #sd of the energy distribution
+dis = "phys"
 
 ## particle distributions ####
 df.p = data.frame(
   wFreq = switch(dis,
-    "skew" = skewedDistFunc(np, w0, sdw, 10),
-    "bi" = bimodalDistFunc(np,.5,w0-3*sdw,w0+3*sdw,sdw,sdw)
+    "skew" = skewedDistFunc(np, w0, sdw, -2),
+    "bi" = bimodalDistFunc(np,.5,w0-3*sdw,w0+3*sdw,sdw,sdw),
+    "phys" = w0 + 1e3*rnorm(np,sd=sddy)^2 # dw = G*dy^2; w = w0+dw; dy ~ Norm(0,sddy)
   ), 
   Phi = rnorm(np, p0, sdp) # bimodalDistFunc(np,0,p0-3*sdp,p0+3*sdp,sdp,sdp)
 )
