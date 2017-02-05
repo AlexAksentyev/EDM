@@ -1,5 +1,6 @@
 library(dplyr); library(plyr)
 library(ggplot2)
+library(cowplot)
 
 .hist_plot <- function(x, x0, name){
   require(quantmod)
@@ -13,6 +14,16 @@ library(ggplot2)
   # legend("top", bty="n",
   #        legend=bquote(frac(x[b]-x[s],x[s])~"="~.(formatC((xm-x0)/x0*100,2,format="e"))~"%")
   # )
+}
+.gghist_plot <- function(df, name){
+  ggplot(df, aes_string(name)) +
+    geom_histogram(aes(y=..density..), fill="white", color="black") +
+    geom_density() + 
+    stat_function(fun=dnorm, 
+                  args=list(mean=attr(df[,name],"Synch"), 
+                            sd=attr(df[,name],"SD")), 
+                  col="red", lty=2) +
+    theme_bw()
 }
 skewedDistFunc <- function(n, mu, sd, skew){
   w = rweibull(np, mu+skew,sd)
@@ -43,16 +54,19 @@ df.p = data.frame(
   ), 
   Phi = rnorm(np, p0, sdp) # bimodalDistFunc(np,0,p0-3*sdp,p0+3*sdp,sdp,sdp)
 )
+attr(df.p$wFreq, "Synch") = w0
+attr(df.p$wFreq, "SD") = sdw
+attr(df.p$Phi, "Synch") = p0
+attr(df.p$Phi, "SD") = sdp
 
-par(mfrow=c(2,1))
-.hist_plot(df.p$wFreq,w0,expression(omega))
-.hist_plot(df.p$Phi,p0,expression(phi))
-par(mfrow=c(1,1))
+.gghist_plot(df.p, "wFreq") -> p1
+.gghist_plot(df.p, "Phi") -> p2
+plot_grid(p1,p2,nrow=2)
 
 ## computing signal ####
 Pproj <- function(df, x) colSums(cos(df$wFreq%o%x + df$Phi))
 
-Tstt = 0; Ttot=1000; dt = .5/w0 #.5 to satisfy the Nyquist condition
+Tstt = 0; Ttot=721*2; dt = .5/w0 #.5 to satisfy the Nyquist condition
 df.s = data.frame(Time=seq(Tstt,Ttot,dt)) %>% mutate(Sgl=Pproj(df.p,Time))
 
 ## computing signal peaks ####
