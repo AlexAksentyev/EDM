@@ -39,11 +39,12 @@ bimodalDistFunc <- function (n,cpct, mu1, mu2, sig1, sig2) {
 injectBeam <- function(distrib){
   
   np = 1000 # number of particles in bunch
+  sddy = 1e-3 #sd of the energy distribution
   w0 = 3; f0 = w0/2/pi # frequency of the reference particle
   p0 = pi/2 #phase of the reference particle
-  sdw = w0*1e-3
-  sdp = p0*3e-2
-  sddy = 1e-3 #sd of the energy distribution
+  sdw = w0*sddy
+  sdp = p0*2e-2
+  
   
   df.p = data.frame(
     wFreq = switch(distrib,
@@ -60,6 +61,7 @@ injectBeam <- function(distrib){
   
   df.p
 }
+Pproj <- function(df, x) colSums(cos(df$wFreq%o%x + df$Phi))
 
 ## particle distributions ####
 df.p = injectBeam("phys")
@@ -69,8 +71,6 @@ df.p = injectBeam("phys")
 plot_grid(whist,phist,nrow=2)
 
 ## computing signal ####
-Pproj <- function(df, x) colSums(cos(df$wFreq%o%x + df$Phi))
-
 w0 = attr(df.p$wFreq, "Synch")
 Tstt = 0; Ttot=721; dt = .5/w0 #.5 to satisfy the Nyquist condition
 df.s = data.frame(Time=seq(Tstt,Ttot,dt)) %>% mutate(Sgl=Pproj(df.p,Time))
@@ -99,9 +99,12 @@ s = ts(df.s$Sgl, start=Tstt, end=Ttot, deltat=dt)
 spec.pgram(s,plot = FALSE) -> sps
 sps <- data.frame(Freq=sps$freq, Pow=sps$spec) %>% mutate(wFreq=2*pi*Freq)
 
+x = arrange(sps, desc(Pow))[1:15,]
+dw = x[1,"wFreq"]-x[nrow(x),"wFreq"]
+
 sdw = attr(df.p$wFreq,"SD")
-filter(sps, wFreq>w0-5*sdw, wFreq<w0+5*sdw) %>% ggplot(aes(wFreq, Pow))+
-  geom_bar(stat="identity", width=sdw/w0/10) + 
+ggplot(x,aes(wFreq, Pow))+
+  geom_bar(stat="identity", width=dw*1e-2) + 
   theme_bw() + labs(x=expression(omega)) +
   geom_vline(xintercept = w0, col="red") -> fpsplot
 
@@ -110,7 +113,7 @@ filter(sps, wFreq>w0-5*sdw, wFreq<w0+5*sdw) %>% ggplot(aes(wFreq, Pow))+
 # and if I recall correctly, the sum of any random variables is a normally distributed
 # random variable
 
-test <- function(Ntrl=1000, at=(pi+pi/3)/w0*100){
+test <- function(Ntrl=1000, at){
   p = array(dim=Ntrl)
   for(n in 1:Ntrl) 
     p[n] = Pproj(injectBeam("phys"), at)
@@ -150,24 +153,30 @@ gg_qq <- function(x, distribution = "norm", ..., line.estimate = NULL, conf = 0.
     geom_abline(intercept = coef[1], slope = coef[2], col="red") +
     geom_ribbon(aes(ymin = lower, ymax = upper), alpha=0.2) +
     theme_bw()
+  
   if(!is.null(labels)) p <- p + geom_text( aes(label = label))
   print(p)
-  coef
+  # coef
+  p
 }
 
 
 
-test(100) -> s
+test(100, pi/3*100) -> s
 gg_qq(s)->tqqplot
 
+library(ggExtra)
+ggExtra::ggMarginal(tqqplot, type="density")
+
 ## Yup, I was right
-
-tn = (pi)/w0
-ldply(seq(tn-.05,tn+.05,length.out = 10), function(x) {test(100, x)->s; data.frame(At=rep(x,length(s)),Sgl=s)}) -> s
-library(mosaic)
-mean(Sgl~At, data=s) ->xs
-sd(Sgl~At, data=s) -> sds
-cbind(XSgl=xs, SD=sds) %>% as.data.frame() %>% mutate(At = as.numeric(names(xs))) -> s
-
-ggplot(s, aes(x=At, y=XSgl)) + geom_linerange(aes(ymin=XSgl-SD, ymax=XSgl+SD)) + geom_line(col="gray")
+if(FALSE){
+  tn = (pi)/w0
+  ldply(seq(tn-.05,tn+.05,length.out = 10), function(x) {test(100, x)->s; data.frame(At=rep(x,length(s)),Sgl=s)}) -> s
+  library(mosaic)
+  mean(Sgl~At, data=s) ->xs
+  sd(Sgl~At, data=s) -> sds
+  cbind(XSgl=xs, SD=sds) %>% as.data.frame() %>% mutate(At = as.numeric(names(xs))) -> s
+  
+  ggplot(s, aes(x=At, y=XSgl)) + geom_linerange(aes(ymin=XSgl-SD, ymax=XSgl+SD)) + geom_line(col="gray")
+}
 
