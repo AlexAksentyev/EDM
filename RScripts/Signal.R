@@ -23,10 +23,10 @@ bimodalDistFunc <- function (n,cpct, mu1, mu2, sig1, sig2) {
   flag <- rbinom(n,size=1,prob=cpct)
   y <- y0*(1 - flag) + y1*flag 
 }
-injectBeam <- function(distrib){
+phaseSpace <- function(distrib, at=0){
   
   np = 1000 # number of particles in bunch
-  sddy = 1e-3 #sd of the energy distribution
+  sddy = 1e-3 + 5e-6*at #sd of the energy distribution
   w0 = 3; f0 = w0/2/pi # frequency of the reference particle
   p0 = 0 #phase of the reference particle
   sdw = w0*sddy
@@ -52,7 +52,7 @@ injectBeam <- function(distrib){
 Pproj <- function(df, x) colSums(sin(df$wFreq%o%x + df$Phi))
 
 ## particle distributions ####
-df.p = injectBeam("phys")
+df.p = phaseSpace("phys")
 
 .gghist_plot(df.p, "wFreq") -> whist
 .gghist_plot(df.p, "Phi") -> phist
@@ -105,7 +105,7 @@ ggplot(x,aes(wFreq, Pow))+
 test <- function(Ntrl=1000, at){
   p = array(dim=Ntrl)
   for(n in 1:Ntrl) 
-    p[n] = Pproj(injectBeam("phys"), at)
+    p[n] = Pproj(phaseSpace("phys", at), at)
   p
 }
 gg_qq <- function(x, distribution = "norm", ..., line.estimate = NULL, conf = 0.95,
@@ -158,14 +158,24 @@ library(ggExtra)
 ggExtra::ggMarginal(tqqplot, type="density")
 
 ## Yup, I was right
-if(FALSE){
-  tn = (pi)/w0
-  ldply(seq(tn-.05,tn+.05,length.out = 10), function(x) {test(100, x)->s; data.frame(At=rep(x,length(s)),Sgl=s)}) -> s
-  library(mosaic)
-  mean(Sgl~At, data=s) ->xs
-  sd(Sgl~At, data=s) -> sds
-  cbind(XSgl=xs, SD=sds) %>% as.data.frame() %>% mutate(At = as.numeric(names(xs))) -> s
+
+if(FALSE){ # just looking at the error bars from phaseSpace
+  tn=pi/w0
+  ldply(seq(tn-5e-3,tn+5e-3,length.out=10), function(x) {test(100,x) ->s; data.frame(At=rep(x,length(s)),Sgl=s)}) -> s
   
-  ggplot(s, aes(x=At, y=XSgl)) + geom_linerange(aes(ymin=XSgl-SD, ymax=XSgl+SD)) + geom_line(col="gray")
+  library(mosaic)
+  mean(Sgl~At, data=s) -> xs
+  sd(Sgl~At, data=s) -> sds
+  data.frame(XSgl=xs,SD=sds,At=as.numeric(names(xs))) -> s
+  
+  ggplot(s, aes(x=At, y=XSgl)) + geom_linerange(aes(ymin=XSgl-SD,ymax=XSgl+SD)) + geom_line(col="gray")+ theme_bw()
+}
+
+
+## TESTING OUT GROWING PHASE SPACE #### 
+if(FALSE){
+  ldply(seq(0,500,dt), function(x) {Pproj(phaseSpace("norm",x),x)->s; data.frame(At=rep(x,length(s)),Sgl=s)}) -> s
+
+  ggplot(s, aes(x=At, y=Sgl)) + geom_line(col="gray")+ theme_bw()
 }
 
