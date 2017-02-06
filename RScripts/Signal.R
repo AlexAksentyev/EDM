@@ -158,8 +158,8 @@ library(ggExtra)
 ggExtra::ggMarginal(tqqplot, type="density")
 
 ## Yup, I was right
-
-if(FALSE){ # just looking at the error bars from phaseSpace
+# just looking at the error bars from phaseSpace
+if(FALSE){ 
   tn=pi/w0
   ldply(seq(tn-5e-3,tn+5e-3,length.out=10), function(x) {test(100,x) ->s; data.frame(At=rep(x,length(s)),Sgl=s)}) -> s
   
@@ -171,10 +171,9 @@ if(FALSE){ # just looking at the error bars from phaseSpace
   ggplot(s, aes(x=At, y=XSgl)) + geom_linerange(aes(ymin=XSgl-SD,ymax=XSgl+SD)) + geom_line(col="gray")+ theme_bw()
 }
 
-
 ## TESTING OUT GROWING PHASE SPACE #### 
 if(FALSE){
-  ldply(seq(0,500,dt), function(x) {Pproj(phaseSpace("norm",x),x)->s; data.frame(At=rep(x,length(s)),Sgl=s)}) -> s
+  ldply(seq(0,500,dt), function(x) {Pproj(phaseSpace("phys",x),x)->s; data.frame(At=rep(x,length(s)),Sgl=s)}) -> s
 
   ggplot(s, aes(x=At, y=Sgl)) + geom_line(col="gray")+ theme_bw()
 }
