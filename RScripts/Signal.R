@@ -2,19 +2,6 @@ library(dplyr); library(plyr)
 library(ggplot2)
 library(cowplot)
 
-.hist_plot <- function(x, x0, name){
-  require(quantmod)
-  hist(x, freq=FALSE, main = paste("Histogram of ", name), xlab=name)
-  dx = density(x,adjust = 2)
-  xm = dx$x[findPeaks(dx$y)[1]]
-  lines(dx)
-  lines(density(rnorm(length(x), x0, sd(x)),adjust=2),col="red", lty=2)
-  legend("topright",lty=c(1,2),col=c("black","red"), legend = c("density","Gauss"))
-  # abline(v=c(xm,x0), lty=c(1,2), col=c("black","red"))
-  # legend("top", bty="n",
-  #        legend=bquote(frac(x[b]-x[s],x[s])~"="~.(formatC((xm-x0)/x0*100,2,format="e"))~"%")
-  # )
-}
 .gghist_plot <- function(df, name){
   ggplot(df, aes_string(name)) +
     geom_histogram(aes(y=..density..), fill="white", color="black") +
@@ -26,7 +13,7 @@ library(cowplot)
     theme_bw()
 }
 skewedDistFunc <- function(n, mu, sd, skew){
-  w = rweibull(np, mu+skew,sd)
+  w = rweibull(n, mu+skew,sd)
   mu-mean(w)+w
 }
 bimodalDistFunc <- function (n,cpct, mu1, mu2, sig1, sig2) {
@@ -41,14 +28,15 @@ injectBeam <- function(distrib){
   np = 1000 # number of particles in bunch
   sddy = 1e-3 #sd of the energy distribution
   w0 = 3; f0 = w0/2/pi # frequency of the reference particle
-  p0 = pi/2 #phase of the reference particle
+  p0 = 0 #phase of the reference particle
   sdw = w0*sddy
-  sdp = p0*2e-2
+  sdp = 2e-2
   
   
   df.p = data.frame(
     wFreq = switch(distrib,
-                   "skew" = skewedDistFunc(np, w0, sdw, -2),
+                   "norm" = rnorm(np, w0, sdw),
+                   "skew" = skewedDistFunc(np, w0, sdw, 2),
                    "bi" = bimodalDistFunc(np,.5,w0-3*sdw,w0+3*sdw,sdw,sdw),
                    "phys" = w0 + 1e3*rnorm(np,sd=sddy)^2 # dw = G*dy^2; w = w0+dw; dy ~ Norm(0,sddy)
     ), 
@@ -61,7 +49,7 @@ injectBeam <- function(distrib){
   
   df.p
 }
-Pproj <- function(df, x) colSums(cos(df$wFreq%o%x + df$Phi))
+Pproj <- function(df, x) colSums(sin(df$wFreq%o%x + df$Phi))
 
 ## particle distributions ####
 df.p = injectBeam("phys")
@@ -72,14 +60,15 @@ plot_grid(whist,phist,nrow=2)
 
 ## computing signal ####
 w0 = attr(df.p$wFreq, "Synch")
-Tstt = 0; Ttot=721; dt = .5/w0 #.5 to satisfy the Nyquist condition
+Tstt = 0; Ttot=721*2; dt = .5/w0 #.5 to satisfy the Nyquist condition
 df.s = data.frame(Time=seq(Tstt,Ttot,dt)) %>% mutate(Sgl=Pproj(df.p,Time))
 
 ## computing signal peaks ####
 p0 = attr(df.p$Phi, "Synch")
-Ntot = floor(.5*(w0*Ttot+p0)/pi)
-Nstt = floor(.5*(w0*Tstt+p0)/pi)
-tnu = (2*pi*Nstt:Ntot-p0)/w0
+dum <- function(Time) floor((w0*Time+p0-pi/2)/2/pi)
+Ntot = dum(Ttot)
+Nstt = dum(Tstt)
+tnu = (2*pi*Nstt:Ntot-p0+pi/2)/w0
 tnd = tnu+pi/w0
 
 ## plotting signal ####
@@ -100,11 +89,11 @@ spec.pgram(s,plot = FALSE) -> sps
 sps <- data.frame(Freq=sps$freq, Pow=sps$spec) %>% mutate(wFreq=2*pi*Freq)
 
 x = arrange(sps, desc(Pow))[1:15,]
-dw = x[1,"wFreq"]-x[nrow(x),"wFreq"]
+dw = x[1,"wFreq"]-x[2,"wFreq"]
 
 sdw = attr(df.p$wFreq,"SD")
 ggplot(x,aes(wFreq, Pow))+
-  geom_bar(stat="identity", width=dw*1e-2) + 
+  geom_bar(stat="identity", width=dw*.1) + 
   theme_bw() + labs(x=expression(omega)) +
   geom_vline(xintercept = w0, col="red") -> fpsplot
 
@@ -155,14 +144,14 @@ gg_qq <- function(x, distribution = "norm", ..., line.estimate = NULL, conf = 0.
     theme_bw()
   
   if(!is.null(labels)) p <- p + geom_text( aes(label = label))
-  print(p)
+  # print(p)
   # coef
   p
 }
 
 
 
-test(100, pi/3*100) -> s
+test(100, (pi+pi/3)/w0*100) -> s
 gg_qq(s)->tqqplot
 
 library(ggExtra)

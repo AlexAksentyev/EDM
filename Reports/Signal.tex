@@ -19,9 +19,10 @@
 \end{align*}
 $f$ and $g$ are distributions.
 
-\[
-	\cos\bkt{\omega_0t + \Dw_it + \phi_i} = \frac12\bkt{e^{\ii\omega_0t}e^{\ii\Dw_it}e^{\ii\phi_i} + e^{-\ii\omega_0t}e^{-\ii\Dw_it}e^{-\ii\phi_i}}
-\]
+The phase $\Theta_i$ is a random variable, hence $\proj{P}{y}$ is a sum of random variables; this sum is distributed normally, with expectation $\Xpct{\proj{P}{y}}[t] = \abs{\vec{s}}\cdot n_b\cdot \int_\infty\cos\theta\cdot f(\theta|t)\td\theta$.
+
+\section{Observations}
+Modeling shows that the \textbf{frequency} is affected (it's slightly lower when the $\omega$ distribution is right-skewed, and slightly higher if the opposite is true; a bimodal distribution makes the signal's power spectrum bimodal as well).
 
 
 
