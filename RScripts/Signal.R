@@ -175,6 +175,15 @@ if(FALSE){
 if(FALSE){
   ldply(seq(0,500,dt), function(x) {Pproj(phaseSpace("phys",x),x)->s; data.frame(At=rep(x,length(s)),Sgl=s)}) -> s
 
-  ggplot(s, aes(x=At, y=Sgl)) + geom_line(col="gray")+ theme_bw()
+  ## i'll try fitting now
+  f = Sgl ~ nrow(df.p)* exp(lam*At) * sin(w*At + g*At^2 + p0)
+  nls(f, data=s, start = list(lam=log(.25)/500, w=rnorm(1,w0,1e-4), g=5e-6)) -> mod
+  
+  mutate(s, fSgl = fitted(mod)) -> s
+  
+  ggplot(s, aes(x=At, y=Sgl)) + geom_line(col="gray")+ theme_bw() + geom_point(aes(At,fSgl), col="red")
+  
 }
+
+
 
