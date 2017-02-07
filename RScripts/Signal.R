@@ -62,16 +62,16 @@ plot_grid(whist,phist,nrow=2)
 
 ## computing signal ####
 w0 = attr(df.p$wFreq, "Synch")
-Tstt = 0; Ttot=721*2; dt = .5/w0 #.5 to satisfy the Nyquist condition
+Tstt = 0; Ttot=721*3; dt = .5/w0 #.5 to satisfy the Nyquist condition
 df.s = data.frame(Time=seq(Tstt,Ttot,dt)) %>% mutate(Sgl=Pproj(df.p,Time))
 
 ## fitting signal ####
+p0 = attr(df.p$Phi, "Synch")
 f = Sgl ~ nrow(df.p)* exp(lam*Time) * sin(w*Time + g*Time^2 + p0)
 nls(f, data=df.s, start=list(lam=-1.4e-3, w=w0, g=0)) -> mod1
 mutate(df.s, fSgl = fitted(mod1)) -> df.s
 
 ## computing signal peaks ####
-p0 = attr(df.p$Phi, "Synch")
 dum <- function(Time) floor((w0*Time+p0-pi/2)/2/pi)
 Ntot = dum(Ttot)
 Nstt = dum(Tstt)
@@ -88,10 +88,10 @@ ggplot(df.s, aes(Time, Sgl)) + geom_line(col="gray") +
                Sgl=Pproj(df.p,c(tnu,tnd)), 
                Side=rep(c("U","D"),c(length(tnu),length(tnd)))
              ), show.legend = FALSE) +
-  geom_point(aes(Time, fSgl), size=.5, shape="x", col="magenta") +
+  # geom_point(aes(Time, fSgl), size=.5, shape="x", col="magenta") +
   scale_color_manual(breaks=c("D","U"), values = c("blue","red")) +
   annotation_custom(tableGrob(formatC(coef(summary(mod1))[,1:2],3,format="e")), 
-                    xmin=950, xmax=1500,ymin=-900, ymax=-400) -> sglplot
+                    xmin=950, xmax=1500,ymin=-1000, ymax=-650) -> sglplot
 
 ## spectral analysis ####
 s = ts(df.s$Sgl, start=Tstt, end=Ttot, deltat=dt)
@@ -163,7 +163,7 @@ gg_qq <- function(x, distribution = "norm", ..., line.estimate = NULL, conf = 0.
 
 
 
-test(100, (pi+pi/3)/w0*100) -> s
+test(10000, (pi+pi/3)/w0*100) -> s
 gg_qq(s)->tqqplot
 
 library(ggExtra)
@@ -185,17 +185,20 @@ if(FALSE){
 
 ## TESTING OUT GROWING PHASE SPACE #### 
 if(FALSE){
-  ldply(seq(0,721,dt), function(x) {Pproj(phaseSpace("phys",x),x)->s; data.frame(At=rep(x,length(s)),Sgl=s)}) -> s
+  ldply(seq(0,721*3,dt), function(x) {
+    Pproj(phaseSpace("norm",x),x)->s
+    data.frame(At=rep(x,length(s)),Sgl=s)
+  }) -> s
 
   ## i'll try fitting now
-  f = Sgl ~ nrow(df.p)* exp(lam*At) * sin(w*At + g*At^2 + p0)
+  f = Sgl ~ nrow(df.p)* exp(lam*At)* sin(w*At + g*At^2 + p0)
   nls(f, data=s, start = list(lam=log(.25)/500, w=rnorm(1,w0,1e-4), g=5e-6)) -> mod
   print(summary(mod))
   
   mutate(s, fSgl = fitted(mod)) -> s
   
   ggplot(s, aes(x=At, y=Sgl)) + geom_line(col="gray")+ theme_bw() + 
-    geom_point(aes(At,fSgl), col="magenta", size=.1) +
+    # geom_point(aes(At,fSgl), col="magenta", size=.1) +
     annotation_custom(tableGrob(formatC(coef(summary(mod))[,1:2],3,format="e")),
                       xmin = 400, xmax=700, ymin=-1000, ymax=-500)
   
