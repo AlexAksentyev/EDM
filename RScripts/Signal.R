@@ -1,6 +1,8 @@
 library(dplyr); library(plyr)
-library(ggplot2)
+library(ggplot2); library(gridExtra)
 library(cowplot)
+
+source("./RScripts/definitions.R")
 
 .gghist_plot <- function(df, name){
   ggplot(df, aes_string(name)) +
@@ -54,14 +56,19 @@ Pproj <- function(df, x) colSums(sin(df$wFreq%o%x + df$Phi))
 ## particle distributions ####
 df.p = phaseSpace("phys")
 
-.gghist_plot(df.p, "wFreq") -> whist
-.gghist_plot(df.p, "Phi") -> phist
+.gghist_plot(df.p, "wFreq") + labs(x=expression(omega)) -> whist
+.gghist_plot(df.p, "Phi") + labs(x=expression(phi))-> phist
 plot_grid(whist,phist,nrow=2)
 
 ## computing signal ####
 w0 = attr(df.p$wFreq, "Synch")
 Tstt = 0; Ttot=721*2; dt = .5/w0 #.5 to satisfy the Nyquist condition
 df.s = data.frame(Time=seq(Tstt,Ttot,dt)) %>% mutate(Sgl=Pproj(df.p,Time))
+
+## fitting signal ####
+f = Sgl ~ nrow(df.p)* exp(lam*Time) * sin(w*Time + g*Time^2 + p0)
+nls(f, data=df.s, start=list(lam=-1.4e-3, w=w0, g=0)) -> mod1
+mutate(df.s, fSgl = fitted(mod1)) -> df.s
 
 ## computing signal peaks ####
 p0 = attr(df.p$Phi, "Synch")
@@ -75,13 +82,16 @@ tnd = tnu+pi/w0
 ggplot(df.s, aes(Time, Sgl)) + geom_line(col="gray") + 
   geom_hline(yintercept = c(min(df.s$Sgl), max(df.s$Sgl)), col="red") +
   theme_bw() + 
-  geom_point(aes(col=Side), 
+  geom_point(aes(col=Side), size=.1,
              data=data.frame(
                Time=c(tnu,tnd), 
                Sgl=Pproj(df.p,c(tnu,tnd)), 
                Side=rep(c("U","D"),c(length(tnu),length(tnd)))
              ), show.legend = FALSE) +
-  scale_color_manual(breaks=c("D","U"), values = c("blue","red")) -> sglplot
+  geom_point(aes(Time, fSgl), size=.5, shape="x", col="magenta") +
+  scale_color_manual(breaks=c("D","U"), values = c("blue","red")) +
+  annotation_custom(tableGrob(formatC(coef(summary(mod1))[,1:2],3,format="e")), 
+                    xmin=950, xmax=1500,ymin=-900, ymax=-400) -> sglplot
 
 ## spectral analysis ####
 s = ts(df.s$Sgl, start=Tstt, end=Ttot, deltat=dt)
@@ -92,10 +102,12 @@ x = arrange(sps, desc(Pow))[1:15,]
 dw = x[1,"wFreq"]-x[2,"wFreq"]
 
 sdw = attr(df.p$wFreq,"SD")
-ggplot(x,aes(wFreq, Pow))+
+ggplot(x,aes(wFreq, Pow))+scale_y_continuous(labels=.fancy_scientific) +
   geom_bar(stat="identity", width=dw*.1) + 
   theme_bw() + labs(x=expression(omega)) +
   geom_vline(xintercept = w0, col="red") -> fpsplot
+
+plot_grid(sglplot,fpsplot,nrow=2)
 
 ## FREQUENCY-SPREAD SIGNAL ERROR HYPOTHESIS ####
 # at each point in time the signal is a sum of random variables (b/c wFreq and Phi are RVs)
@@ -157,7 +169,7 @@ gg_qq(s)->tqqplot
 library(ggExtra)
 ggExtra::ggMarginal(tqqplot, type="density")
 
-## Yup, I was right
+## Yup, I was right. Or is it 
 # just looking at the error bars from phaseSpace
 if(FALSE){ 
   tn=pi/w0
@@ -173,18 +185,21 @@ if(FALSE){
 
 ## TESTING OUT GROWING PHASE SPACE #### 
 if(FALSE){
-  ldply(seq(0,500,dt), function(x) {Pproj(phaseSpace("phys",x),x)->s; data.frame(At=rep(x,length(s)),Sgl=s)}) -> s
+  ldply(seq(0,721,dt), function(x) {Pproj(phaseSpace("phys",x),x)->s; data.frame(At=rep(x,length(s)),Sgl=s)}) -> s
 
   ## i'll try fitting now
   f = Sgl ~ nrow(df.p)* exp(lam*At) * sin(w*At + g*At^2 + p0)
   nls(f, data=s, start = list(lam=log(.25)/500, w=rnorm(1,w0,1e-4), g=5e-6)) -> mod
+  print(summary(mod))
   
   mutate(s, fSgl = fitted(mod)) -> s
   
-  ggplot(s, aes(x=At, y=Sgl)) + geom_line(col="gray")+ theme_bw() + geom_point(aes(At,fSgl), col="red")
+  ggplot(s, aes(x=At, y=Sgl)) + geom_line(col="gray")+ theme_bw() + 
+    geom_point(aes(At,fSgl), col="magenta", size=.1) +
+    annotation_custom(tableGrob(formatC(coef(summary(mod))[,1:2],3,format="e")),
+                      xmin = 400, xmax=700, ymin=-1000, ymax=-500)
   
 }
 
-## did I change it?
 
 
