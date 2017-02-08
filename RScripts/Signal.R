@@ -1,6 +1,6 @@
 library(dplyr); library(plyr)
 library(ggplot2); library(gridExtra)
-library(cowplot)
+library(grid)
 
 source("./RScripts/definitions.R")
 
@@ -25,13 +25,13 @@ bimodalDistFunc <- function (n,cpct, mu1, mu2, sig1, sig2) {
   flag <- rbinom(n,size=1,prob=cpct)
   y <- y0*(1 - flag) + y1*flag 
 }
-phaseSpace <- function(distrib, at=0){
+phaseSpace <- function(distrib, at=0, np=1000){
   
-  np = 1000 # number of particles in bunch
   sddy = 1e-3 + 5e-6*at #sd of the energy distribution
-  w0 = 3; f0 = w0/2/pi # frequency of the reference particle
+  G = 1e3 # dw = G*dy^2
+  w0 = 3 # frequency of the reference particle
   p0 = 0 #phase of the reference particle
-  sdw = w0*sddy
+  sdw = G*sddy^2 #for all distributions other than phys
   sdp = 2e-2
   
   
@@ -40,7 +40,7 @@ phaseSpace <- function(distrib, at=0){
                    "norm" = rnorm(np, w0, sdw),
                    "skew" = skewedDistFunc(np, w0, sdw, 2),
                    "bi" = bimodalDistFunc(np,.5,w0-3*sdw,w0+3*sdw,sdw,sdw),
-                   "phys" = w0 + 1e3*rnorm(np,sd=sddy)^2 # dw = G*dy^2; w = w0+dw; dy ~ Norm(0,sddy)
+                   "phys" = w0 + G*rnorm(np,sd=sddy)^2 # dw = G*dy^2; w = w0+dw; dy ~ Norm(0,sddy)
     ), 
     Phi = rnorm(np, p0, sdp) # bimodalDistFunc(np,0,p0-3*sdp,p0+3*sdp,sdp,sdp)
   )
@@ -54,11 +54,11 @@ phaseSpace <- function(distrib, at=0){
 Pproj <- function(df, x) colSums(sin(df$wFreq%o%x + df$Phi))
 
 ## particle distributions ####
-df.p = phaseSpace("phys")
+df.p = phaseSpace("norm")
 
 .gghist_plot(df.p, "wFreq") + labs(x=expression(omega)) -> whist
 .gghist_plot(df.p, "Phi") + labs(x=expression(phi))-> phist
-plot_grid(whist,phist,nrow=2)
+grid.arrange(whist,phist)
 
 ## computing signal ####
 w0 = attr(df.p$wFreq, "Synch")
@@ -67,8 +67,8 @@ df.s = data.frame(Time=seq(Tstt,Ttot,dt)) %>% mutate(Sgl=Pproj(df.p,Time))
 
 ## fitting signal ####
 p0 = attr(df.p$Phi, "Synch")
-f = Sgl ~ nrow(df.p)* exp(lam*Time) * sin(w*Time + g*Time^2 + p0)
-nls(f, data=df.s, start=list(lam=-1.4e-3, w=w0, g=0)) -> mod1
+f = Sgl ~ nrow(df.p)* exp(lam*Time) * sin(w*Time + p0)
+nls(f, data=df.s, start=list(lam=-1.4e-3, w=w0)) -> mod1; print(coef(summary(mod1)))
 mutate(df.s, fSgl = fitted(mod1)) -> df.s
 
 ## computing signal peaks ####
@@ -77,21 +77,26 @@ Ntot = dum(Ttot)
 Nstt = dum(Tstt)
 tnu = (2*pi*Nstt:Ntot-p0+pi/2)/w0
 tnd = tnu+pi/w0
+df.pks = data.frame(
+  Time=c(tnu,tnd), 
+  Sgl=Pproj(df.p,c(tnu,tnd)), 
+  Side=rep(c("U","D"),c(length(tnu),length(tnd)))
+)
 
 ## plotting signal ####
-ggplot(df.s, aes(Time, Sgl)) + geom_line(col="gray") + 
-  geom_hline(yintercept = c(min(df.s$Sgl), max(df.s$Sgl)), col="red") +
-  theme_bw() + 
-  geom_point(aes(col=Side), size=.1,
-             data=data.frame(
-               Time=c(tnu,tnd), 
-               Sgl=Pproj(df.p,c(tnu,tnd)), 
-               Side=rep(c("U","D"),c(length(tnu),length(tnd)))
-             ), show.legend = FALSE) +
+ggplot(df.s, aes(Time, Sgl)) + geom_line(col="gray",lwd=.05) + 
+  theme_bw() + labs(y=expression(pi[bold(y)]*bold(P)))+
+  geom_point(size=.1,data=df.pks, show.legend = FALSE) +
+  # scale_color_manual(breaks=c("D","U"), values = c("blue","red")) +
   # geom_point(aes(Time, fSgl), size=.5, shape="x", col="magenta") +
-  scale_color_manual(breaks=c("D","U"), values = c("blue","red")) +
   annotation_custom(tableGrob(formatC(coef(summary(mod1))[,1:2],3,format="e")), 
-                    xmin=950, xmax=1500,ymin=-1000, ymax=-650) -> sglplot
+                    xmin=1000, xmax=2500,ymin=-1000, ymax=-650) -> sglplot
+
+ggplot(filter(df.s, Time>1000&Time<1010), aes(Time,Sgl)) + geom_line(col="gray") + theme_bw() +
+  geom_point(aes(Time, Sgl), size=1, data=filter(df.pks, Time>1000&Time<1010))+labs(x="",y="") -> sglslc
+
+vp <- viewport(width = .4, height = .3, x = .6, y = .5, just = c("right","center"))
+print(sglplot); print(sglslc,vp=vp)
 
 ## spectral analysis ####
 s = ts(df.s$Sgl, start=Tstt, end=Ttot, deltat=dt)
@@ -163,13 +168,13 @@ gg_qq <- function(x, distribution = "norm", ..., line.estimate = NULL, conf = 0.
 
 
 
-test(10000, (pi+pi/3)/w0*100) -> s
+test(100, (pi+pi/3)/w0*100) -> s
 gg_qq(s)->tqqplot
 
 library(ggExtra)
 ggExtra::ggMarginal(tqqplot, type="density")
 
-## Yup, I was right. Or is it 
+## Yup, I was right. Or is it because the distribution of phi is normal? 
 # just looking at the error bars from phaseSpace
 if(FALSE){ 
   tn=pi/w0
@@ -185,22 +190,22 @@ if(FALSE){
 
 ## TESTING OUT GROWING PHASE SPACE #### 
 if(FALSE){
-  ldply(seq(0,721*3,dt), function(x) {
-    Pproj(phaseSpace("norm",x),x)->s
-    data.frame(At=rep(x,length(s)),Sgl=s)
+  ldply(seq(0,721*2,dt), function(x) {
+    Pproj(phaseSpace("phys",x),x)->s
+    data.frame(Time=rep(x,length(s)),Sgl=s)
   }) -> s
 
   ## i'll try fitting now
-  f = Sgl ~ nrow(df.p)* exp(lam*At)* sin(w*At + g*At^2 + p0)
+  f = Sgl ~ nrow(df.p)* exp(lam*(Time))* sin(w*Time + g*Time^2 + p0)
   nls(f, data=s, start = list(lam=log(.25)/500, w=rnorm(1,w0,1e-4), g=5e-6)) -> mod
   print(summary(mod))
   
   mutate(s, fSgl = fitted(mod)) -> s
   
-  ggplot(s, aes(x=At, y=Sgl)) + geom_line(col="gray")+ theme_bw() + 
-    # geom_point(aes(At,fSgl), col="magenta", size=.1) +
+  ggplot(s, aes(x=Time, y=Sgl)) + geom_line(col="gray",lwd=.05)+ theme_bw() + labs(y=expression(pi[bold(y)]*bold(P)))+
+    # geom_point(aes(Time,fSgl), col="magenta", size=.1) +
     annotation_custom(tableGrob(formatC(coef(summary(mod))[,1:2],3,format="e")),
-                      xmin = 400, xmax=700, ymin=-1000, ymax=-500)
+                      xmin = 600, xmax=1500, ymin=-1000, ymax=-500)
   
 }
 
