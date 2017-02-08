@@ -54,7 +54,7 @@ phaseSpace <- function(distrib, at=0, np=1000){
 Pproj <- function(df, x) colSums(sin(df$wFreq%o%x + df$Phi))
 
 ## particle distributions ####
-df.p = phaseSpace("norm")
+df.p = phaseSpace("phys")
 
 .gghist_plot(df.p, "wFreq") + labs(x=expression(omega)) -> whist
 .gghist_plot(df.p, "Phi") + labs(x=expression(phi))-> phist
@@ -116,7 +116,7 @@ plot_grid(sglplot,fpsplot,nrow=2)
 
 ## FREQUENCY-SPREAD SIGNAL ERROR HYPOTHESIS ####
 # at each point in time the signal is a sum of random variables (b/c wFreq and Phi are RVs)
-# and if I recall correctly, the sum of any random variables is a normally distributed
+# and if I recall correctly, the sum of any random variable is a normally distributed
 # random variable
 
 test <- function(Ntrl=1000, at){
@@ -192,7 +192,7 @@ if(FALSE){
 if(FALSE){
   ldply(seq(0,721*2,dt), function(x) {
     Pproj(phaseSpace("phys",x),x)->s
-    data.frame(Time=rep(x,length(s)),Sgl=s)
+    data.frame(Time=x,Sgl=s)
   }) -> s
 
   ## i'll try fitting now
