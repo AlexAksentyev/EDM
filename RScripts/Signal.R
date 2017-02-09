@@ -28,7 +28,7 @@ bimodalDistFunc <- function (n,cpct, mu1, mu2, sig1, sig2) {
 phaseSpace <- function(distrib, at=0, np=1000){
   
   sddy = 1e-3 + 5e-6*at #sd of the energy distribution
-  G = 1e3 # dw = G*dy^2
+  G = 7e2 # dw = G*dy^2
   w0 = 3 # frequency of the reference particle
   p0 = 0 #phase of the reference particle
   sdw = G*sddy^2 #for all distributions other than phys
@@ -84,7 +84,7 @@ df.pks = data.frame(
 )
 
 ## plotting signal ####
-ggplot(df.s, aes(Time, Sgl)) + geom_line(col="gray",lwd=.05) + 
+ggplot(df.s, aes(Time, Sgl)) + geom_line(col="red",lwd=.05) + 
   theme_bw() + labs(y=expression(pi[bold(y)]*bold(P)))+
   geom_point(size=.1,data=df.pks, show.legend = FALSE) +
   # scale_color_manual(breaks=c("D","U"), values = c("blue","red")) +
@@ -92,8 +92,9 @@ ggplot(df.s, aes(Time, Sgl)) + geom_line(col="gray",lwd=.05) +
   annotation_custom(tableGrob(formatC(coef(summary(mod1))[,1:2],3,format="e")), 
                     xmin=1000, xmax=2500,ymin=-1000, ymax=-650) -> sglplot
 
-ggplot(filter(df.s, Time>1000&Time<1010), aes(Time,Sgl)) + geom_line(col="gray") + theme_bw() +
-  geom_point(aes(Time, Sgl), size=1, data=filter(df.pks, Time>1000&Time<1010))+labs(x="",y="") -> sglslc
+t0 = 2100
+ggplot(filter(df.s, Time>t0&Time<t0+10), aes(Time,Sgl)) + geom_line(col="red") + theme_bw() +
+  geom_point(aes(Time, Sgl), size=1, data=filter(df.pks, Time>t0&Time<t0+10))+labs(x="",y="") -> sglslc
 
 vp <- viewport(width = .4, height = .3, x = .6, y = .5, just = c("right","center"))
 print(sglplot); print(sglslc,vp=vp)
@@ -112,69 +113,71 @@ ggplot(x,aes(wFreq, Pow))+scale_y_continuous(labels=.fancy_scientific) +
   theme_bw() + labs(x=expression(omega)) +
   geom_vline(xintercept = w0, col="red") -> fpsplot
 
-plot_grid(sglplot,fpsplot,nrow=2)
+grid.arrange(sglplot, fpsplot)
 
 ## FREQUENCY-SPREAD SIGNAL ERROR HYPOTHESIS ####
 # at each point in time the signal is a sum of random variables (b/c wFreq and Phi are RVs)
 # and if I recall correctly, the sum of any random variable is a normally distributed
 # random variable
-
-test <- function(Ntrl=1000, at){
-  p = array(dim=Ntrl)
-  for(n in 1:Ntrl) 
-    p[n] = Pproj(phaseSpace("phys", at), at)
-  p
-}
-gg_qq <- function(x, distribution = "norm", ..., line.estimate = NULL, conf = 0.95,
-                  labels = names(x)){
-  q.function <- eval(parse(text = paste0("q", distribution)))
-  d.function <- eval(parse(text = paste0("d", distribution)))
-  x <- na.omit(x)
-  ord <- order(x)
-  n <- length(x)
-  P <- ppoints(length(x))
-  df <- data.frame(ord.x = x[ord], z = q.function(P, ...))
-  
-  if(is.null(line.estimate)){
-    Q.x <- quantile(df$ord.x, c(0.25, 0.75))
-    Q.z <- q.function(c(0.25, 0.75), ...)
-    b <- diff(Q.x)/diff(Q.z)
-    coef <- c(Q.x[1] - b * Q.z[1], b)
-  } else {
-    coef <- coef(line.estimate(ord.x ~ z))
+if(FALSE){
+  test <- function(Ntrl=1000, at){
+    p = array(dim=Ntrl)
+    for(n in 1:Ntrl) 
+      p[n] = Pproj(phaseSpace("phys", at), at)
+    p
+  }
+  gg_qq <- function(x, distribution = "norm", ..., line.estimate = NULL, conf = 0.95,
+                    labels = names(x)){
+    q.function <- eval(parse(text = paste0("q", distribution)))
+    d.function <- eval(parse(text = paste0("d", distribution)))
+    x <- na.omit(x)
+    ord <- order(x)
+    n <- length(x)
+    P <- ppoints(length(x))
+    df <- data.frame(ord.x = x[ord], z = q.function(P, ...))
+    
+    if(is.null(line.estimate)){
+      Q.x <- quantile(df$ord.x, c(0.25, 0.75))
+      Q.z <- q.function(c(0.25, 0.75), ...)
+      b <- diff(Q.x)/diff(Q.z)
+      coef <- c(Q.x[1] - b * Q.z[1], b)
+    } else {
+      coef <- coef(line.estimate(ord.x ~ z))
+    }
+    
+    zz <- qnorm(1 - (1 - conf)/2)
+    SE <- (coef[2]/d.function(df$z)) * sqrt(P * (1 - P)/n)
+    fit.value <- coef[1] + coef[2] * df$z
+    df$upper <- fit.value + zz * SE
+    df$lower <- fit.value - zz * SE
+    
+    if(!is.null(labels)){ 
+      df$label <- ifelse(df$ord.x > df$upper | df$ord.x < df$lower, labels[ord],"")
+    }
+    
+    p <- ggplot(df, aes(x=z, y=ord.x)) +
+      geom_point() + 
+      geom_abline(intercept = coef[1], slope = coef[2], col="red") +
+      geom_ribbon(aes(ymin = lower, ymax = upper), alpha=0.2) +
+      theme_bw()
+    
+    if(!is.null(labels)) p <- p + geom_text( aes(label = label))
+    # print(p)
+    # coef
+    p
   }
   
-  zz <- qnorm(1 - (1 - conf)/2)
-  SE <- (coef[2]/d.function(df$z)) * sqrt(P * (1 - P)/n)
-  fit.value <- coef[1] + coef[2] * df$z
-  df$upper <- fit.value + zz * SE
-  df$lower <- fit.value - zz * SE
   
-  if(!is.null(labels)){ 
-    df$label <- ifelse(df$ord.x > df$upper | df$ord.x < df$lower, labels[ord],"")
-  }
   
-  p <- ggplot(df, aes(x=z, y=ord.x)) +
-    geom_point() + 
-    geom_abline(intercept = coef[1], slope = coef[2], col="red") +
-    geom_ribbon(aes(ymin = lower, ymax = upper), alpha=0.2) +
-    theme_bw()
+  test(100, (pi+pi/3)/w0*100) -> s
+  gg_qq(s)->tqqplot
   
-  if(!is.null(labels)) p <- p + geom_text( aes(label = label))
-  # print(p)
-  # coef
-  p
+  library(ggExtra)
+  ggExtra::ggMarginal(tqqplot, type="density")
+  
+  ## Yup, I was right. Or is it because the distribution of phi is normal? 
 }
 
-
-
-test(100, (pi+pi/3)/w0*100) -> s
-gg_qq(s)->tqqplot
-
-library(ggExtra)
-ggExtra::ggMarginal(tqqplot, type="density")
-
-## Yup, I was right. Or is it because the distribution of phi is normal? 
 # just looking at the error bars from phaseSpace
 if(FALSE){ 
   tn=pi/w0
@@ -209,5 +212,52 @@ if(FALSE){
   
 }
 
+## LOKING FOR ENVELOPE ####
+if(FALSE){
+  library(doParallel); n.cores = detectCores()
+  clus <- makeCluster(n.cores)
+  registerDoParallel(clus)
+  
+  adply(df.pks, 1, function(s){
+    s[,"Time"] -> x
+    filter(df.s, Time>x-.5 & Time<x+.5) -> y
+    slice(y, which.max(abs(Sgl)))
+  }, .parallel = TRUE, .paropts = list(.export="df.s", .packages="dplyr")) -> pks
+  
+  stopCluster(clus)
+  
+  ggplot(pks%>%filter(Time<500), aes(Time, Sgl)) + geom_line(aes(col=Side)) + theme_bw() + theme(legend.position="top")
+  
+  pks.u = filter(pks, Side=="U")
+  ## fitting envelope
+  
+  
+}
 
+## INVESTIGATE W ####
+library(mosaic)
+mutate(df.s, Part = derivedFactor(
+  "<500" = Time < 500,
+  "<1000" = Time < 1000,
+  "<1500" = Time < 1500,
+  "<2000" = Time < 2000,
+  .default = "0",
+  .method = "first"
+)) -> df.s
 
+library(doParallel); n.cores = detectCores()
+clus <- makeCluster(n.cores)
+registerDoParallel(clus)
+xpts <- c("f","w0", "df.p","p0")
+clusterExport(clus, xpts)
+
+ddply(df.s, "Part", function(prt) {
+  nls(f, data=prt, start = list(w=w0, lam=1e-4))%>%summary%>%coef -> x
+  data.frame(w=x["w",1],SEw=x["w",2], lam=x["lam",1], SElam=x["lam",2])
+}, .parallel = TRUE, .paropts = list(.packages="dplyr")) -> wfits
+
+stopCluster(clus)
+
+wfits%>%filter(Part!="0")%>%mutate(dw=w-w0) %>%
+  ggplot(aes(Part, dw)) + geom_point() + theme_bw() + labs(y=expression(omega-omega[0])) +
+  scale_y_continuous(labels=.fancy_scientific)
