@@ -7,229 +7,154 @@
 
 \newcommand{\dt}{\Delta t}
 \newcommand{\dtm}{\dt_{\meas}}
+\newcommand{\dtc}{\dt_{\cnt}}
 \newcommand{\LTb}{\tau_b}
+\newcommand{\LTd}{\tau_d}
+\newcommand{\lamb}{\lambda_b}
 \newcommand{\pdet}{p}
 \newcommand{\pscat}{p_s}
 
 \begin{document}
 	
-\section*{Problem statement}
+		
+\section*{Preliminary}
 
-Our goal is to estimate the frequency $\omega$ of the signal\footnote{The time-dependence of counting rates.}
-\begin{equation}\label{eq:Signal}
-	N(t) = N_0\cdot\bkt{1 + P\cdot e^{-\sfrac{t}{\tau_d}}\cdot\sin(\omega\cdot t + \phi)},
-\end{equation}
-where $\tau_d$ is the spin tune lifetime. One measurement $N_i = N(t_i)$ takes anywhere between 1--10 milliseconds, and involves two to three thousand detector counts (Y. Senichev, personal communication Dec 9, 2016).
-
-Assuming the Normal error distribution with mean zero and variance $\nu = \SD{\meas}^2$, the maximum likelihood estimator for the variance of the frequency estimate can be expressed as
-\begin{equation}
-\begin{cases}
-\var{\hat\omega} &= \nu\bkt{\sum_j x_j\cdot \var[w]{t}}^{-1}, \\
-\var[w]{t} &= \sum_i w_i \bkt{t_i - \avg{t}_w}^2,~ \avg{t}_w = \sum_i t_i w_i, \\
-w_i &= \frac{x_i}{\sum_j x_j},~ x_i = (N_0P\exp(\lambda t_i))^2\cos^2(\omega t_i + \phi) = \bkt{\mupp}^2.
-\end{cases}	
-\end{equation}
-
-The three factors, contributing to the standard error of the estimate are:
-\begin{inparaenum}[\itshape a\upshape)]
-	\item the error variance $\nu \equiv \SD{\meas}^2$ (governed by the number $\Ncm$ of detector counts per measurement), 
-	\item the time spread $\sum_i w_i (t_i - \avg{t}_w)^2$ of the sample measurements, and
-	\item their net informational content $X_{tot} = \sum_i \bkt{\mupp}^2$.
-\end{inparaenum}
-
-The latter two quantities are related as a consequence of spin tune decoherence: in order to increase the measurement time spread, one has to raise the beam lifetime, which in turn increases the proportion of less informative measurements in the sample. The error variance is related to the time spread by virtue of 
-
-
-The variance is inversely proportional to the (weighted) spread of the predictor variable, and directly proportional to the variance of the error. 
-
-Regarding the former, the weighting by the derivative of the signal has a twofold effect: in the first place, measurements that are taken when the derivative is maximal contribute more to the spread than those made when the signal changes slowly. Considering the number of possible measurements during a fill is limited, a more cost-effective use of the beam is a concern; one that could be addressed by sampling only during the periods of rapid change in the signal. In the second place, due to spin tune decoherence, the measurements' contribution goes down with time. This aspect restricts our ability to maximize sampling efficiency. A possible trade-off would be to reduce the number of counts involved in, and thus the time of, taking a measurement. That way, more measurements could be squeezed in the periods when the sine changes sign (node), but simultaneously, the uncertainty of a measurement would be increased. 
-
-The above considerations prompt the following series of questions:
-\begin{enumerate}
-	\item How long to measure the signal?
-	\item How many counts per measurement are optimal?
-	\item How congregated about the signal nodes the measurements should be?
-\end{enumerate}
-We will try to answer them in what follows.
-
-\section{Spin tune decoherence time [Rewrite; cf. TradAccConf17 presentation for table]}
-A rough estimate of the maximum sensible experiment duration could be done by considering the time when the signal oscillation is indistinguishable from noise. If we denote by $\SD{\meas}$ the standard deviation of measurement error, sensibility would require
+The beam current falls according to the B-L law:
 \[
-N_0P\cdot e^{-\sfrac t\tau_d} \geq Z_\alpha \SD{\meas}.
-\]
-Then 
-\[
-t_{max} = \tau_d\cdot \log\bkt{Z_\alpha^{-1}\frac{N_0P}{\SD{\meas}}}.
+	I(t) \equiv N^b(t)\nu = I_0\cdot e^{\lamb t}.
 \]
 
-At a three percent error $\SD{\meas} = 3\%\cdot N_0P$ the signal will be indistinguishable from noise at three standard deviations ($Z_\alpha = 3$), by $t_{max} = 2.4\cdot \tau_d$. 
+A fraction $p$ of the beam particles will be scattered in the direction of the detector; in time $\dtm$, the number of particles collected at the detector will be
+\begin{align}
+	N_0(t) & = p\cdot\int_{-\dtc/2}^{+\dtc/2} I(t+\tau)\td\tau \notag                    \\
+	       & = p\cdot\frac{\nu N_0^b}{\lamb} e^{\lamb t}\cdot \bkt{e^{\lamb\sfrac{\dtc}{2}} - e^{-\lamb\sfrac{\dtc}{2}}} \notag \\
+	       & \approx \underbrace{p\cdot\nu N_0^b e^{\lamb t}}_{\text{rate}~r(t)} \cdot\dtc.~\footnotemark
+\end{align}
+\footnotetext{Average number of events in a time interval is rate times interval:~\cite{CountRateStat}.}
 
-%We have the Cram\'er-Rao inequality to tell us what's the minimum variance of an estimator is possible:
-%\[
-%	\var{\hat{\omega}} \geq \frac{1}{\Fisher(\omega)}.
-%\]
-%Fisher information is additive, and what I call \emph{point Fisher information} can be expressed as:
-%\[
-%	\Fisher[i] = \frac{1}{\nu}\begin{pmatrix}
-%		\bkt{\sqrt{2}\cdot\mupp}^{-2} & 0     & 0   \\
-%		0                             & t_i^2 & t_i \\
-%		0                             & t_i   & 1
-%	\end{pmatrix}\cdot \bkt{\mupp}^2.
-%\]
-%
-%\begin{wrapfigure}{l}{.25\textwidth}
-%	\begin{tikzpicture}
-%	\draw[->] (-1.5,0) -- (1.5,0) node[right] {$\mupp$};
-%	\draw[->] (0,-.5) -- (0, 2.3) node[above] {$I_i(\pars_0)$};
-%	\draw[scale=1,domain=-1.5:1.5,smooth,variable=\x,red] plot ({\x},{\x*\x});
-%	\end{tikzpicture}
-%\end{wrapfigure}
+This is on average. To model the actual number, the Poisson distribution will be appropriate:
+\[
+	P_{N_0(t)}(\tilde{N}_0) = \frac{\bkt{r(t)\dtc}^{\tilde{N}_0}}{\tilde{N}_0!}\cdot e^{-r(t)\dtc}.
+\]
+The variance is equal to the mean: $\SD{\tilde{N}_0}^2(t) = N_0(t)$. In the limit of large $N_0(t)$, the Poisson distribution becomes Gaussian.
 
-\section{Number of counts per measurement}
+$\tilde{N}_0$ is what we actually measure in $\dtc$. To estimate the expectation $N_0(t)$ (and its variance), we have to take the mean (variance) of the Gaussian. For that we take several measurements, and estimate the parameters as usual, i.e. as sums of random variables, i.e. distributed normally. The number of measurements we can make during $\dtm$ is $\Ncm = \dtm/\dtc$. The standard error of the mean then is 
+\begin{align}\label{eq:MeasSE}
+	\SD{N_0}(t) & = \SD{\tilde{N}_0}(t)/\sqrt{\Ncm} = \sqrt{N_0(t)\frac{\dtc}{\dtm}}            \notag \\
+	            & \approx \sqrt{\frac{p\cdot\nu N_0^b}{\dtm}}\cdot\dtc \cdot\exp\bkt{\frac{\lamb}{2}\cdot t}.
+\end{align}
+\newcommand{\A}{\frac{1}{\sqrt{p\cdot\nu N_0^b}}}
 
-\textbf{This question can be answered (only) after we've considered polarization error. (Or at least counting rate error!)}
+Relative error,
+\[
+	\frac{\SD{N_0}(t)}{N_0(t)} \approx \frac{A}{\sqrt{\dtm}}\cdot\exp\bkt{-\frac{\lamb}{2}t} = \frac{A}{\sqrt{\dtm}}\cdot\exp\bkt{\frac{t}{2\LTb}},~ A=\A,
+\]
+grows.
 
+\section{Problem statement}
 Define the following variables: \begin{inparaenum}[\itshape a\upshape)]
-	\item the number of counts per measurement: $\Ncm$;
-	\item the number of measurements per node: $\Nmnd$;
+	\item the number of measurements per node: $\Nmnd$,
 	\item the number of nodes per experiment: $\Nnd$.
 \end{inparaenum}
 
-The expected total number of scatterings in an experiment with a given number of nodes: $n_{tot} = \underbrace{\Nnd\cdot\Nmnd}_{\Nm}\cdot\Ncm$. ($\Nm$ is the total number of measurements.)
-
-\begin{equation}
-\begin{cases}
-	\SE{\hat{\omega}}^2 &= \frac{\SD{\meas}^2}{X_{tot}\cdot\sum_{j=1}^{\Nm}w_j\bkt{t_j - \avg{t}_w}^2}, \\
-	\SE{\meas}^2 &= \frac{\SD{\meas}^2}{\Ncm} ,\\
-	X_{tot} &= \sum_{j=1}^{\Nm} x_j = \sum_{s=1}^{\Nnd}\sum_{j=1}^{\Nmnd} x_{js}.
-\end{cases}
+We have to fit the function
+\begin{equation}\label{eq:Signal}
+N(t) = N_0(t)\cdot\bkt{1 + P\cdot e^{-\sfrac{t}{\LTd}}\cdot\sin(\omega\cdot t + \phi)},
 \end{equation}
+given $\Nm = \Nnd\cdot\Nmnd$ sample points.
+
+Assuming the Gaussian error distribution with mean zero and variance $\nu \equiv \SD{\meas}^2 = \SD{N_0}^2(t)$, the maximum likelihood estimator for the variance of the frequency estimate can be expressed as
+\begin{align*}
+\var{\hat\omega} &= \frac{\nu}{X_{tot}\cdot \var[w]{t}}, 
+\shortintertext{with}
+X_{tot} &= \sum_{j=1}^{\Nm} x_j = \sum_{s=1}^{\Nnd}\sum_{j=1}^{\Nmnd} x_{js}, \\
+\var[w]{t} &= \sum_i w_i \bkt{t_i - \avg{t}_w}^2,~ \avg{t}_w = \sum_i w_i t_i, \\
+w_i &= \frac{x_i}{\sum_j x_j},~ x_i = (N_0P\exp(\lambda t_i))^2\cos^2(\omega t_i + \phi) = \bkt{\mupp}^2.
+\end{align*}
+
+The three factors, contributing to the standard error of the estimate are:
+\begin{inparaenum}[\itshape a\upshape)]
+	\item the error variance $\nu = \SD{N_0}(t)^2$ (governed by the number $\Ncm$ of polarimetry measurements per signal measurement, eq.~\eqref{eq:MeasSE}), 
+	\item the time spread $\sum_i w_i (t_i - \avg{t}_w)^2$ of the sample measurements, and
+	\item their net informational content $X_{tot}$.
+\end{inparaenum}
+
+
+\section{Informational content}
+\DeclareDocumentCommand{\stat}{s}{\IfBooleanTF{#1}{X_{tot}}{\frac{\SD{\meas}^2}{\SE{\hat\omega}^2\cdot \var[w]{t}}}}
+\newcommand{\dtnd}{\dt_{zc}}
 
 We can express $\sum_{j=1}^{\Nmnd} x_{js} = \Nmnd \cdot x_{0s}$, for some mean value $x_{0s}$ in the given node $s$. The sum $\sum_{j=1}^{\Nmnd} x_{js}$ falls exponentially due to decoherence, hence $x_{0s} = x_{01}\exp{(\lambda\cdot \frac{(s-1)\cdot\pi}{\omega})}$. Therefore,
+\begin{align}
+	X_{tot} & = \Nmnd\cdot x_{01} \cdot \frac{\exp{\bkt{\frac{\lambda\pi}{\omega}\Nnd}}-1}{\exp{\bkt{\frac{\lambda\pi}{\omega}}}-1} 
+	\equiv \Nmnd \cdot x_{01}\cdot g(\Nnd); \label{eq:FItot}\\
+	x_{01}  & = \frac{1}{\dtnd}\int_{-\dtnd/2}^{+\dt/2}\cos^2(\omega\cdot t)\td t = \frac12\cdot \bkt{1 + \frac{\sin\omega\dtnd}{\omega\dtnd}},                                    \label{eq:MeanFIZC}   \\
+	\Nmnd   & = \frac{\dtnd}{\dtm}. \label{eq:NumMeasNode}
+\end{align}
+
+Eq.~\eqref{eq:FItot} can be used to estimate the reasonable experiment duration. $g(\Nnd)$ is a limited function; in Figure~\ref{fig:GofT} it is shown for different life-times. In Table~\ref{tbl:FItot} we have the time (in signal life-times) required to reach the different levels of information, $t(z)/\tau = -\ln(1-z)$. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.5]{img/XtotOnTime}
+	\caption{$[g\circ t](\Nnd)$ for different life-times $\tau = \sfrac1\lambda$.\label{fig:GofT}}
+\end{figure}
+\begin{table}[h]
+	\centering
+	\caption{Total Fisher information table.\label{tbl:FItot}}
+	\begin{tabular}{rrr}
+		\hline
+		FI limit (\%) & Reached ($\times\tau$) & SNR \\ \hline
+		           95 &                    3.0 & 1.0 \\
+		           90 &                    2.3 & 1.9 \\
+		           70 &                    1.2 & 4.7 \\
+		           50 &                    0.7 & 7.1 \\ \hline
+	\end{tabular}
+\end{table}
+
+Eq.~\eqref{eq:MeanFIZC}, together with eq.~\eqref{eq:NumMeasNode} and
 \[
-	X_{tot} = \Nmnd\cdot x_{01} \cdot \frac{\exp{\bkt{\frac{\lambda\pi}{\omega}\Nnd}}-1}{\exp{\bkt{\frac{\lambda\pi}{\omega}}}-1} \equiv \Nmnd \cdot g(\Nnd).
+	\stat* = \stat,
 \]
+produce an equation by which the required compaction time $\dtnd$ can be found:
+\begin{equation}\label{eq:CmpTEq}
+	\dtnd + \frac{\sin\omega\dtnd}{\omega} - 2\cdot \stat* \cdot\dtm \cdot g(\Nnd)^{-1}= 0.
+\end{equation}
 
 \begin{figure}[h]
 	\centering
 	\begin{tikzpicture}
-		\begin{axis}[axis lines=center, xlabel=$t$, domain=-.5:2*pi, legend pos=outer north east]
-		\addplot[color=blue, name path=signal, domain=-.1:2*pi] {sin(deg(x))}; \addlegendentry{signal}
-		\addplot[color=red] {cos(deg(x))^2}; \addlegendentry{$x$}
-		\addplot[mark=none, domain=0:2*pi]{.7}; \addlegendentry{$x_0$}
-		\addplot[mark=none,dashed, domain=0:2*pi]{.5};
-		\draw[dashed] (axis cs:2.36,0) -- (axis cs:2.36,{sin(deg(2.36))});
-		\draw[dashed] (axis cs:3.93,{-sin(deg(3.93))}) -- (axis cs:3.93,{sin(deg(3.93))});
-		\end{axis}
+	\begin{axis}[axis lines=center, xlabel=$t$, domain=-.5:2*pi, legend pos=outer north east, samples=40]
+	\addplot[color=blue, name path=signal, domain=-.1:2*pi] {sin(deg(x))}; \addlegendentry{signal}
+	\addplot[color=red] {cos(deg(x))^2}; \addlegendentry{$x$}
+	\addplot[mark=none, domain=0:2*pi]{.7}; \addlegendentry{$x_0$}
+	\addplot[mark=none,dashed, domain=0:2*pi]{.5};
+	\draw[dashed] (axis cs:2.36,0) -- (axis cs:2.36,{sin(deg(2.36))});
+	\draw[dashed] (axis cs:3.93,{-sin(deg(3.93))}) -- (axis cs:3.93,{sin(deg(3.93))});
+	\end{axis}
 	\end{tikzpicture}
-	\caption{Explanation for $x_0$\label{fig:x0Expl}}
+	\caption{Explanation for $x_0$\label{fig:x0Expl}.}
 \end{figure}
 
-The number of events per node 
-\[
-	\Nmnd = \frac{\Delta t_{zc}}{\Ncm\cdot \Delta t_{\cnt}},
-\]
-hence
-\[
-	X_{tot} = g(\Nnd) \cdot \frac{\Delta t_{zc}}{\Delta t_{\cnt}}\cdot \frac{1}{\Ncm}.
-\]
-
-The variance $\var[w]{t}$ is also practically independent of how many measurements there are per one node (and by extension, the number $\Ncm$), and depends primarily on the $\Nnd$ and decoherence life time.
-
-In sum, assuming one measurement is the mean of the counts ($\SD{\meas} = \SD{\meas}/\sqrt{\Ncm}$), 
-\begin{align*}
-	\var[w]{\hat{\omega}} &= \frac{\SD{\meas}^2\cdot \sfrac{1}{\Ncm}}{g(\Nnd)\cdot \frac{\Delta t_{zc}}{\Delta t_{\meas}}\cdot \sfrac{1}{\Ncm} \cdot \var[w]{t}} \\
-		&= \frac{\SD{\meas}^2}{g(\Nnd)\cdot \frac{\Delta t_{zc}}{\Delta t_{\meas}} \cdot \var[w]{t}}.
-\end{align*}
-There's no benefit to increasing the number of counts per measurement.
-
-\section{Modulation}
-% THE OLD VERSION
-% is based on the results of the previous section; the premises that var(measurement) = var(count)/number_of_counts and that the informativity of measurements in one region can be uniformalized to x01 %%%%%%
-
-%In order to increase beam use efficiency, it is advantageous to sample the signal only during rapid change. That way, the yield of Fisher information per scattered particle is maximized. However, one has to take into account that the beam polarization dissipates continuously, whether the beam is being sampled or not, and so there's a finite window in which sampling yields statistically significant results. We will estimate how long that is in the next section, but for now we will assume that it is less than the beam lifetime when it is scattered continuously.
-%
-%Then frequency-modulated sampling will perform worse than uniform sampling. That is because, unless measurements are made proportionally faster, there will be fewer points sampled by the time the signal is indistinguishable from noise. But an increase in sampling frequency would not have any effect on the result, because measurement variance is increased proportionally.
-
-% THE NEW VERSION begins here
-\DeclareDocumentCommand{\stat}{s}{\IfBooleanTF{#1}{X_{tot}}{\frac{\SD{\meas}^2}{\SE{\hat\omega}^2\cdot \var[w]{t}}}}
-\begin{align*}
-	X_{tot}	&= \Nmnd\cdot \tilde{g}(\Nnd)\cdot x_{01}, \\
-	X_{tot}	&= \stat, \\
-	x_{01}	&= \frac{1}{\dt}\int_{-\dt/2}^{+\dt/2}\cos^2(\omega\cdot t)\td t = \frac12\cdot \bkt{1 + \frac{\sin\omega\dt}{\omega\dt}}.
-\end{align*}
-
-\begin{align}\label{eq:CmpTimeEq}
-	1 + \frac{\sin\omega\dt}{\omega\dt} - 2\cdot \stat* \cdot \bkt{\Nmnd\cdot \tilde{g}(\Nnd)}^{-1} &=0, \\
-	\Nmnd	&= \frac{\dt}{\dt_{\meas}}. \notag
-\end{align}
-
-The factor $\stat*$ reflects the amount of necessary Fisher information to reach the required statistical precision. The less the ratio $\SE{\hat{\omega}}/\SD{\meas}$, the more information is required. That information requirement can be fulfilled in two ways: via the increase in the number of nodes (total time), or the increase of the compaction time. The gain in information provided by the former is limited by the term $\tilde{g}(\Nnd)$ due to decoherence. Because of it, the compaction factor in my simulation is $\approx 1$ (i.e. no sense in modulation), for the ratio $\approx 1$, and total measurement time $\approx 2.4\tau_d$. For even less ratios, there doesn't even exist a solution for~\eqref{eq:CmpTimeEq}. That is, because of the decoherence, even if we collect the data uniformly in time (with frequency 5000 measurements per second), we won't have enough information to estimate $\omega$ with the required precision.
-
-\section{Standard deviation of the counting rate}
-\paragraph{The current toward the detector. (Binomial distribution)}
-Expected to arrive $\dtm\nu n_b\cdot\pscat$ particles, with variance $\dtm\nu n_b\pscat(1-\pscat)$.
-
-The fraction of the detected to total counts (detector efficiency $\pdet$) is a sample proportion; the standard deviation of a sample proportion is
-\[
-\SD{\hat{\pdet}} = \frac{\sqrt{\pdet(1-\pdet)}}{\sqrt{n}}, 
-\]
-where $n$ is the number of trials.
-\[
-n = \int_{0}^{\dtm} j(t+\tau)\td\tau = \dtm\cdot\avg{j}(t),
-\]
-where $j(t) = j_0\cdot e^{-\sfrac{t}{\LTb}}$ is the \textbf{expectation} of the scattered beam flux toward the detector. 
-\[
-\avg{j}(t) = \frac{\LTb}{\dtm}\cdot\bkt*{1-\exp\bkt{-\frac{\dtm}{\LTb}}}\cdot j(t).
-\]
-
-In first approximation, $\avg{j}(t) \approx j(t)$, and $n = \dtm\cdot j(t)$; hence
-\[
-\SD{\hat{\pdet}} = \sqrt{\frac{\pdet(1-\pdet)}{\dtm}}\frac{1}{\sqrt{j(t)}}.
-\]
-\begin{align*}
-	\frac{\SD{N(t)}}{\Xpct{N(t)}} = \sqrt{\bkt{\frac{\SD{\hat{\pdet}}}{\pdet}}^2 + \bkt{\frac{\SD{j(t)}}{j(t)}}^2},
-\end{align*}
-with $\Xpct{N(t)} = \pdet\cdot n(t)$.
-
-Now, I model $j(t)$ as a binomially distributed variable, because it is the current of those particles that succeeded in scattering. Hence $j(t) \equiv \Xpct{\hat{j}(t)} = \pscat\cdot I(t)$, where $I(t)$ is the beam current; $\SD{j(t)}^2 = j(t)\cdot (1-\pscat)$, $\pscat$ the scattering probability.
-
-Therefore,
-\[
-\frac{\SD{N(t)}}{\Xpct{N(t)}} = \frac{1}{\sqrt{j(t)}}\sqrt{\frac{1-\pdet}{\pdet\dtm} + 1-\pscat}
-\]
-
-\section{Polarization error}
-More pellets per second implies faster scattering rate, i.e.,
-\begin{itemize}
-	\item less $\dt_{\meas}$ (faster collection of statistics),
-	\item less $\tau_d$.
-\end{itemize}
-
-Polarization is obtained as the ratio
-\begin{align*}
-	P	&= \frac{L-R}{L+R}, \\
-	\SE{P}	&= \sqrt{2}\cdot \frac{\SD{N}}{L+R}\cdot\sqrt{\bkt{L^2-R^2}^2+1}, \\
-	\SD{L} &= \SD{R} = \SD{N},
-\end{align*}
-where $L,R$ are detector rates from the left, right detectors; $N$ is from eq.~\eqref{eq:Signal}, that is
-\newcommand{\sgl}[1]{
-	{#1}_0\cdot\bkt{1 + P\cdot e^{-\sfrac{t}{\tau_d}}\cdot\sin\bkt{\omega\cdot t+\phi_{#1}}}
-}
-\begin{equation}
-	\begin{cases}
-		L(t) &= \sgl{L}, \\
-		R(t) &= \sgl{R}.
-	\end{cases}
+\newcommand{\SNR}{\text{SNR}}
+\newcommand{\deq}{\overset{\triangle}{=}}
+The signal-to-noise ratios in Table~\ref{fig:x0Expl} are computed as 
+\begin{equation}\label{eq:TauRatioSNR}
+	\SNR \deq \frac{N_0(t)\cdot P\cdot e^{-\sfrac{t}{\LTd}}}{\SD{N_0}(t)} 
+	= \frac{P}{A}\sqrt{\dtm}\cdot\exp\bkt{\frac{1-2x}{2x}\cdot\frac{t}{\LTd}},~ x\equiv \frac{\LTb}{\LTd}.
 \end{equation}
 
-I'll assume $\phi_R = \phi_L + \sfrac{\pi}{2}$, so that when the signal is maximal at the L-detector, it is minimal at the R one. Then
-\begin{equation}
-	\begin{cases}
-		L(t)-R(t)	&= (L_0-R_0) + P\cdot e^{-\sfrac{t}{\tau_d}}\cdot\sqrt{L_0^2+R_0^2}\cdot\sin\bkt*{\omega\cdot t + \phi_L - \arctan\bkt{\sfrac{R_0}{L_0}}}, \\
-		L(t)+R(t)	&= (L_0+R_0) + P\cdot e^{-\sfrac{t}{\tau_d}}\cdot\sqrt{L_0^2+R_0^2}\cdot\sin\bkt*{\omega\cdot t + \phi_L + \arctan\bkt{\sfrac{R_0}{L_0}}}.
-	\end{cases}
-\end{equation}
+\section{Beam/decoherence life-times}
 
+Our want is to have the sample as spread out as possible; however, measurement time is limited by the signal life-time, which is 
+\[
+	\tau = \bkt{\sfrac{1}{\LTb} + \sfrac{1}{\LTd}}^{-1} = \frac{x}{1+x}\cdot \LTd,~ x \equiv \frac{\LTb}{\LTd}.
+\]
+By increasing $x$ we raise the signal life-time, and hence the limit on $\var[w]{t}$, but simultaneously the rate at which falls the SNR.
+
+
+\begin{thebibliography}{9}
+	\bibitem{CountRateStat}
+	\url{http://www.owlnet.rice.edu/~dodds/Files331/stat_notes.pdf}.
+\end{thebibliography}
 
 \end{document}

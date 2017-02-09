@@ -2,4 +2,13 @@
 .Rhistory
 .RData
 .Ruserdata
+Reports/*
+!Reports/*.tex
+!Reports/*.sty
+!Reports/*.pdf
+Abstracts/*
+!Abstracts/*.tex
+!Abstracts/*.sty
+!Abstracts/*.doc
+!Abstracts/*.pdf
 OptiMScripts/*
