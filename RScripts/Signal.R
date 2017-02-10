@@ -55,7 +55,7 @@ phaseSpace <- function(distrib, at=0, np=1000){
   df.p
 }
 Pproj <- function(df, x) colSums(sin(df$wFreq%o%x + df$Phi))
-compNullEnvelope <- function(Ttot, Tstt, df.p, what = "Envelope"){
+compNullX <- function(Ttot, Tstt, df.p, what = "Envelope"){
   w0 = attr(df.p$wFreq, "Synch")
   p0 = attr(df.p$Phi, "Synch")
   
@@ -72,17 +72,23 @@ compNullEnvelope <- function(Ttot, Tstt, df.p, what = "Envelope"){
     Side=rep(c("U","D"),c(length(tnu),length(tnd)))
   )
 }
-compActEnvelope <- function(pk.est = df.pks, df.sgl=df.s, what = "Envelope"){
+compActX <- function(pk.est = df.pks, df.sgl=df.s, what = "Envelope", tol=1e-3){
   require(doParallel); n.cores = detectCores()
   clus <- makeCluster(n.cores)
   registerDoParallel(clus)
-  what.f = eval(parse(text = paste0("which.", switch(what, "Envelope"="max", "Node"="min"))))
   
-  adply(pk.est, 1, function(s, df.sgl, what.f){
+  what.f <- eval(parse(text = paste0("which.", switch(what, "Envelope"="max","Node"="min"))))
+  
+  adply(pk.est, 1, function(s, df.sgl, what.f, tol){
     s[,"Time"] -> x
     filter(df.sgl, Time>x-.5 & Time<x+.5) -> y
+    
+    dy = y[nrow(y),]-y[1,]
+    spline(y$Time, y$Sgl, n=dy$Time/tol) %>% as.data.frame() -> y
+    names(y) <- c("Time","Sgl")
+    
     slice(y, what.f(abs(Sgl)))
-  }, df.sgl, what.f, .parallel = FALSE, .paropts = list(.packages="dplyr")) -> pks
+  }, df.sgl, what.f, tol, .parallel = FALSE, .paropts = list(.packages="dplyr")) -> pks
   
   stopCluster(clus)
   
@@ -98,7 +104,7 @@ df.p = phaseSpace("phys")
 
 ## computing signal ####
 w0 = attr(df.p$wFreq, "Synch")
-Tstt = 0; Ttot=2000; dt = .05/w0 # pi/w0 to satisfy the Nyquist condition
+Tstt = 0; Ttot=2000; dt = .25/w0 # pi/w0 to satisfy the Nyquist condition
 df.s = data.frame(Time=seq(Tstt,Ttot,dt)) %>% mutate(Sgl=Pproj(df.p,Time))
 
 ## fitting signal ####
@@ -108,9 +114,14 @@ nls(f, data=df.s, start=list(lam=-1.4e-3, w=attr(df.p$wFreq, "Synch"))) -> mod1
 mutate(df.s, fSgl = fitted(mod1)) -> df.s
 
 ## computing envelopes ####
-compNullEnvelope(Ttot, Tstt, df.p, "Node")%>%mutate(E="Null")->df.pks0
-compActEnvelope(df.pks0, "Node") %>%mutate(E="Act")-> df.pks1
-df.pks = rbind(df.pks0, df.pks1%>%dplyr::select(-fSgl))
+compNullX(Ttot, Tstt, df.p, "Node")%>%mutate(E="Null")->df.pks0
+compActX(df.pks0, what="Node",tol=1e-6) %>%mutate(E="Act")-> df.pks1
+df.pks = rbind(df.pks0, df.pks1)
+
+x = df.pks1$Time; x <- c(x[1], x[-length(x)])
+df.pks1 %>% mutate(DT = Time - x) %>% filter(N>1)->df.pks1
+ggplot(df.pks1) + geom_density(aes(DT))
+sd(df.pks1$DT)
 
 ## plotting signal ####
 ggplot(df.s, aes(Time, Sgl)) + geom_line(col="red",lwd=.05) + 
@@ -121,10 +132,10 @@ ggplot(df.s, aes(Time, Sgl)) + geom_line(col="red",lwd=.05) +
   annotation_custom(tableGrob(formatC(coef(summary(mod1))[,1:2],3,format="e")), 
                     xmin=1000, xmax=2500,ymin=-1000, ymax=-650) -> sglplot
 
-t0 = 3900
-ggplot(filter(df.s, Time>t0&Time<t0+10), aes(Time,Sgl)) + geom_line(col="red") + theme_bw() +
+t0 = 1900; dt0=25
+ggplot(filter(df.s, Time>t0&Time<t0+dt0), aes(Time,Sgl)) + geom_line(col="red") + theme_bw() +
   scale_color_manual(name="Envelope",values=c("black","blue"))+
-  geom_point(aes(Time, Sgl, col=E), size=1, data=filter(df.pks, Time>t0&Time<t0+10))+labs(x="",y="") -> sglslc
+  geom_point(aes(Time, Sgl, col=E), size=1, data=filter(df.pks, Time>t0&Time<t0+dt0))+labs(x="",y="") -> sglslc
 
 vp <- viewport(width = .4, height = .3, x = .6, y = .5, just = c("right","center"))
 # print(sglplot); print(sglslc,vp=vp)
