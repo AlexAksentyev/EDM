@@ -5,6 +5,7 @@ library(grid)
 rm(list=ls(all=TRUE))
 
 source("./RScripts/definitions.R")
+source("./RScripts/CSignal.R")
 
 ## FUNCTIONS ####
 .gghist_plot <- function(df, name){
