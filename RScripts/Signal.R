@@ -18,44 +18,6 @@ source("./RScripts/CSignal.R")
                   col="red", lty=2) +
     theme_bw()
 }
-skewedDistFunc <- function(n, mu, sd, skew){
-  w = rweibull(n, mu+skew,sd)
-  mu-mean(w)+w
-}
-bimodalDistFunc <- function (n,cpct, mu1, mu2, sig1, sig2) {
-  y0 <- rnorm(n,mean=mu1, sd = sig1)
-  y1 <- rnorm(n,mean=mu2, sd = sig2)
-  
-  flag <- rbinom(n,size=1,prob=cpct)
-  y <- y0*(1 - flag) + y1*flag 
-}
-phaseSpace <- function(distrib, at=0, np=1000){
-  
-  sddy = 1e-4 + 5e-6*at #sd of the energy distribution
-  G = 7e2 # dw = G*dy^2
-  w0 = 3 # frequency of the reference particle
-  p0 = 0 #phase of the reference particle
-  sdw = G*sddy^2 #for all distributions other than phys
-  sdp = 1e-2
-  
-  
-  df.p = data.frame(
-    wFreq = switch(distrib,
-                   "norm" = rnorm(np, w0, sdw),
-                   "skew" = skewedDistFunc(np, w0, sdw, 2),
-                   "bi" = bimodalDistFunc(np,.5,w0-3*sdw,w0+3*sdw,sdw,sdw),
-                   "phys" = w0 + G*rnorm(np,sd=sddy)^2 # dw = G*dy^2; w = w0+dw; dy ~ Norm(0,sddy)
-    ), 
-    Phi = rnorm(np, p0, sdp) # bimodalDistFunc(np,0,p0-3*sdp,p0+3*sdp,sdp,sdp)
-  )
-  attr(df.p$wFreq, "Synch") <- w0
-  attr(df.p$wFreq, "SD") <- sdw
-  attr(df.p$Phi, "Synch") <- p0
-  attr(df.p$Phi, "SD") <- sdp
-  
-  df.p
-}
-Pproj <- function(df, x) colSums(sin(df$wFreq%o%x + df$Phi))
 compNullX <- function(Ttot, Tstt, df.p, what = "Envelope"){
   w0 = attr(df.p$wFreq, "Synch")
   p0 = attr(df.p$Phi, "Synch")
@@ -96,20 +58,18 @@ compActX <- function(pk.est = df.pks, df.sgl=df.s, what = "Envelope", tol=1e-3){
   pks
 }
 
-## particle distributions ####
-df.p = phaseSpace("phys")
+sgl = popPS(CSignal()) ## set up beam phase space
 
-.gghist_plot(df.p, "wFreq") + labs(x=expression(omega)) -> whist
-.gghist_plot(df.p, "Phi") + labs(x=expression(phi))-> phist
+## particle distributions ####
+.gghist_plot(sgl@PS, "wFreq") + labs(x=expression(omega)) -> whist
+.gghist_plot(sgl@PS, "Phi") + labs(x=expression(phi))-> phist
 # grid.arrange(whist,phist)
 
 ## computing signal ####
-w0 = attr(df.p$wFreq, "Synch")
-Tstt = 0; Ttot=2000; dt = .25/w0 # pi/w0 to satisfy the Nyquist condition
-df.s = data.frame(Time=seq(Tstt,Ttot,dt)) %>% mutate(Sgl=Pproj(df.p,Time))
+Tstt = 0; Ttot=2000; dt = .25/sgl@wFreq0 # pi/w0 to satisfy the Nyquist condition
+sgl <- Signal(sgl, seq(Tstt, Ttot, dt))
 
 ## fitting signal ####
-p0 = attr(df.p$Phi, "Synch")
 f = Sgl ~ nrow(df.p)* exp(lam*Time) * sin(w*Time + p0)
 nls(f, data=df.s, start=list(lam=-1.4e-3, w=attr(df.p$wFreq, "Synch"))) -> mod1
 mutate(df.s, fSgl = fitted(mod1)) -> df.s
