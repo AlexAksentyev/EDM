@@ -20,7 +20,7 @@ In this note we try to derive the form of the measured signal, as well as invest
 \section{Projection of polarization}
 The polarization of the beam is the sum of the spins of the particles in it. We measure the projection of the polarization on the $y$-axis:
 \begin{align}
-	\vec{P} &= \sum_{i=1}^\nb \vec{s}, \notag\\
+	\vec{P} &= \sum_{i=1}^\nb \vec{s}_i, \notag\\
 	\proj{s}{y} &\equiv \uvec{y}\cdot\vec{s} = \abs{\vec{s}}\cos\Theta, \notag\\
 	\proj{P}{y}(t) &= \sum_i \proj{s_i}{y} = \abs{\vec{s}}\sum_i \cos\Theta_i(t), \label{eq:SumSpins}\\
 	\Theta_i(t) &= \omega_i\cdot t + \phi_i.\notag
@@ -91,10 +91,10 @@ We'll assume a normally distributed $\phi_i\sim\Norm(\phi_0, \SD{\phi})$.
 
 \newcommand{\sdp}{\SD{\phi}}
 \DeclareDocumentCommand{\C}{s}{
-		\IfBooleanTF{#1}{ \exp\bkt{\frac{\phi_0^2}{\sdp^2}} }{ C(\phi_0,\sdp) }
+		\IfBooleanTF{#1}{ \exp\bkt{\frac{\phi_0^2}{2\sdp^2}} }{ C(\phi_0,\sdp) }
 }
-\DeclareDocumentCommand{\X}{s}{\IfBooleanTF{#1}{\frac{a\sdp^2 + 4t\phi_0}{2t\sdp^2}}{\xi}}
-\DeclareDocumentCommand{\CDF}{s}{\IfBooleanTF{#1}{\int_{-\infty}^{\agl}\frac{\exp(\X y - \sfrac{y^2}{\sdp^2})}{\sqrt{\agl - y}}\td y}{D(\theta, \omega_0t)}}
+\DeclareDocumentCommand{\X}{s}{\IfBooleanTF{#1}{\frac{a\sdp^2 + 2t\phi_0}{2t\sdp^2}}{\xi}}
+\DeclareDocumentCommand{\CDF}{s}{\IfBooleanTF{#1}{\int_{-\infty}^{\agl}\frac{\exp(\X y - \sfrac{y^2}{2\sdp^2})}{\sqrt{\agl - y}}\td y}{D(\theta, \omega_0t)}}
 
 Hence, 
 \begin{align*}
