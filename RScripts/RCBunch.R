@@ -1,11 +1,42 @@
 library(R6)
+library(ggplot2)
+library(dplyr)
 
 RCBunch <- R6Class(
   "RCBunch",
-  private = list(G=7e2),
+  private = list(
+    G=7e2,
+    Func=function(at) colSums( sin(self$Phase(at)) ),
+    NullSpecPts=function(what="Node", w.ref=NA){
+      
+      if(!is.na(w.ref)) w0 <- w.ref
+      else w0 <- self$Synch["wFreq"]
+      
+      p0 = self$Synch["Phi"]
+      
+      .dum <- function(Time) floor((w0*Time+p0-pi/2)/2/pi)
+      
+      Nstt = .dum(self$Pproj[1, "Time"])
+      Ntot = .dum(self$Pproj[nrow(self$Pproj), "Time"])
+      
+      d = switch(what, "Envelope" = pi/2, "Node" = 0)
+      
+      tnu = (2*pi*Nstt:Ntot-p0+d)/w0; tnu <- tnu[tnu>=0]
+      tnd = tnu+pi/w0
+      
+      data.frame(
+        N = c(1:length(tnu),1:length(tnd)),
+        Time=c(tnu, tnd),
+        Val=private$Func(c(tnu,tnd)), 
+        Side=rep(c("U","D"),c(length(tnu),length(tnd))),
+        Which="Null"
+      )
+    }
+  ), ## private
   public = list(
     Synch=c(wFreq=3, Phi=0), SD=numeric(2),
-    PS=NULL, Pproj=NULL,
+    PS=NULL, Pproj=NULL, specPts=NULL,
+    Model=NULL,
     initialize = function(Npart=1e3, SDdy=1e-3, SDphi=1e-2){
       self$SD <- c(dy = SDdy, phi = SDphi)
       
@@ -19,6 +50,66 @@ RCBunch <- R6Class(
       attr(self$PS$Phi, "SD") <- self$SD["phi"]
     },
     Phase = function(at) self$PS$wFreq%o%at + self$PS$Phi,
-    project = function(at) self$Pproj <- data.frame(Time=at, Val=colSums( sin(self$Phase(at)) ) )
+    project = function(at) self$Pproj <- data.frame(Time=at, Val=private$Func(at) ),
+    fit = function(fitpack = NA){
+      if(is.null(self$Pproj)) {print("Nothing to fit!"); return(NA)}
+      if(is.na(fitpack)) {
+        print("Hard-coded")
+        n = nrow(self$PS); p0 = self$Synch["Phi"]; wg = self$Synch["wFreq"]
+        f = Val ~ n * exp(lam*Time) * sin(w*Time + p0)
+        guess = list(lam=-1.4e-3, w=wg)
+      } else {
+        f = fitpack$func; guess = fitpack$guess
+      }
+      nls(f, data=self$Pproj, start=guess) -> self$Model
+      return(summary(self$Model))
+    },
+    findPts=function(what="Node", w.guess=NA, tol=1e-3, ...){
+      require(doParallel); n.cores = detectCores()
+      clus <- makeCluster(n.cores)
+      registerDoParallel(clus)
+      
+      supplied=list(...)
+      what.f <- eval(parse(text = paste0("which.", switch(what, "Envelope"="max","Node"="min"))))
+      
+      private$NullSpecPts(what, w.guess) -> pts0
+      adply(pts0, 1, function(s, df.sgl, what.f, tol){
+        s[,"Time"] -> x
+        filter(df.sgl, Time>x-.5 & Time<x+.5) -> y
+        
+        dy = y[nrow(y),]-y[1,]
+        spline(y$Time, y$Val, n=dy$Time/tol) %>% as.data.frame() -> y
+        names(y) <- c("Time","Val")
+        
+        slice(y, what.f(abs(Val)))%>%mutate(Which="Found")
+      }, self$Pproj, what.f, tol, .parallel = TRUE, .paropts = list(.packages="dplyr")) -> pts1
+      
+      stopCluster(clus)
+      
+      rbind(pts0,pts1) -> self$specPts
+    },
+    Spectrum=function(plot=TRUE, method="ar"){
+      Tstt = self$Pproj$Time[1]
+      Ttot = self$Pproj$Time[nrow(self$Pproj)]
+      dt = self$Pproj$Time[2]-self$Pproj$Time[1]
+      
+      s = ts(self$Pproj$Val, start=Tstt, end=Ttot, deltat=dt)
+      
+      method <- eval(parse(text=paste0("spec.", method)))
+      method(s,plot = FALSE) -> sps
+      sps <- data.frame(Freq=sps$freq, Pow=sps$spec) %>% mutate(wFreq=2*pi*Freq)
+      
+      if(!plot) return(sps)
+      
+      x = arrange(sps, desc(Pow))[1:20,]
+      dw = x[1,"wFreq"]-x[2,"wFreq"]
+      
+      sdw = self$SD["wFreq"]
+      
+      ggplot(x,aes(wFreq, Pow))+#scale_y_continuous(labels=.fancy_scientific) +
+        geom_bar(stat="identity", width=dw*.1) + 
+        theme_bw() + labs(x=expression(omega)) +
+        geom_vline(xintercept = self$Synch["wFreq"], col="red")
+    }
   ) ## public members
 )
