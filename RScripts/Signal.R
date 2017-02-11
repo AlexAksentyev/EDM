@@ -5,7 +5,7 @@ library(grid)
 rm(list=ls(all=TRUE))
 
 source("./RScripts/definitions.R")
-source("./RScripts/CSignal.R")
+source("./RScripts/RCBunch.R")
 
 ## FUNCTIONS ####
 .gghist_plot <- function(df, name){
@@ -58,16 +58,16 @@ compActX <- function(pk.est = df.pks, df.sgl=df.s, what = "Envelope", tol=1e-3){
   pks
 }
 
-sgl = popPS(CSignal()) ## set up beam phase space
+b1 <- RCBunch$new()
 
 ## particle distributions ####
-.gghist_plot(sgl@PS, "wFreq") + labs(x=expression(omega)) -> whist
-.gghist_plot(sgl@PS, "Phi") + labs(x=expression(phi))-> phist
+.gghist_plot(b1$PS, "wFreq") + labs(x=expression(omega)) -> whist
+.gghist_plot(b1$PS, "Phi") + labs(x=expression(phi))-> phist
 # grid.arrange(whist,phist)
 
 ## computing signal ####
-Tstt = 0; Ttot=2000; dt = .25/sgl@Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
-sgl.s <- Signal(sgl, seq(Tstt, Ttot, dt))
+Tstt = 0; Ttot=2000; dt = .25/b1$Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
+b1$project(seq(Tstt, Ttot, dt))
 
 ## fitting signal ####
 f = Sgl ~ nrow(df.p)* exp(lam*Time) * sin(w*Time + p0)
@@ -85,11 +85,11 @@ ggplot(df.pks1) + geom_density(aes(DT))
 sd(df.pks1$DT)
 
 ## plotting signal ####
-ggplot(sgl.s, aes(Time, Sgl)) + geom_line(col="red",lwd=.05) + 
+ggplot(b1$Pproj, aes(Time, Val)) + geom_line(col="red",lwd=.05) + 
   theme_bw() + labs(y=expression(pi[bold(y)]*bold(P)))+
   theme(legend.position="top")+
-  geom_point(aes(col=E), size=.1, data=df.pks, show.legend = FALSE) +
-  scale_color_manual(name="Envelope", values = c("black","blue")) +
+  # geom_point(aes(col=E), size=.1, data=df.pks, show.legend = FALSE) +
+  scale_color_manual(name="Envelope", values = c("black","blue")) #+
   annotation_custom(tableGrob(formatC(coef(summary(mod1))[,1:2],3,format="e")), 
                     xmin=1000, xmax=2500,ymin=-1000, ymax=-650) -> sglplot
 
