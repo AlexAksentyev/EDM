@@ -66,8 +66,8 @@ sgl = popPS(CSignal()) ## set up beam phase space
 # grid.arrange(whist,phist)
 
 ## computing signal ####
-Tstt = 0; Ttot=2000; dt = .25/sgl@wFreq0 # pi/w0 to satisfy the Nyquist condition
-sgl <- Signal(sgl, seq(Tstt, Ttot, dt))
+Tstt = 0; Ttot=2000; dt = .25/sgl@Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
+sgl.s <- Signal(sgl, seq(Tstt, Ttot, dt))
 
 ## fitting signal ####
 f = Sgl ~ nrow(df.p)* exp(lam*Time) * sin(w*Time + p0)
@@ -85,7 +85,7 @@ ggplot(df.pks1) + geom_density(aes(DT))
 sd(df.pks1$DT)
 
 ## plotting signal ####
-ggplot(df.s, aes(Time, Sgl)) + geom_line(col="red",lwd=.05) + 
+ggplot(sgl.s, aes(Time, Sgl)) + geom_line(col="red",lwd=.05) + 
   theme_bw() + labs(y=expression(pi[bold(y)]*bold(P)))+
   theme(legend.position="top")+
   geom_point(aes(col=E), size=.1, data=df.pks, show.legend = FALSE) +
