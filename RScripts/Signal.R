@@ -1,6 +1,7 @@
 library(dplyr); library(plyr)
 library(ggplot2); library(gridExtra)
 library(grid)
+library(reshape2)
 
 rm(list=ls(all=TRUE))
 
@@ -21,11 +22,24 @@ source("./RScripts/RCBunch.R")
 ## COMPUTATIONS ####
 b1 <- RCBunch$new()
 
-Tstt = 0; Ttot=2000; dt = .25/b1$Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
+Tstt = 0; Ttot=1000; dt = .25/b1$Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
 b1$project(seq(Tstt, Ttot, dt))
 b1$fit()
-b1$findPts("Envelope")
-b1$Spectrum()
+b1$findPts(what="Node", w.guess = coef(b1$Model)[2], tol=1e-8) # w.guess = coef(b1$Model)[2]
+# b1$Spectrum()
+b1$specPts %>% ddply("Which", function(h){
+  x = c(h$Time[1], h$Time[1:(nrow(h)-1)])
+  mutate(h, DT = Time-x)
+}) -> spts
+
+ggplot(filter(spts,N>1, Which=="Optim"), aes(Time, DT, col=Side)) + geom_point() + theme_bw()
+filter(spts, Which=="Optim") %>% head
+filter(spts, Which=="Optim") %>% tail
+
+fitstat <- coef(summary(b1$Model))[,1:2]
+fitstat[1,1] <- -1/fitstat[1,1]; fitstat[1,2] <- fitstat[1,1]^2*fitstat[1,2]
+rownames(fitstat) <- c("tau","w")
+fitstat <- formatC(fitstat, 3,format="e")
 
 ## PLOTS ####
 .gghist_plot(b1$PS, "wFreq") + labs(x=expression(omega)) -> whist
@@ -33,14 +47,14 @@ b1$Spectrum()
 grid.arrange(whist,phist)
 
 ggplot(b1$Pproj, aes(Time, Val)) + geom_line(col="red",lwd=.05) + 
-  theme_bw() + labs(y=expression(pi[bold(y)]*bold(P)))+
+    theme_bw() + labs(y=expression(pi[bold(y)]*bold(P)))+
   theme(legend.position="top")+
   geom_point(aes(col=Which), size=1, data=b1$specPts, show.legend = TRUE) +
   scale_color_manual(values = c("black","blue")) +
-  annotation_custom(tableGrob(formatC(coef(summary(b1$Model))[,1:2],3,format="e")), 
+  annotation_custom(tableGrob(fitstat), 
                     xmin=1000,ymin=-1000, ymax=-650) -> sglplot
 
-t0 = 1900; dt0=25
+t0 = 950; dt0=25
 ggplot(filter(b1$Pproj, Time>t0&Time<t0+dt0), aes(Time,Val)) + geom_line(col="red") + theme_bw() +
   scale_color_manual(values=c("black","blue"))+
   geom_point(aes(Time, Val, col=Which), size=1, data=filter(b1$specPts, Time>t0&Time<t0+dt0))+labs(x="",y="") -> sglslc

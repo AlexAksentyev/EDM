@@ -7,9 +7,9 @@ RCBunch <- R6Class(
   private = list(
     G=7e2,
     Func=function(at) colSums( sin(self$Phase(at)) ),
-    NullSpecPts=function(what="Node", w.ref=NA){
+    NullSpecPts=function(what="Node", w.ref=NULL){
       
-      if(!is.na(w.ref)) w0 <- w.ref
+      if(!is.null(w.ref)) w0 <- w.ref
       else w0 <- self$Synch["wFreq"]
       
       p0 = self$Synch["Phi"]
@@ -64,28 +64,26 @@ RCBunch <- R6Class(
       nls(f, data=self$Pproj, start=guess) -> self$Model
       return(summary(self$Model))
     },
-    findPts=function(what="Node", w.guess=NA, tol=1e-3, ...){
+    findPts=function(what="Node", w.guess=NULL, tol=1e-3){
       require(doParallel); n.cores = detectCores()
       clus <- makeCluster(n.cores)
       registerDoParallel(clus)
       
-      supplied=list(...)
-      what.f <- eval(parse(text = paste0("which.", switch(what, "Envelope"="max","Node"="min"))))
+      k <- switch(what, "Envelope" = TRUE,"Node" = FALSE)
+      fn <- function(x) abs(private$Func(x))
+      finder <- function(s, direction, tol){
+        dx = pi/self$Synch["wFreq"]/2
+        i=as.numeric(c(s["Time"]-dx, s["Time"]+dx))
+        optimize(fn, interval=i, maximum = direction, tol=tol)[[1]]->x0
+        data.frame(Time=x0, Val=private$Func(x0), Which="Optim")
+      }
       
       private$NullSpecPts(what, w.guess) -> pts0
-      adply(pts0, 1, function(s, df.sgl, what.f, tol){
-        s[,"Time"] -> x
-        filter(df.sgl, Time>x-.5 & Time<x+.5) -> y
-        
-        dy = y[nrow(y),]-y[1,]
-        spline(y$Time, y$Val, n=dy$Time/tol) %>% as.data.frame() -> y
-        names(y) <- c("Time","Val")
-        
-        slice(y, what.f(abs(Val)))%>%mutate(Which="Found")
-      }, self$Pproj, what.f, tol, .parallel = TRUE, .paropts = list(.packages="dplyr")) -> pts1
+      adply(pts0, 1, finder, k, tol,
+            .parallel = FALSE, .paropts = list(.packages="dplyr")) -> pts1
       
       stopCluster(clus)
-      
+
       rbind(pts0,pts1) -> self$specPts
     },
     Spectrum=function(plot=TRUE, method="ar"){
