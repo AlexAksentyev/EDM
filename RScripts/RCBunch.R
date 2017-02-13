@@ -37,11 +37,25 @@ RCBunch <- R6Class(
     Synch=c(wFreq=3, Phi=0), SD=numeric(2),
     PS=NULL, Pproj=NULL, specPts=NULL,
     Model=NULL,
-    initialize = function(Npart=1e3, SDdy=1e-3, SDphi=1e-2){
+    initialize = function(Npart=1e3, SDdy=1e-3, SDphi=1e-2, WDist="phys", ...){
       self$SD <- c(dy = SDdy, phi = SDphi)
       
+      supplied = list(...); sname = names(supplied)
+      sdw = ifelse("SDwFreq" %in% sname, supplied$SDwFreq, private$G*SDdy^2)
+      shpw = ifelse("ShpwFreq" %in% sname, supplied$ShpFreq, 1.5)
+      skeww = ifelse("SkewwFreq" %in% sname, supplied$SkewwFreq, 1)
+      
+      w = switch(WDist,
+        "phys" = self$Synch["wFreq"] + private$G*rnorm(Npart, sd=SDdy)^2,
+        "norm" = rnorm(Npart, self$Synch["wFreq"], sdw),
+        "skew" = self$Synch["wFreq"] + skeww*(
+          rweibull(Npart, shpw, sdw) - 
+            ifelse(shpw>1, sdw*((shpw-1)/shpw)^(1/shpw), 0)
+        )
+      )
+      
       self$PS <- data.frame(
-        wFreq = self$Synch["wFreq"] + private$G*rnorm(Npart, sd=SDdy)^2,
+        wFreq = w,
         Phi = rnorm(Npart, self$Synch["Phi"], SDphi)
       )
       attr(self$PS$wFreq, "Synch") <- self$Synch["wFreq"]
@@ -51,9 +65,9 @@ RCBunch <- R6Class(
     },
     Phase = function(at) self$PS$wFreq%o%at + self$PS$Phi,
     project = function(at) self$Pproj <- data.frame(Time=at, Val=private$Func(at) ),
-    fit = function(fitpack = NA){
+    fit = function(fitpack = NULL){
       if(is.null(self$Pproj)) {print("Nothing to fit!"); return(NA)}
-      if(is.na(fitpack)) {
+      if(is.null(fitpack)) {
         print("Hard-coded")
         n = nrow(self$PS); p0 = self$Synch["Phi"]; wg = self$Synch["wFreq"]
         f = Val ~ n * exp(lam*Time) * sin(w*Time + p0)
@@ -107,7 +121,8 @@ RCBunch <- R6Class(
       ggplot(x,aes(wFreq, Pow))+#scale_y_continuous(labels=.fancy_scientific) +
         geom_bar(stat="identity", width=dw*.1) + 
         theme_bw() + labs(x=expression(omega)) +
-        geom_vline(xintercept = self$Synch["wFreq"], col="red")
+        geom_vline(xintercept = self$Synch["wFreq"], col="red") %>% print
+      return(sps)
     }
   ) ## public members
 )
