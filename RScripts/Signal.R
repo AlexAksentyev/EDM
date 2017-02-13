@@ -22,17 +22,17 @@ source("./RScripts/RCBunch.R")
 ## COMPUTATIONS ####
 b1 <- RCBunch$new()
 
-Tstt = 0; Ttot=1000; dt = .25/b1$Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
+Tstt = 2000; Ttot=6000; dt = 1/b1$Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
 b1$project(seq(Tstt, Ttot, dt))
 b1$fit()
-b1$findPts(what="Node", w.guess = coef(b1$Model)[2], tol=1e-8) # w.guess = coef(b1$Model)[2]
+b1$findPts(what="Envelope", w.guess = coef(b1$Model)[2], tol=1e-5) # w.guess = coef(b1$Model)[2]
 # b1$Spectrum()
 b1$specPts %>% ddply("Which", function(h){
   x = c(h$Time[1], h$Time[1:(nrow(h)-1)])
   mutate(h, DT = Time-x)
 }) -> spts
 
-ggplot(filter(spts,N>1, Which=="Optim"), aes(Time, DT, col=Side)) + geom_point() + theme_bw()
+ggplot(filter(spts,N>1), aes(Time, DT, col=Side)) + geom_point() + theme_bw()
 filter(spts, Which=="Optim") %>% head
 filter(spts, Which=="Optim") %>% tail
 
