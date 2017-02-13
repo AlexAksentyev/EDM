@@ -5,6 +5,7 @@
 Reports/*
 !Reports/*.tex
 !Reports/*.sty
+!Reports/img/*
 Abstracts/*
 !Abstracts/*.tex
 !Abstracts/*.sty
