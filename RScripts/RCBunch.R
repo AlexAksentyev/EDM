@@ -5,12 +5,11 @@ library(dplyr)
 RCBunch <- R6Class(
   "RCBunch",
   private = list(
-    G=7e2,
+    G=7e2, SD=numeric(2),
     Func=function(at) colSums( sin(self$Phase(at)) ),
     NullSpecPts=function(what="Node", w.ref=NULL){
       
-      if(!is.null(w.ref)) w0 <- w.ref
-      else w0 <- self$Synch["wFreq"]
+      w0<- ifelse(!is.null(w.ref), w.ref, self$Synch["wFreq"])
       
       p0 = self$Synch["Phi"]
       
@@ -34,11 +33,11 @@ RCBunch <- R6Class(
     }
   ), ## private members
   public = list(
-    Synch=c(wFreq=3, Phi=0), SD=numeric(2),
+    Synch=c(wFreq=3, Phi=0),
     PS=NULL, Pproj=NULL, specPts=NULL,
     Model=NULL,
     initialize = function(Npart=1e3, SDdy=1e-3, SDphi=1e-2, WDist="phys", ...){
-      self$SD <- c(dy = SDdy, phi = SDphi)
+      private$SD <- c(dy = SDdy, phi = SDphi)
       
       supplied = list(...); sname = names(supplied)
       sdw = ifelse("SDwFreq" %in% sname, supplied$SDwFreq, private$G*SDdy^2)
@@ -59,9 +58,9 @@ RCBunch <- R6Class(
         Phi = rnorm(Npart, self$Synch["Phi"], SDphi)
       )
       attr(self$PS$wFreq, "Synch") <- self$Synch["wFreq"]
-      attr(self$PS$wFreq, "SD") <- private$G*self$SD["dy"]^2
+      attr(self$PS$wFreq, "SD") <- private$G*private$SD["dy"]^2
       attr(self$PS$Phi, "Synch") <- self$Synch["Phi"]
-      attr(self$PS$Phi, "SD") <- self$SD["phi"]
+      attr(self$PS$Phi, "SD") <- private$SD["phi"]
     },
     Phase = function(at) self$PS$wFreq%o%at + self$PS$Phi,
     project = function(at) self$Pproj <- data.frame(Time=at, Val=private$Func(at) ),
@@ -94,7 +93,7 @@ RCBunch <- R6Class(
       
       private$NullSpecPts(what, w.guess) -> pts0
       adply(pts0, 1, finder, k, tol,
-            .parallel = FALSE, .paropts = list(.packages="dplyr")) -> pts1
+            .parallel = TRUE, .paropts = list(.packages="dplyr")) -> pts1
       
       stopCluster(clus)
 
@@ -116,7 +115,7 @@ RCBunch <- R6Class(
       x = arrange(sps, desc(Pow))[1:20,]
       dw = x[1,"wFreq"]-x[2,"wFreq"]
       
-      sdw = self$SD["wFreq"]
+      sdw = private$SD["wFreq"]
       
       ggplot(x,aes(wFreq, Pow))+#scale_y_continuous(labels=.fancy_scientific) +
         geom_bar(stat="identity", width=dw*.1) + 
