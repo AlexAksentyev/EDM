@@ -84,7 +84,7 @@ RCBunch <- R6Class(
       
       stopCluster(clus)
 
-      rbind(pts0,pts1) -> self$specPts
+      rbind(pts0,pts1) %>% arrange(Time) -> self$specPts
     },
     Spectrum=function(plot=TRUE, method="ar"){
       Tstt = self$Pproj$Time[1]
