@@ -70,7 +70,7 @@ RCBunch <- R6Class(
       registerDoParallel(clus)
       
       k <- switch(what, "Envelope" = TRUE,"Node" = FALSE)
-      fn <- function(x) abs(private$Func(x))
+      fn <- function(x) (private$Func(x))^2
       finder <- function(s, direction, tol){
         dx = pi/self$Synch["wFreq"]/2
         i=as.numeric(c(s["Time"]-dx, s["Time"]+dx))
