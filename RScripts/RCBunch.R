@@ -32,7 +32,7 @@ RCBunch <- R6Class(
         Which="Null"
       )
     }
-  ), ## private
+  ), ## private members
   public = list(
     Synch=c(wFreq=3, Phi=0), SD=numeric(2),
     PS=NULL, Pproj=NULL, specPts=NULL,

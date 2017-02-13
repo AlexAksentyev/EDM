@@ -8,7 +8,7 @@ rm(list=ls(all=TRUE))
 source("./RScripts/RCBunch.R")
 
 ## COMPUTATIONS ####
-b1 <- RCBunch$new(WDist="norm")
+b1 <- RCBunch$new()
 
 Tstt=7500; Ttot=12000; dt = .5/b1$Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
 b1$project(seq(Tstt, Ttot, dt))
