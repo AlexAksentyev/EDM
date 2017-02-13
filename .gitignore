@@ -2,10 +2,10 @@
 .Rhistory
 .RData
 .Ruserdata
-Reports/*
-!Reports/*.tex
-!Reports/*.sty
-!Reports/*.pdf
+Reports/*.aux
+Reports/*.log
+Reports/*.out
+Reports/*synctex.gz
 Abstracts/*
 !Abstracts/*.tex
 !Abstracts/*.sty
