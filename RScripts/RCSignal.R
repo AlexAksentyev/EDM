@@ -1,0 +1,111 @@
+library(R6)
+library(data.table)
+
+RCSignal <- R6Class(
+  "RCSignal",
+  public = list(
+    Bunch=NULL, #reference
+    Signal=NULL, specPts=NULL,
+    Model=NULL,
+    initialize=function(bunch, smpl.pts){
+      self$Bunch <- bunch
+      self$Signal <- self$Bunch$project(smpl.pts)
+      private$NSmpl <- 1
+    },
+    sample=function(smpl.pts, append=TRUE){
+      private$NSmpl <- private$NSmpl + 1
+      self$Signal <- rbind(
+        self$Signal[,Smpl:=private$NSmpl-1],
+        self$Bunch$project(smpl.pts)[,Smpl:=private$NSmpl]
+      )
+    },
+    fit = function(fitpack = NULL){
+      if(is.null(self$Signal)) {print("Nothing to fit!"); return(NA)}
+      if(is.null(fitpack)) {
+        print("Hard-coded")
+        n = nrow(self$PS); p0 = self$Bunch$Synch["Phi"]; wg = self$Bunch$Synch["wFreq"]
+        f = Val ~ n * exp(lam*Time) * sin(w*Time + p0)
+        guess = list(lam=-1.4e-3, w=wg)
+      } else {
+        f = fitpack$func; guess = fitpack$guess
+      }
+      nls(f, data=self$Signal, start=guess) -> self$Model
+      return(summary(self$Model))
+    },
+    findPts=function(what="Node", w.guess=NULL, tol=1e-3){
+      require(doParallel); n.cores = detectCores()
+      clus <- makeCluster(n.cores)
+      registerDoParallel(clus)
+      
+      k <- switch(what, "Envelope" = TRUE,"Node" = FALSE)
+      fn <- function(x) (private$Func(x))^2
+      finder <- function(s, direction, tol){
+        dx = pi/self$Bunch$Synch["wFreq"]/2
+        i=as.numeric(c(s["Time"]-dx, s["Time"]+dx))
+        optimize(fn, interval=i, maximum = direction, tol=tol)[[1]]->x0
+        data.frame(Time=x0, Val=private$Func(x0), Which="Optim")
+      }
+      
+      private$NullSpecPts(what, w.guess) -> pts0
+      adply(pts0, 1, finder, k, tol,
+            .parallel = TRUE, .paropts = list(.packages="dplyr")) -> pts1
+      
+      stopCluster(clus)
+      
+      rbind(pts0,pts1) %>% arrange(Time) -> self$specPts
+    },
+    Spectrum=function(plot=TRUE, method="ar"){
+      Tstt = self$Signal$Time[1]
+      Ttot = self$Signal$Time[nrow(self$Signal)]
+      dt = self$Signal$Time[2]-self$Signal$Time[1]
+      
+      s = ts(self$Signal$Val, start=Tstt, end=Ttot, deltat=dt)
+      
+      method <- eval(parse(text=paste0("spec.", method)))
+      method(s,plot = FALSE) -> sps
+      sps <- data.frame(Freq=sps$freq, Pow=sps$spec) %>% mutate(wFreq=2*pi*Freq)
+      
+      if(!plot) return(sps)
+      
+      x = arrange(sps, desc(Pow))[1:20,]
+      dw = x[1,"wFreq"]-x[2,"wFreq"]
+      
+      sdw = private$SD["wFreq"]
+      
+      ggplot(x,aes(wFreq, Pow))+#scale_y_continuous(labels=.fancy_scientific) +
+        geom_bar(stat="identity", width=dw*.1) + 
+        theme_bw() + labs(x=expression(omega)) +
+        geom_vline(xintercept = self$Bunch$Synch["wFreq"], col="red") -> fps
+      
+      print(fps)
+      return(sps)
+    }
+  ), ## public
+  private = list(
+    NSmpl=NULL,
+    NullSpecPts=function(what="Node", w.ref=NULL){
+      
+      w0<- ifelse(!is.null(w.ref), w.ref, self$Bunch$Synch["wFreq"])
+      
+      p0 = self$Bunch$Synch["Phi"]
+      
+      .dum <- function(Time) floor((w0*Time+p0-pi/2)/2/pi)
+      
+      Nstt = .dum(self$Signal[1, "Time"])
+      Ntot = .dum(self$Signal[nrow(self$Signal), "Time"])
+      
+      d = switch(what, "Envelope" = pi/2, "Node" = 0)
+      
+      tnu = (2*pi*Nstt:Ntot-p0+d)/w0; tnu <- tnu[tnu>=0]
+      tnd = tnu+pi/w0
+      
+      data.frame(
+        N = c(1:length(tnu),1:length(tnd)),
+        Time=c(tnu, tnd),
+        Val=private$Func(c(tnu,tnd)), 
+        Side=rep(c("U","D"),c(length(tnu),length(tnd))),
+        Which="Null"
+      )
+    }
+  ) ## private
+)
