@@ -6,9 +6,17 @@ library(reshape2)
 rm(list=ls(all=TRUE))
 
 source("./RScripts/RCBunch.R")
+source("./RScripts/RCSignal.R")
 
 ## COMPUTATIONS ####
-b1 <- RCBunch$new()
+bl <- replicate(5, RCBunch$new(Npart=1, SDdy=2e-2, SDphi=.5e-2))
+sl <- llply(bl, function(b) RCSignal$new(b, seq(0,5, .25/b$Synch["wFreq"])))
+names(sl) <- as.character(1:length(sl))
+
+df = ldply(sl, function(s) s$Signal, .id = "Ptcl")
+s = sl[[1]]$add(sl[[2]])$add(sl[[3]])$add(sl[[4]])$add(sl[[5]])
+
+ggplot(df, aes(Time, Val)) + geom_line(aes(col=Ptcl)) + theme_bw() + geom_line(data=s$Signal)
 
 Tstt=7500; Ttot=12000; dt = .5/b1$Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
 b1$project(seq(Tstt, Ttot, dt))
