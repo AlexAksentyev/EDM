@@ -1,14 +1,12 @@
 library(R6)
 library(bigmemory)
 
-# should make bunch$Phase() return a bigmemory matrix
-
 RCBunch <- R6Class(
   "RCBunch",
   private = list(
     G=7e2, SD=numeric(2),
     # polProj=function(at) private$big_aggregate(self$Phase(at), function(X) colSums(sin(X)), .combine = 'c'),
-    polProj=function(at) colSums(sin(self$Phase(at)[,])),
+    polProj=function(at) colSums(sin(self$Phase(at))),
     # utilities
     cutBySize=function(m, block.size, nb = ceiling(m / block.size)) {
       int <- m / nb
@@ -59,7 +57,7 @@ RCBunch <- R6Class(
       attr(self$EnsPS$Phi, "Synch") <- self$Synch["Phi"]
       attr(self$EnsPS$Phi, "SD") <- private$SD["phi"]
     },
-    Phase = function(at) as.big.matrix(self$EnsPS$wFreq%o%at + self$EnsPS$Phi),
+    Phase = function(at) (self$EnsPS$wFreq%o%at + self$EnsPS$Phi),
     project = function(at) data.table(Time=at, Val=private$polProj(at) )
   ) ## public members
 )
