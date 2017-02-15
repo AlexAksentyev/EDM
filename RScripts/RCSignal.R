@@ -19,22 +19,11 @@ RCSignal <- R6Class(
         self$Bunch$project(smpl.pts)[,Smpl:=private$NSmpl]
       )
     },
-    add=function(other){
-      if(any(self$Bunch$Synch != other$Bunch$Synch)) print("Different synchronous particles!")
-      
-      at = unique(c(self$Signal$Time, other$Signal$Time))
-      
-      b0 = RCBunch$new(Npart=0, SDdy=NA, SDphi=NA, WDist="NA")
-      b0$Synch <- c("wFreq"=NULL, "Phi"=NULL)
-      b0$EnsPS <- rbind(self$Bunch$EnsPS, other$Bunch$EnsPS)
-      
-      RCSignal$new(b0, at)
-    },
-    fit = function(fitpack = NULL){
+    fit=function(fitpack = NULL){
       if(is.null(self$Signal)) {print("Nothing to fit!"); return(NA)}
       if(is.null(fitpack)) {
         print("Hard-coded")
-        n = nrow(self$PS); p0 = self$Bunch$Synch["Phi"]; wg = self$Bunch$Synch["wFreq"]
+        n = nrow(self$Bunch$EnsPS); p0 = self$Bunch$Synch["Phi"]; wg = self$Bunch$Synch["wFreq"]
         f = Val ~ n * exp(lam*Time) * sin(w*Time + p0)
         guess = list(lam=-1.4e-3, w=wg)
       } else {
@@ -49,17 +38,19 @@ RCSignal <- R6Class(
       registerDoParallel(clus)
       
       k <- switch(what, "Envelope" = TRUE,"Node" = FALSE)
-      fn <- function(x) (private$Func(x))^2
+      fn <- function(x) (self$Bunch$project(x)[,Val]^2)
       finder <- function(s, direction, tol){
         dx = pi/self$Bunch$Synch["wFreq"]/2
-        i=as.numeric(c(s["Time"]-dx, s["Time"]+dx))
+        i=s[,Time] + c(-dx, +dx)
+        print(i)
         optimize(fn, interval=i, maximum = direction, tol=tol)[[1]]->x0
-        data.frame(Time=x0, Val=private$Func(x0), Which="Optim")
+        print(x0)
+        data.table(self$Bunch$project(x0), Which="Optim")
       }
       
       private$NullSpecPts(what, w.guess) -> pts0
       adply(pts0, 1, finder, k, tol,
-            .parallel = TRUE, .paropts = list(.packages="dplyr")) -> pts1
+            .parallel = TRUE, .paropts = list(.packages=c("dplyr","data.table"))) -> pts1
       
       stopCluster(clus)
       
@@ -102,21 +93,32 @@ RCSignal <- R6Class(
       
       .dum <- function(Time) floor((w0*Time+p0-pi/2)/2/pi)
       
-      Nstt = .dum(self$Signal[1, "Time"])
-      Ntot = .dum(self$Signal[nrow(self$Signal), "Time"])
+      Nstt = .dum(self$Signal[1, Time])
+      Ntot = .dum(self$Signal[nrow(self$Signal), Time])
       
       d = switch(what, "Envelope" = pi/2, "Node" = 0)
       
       tnu = (2*pi*Nstt:Ntot-p0+d)/w0; tnu <- tnu[tnu>=0]
       tnd = tnu+pi/w0
       
-      data.frame(
+      data.table(
         N = c(1:length(tnu),1:length(tnd)),
-        Time=c(tnu, tnd),
-        Val=private$Func(c(tnu,tnd)), 
+        self$Bunch$project(c(tnu,tnd)), # Time & Val
         Side=rep(c("U","D"),c(length(tnu),length(tnd))),
         Which="Null"
       )
     }
   ) ## private
 )
+
+`+.RCSignal` <- function(one, other){
+  if(any(one$Bunch$Synch != other$Bunch$Synch)) print("Different synchronous particles!")
+  
+  at = unique(c(one$Signal$Time, other$Signal$Time))
+  
+  b0 = RCBunch$new(Npart=0, SDdy=NA, SDphi=NA, WDist="NA")
+  b0$Synch <- c("wFreq"=NULL, "Phi"=NULL)
+  b0$EnsPS <- rbind(one$Bunch$EnsPS, other$Bunch$EnsPS)
+  
+  RCSignal$new(b0, at)
+}
