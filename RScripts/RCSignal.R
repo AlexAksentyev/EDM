@@ -1,5 +1,6 @@
 library(R6)
 library(data.table)
+library(doParallel)
 
 RCSignal <- R6Class(
   "RCSignal",
@@ -11,6 +12,24 @@ RCSignal <- R6Class(
       self$Bunch <- bunch
       self$Signal <- self$Bunch$project(smpl.pts)
       private$NSmpl <- 1
+    },
+    split=function(){
+      
+      registerDoParallel(detectCores())
+      
+      alply(self$Bunch$EnsPS,1, function(ps){
+        RCBunch$new(0,NA, NA) -> b
+        b$Synch <- unlist(ps); b$EnsPS <- ps
+        b
+      }, .parallel = FALSE) -> bl
+      self$Signal$Time -> smpl.at
+      
+      
+      llply(bl, function(b, at) RCSignal$new(b, at), smpl.at, .parallel=FALSE) -> sl
+      
+      stopImplicitCluster()
+      
+      sl
     },
     sample=function(smpl.pts, append=TRUE){
       private$NSmpl <- private$NSmpl + 1
@@ -33,10 +52,7 @@ RCSignal <- R6Class(
       return(summary(self$Model))
     },
     findPts=function(what="Node", w.guess=NULL, tol=1e-3){
-      require(doParallel); n.cores = detectCores()
-      clus <- makeCluster(n.cores)
-      registerDoParallel(clus)
-      
+
       k <- switch(what, "Envelope" = TRUE,"Node" = FALSE)
       fn <- function(x) (self$Bunch$project(x)[,Val]^2)
       finder <- function(s, direction, tol){
@@ -49,10 +65,11 @@ RCSignal <- R6Class(
       }
       
       private$NullSpecPts(what, w.guess) -> pts0
+      
+      registerDoParallel(detectCores())
       adply(pts0, 1, finder, k, tol,
             .parallel = TRUE, .paropts = list(.packages=c("dplyr","data.table"))) -> pts1
-      
-      stopCluster(clus)
+      stopImplicitCluster()
       
       rbind(pts0,pts1) %>% arrange(Time) -> self$specPts
     },
@@ -117,7 +134,7 @@ RCSignal <- R6Class(
   at = unique(c(one$Signal$Time, other$Signal$Time))
   
   b0 = RCBunch$new(Npart=0, SDdy=NA, SDphi=NA, WDist="NA")
-  b0$Synch <- c("wFreq"=NULL, "Phi"=NULL)
+  b0$Synch <- NULL
   b0$EnsPS <- rbind(one$Bunch$EnsPS, other$Bunch$EnsPS)
   
   RCSignal$new(b0, at)
