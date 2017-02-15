@@ -19,6 +19,17 @@ RCSignal <- R6Class(
         self$Bunch$project(smpl.pts)[,Smpl:=private$NSmpl]
       )
     },
+    add=function(other){
+      if(any(self$Bunch$Synch != other$Bunch$Synch)) print("Different synchronous particles!")
+      
+      at = unique(c(self$Signal$Time, other$Signal$Time))
+      
+      b0 = RCBunch$new(Npart=0, SDdy=NA, SDphi=NA, WDist="NA")
+      b0$Synch <- c("wFreq"=NULL, "Phi"=NULL)
+      b0$EnsPS <- rbind(self$Bunch$EnsPS, other$Bunch$EnsPS)
+      
+      RCSignal$new(b0, at)
+    },
     fit = function(fitpack = NULL){
       if(is.null(self$Signal)) {print("Nothing to fit!"); return(NA)}
       if(is.null(fitpack)) {

@@ -25,7 +25,8 @@ RCBunch <- R6Class(
         "skew" = self$Synch["wFreq"] + skeww*(
           rweibull(Npart, shpw, sdw) - 
             ifelse(shpw>1, sdw*((shpw-1)/shpw)^(1/shpw), 0)
-        )
+        ),
+        numeric(0)
       )
       
       self$EnsPS <- data.table(
