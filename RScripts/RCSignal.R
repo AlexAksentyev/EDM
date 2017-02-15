@@ -94,7 +94,7 @@ RCSignal <- R6Class(
       ggplot(x,aes(wFreq, Pow))+#scale_y_continuous(labels=.fancy_scientific) +
         geom_bar(stat="identity", width=dw*.1) + 
         theme_bw() + labs(x=expression(omega)) +
-        geom_vline(xintercept = self$Bunch$Synch["wFreq"], col="red") -> fps
+        geom_vline(xintercept = as.numeric(self$Bunch$Synch["wFreq"]), col="red") -> fps
       
       print(fps)
       return(sps)
