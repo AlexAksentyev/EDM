@@ -10,6 +10,7 @@ RCBunch <- R6Class(
     Synch=c(wFreq=3, Phi=0),
     EnsPS=NULL, # keeps ensemble phase space
     initialize = function(Npart=1e3, SDdy=1e-3, SDphi=1e-2, WDist="phys", ...){
+      if(Npart>5e4) {print("Will have computational problems; truncating."); Npart<-5e4}
       private$SD <- c(dy = SDdy, phi = SDphi)
       
       supplied = list(...); sname = names(supplied)
@@ -36,7 +37,7 @@ RCBunch <- R6Class(
       attr(self$EnsPS$Phi, "Synch") <- self$Synch["Phi"]
       attr(self$EnsPS$Phi, "SD") <- private$SD["phi"]
     },
-    Phase = function(at) self$EnsPS$wFreq%o%at + self$EnsPS$Phi,
+    Phase = function(at) self$EnsPS$wFreq%o%at + self$EnsPS$Phi%o%rep(1,length(at)),
     project = function(at) data.table(Time=at, Val=private$polProj(at) )
   ) ## public members
 )
