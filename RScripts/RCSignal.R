@@ -68,7 +68,7 @@ RCSignal <- R6Class(
             .parallel = TRUE, .paropts = list(.packages=c("dplyr","data.table"))) -> pts1
       stopImplicitCluster()
       
-      rbind(pts0,pts1) %>% arrange(Time) -> self$specPts
+      rbind(pts0,pts1) %>% setorder(Time) -> self$specPts
     },
     Spectrum=function(plot=TRUE, method="ar"){
       Tstt = self$Signal$Time[1]
