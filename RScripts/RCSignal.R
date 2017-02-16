@@ -1,6 +1,7 @@
 library(R6)
 library(data.table)
 library(doParallel)
+library(dplyr)
 
 RCSignal <- R6Class(
   "RCSignal",
@@ -15,17 +16,15 @@ RCSignal <- R6Class(
     },
     split=function(){
       
-      registerDoParallel(detectCores())
-      
-      alply(self$Bunch$EnsPS,1, function(ps){
-        RCBunch$new(0,NA, NA) -> b
-        b$Synch <- unlist(ps); b$EnsPS <- ps
-        b
-      }, .parallel = FALSE) -> bl
       self$Signal$Time -> smpl.at
       
+      registerDoParallel(detectCores())
       
-      llply(bl, function(b, at) RCSignal$new(b, at), smpl.at, .parallel=FALSE) -> sl
+      alply(self$Bunch$EnsPS,1, function(ps, at){
+        RCBunch$new(0,NA, NA) -> b
+        b$Synch <- unlist(ps); b$EnsPS[, wFreq:=ps[,wFreq]][, Phi:=ps[,Phi]]
+        RCSignal$new(b, at)
+      }, smpl.at, .parallel = TRUE) -> bl
       
       stopImplicitCluster()
       
@@ -58,9 +57,7 @@ RCSignal <- R6Class(
       finder <- function(s, direction, tol){
         dx = pi/self$Bunch$Synch["wFreq"]/2
         i=s[,Time] + c(-dx, +dx)
-        print(i)
         optimize(fn, interval=i, maximum = direction, tol=tol)[[1]]->x0
-        print(x0)
         data.table(self$Bunch$project(x0), Which="Optim")
       }
       
@@ -96,7 +93,6 @@ RCSignal <- R6Class(
         theme_bw() + labs(x=expression(omega)) +
         geom_vline(xintercept = as.numeric(self$Bunch$Synch["wFreq"]), col="red") -> fps
       
-      print(fps)
       return(sps)
     }
   ), ## public
