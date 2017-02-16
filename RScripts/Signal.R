@@ -8,17 +8,17 @@ source("./RScripts/RCBunch.R")
 source("./RScripts/RCSignal.R")
 
 ## COMPUTATIONS ####
-bl <- replicate(8, RCBunch$new(Npart=1, SDdy=2e-2, SDphi=.5e-2))
-sl <- llply(bl, function(b) RCSignal$new(b, seq(0,10, .25/b$Synch["wFreq"])))
-names(sl) <- as.character(1:length(sl))
-
-df = ldply(sl, function(s) s$Signal, .id = "Ptcl")
-s = sl[[1]]+sl[[2]]+sl[[3]]+sl[[4]]+sl[[5]]+sl[[6]]+sl[[7]]+sl[[8]]
-
-ggplot(df, aes(Time, Val)) + geom_line(aes(col=Ptcl)) + geom_line(data=s$Signal) + 
-  theme_bw() +theme(legend.position="top")
-
-rm(bl, sl, s, df)
+# bl <- replicate(8, RCBunch$new(Npart=1, SDdy=2e-2, SDphi=.5e-2))
+# sl <- llply(bl, function(b) RCSignal$new(b, seq(0,10, .25/b$Synch["wFreq"])))
+# names(sl) <- as.character(1:length(sl))
+# 
+# df = ldply(sl, function(s) s$Signal, .id = "Ptcl")
+# s = sl[[1]]+sl[[2]]+sl[[3]]+sl[[4]]+sl[[5]]+sl[[6]]+sl[[7]]+sl[[8]]
+# 
+# ggplot(df, aes(Time, Val)) + geom_line(aes(col=Ptcl)) + geom_line(data=s$Signal) + 
+#   theme_bw() +theme(legend.position="top")
+# 
+# rm(bl, sl, s, df)
 
 b1 <- RCBunch$new(Npart=1e4)
 Tstt=0; Ttot=2000; dt = .5/b1$Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
@@ -29,10 +29,8 @@ s1 <- RCSignal$new(b1, seq(Tstt, Ttot, length.out=1e4))
 s1$fit()
 dttol=1e-6
 s1$findPts(what="Node", w.guess = coef(s1$Model)[2], tol=dttol)
-s1$specPts %>% ddply("Which", function(h){
-  x = c(h$Time[1], h$Time[1:(nrow(h)-1)])
-  mutate(h, DT = Time-x)
-}) -> spts
+
+s1$specPts[,DT:=Time-c(Time[1],Time[1:(length(Time)-1)]), by=Which][,`:=`(w=pi/DT,SEw=pi*sqrt(2)*dttol/DT^2),by=Which]
 
 fitstat <- coef(summary(s1$Model))[,1:2]
 fitstat[1,1] <- -1/fitstat[1,1]; fitstat[1,2] <- fitstat[1,1]^2*fitstat[1,2]
@@ -67,8 +65,8 @@ ggplot(df, aes(Time, value)) + geom_line(aes(linetype=variable)) +
   theme(legend.position="top")
 
 ## freq creep ####
-filter(spts,N>1, Which=="Optim") %>% mutate(w = pi/DT, SEw = pi*sqrt(2)*dttol/DT^2) %>% filter(w<6000, w>2)%>%
-  ggplot(aes(Time, w)) + geom_linerange(aes(ymin=w-SEw, ymax=w+SEw), size=.1) + geom_hline(yintercept=b1$Synch["wFreq"], col="red") +
+s1$specPts[N>1 & Which=="Optim",] %>% 
+  ggplot(aes(Time, w)) + geom_point() + geom_hline(yintercept=b1$Synch["wFreq"], col="red") +
   # geom_hline(yintercept=coef(s1$Model)[2]) + 
   theme_bw() + labs(y=expression(omega(t)))
 
