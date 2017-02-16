@@ -1,31 +1,10 @@
 library(R6)
-library(bigmemory)
 
 RCBunch <- R6Class(
   "RCBunch",
   private = list(
     G=7e2, SD=numeric(2),
-    # polProj=function(at) private$big_aggregate(self$Phase(at), function(X) colSums(sin(X)), .combine = 'c'),
-    polProj=function(at) colSums(sin(self$Phase(at))),
-    # utilities
-    cutBySize=function(m, block.size, nb = ceiling(m / block.size)) {
-      int <- m / nb
-      
-      upper <- round(1:nb * int)
-      lower <- c(1, upper[-nb] + 1)
-      size <- c(upper[1], diff(upper))
-      
-      cbind(lower, upper, size)
-    },
-    seq2=function(lims) seq(lims["lower"], lims["upper"]),
-    big_aggregate=function(X, FUN, .combine, block.size = 1e3) {
-      require(foreach)
-      intervals <- private$cutBySize(ncol(X), block.size)
-      
-      foreach(k = 1:nrow(intervals), .combine = .combine) %do% {
-        FUN(X[, private$seq2(intervals[k, ])])
-      }
-    }
+    polProj=function(at) colSums(sin(self$Phase(at)))
   ), ## private members
   public = list(
     Synch=c(wFreq=3, Phi=0),
@@ -57,7 +36,7 @@ RCBunch <- R6Class(
       attr(self$EnsPS$Phi, "Synch") <- self$Synch["Phi"]
       attr(self$EnsPS$Phi, "SD") <- private$SD["phi"]
     },
-    Phase = function(at) (self$EnsPS$wFreq%o%at + self$EnsPS$Phi),
+    Phase = function(at) self$EnsPS$wFreq%o%at + self$EnsPS$Phi,
     project = function(at) data.table(Time=at, Val=private$polProj(at) )
   ) ## public members
 )
