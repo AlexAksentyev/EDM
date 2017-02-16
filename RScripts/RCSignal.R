@@ -8,7 +8,7 @@ RCSignal <- R6Class(
   public = list(
     Bunch=NULL, #reference
     Signal=NULL, specPts=NULL,
-    Model=NULL,
+    ModelCoef=NULL,
     initialize=function(bunch, smpl.pts){
       self$Bunch <- bunch
       self$Signal <- self$Bunch$project(smpl.pts)
@@ -47,8 +47,8 @@ RCSignal <- R6Class(
       } else {
         f = fitpack$func; guess = fitpack$guess
       }
-      nls(f, data=self$Signal, start=guess) -> self$Model
-      return(summary(self$Model))
+      coef(summary(nls(f, data=self$Signal, start=guess))) -> self$ModelCoef
+      return(self$ModelCoef)
     },
     findPts=function(what="Node", w.guess=NULL, tol=1e-3){
 
@@ -86,13 +86,12 @@ RCSignal <- R6Class(
       x = arrange(sps, desc(Pow))[1:20,]
       dw = x[1,"wFreq"]-x[2,"wFreq"]
       
-      sdw = private$SD["wFreq"]
-      
       ggplot(x,aes(wFreq, Pow))+#scale_y_continuous(labels=.fancy_scientific) +
         geom_bar(stat="identity", width=dw*.1) + 
         theme_bw() + labs(x=expression(omega)) +
         geom_vline(xintercept = as.numeric(self$Bunch$Synch["wFreq"]), col="red") -> fps
       
+      fps
       return(sps)
     }
   ), ## public
