@@ -1,7 +1,6 @@
-library(dplyr); library(plyr)
+library(plyr)
 library(ggplot2); library(gridExtra)
 library(grid)
-library(reshape2)
 
 rm(list=ls(all=TRUE))
 
@@ -16,20 +15,20 @@ names(sl) <- as.character(1:length(sl))
 df = ldply(sl, function(s) s$Signal, .id = "Ptcl")
 s = sl[[1]]+sl[[2]]+sl[[3]]+sl[[4]]+sl[[5]]+sl[[6]]+sl[[7]]+sl[[8]]
 
-ggplot(df, aes(Time, Val)) + geom_line(aes(col=Ptcl)) + theme_bw() + geom_line(data=s$Signal)
+ggplot(df, aes(Time, Val)) + geom_line(aes(col=Ptcl)) + geom_line(data=s$Signal) + 
+  theme_bw() +theme(legend.position="top")
 
-ggplot(df, aes(Val, Time)) + geom_line(aes(col=Ptcl)) + theme_bw() + coord_polar()
+rm(bl, sl, s, df)
 
-ggplot(s$Bunch$EnsPS, aes())
+b1 <- RCBunch$new(Npart=1e4)
+Tstt=0; Ttot=2000; dt = .5/b1$Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
+stime <- seq(Tstt, Ttot, length.out = 1e4)
 
-
-b1 = RCBunch$new(Npart=5)
-Tstt=0; Ttot=20; dt = .5/b1$Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
-s1 = RCSignal$new(b1, seq(Tstt, Ttot, dt))
+s1 <- RCSignal$new(b1, seq(Tstt, Ttot, length.out=1e4))
 
 s1$fit()
 dttol=1e-6
-s1$findPts(what="Node", w.guess = coef(s1$Model)[2], tol=dttol) -> pts0
+s1$findPts(what="Node", w.guess = coef(s1$Model)[2], tol=dttol)
 s1$specPts %>% ddply("Which", function(h){
   x = c(h$Time[1], h$Time[1:(nrow(h)-1)])
   mutate(h, DT = Time-x)
