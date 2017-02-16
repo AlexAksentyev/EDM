@@ -66,7 +66,7 @@ ggplot(df, aes(Time, value)) + geom_line(aes(linetype=variable)) +
 
 ## freq creep ####
 s1$specPts[N>1 & Which=="Optim",] %>% 
-  ggplot(aes(Time, w)) + geom_point() + geom_hline(yintercept=b1$Synch["wFreq"], col="red") +
+  ggplot(aes(Time, w)) + geom_linerange(aes(ymin=w-SEw,ymax=w+SEw), size=.3) + geom_hline(yintercept=b1$Synch["wFreq"], col="red") +
   # geom_hline(yintercept=coef(s1$Model)[2]) + 
   theme_bw() + labs(y=expression(omega(t)))
 
