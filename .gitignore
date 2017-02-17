@@ -13,3 +13,5 @@ Abstracts/*
 !Abstracts/*.doc
 OptiMScripts/*
 C++/*
+Python/*
+!Python/*.py
