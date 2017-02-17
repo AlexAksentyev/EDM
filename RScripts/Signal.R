@@ -9,23 +9,22 @@ source("./RScripts/RCSignal.R")
 
 ## COMPUTATIONS ####
 # bl <- replicate(8, RCBunch$new(Npart=1, SDdy=2e-2, SDphi=.5e-2))
-# sl <- llply(bl, function(b) RCSignal$new(b, seq(0,10, .25/b$Synch["wFreq"])))
+# sl <- llply(bl, function(b) RCSignal$new(b, seq(0,1000, .25/b$Synch["wFreq"])))
 # names(sl) <- as.character(1:length(sl))
 # 
 # df = ldply(sl, function(s) s$Signal, .id = "Ptcl")
 # s = sl[[1]]+sl[[2]]+sl[[3]]+sl[[4]]+sl[[5]]+sl[[6]]+sl[[7]]+sl[[8]]
 # 
-# ggplot(df, aes(Time, Val)) + geom_line(aes(col=Ptcl)) + geom_line(data=s$Signal) + 
+# ggplot(df, aes(Time, Val)) + geom_line(aes(col=Ptcl)) + geom_line(data=s$Signal) +
 #   theme_bw() +theme(legend.position="top")
 # 
 # rm(bl, sl, s, df)
 
-b1 <- RCBunch$new(Npart=1e4)
-Tstt=0; Ttot=2000; dt = .5/b1$Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
-stime <- seq(Tstt, Ttot, length.out = 1e4)
-
-s1 <- RCSignal$new(b1, seq(Tstt, Ttot, length.out=1e4))
-
+b1 <- RCBunch$new(Npart=1e3)
+Tstt=0; Ttot=10000; dt = .5/b1$Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
+stime <- seq(Tstt, Ttot, dt)
+lineprof(s1 <- RCSignal$new(b1, stime))->prf
+         
 s1$fit()
 dttol=1e-6
 s1$findPts(what="Node", w.guess = coef(s1$Model)[2], tol=dttol)
@@ -67,15 +66,15 @@ ggplot(df, aes(Time, value)) + geom_line(aes(linetype=variable)) +
 ## freq creep ####
 s1$specPts[N>1 & Which=="Optim",] %>% 
   ggplot(aes(Time, w)) + geom_linerange(aes(ymin=w-SEw,ymax=w+SEw), size=.3) + geom_hline(yintercept=b1$Synch["wFreq"], col="red") +
-  # geom_hline(yintercept=coef(s1$Model)[2]) + 
-  theme_bw() + labs(y=expression(omega(t)))
+  geom_hline(yintercept=s1$ModelCoef[2,1]) +
+  theme_bw() + labs(y=expression(omega(t))) -> p1
 
 ## signal ####
 ggplot(s1$Signal, aes(Time, Val)) + geom_line(col="red",lwd=.05) + 
     theme_bw() + labs(y=expression(pi[bold(y)]*bold(P)))+
   theme(legend.position="top")+
   geom_point(aes(col=Which), size=1, data=s1$specPts, show.legend = TRUE) +
-  scale_color_manual(values = c("black","blue")) +
+  scale_color_manual(values = c("black","blue")) -> p2 #+
   annotation_custom(tableGrob(fitstat),
                     xmin=1000,ymin=-1000, ymax=-650) -> sglplot
 
