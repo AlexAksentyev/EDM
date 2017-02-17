@@ -91,7 +91,7 @@ RCSignal <- R6Class(
         theme_bw() + labs(x=expression(omega)) +
         geom_vline(xintercept = as.numeric(self$Bunch$Synch["wFreq"]), col="red") -> fps
       
-      fps
+      print(fps)
       return(sps)
     }
   ), ## public
