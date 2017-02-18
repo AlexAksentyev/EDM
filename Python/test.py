@@ -3,9 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import CBunch
 import CSignal
+from importlib import reload
 
 b1 = CBunch.Bunch(Npart=3, wDist="norm")
-at = numpy.arange(0,2000, .95*np.pi/b1.Synch["wFreq"])
+at = np.arange(0,2000, .95*np.pi/b1.Synch["wFreq"])
 #at = np.linspace(0,2000, 1e3)
 
 s1 = CSignal.Signal(b1, at)
@@ -20,4 +21,6 @@ s1.fit(f, [-1e-4, s1.Bunch.Synch["wFreq"], 0])
 s1.Spectrum()
 
 plt.semilogy(s1.PSD.wFreq, s1.PSD.Pow)
+
+s1._NullSpecPts(wref=s1.Model[0][1])
 
