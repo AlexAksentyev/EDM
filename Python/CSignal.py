@@ -1,7 +1,7 @@
 import pandas
 import numpy as np
 import multiprocessing
-from multiprocessing import pool
+import pathos.multiprocessing as mp
 from scipy.optimize import curve_fit
 from scipy.signal import welch
 
@@ -45,6 +45,37 @@ class Signal:
             "Pow" : psd[1]
         })
         self.PSD = self.PSD.assign(wFreq = self.PSD.Freq*2*np.pi)
+
+    def findPts(self, what="Node", wguess=None):
+        
+        switch = lambda x: {"Node": 1, "Envelope": -1}.get(x, 1)
+        
+        k = switch(what) #this'll determine the direction of optimization
+        fn = lambda x: k*self.Bunch.project(x).Val**2
+        def finder(e): # work on here
+            from scipy.optimize import minimize
+            x0 = e.Time
+            dx = np.pi/self.Bunch.Synch["wFreq"]/2
+            bnd = x0 + (-dx, +dx)
+            x0 = minimize(fn, x0, bounds=((bnd[0], bnd[1]),)).x
+            #df1 = pandas.DataFrame({
+            #    "N": pts0.ix[i].N,
+            #    "Side": pts0.ix[i].Side,
+            #    "Which": "Optim"
+            #}, index = [i])
+            #return pandas.concat([df1, self.Bunch.project(x0)], axis=1, join_axes=[df1.index])
+            return x0
+      
+        pts0 = self._NullSpecPts(what, wguess)
+        pts0_l = [pts0.ix[i] for i in range(len(pts0))]
+        pool = mp.Pool(processes=multiprocessing.cpu_count())
+        pts1 = pool.map(finder, pts0_l)
+        
+        p.close()
+        p.join()
+      
+        #self.specPts = [pts0, pts1].sort_values("Time")
+        return pts1
         
     def _NullSpecPts(self, what="Node", wref=None):
         if wref is not None:
@@ -54,7 +85,7 @@ class Signal:
         
         p0 = self.Bunch.Synch["Phi"]
         
-        _dum = lambda Time: np.floor((w0*Time+p0-np.pi/2)/2/np.pi)
+        _dum = lambda Time: int(np.floor((w0*Time+p0-np.pi/2)/2/np.pi))
       
         Nstt = _dum(self.Signal.Time[0])
         Ntot = _dum(self.Signal.Time[len(self.Signal)-1])
@@ -62,12 +93,12 @@ class Signal:
         switch = lambda x: {"Node": 0, "Envelope": np.pi/2}.get(x, 0)
       
         d = switch(what)
-        tnu = [(2*np.pi*x -p0+d)/w0  for x in list(range(Nstt,Ntot+1))]
+        tnu = [(2*np.pi*x -p0+d)/w0  for x in range(Nstt,Ntot+1)]
         tnu = [x for x in tnu if not x < 0]
         tnd = [x+np.pi/w0 for x in tnu]
       
         df1 = pandas.DataFrame({
-            "N" : list(range(1,length(tnu)+1)) + list(range(1,length(tnd)+1)),
+            "N" : list(range(1,len(tnu)+1)) + list(range(1,len(tnd)+1)),
             "Side": ["U"]*len(tnu)+ ["D"]*len(tnd),
             "Which": "Null"
         })
