@@ -52,30 +52,32 @@ class Signal:
         
         k = switch(what) #this'll determine the direction of optimization
         fn = lambda x: k*self.Bunch.project(x).Val**2
-        def finder(e): # work on here
+        def finder(sub): # work on here
             from scipy.optimize import minimize
-            x0 = e.Time
-            dx = np.pi/self.Bunch.Synch["wFreq"]/2
-            bnd = x0 + (-dx, +dx)
+            x0 = sub.Time.data[0]
+            dx = .5#np.pi/self.Bunch.Synch["wFreq"]/2
+            bnd = (x0-dx, x0+dx)
             x0 = minimize(fn, x0, bounds=((bnd[0], bnd[1]),)).x
-            #df1 = pandas.DataFrame({
-            #    "N": pts0.ix[i].N,
-            #    "Side": pts0.ix[i].Side,
-            #    "Which": "Optim"
-            #}, index = [i])
-            #return pandas.concat([df1, self.Bunch.project(x0)], axis=1, join_axes=[df1.index])
-            return x0
+            sub['Time'] = x0.data[0]
+            sub['Which'] = "Optim"
+            return sub
+            #return pandas.concat([sub[['N','Side','Which']], self.Bunch.project(x0)], axis=1, join_axes=[sub.index])
       
         pts0 = self._NullSpecPts(what, wguess)
-        pts0_l = [pts0.ix[i] for i in range(len(pts0))]
-        pool = mp.Pool(processes=multiprocessing.cpu_count())
-        pts1 = pool.map(finder, pts0_l)
+        pts0_g = pts0.groupby(list(range(len(pts0))))
         
-        p.close()
-        p.join()
+        pts1 = pandas.concat([finder(group) for name,group in pts0_g])
+        #pts1 = pandas.concat(map(finder, [group for name,group in pts0_g]))
+        #pool = mp.Pool(processes=multiprocessing.cpu_count())
+        
+        #pts1 = pandas.concat(pool.map(self.finder, [group for name,group in pts0_g]))
+        
+        #pool.close()
+        #pool.join()
+        
+        pts1['Val'] = fn(pts1['Time'])
       
-        #self.specPts = [pts0, pts1].sort_values("Time")
-        return pts1
+        self.specPts = pandas.concat([pts0, pts1]).sort_values("Time")
         
     def _NullSpecPts(self, what="Node", wref=None):
         if wref is not None:
