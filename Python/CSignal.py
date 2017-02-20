@@ -1,6 +1,5 @@
 import pandas
 import numpy as np
-import multiprocessing
 import pathos.multiprocessing as mp
 from scipy.optimize import curve_fit
 from scipy.signal import welch
@@ -51,30 +50,29 @@ class Signal:
         switch = lambda x: {"Node": 1, "Envelope": -1}.get(x, 1)
         
         k = switch(what) #this'll determine the direction of optimization
-        fn = lambda x: k*self.Bunch.project(x).Val**2
-        def finder(sub, fn): # work on here
+        tgt = lambda x: k*self.Bunch.project(x).Val**2
+        def finder(sub, fn):
             from scipy.optimize import minimize
             x0 = sub.Time.data[0]
             dx = np.pi/self.Bunch.Synch["wFreq"]/2
             bnd = (x0-dx, x0+dx)
-            x0 = minimize(fn, x0, bounds=((bnd[0], bnd[1]),)).x
+            x0 = minimize(fn, x0, bounds=((bnd[0], bnd[1]),), tol=1e-9).x
             sub['Time'] = x0.data[0]
             sub['Which'] = "Optim"
             return sub
-            #return pandas.concat([sub[['N','Side','Which']], self.Bunch.project(x0)], axis=1, join_axes=[sub.index])
       
         pts0 = self._NullSpecPts(what, wguess)
         pts0_g = pts0.groupby(list(range(len(pts0))))
         
-        pool = mp.ProcessingPool(processes=multiprocessing.cpu_count())
+        pool = mp.ProcessingPool(processes=mp.cpu_count())
         
         #pts1 = pandas.concat([finder(group) for name,group in pts0_g])
-        pts1 = pandas.concat(pool.map(finder, [group for name,group in pts0_g], [fn]*len(pts0)))
+        pts1 = pandas.concat(pool.map(finder, [group for name,group in pts0_g], [tgt]*len(pts0)))
         
         pool.close()
         pool.join()
         
-        pts1['Val'] = fn(pts1['Time'])
+        pts1['Val'] = self.Bunch.project(pts1['Time']).Val
       
         self.specPts = pandas.concat([pts0, pts1]).sort_values("Time")
         

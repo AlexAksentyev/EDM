@@ -6,16 +6,18 @@ import CBunch
 import CSignal
 from importlib import reload
 
-b1 = CBunch.Bunch(Npart=10)
-at = np.arange(0,50, .05*np.pi/b1.Synch["wFreq"])
+matplotlib.rcParams["figure.figsize"] = "100, 100"
+
+b1 = CBunch.Bunch()
+at = np.arange(0,1500, .75*np.pi/b1.Synch["wFreq"])
 #at = np.linspace(0,2000, 1e3)
 
 s1 = CSignal.Signal(b1, at)
 
 s1.addNoise(3e-2)
-ggplot(s1.Signal, aes(x="Time",y="ValNs")) + \
-    geom_line(aes(x="Time", y="Val"), color="gray", size=.5) + \
-    geom_point(aes(x="Time",y="Val"), data=s1.specPts, col="blue") +\
+ggplot(s1.Signal, aes()) + \
+    geom_line(aes(x="Time", y="Val"), color="red", size=.05) + \
+    geom_point(aes(x="Time",y="ValNs"), col="blue") + \
     theme_bw()
 
 #f = lambda t, l,w,p: 1e3*np.exp(l*t)*np.sin(w*t + p)
@@ -27,4 +29,7 @@ ggplot(s1.Signal, aes(x="Time",y="ValNs")) + \
 
 s1.findPts()
 
-#pts=s1.specPts
+ggplot(s1.Signal, aes()) + \
+    geom_line(aes(x="Time", y="Val"), color="gray", size=.5) + \
+    geom_point(aes(x="Time",y="Val"), data=s1.specPts, col="blue") +\
+    theme_bw()
