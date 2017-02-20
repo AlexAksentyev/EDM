@@ -52,7 +52,7 @@ class Signal:
         
         k = switch(what) #this'll determine the direction of optimization
         fn = lambda x: k*self.Bunch.project(x).Val**2
-        def finder(sub): # work on here
+        def finder(sub, fn): # work on here
             from scipy.optimize import minimize
             x0 = sub.Time.data[0]
             dx = np.pi/self.Bunch.Synch["wFreq"]/2
@@ -66,13 +66,13 @@ class Signal:
         pts0 = self._NullSpecPts(what, wguess)
         pts0_g = pts0.groupby(list(range(len(pts0))))
         
-        pts1 = pandas.concat([finder(group) for name,group in pts0_g])
-        #pool = mp.Pool(processes=multiprocessing.cpu_count())
+        pool = mp.ProcessingPool(processes=multiprocessing.cpu_count())
         
-        #pts1 = pandas.concat(pool.map(self.finder, [group for name,group in pts0_g]))
+        #pts1 = pandas.concat([finder(group) for name,group in pts0_g])
+        pts1 = pandas.concat(pool.map(finder, [group for name,group in pts0_g], [fn]*len(pts0)))
         
-        #pool.close()
-        #pool.join()
+        pool.close()
+        pool.join()
         
         pts1['Val'] = fn(pts1['Time'])
       
