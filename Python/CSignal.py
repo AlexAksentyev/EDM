@@ -55,7 +55,7 @@ class Signal:
         def finder(sub): # work on here
             from scipy.optimize import minimize
             x0 = sub.Time.data[0]
-            dx = .5#np.pi/self.Bunch.Synch["wFreq"]/2
+            dx = np.pi/self.Bunch.Synch["wFreq"]/2
             bnd = (x0-dx, x0+dx)
             x0 = minimize(fn, x0, bounds=((bnd[0], bnd[1]),)).x
             sub['Time'] = x0.data[0]
@@ -67,7 +67,6 @@ class Signal:
         pts0_g = pts0.groupby(list(range(len(pts0))))
         
         pts1 = pandas.concat([finder(group) for name,group in pts0_g])
-        #pts1 = pandas.concat(map(finder, [group for name,group in pts0_g]))
         #pool = mp.Pool(processes=multiprocessing.cpu_count())
         
         #pts1 = pandas.concat(pool.map(self.finder, [group for name,group in pts0_g]))
