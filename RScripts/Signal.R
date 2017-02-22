@@ -21,13 +21,13 @@ source("./RScripts/RCSignal.R")
 # rm(bl, sl, s, df)
 
 b1 <- RCBunch$new(Npart=1e3)
-Tstt=0; Ttot=1000; dt = .5/b1$Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
+Tstt=3000; Ttot=6000; dt = .5/b1$Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
 stime <- seq(Tstt, Ttot, dt)
 s1 <- RCSignal$new(b1, stime)
          
 s1$fit()
 dttol=1e-6
-s1$findPts(what="Node", w.guess = coef(s1$Model)[2], tol=dttol)
+s1$findNds(w.guess=NULL, tol=dttol)
 
 s1$specPts[,DT:=Time-c(Time[1],Time[1:(length(Time)-1)]), by=Which][,`:=`(w=pi/DT,SEw=pi*sqrt(2)*dttol/DT^2),by=Which]
 
@@ -65,7 +65,8 @@ ggplot(df, aes(Time, value)) + geom_line(aes(linetype=variable)) +
 
 ## freq creep ####
 s1$specPts[N>1 & Which=="Optim",] %>% 
-  ggplot(aes(Time, w)) + geom_linerange(aes(ymin=w-SEw,ymax=w+SEw), size=.3) + geom_hline(yintercept=b1$Synch["wFreq"], col="red") +
+  ggplot(aes(Time, w)) + geom_linerange(aes(ymin=w-SEw,ymax=w+SEw), size=.3) + 
+  geom_hline(yintercept=b1$Synch["wFreq"], col="red") +
   geom_hline(yintercept=s1$ModelCoef[2,1]) +
   theme_bw() + labs(y=expression(omega(t))) -> p1
 
