@@ -7,7 +7,7 @@ RCBunch <- R6Class(
     polProj=function(at){
       # do computation one measurement at a time to minimize memory use
       registerDoParallel(detectCores())
-      aaply(at,1, function(x){sum(sin(self$EnsPS$wFreq*x+self$EnsPS$Phi)); }, .parallel = TRUE) ->res
+      aaply(at,1, function(x){sum(sin(self$EnsPS[,"wFreq"]*x+self$EnsPS[,"Phi"])); }, .parallel = TRUE) ->res
       stopImplicitCluster()
       
       res
