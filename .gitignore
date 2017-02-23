@@ -12,5 +12,6 @@ Abstracts/*
 !Abstracts/*.sty
 !Abstracts/*.doc
 OptiMScripts/*
+COSYINF/*
 Python/*
 C++/*
