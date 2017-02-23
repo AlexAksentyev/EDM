@@ -2,6 +2,7 @@ library(R6)
 library(data.table)
 library(doParallel)
 library(dplyr)
+library(ggplot2)
 
 RCSignal <- R6Class(
   "RCSignal",
@@ -9,9 +10,12 @@ RCSignal <- R6Class(
     Bunch=NULL, #reference
     Signal=NULL, specPts=NULL,
     ModelCoef=NULL,
+    SDrErr=3e-2,
     initialize=function(bunch, smpl.pts){
       self$Bunch <- bunch
       self$Signal <- self$Bunch$project(smpl.pts)
+      rerr = rnorm(nrow(self$Signal), sd = self$SDrErr)
+      self$Signal[,ValNs:=Val*(1+rerr)]
       private$NSmpl <- 1
     },
     split=function(){
@@ -70,15 +74,15 @@ RCSignal <- R6Class(
       
       rbind(pts0,pts1) %>% arrange(Time) -> self$specPts
     },
-    Spectrum=function(plot=TRUE, method="ar"){
+    Spectrum=function(plot=TRUE){
+      require(psd)
       Tstt = self$Signal$Time[1]
       Ttot = self$Signal$Time[nrow(self$Signal)]
       dt = self$Signal$Time[2]-self$Signal$Time[1]
       
-      s = ts(self$Signal$Val, start=Tstt, end=Ttot, deltat=dt)
+      s = ts(self$Signal$ValNs, start=Tstt, end=Ttot, deltat=dt)
       
-      method <- eval(parse(text=paste0("spec.", method)))
-      method(s,plot = FALSE) -> sps
+      pspectrum(s,plot = TRUE) -> sps
       sps <- data.frame(Freq=sps$freq, Pow=sps$spec) %>% mutate(wFreq=2*pi*Freq)
       
       if(!plot) return(sps)

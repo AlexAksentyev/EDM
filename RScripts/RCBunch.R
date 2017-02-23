@@ -1,4 +1,5 @@
 library(R6)
+library(data.table)
 
 RCBunch <- R6Class(
   "RCBunch",
