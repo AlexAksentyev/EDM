@@ -74,7 +74,7 @@ w_i &= \frac{x_i}{\sum_j x_j},~ x_i = (N_0P\exp(\lambda t_i))^2\cos^2(\omega t_i
 
 The three factors, contributing to the standard error of the estimate are:
 \begin{inparaenum}[\itshape a\upshape)]
-	\item the error variance $\nu = \SD{N_0}(t)^2$ (governed by the number $\Ncm$ of polarimetry measurements per signal measurement, eq.~\eqref{eq:MeasSE}), 
+	\item the error variance $\nu = \SD{N_0}(t)^2$ (governed by, among other things, the number $\Ncm$ of polarimetry measurements per signal measurement, eq.~\eqref{eq:MeasSE}), 
 	\item the time spread $\sum_i w_i (t_i - \avg{t}_w)^2$ of the sample measurements, and
 	\item their net informational content $X_{tot}$.
 \end{inparaenum}
@@ -92,7 +92,7 @@ We can express $\sum_{j=1}^{\Nmnd} x_{js} = \Nmnd \cdot x_{0s}$, for some mean v
 	\Nmnd   & = \frac{\dtnd}{\dtm}. \label{eq:NumMeasNode}
 \end{align}
 
-Eq.~\eqref{eq:FItot} can be used to estimate the reasonable experiment duration. $g(\Nnd)$ is a limited function; in Figure~\ref{fig:GofT} it is shown for different life-times. In Table~\ref{tbl:FItot} we have the time (in signal life-times) required to reach the different levels of information, $t(z)/\tau = -\ln(1-z)$. 
+Eq.~\eqref{eq:FItot} can be used to estimate the constraints on the duration of the experiment. $g(\Nnd)$ is a limited function; in Figure~\ref{fig:GofT} it is shown for different life-times. In Table~\ref{tbl:FItot} we have the time (in signal life-times) required to reach the different levels of total available information, $t(z)/\tau = -\ln(1-z)$. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=.5]{img/StatReq/XtotOnTime}
@@ -111,7 +111,7 @@ Eq.~\eqref{eq:FItot} can be used to estimate the reasonable experiment duration.
 	\end{tabular}
 \end{table}
 
-Eq.~\eqref{eq:MeanFIZC}, together with eq.~\eqref{eq:NumMeasNode} and
+Eq.~\eqref{eq:MeanFIZC},~\eqref{eq:NumMeasNode}, and
 \[
 	\stat* = \stat,
 \]
@@ -119,6 +119,29 @@ produce an equation by which the required compaction time $\dtnd$ can be found:
 \begin{equation}\label{eq:CmpTEq}
 	\dtnd + \frac{\sin\omega\dtnd}{\omega} - 2\cdot \stat* \cdot\dtm \cdot g(\Nnd)^{-1}= 0.
 \end{equation}
+
+Assuming the polarimetry measurement time sufficient for 3\% error is 10$\mu$s, estimated compaction time (in percents of the signal quarter period --- 100\% is uniform sampling) is summarized in Table~\ref{tbl:CmpTvsSEw} and shown in Figure~\ref{fig:CmpTvsSEw}.
+
+\newcommand{\vp}[2]{{#1}\cdot 10^{#2}}
+\begin{table}[h]
+	\centering
+	\caption{Compaction time.\label{tbl:CmpTvsSEw}}
+	\begin{tabular}{rr}
+		\hline
+		$\SE{\hat{\omega}}$ (rad/sec) & $\dtnd$ (\%) \\ \hline
+		$\vp{2}{-4}$ &        50.92 \\
+		$\vp{5}{-4}$ &         7.74 \\
+		$\vp{1}{-3}$ &         1.93 \\
+		$\vp{2}{-3}$ &         0.48 \\
+		$\vp{5}{-3}$ &         0.08 \\ \hline
+	\end{tabular}
+\end{table}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.5]{img/StatReq/CmpTvsSEw}
+	\caption{Compaction time for different $\SE{\hat{\omega}}$.\label{fig:CmpTvsSEw}}
+\end{figure}
 
 \begin{figure}[h]
 	\centering
@@ -143,13 +166,13 @@ The signal-to-noise ratios in Table~\ref{fig:x0Expl} are computed as
 	= \frac{P}{A}\sqrt{\dtm}\cdot\exp\bkt{\frac{1-2x}{2x}\cdot\frac{t}{\LTd}},~ x\equiv \frac{\LTb}{\LTd}.
 \end{equation}
 
-\section{Beam/decoherence life-times}
-
-Our want is to have the sample as spread out as possible; however, measurement time is limited by the signal life-time, which is 
-\[
-	\tau = \bkt{\sfrac{1}{\LTb} + \sfrac{1}{\LTd}}^{-1} = \frac{x}{1+x}\cdot \LTd,~ x \equiv \frac{\LTb}{\LTd}.
-\]
-By increasing $x$ we raise the signal life-time, and hence the limit on $\var[w]{t}$, but simultaneously the rate at which falls the SNR.
+%\section{Beam/decoherence life-times}
+%
+%Our want is to have the sample as spread out as possible; however, measurement time is limited by the signal life-time, which is 
+%\[
+%	\tau = \bkt{\sfrac{1}{\LTb} + \sfrac{1}{\LTd}}^{-1} = \frac{x}{1+x}\cdot \LTd,~ x \equiv \frac{\LTb}{\LTd}.
+%\]
+%By increasing $x$ we raise the signal life-time, and hence the limit on $\var[w]{t}$, but simultaneously the rate at which falls the SNR.
 
 
 \begin{thebibliography}{9}

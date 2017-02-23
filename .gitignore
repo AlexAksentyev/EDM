@@ -1,7 +1,14 @@
+## Open-Source ##
+# R-related
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+# Languages
+C++/*
+Python/*
+!Python/*.py
+# Reports
 Reports/*.aux
 Reports/*.log
 Reports/*.out
@@ -11,7 +18,7 @@ Abstracts/*
 !Abstracts/*.tex
 !Abstracts/*.sty
 !Abstracts/*.doc
+
+## Proprietary? ##
 OptiMScripts/*
 COSYINF/*
-Python/*
-C++/*

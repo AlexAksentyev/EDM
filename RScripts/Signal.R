@@ -7,20 +7,7 @@ rm(list=ls(all=TRUE))
 source("./RScripts/RCBunch.R")
 source("./RScripts/RCSignal.R")
 
-## COMPUTATIONS ####
-# bl <- replicate(8, RCBunch$new(Npart=1, SDdy=2e-2, SDphi=.5e-2))
-# sl <- llply(bl, function(b) RCSignal$new(b, seq(0,10, .25/b$Synch["wFreq"])))
-# names(sl) <- as.character(1:length(sl))
-# 
-# df = ldply(sl, function(s) s$Signal, .id = "Ptcl")
-# s = sl[[1]]+sl[[2]]+sl[[3]]+sl[[4]]+sl[[5]]+sl[[6]]+sl[[7]]+sl[[8]]
-# 
-# ggplot(df, aes(Time, Val)) + geom_line(aes(col=Ptcl)) + geom_line(data=s$Signal) + 
-#   theme_bw() +theme(legend.position="top")
-# 
-# rm(bl, sl, s, df)
-
-
+## COMPUTATIONS ####W
 ## working psds ##
 
 b1 <- RCBunch$new(Npart=2)
@@ -43,16 +30,13 @@ ggplot(fps, aes(Pow1, Pow2)) + geom_point(size=.3) +geom_smooth(method="lm") + s
 
 ggplot(s2$Signal%>%filter(Time<20), aes(Time, Val)) + geom_line() + theme_bw()
 
-
 s1$fit()
 dttol=1e-6
-s1$findPts(what="Node", w.guess = coef(s1$Model)[2], tol=dttol)
-s1$specPts %>% ddply("Which", function(h){
-  x = c(h$Time[1], h$Time[1:(nrow(h)-1)])
-  mutate(h, DT = Time-x)
-}) -> spts
+s1$findNds(w.guess=NULL, tol=dttol)
 
-fitstat <- coef(summary(s1$Model))[,1:2]
+s1$specPts[,DT:=Time-c(Time[1],Time[1:(length(Time)-1)]), by=Which][,`:=`(w=pi/DT,SEw=pi*sqrt(2)*dttol/DT^2),by=Which]
+
+fitstat <- s1$ModelCoef[,1:2]
 fitstat[1,1] <- -1/fitstat[1,1]; fitstat[1,2] <- fitstat[1,1]^2*fitstat[1,2]
 rownames(fitstat) <- c("tau","w")
 fitstat <- formatC(fitstat, 3,format="e")
@@ -85,18 +69,18 @@ ggplot(df, aes(Time, value)) + geom_line(aes(linetype=variable)) +
   theme(legend.position="top")
 
 ## freq creep ####
-filter(spts,N>1, Time <10, Which=="Optim") %>% mutate(w = pi/DT, SEw = pi*sqrt(2)*dttol/DT^2) %>% filter(w<6000, w>2)%>%
-  ggplot(aes(Time, w)) + #geom_point() +
-  geom_pointrange(aes(ymin=w-SEw, ymax=w+SEw), size=.1) + #geom_hline(yintercept=b1$Synch["wFreq"], col="red") +
-  # geom_hline(yintercept=coef(s1$Model)[2]) + 
-  theme_bw() + labs(y=expression(omega(t)))
+s1$specPts[N>1 & Which=="Optim",] %>% 
+  ggplot(aes(Time, w)) + geom_linerange(aes(ymin=w-SEw,ymax=w+SEw), size=.3) + 
+  geom_hline(yintercept=b1$Synch["wFreq"], col="red") +
+  geom_hline(yintercept=s1$ModelCoef[2,1]) +
+  theme_bw() + labs(y=expression(omega(t))) -> p1
 
 ## signal ####
 ggplot(s1$Signal, aes(Time, Val)) + geom_line(col="red",lwd=.05) + 
-    theme_bw() + labs(y=expression(pi[bold(y)]*bold(P)))+
-  theme(legend.position="top")+
+  theme_bw() + labs(y=expression(pi[bold(y)]*bold(P))) +
+  theme(legend.position="top") +
   geom_point(aes(col=Which), size=1, data=s1$specPts, show.legend = TRUE) +
-  scale_color_manual(values = c("black","blue")) +
+  scale_color_manual(values = c("black","blue")) -> p2 #+
   annotation_custom(tableGrob(fitstat),
                     xmin=1000,ymin=-1000, ymax=-650) -> sglplot
 

@@ -72,7 +72,39 @@ RCSignal <- R6Class(
             .parallel = TRUE, .paropts = list(.packages=c("dplyr","data.table"))) -> pts1
       stopImplicitCluster()
       
-      rbind(pts0,pts1) %>% arrange(Time) -> self$specPts
+      rbind(pts0,pts1) %>% setorder(Time) -> self$specPts
+    },
+    findNds=function(w.guess=NULL, tol=1e-3){
+      private$NullSpecPts(what="Node", w.ref=w.guess) -> pts0
+      
+      finder <- function(s, tol){
+        dx = pi/self$Bunch$Synch["wFreq"]/2
+        x0 = s[,Time]
+        i =x0 + c(-dx, +dx)
+        
+        repeat{
+          i <- seq(i[1], i[2], length.out=100)
+          dx <- i[2]-i[1]
+          
+          dat = self$Bunch$project(i)
+          dat[,`:=`(X0=c(Val[-nrow(dat)], NA), 
+                    X1=c(Val[-1], NA))][,Prod:=X0*X1]
+          
+          x1 = dat[Prod<0,Time]
+          
+          if(abs(x1-x0) < tol) break
+          
+          i <- x1 + c(0, dx)
+          x0 <- x1
+        }
+        
+        data.table(self$Bunch$project(x1), Which="Optim")
+        
+      }
+      
+      adply(pts0,1, finder, tol, .parallel = TRUE, .paropts = list(.packages="data.table")) -> pts1
+      
+      rbind(pts0,pts1) %>% setorder(Time) -> self$specPts
     },
     Spectrum=function(plot=TRUE){
       require(psd)
@@ -95,7 +127,7 @@ RCSignal <- R6Class(
         theme_bw() + labs(x=expression(omega)) +
         geom_vline(xintercept = as.numeric(self$Bunch$Synch["wFreq"]), col="red") -> fps
       
-      fps
+      print(fps)
       return(sps)
     }
   ), ## public
