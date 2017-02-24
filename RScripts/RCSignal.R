@@ -14,9 +14,9 @@ RCSignal <- R6Class(
     initialize=function(bunch, smpl.pts){
       self$Bunch <- bunch
       self$Signal <- self$Bunch$project(smpl.pts)
-      rerr = rnorm(nrow(self$Signal), sd = self$SDrErr)
-      self$Signal[,ValNs:=Val*(1+rerr)]
       private$NSmpl <- 1
+      rerr <- rnorm(nrow(self$Signal), sd = self$SDrErr)
+      self$Signal[,`:=`(Val0Ns=Val0*(1+rerr), ValuNs=Valu*(1+rerr), Smpl=private$NSmpl)]
     },
     split=function(){
       
@@ -36,9 +36,10 @@ RCSignal <- R6Class(
     },
     sample=function(smpl.pts, append=TRUE){
       private$NSmpl <- private$NSmpl + 1
+      rerr = rnorm(length(smpl.pts), sd = self$SDrErr)
       self$Signal <- rbind(
-        self$Signal[,Smpl:=private$NSmpl-1],
-        self$Bunch$project(smpl.pts)[,Smpl:=private$NSmpl]
+        self$Signal,
+        self$Bunch$project(smpl.pts)[,`:=`(ValNs=Val*(1+rerr), Smpl=private$NSmpl)]
       )
     },
     fit=function(fitpack = NULL){

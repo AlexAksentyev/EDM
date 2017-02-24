@@ -6,9 +6,16 @@ RCBunch <- R6Class(
   private = list(
     G=7e2, SD=numeric(2),
     polProj=function(at){
+      n = nrow(self$EnsPS)
       # do computation one measurement at a time to minimize memory use
       registerDoParallel(detectCores())
-      aaply(at,1, function(x){sum(sin(self$EnsPS[,"wFreq"]*x+self$EnsPS[,"Phi"]))}, .parallel = TRUE) ->res
+      aaply(at,1, function(x, npart){
+        r = runif(npart, 0, 1e-1)
+        c(
+          Val0 = sum(sin(self$EnsPS[,"wFreq"]*x+self$EnsPS[,"Phi"])),
+          Valu = sum(sin(self$EnsPS[,"wFreq"]*x+self$EnsPS[,"Phi"]+ self$EnsPS[,"wFreq"]*r))
+        )
+      }, n, .parallel = TRUE) ->res
       stopImplicitCluster()
       
       res
@@ -22,8 +29,13 @@ RCBunch <- R6Class(
       # if(Npart>1e4) {print("Will have computational problems; truncating."); Npart <- 1e4}
       private$SD <- c(dy = SDdy, phi = SDphi)
       
+      # to get the same scale of chisq and norm distributions
+      q0 = qchisq(pnorm(1)-pnorm(-1),1) #the quantile in chisq corresponding to 1 sd norm
+      # dw/(G*sddy^2) = q0 => dw = q0*G*sddy^2
+      # dw(1sd) = sdw, and since norm is symmetric, sdw ~ q0/2
+      
       supplied = list(...); sname = names(supplied)
-      sdw = ifelse("SDwFreq" %in% sname, supplied$SDwFreq, private$G*SDdy^2)
+      sdw = ifelse("SDwFreq" %in% sname, supplied$SDwFreq, .5*q0*private$G*SDdy^2)
       shpw = ifelse("ShpwFreq" %in% sname, supplied$ShpFreq, 1.5)
       skeww = ifelse("SkewwFreq" %in% sname, supplied$SkewwFreq, 1)
       
@@ -48,9 +60,8 @@ RCBunch <- R6Class(
       # attr(self$EnsPS$Phi, "Synch") <- self$Synch["Phi"]
       # attr(self$EnsPS$Phi, "SD") <- private$SD["phi"]
     },
-    # Phase = function(at, ptcl=1:10){
-    # },
-    project = function(at) data.table(Time=at, Val=private$polProj(at) )
+    Phase = function(at) self$EnsPS[,"wFreq"]%o%at + self$EnsPS[,"Phi"],
+    project = function(at) data.table(Time=at, (private$polProj(at)) )
   ) ## public members
 )
 
