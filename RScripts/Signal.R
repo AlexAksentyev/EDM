@@ -4,93 +4,57 @@ library(grid)
 
 rm(list=ls(all=TRUE))
 
+lblfnt=16
+thm = theme_bw() + theme(axis.text=element_text(size=lblfnt), axis.title=element_text(size=lblfnt), 
+                         legend.title=element_text(size=lblfnt), legend.text=element_text(size=lblfnt), legend.position="top")
+
 source("./RScripts/RCBunch.R")
 source("./RScripts/RCSignal.R")
 
-## COMPUTATIONS ####W
-## working psds ##
+## microsampling ####
+b0 = RCBunch$new(WDist="norm")
+b1 = RCBunch$new(WDist="phys")
 
-b1 <- RCBunch$new(Npart=2)
-b2 <- RCBunch$new(Npart=1e3)
-Tstt=0; Ttot=4000; dt = .05/b1$Synch["wFreq"] # pi/w0 to satisfy the Nyquist condition
-stime <- seq(Tstt, Ttot, dt)
+x0 = diff(quantile(b0$EnsPS[,"wFreq"], c(pnorm(-1), pnorm(1))))
+x1 = diff(quantile(b1$EnsPS[,"wFreq"], c(0, pnorm(1)-pnorm(-1))))
+x0/x1
 
-s1 <- RCSignal$new(b1, stime)
-s2 <- RCSignal$new(b2, stime)
+dt = .5*pi/b0$Synch["wFreq"]
+s0 = RCSignal$new(b0, seq(0, 6000, dt))
+s1 = RCSignal$new(b1, seq(0,6000,dt))
 
-s1$Spectrum() -> fps1
-s2$Spectrum(plot=TRUE) -> fps2
+df=rbind(s0$Signal%>%mutate(WDist="Norm"), s1$Signal%>%mutate(WDist="Chi2"))
 
-fps <- plyr::join(transmute(fps1, wFreq, Pow1=Pow), transmute(fps2, wFreq, Pow2=Pow), by="wFreq")
-ggplot(fps, aes(Pow1, Pow2)) + geom_point(size=.3) +geom_smooth(method="lm") + scale_x_log10() + scale_y_log10()
+ggplot(df, aes(Time, Val0)) + geom_line() + facet_grid(WDist~.)
+
+rm(df)
+
+ggplot(s0$Signal) + geom_point(aes(Val0, Valu), lwd=1) + geom_abline(slope=1, col="red") + theme_bw()
+
+s0$Signal%>%dplyr::select(Time,Val0, Valu)%>%melt(id.vars="Time")%>%#filter(abs(value)>450) %>%
+  ggplot(aes(Time, value)) + geom_line(lwd=.2) + facet_grid(variable~.) + theme_bw()
 
 
-####
+w0 = b0$Synch["wFreq"]; p0 = b0$Synch["Phi"]
+Ntot = (w0*20000+p0-pi/2)/pi #The number of peaks during a given time
+stime <- ((.5+2*(0:Ntot))*pi-p0)/w0 #peak times
+stime <- stime[seq(1, length(stime), length.out = 5)] #pick out only several
 
+data.table(WDist="Norm", Time=stime, t(b0$Phase(stime)))%>%melt.data.table(id.vars=c("WDist","Time"))->ps0
+data.table(WDist="Chi2", Time=stime, t(b1$Phase(stime)))%>%melt.data.table(id.vars=c("WDist","Time"))->ps1
 
-ggplot(s2$Signal%>%filter(Time<20), aes(Time, Val)) + geom_line() + theme_bw()
+rbind(ps0, ps1) -> ps; rm(ps0, ps1)
 
-s1$fit()
-dttol=1e-6
-s1$findNds(w.guess=NULL, tol=dttol)
+ps[,Ph0 := Time*b0$Synch["wFreq"]+b0$Synch["Phi"]]
+ps[,dPh := value-Ph0]
+ps[, `:=`(S=sin(value),S0=sin(Ph0))]
+ps[,SS:=sum(S)/333, by=c("WDist", "Time")]
 
-s1$specPts[,DT:=Time-c(Time[1],Time[1:(length(Time)-1)]), by=Which][,`:=`(w=pi/DT,SEw=pi*sqrt(2)*dttol/DT^2),by=Which]
+ggplot(ps%>%filter(dPh/pi>-3, dPh/pi<3)) + geom_density(aes(dPh/pi)) +
+  geom_density(aes(S), col="red", linetype=2) + 
+  facet_grid(Time~WDist, scales = "free_y") +
+  labs(x=expression(Delta~Theta/pi)) +
+  geom_vline(aes(xintercept=SS), col="darkgreen") +
+  geom_vline(xintercept=0, col="gray") +
+  thm 
 
-fitstat <- s1$ModelCoef[,1:2]
-fitstat[1,1] <- -1/fitstat[1,1]; fitstat[1,2] <- fitstat[1,1]^2*fitstat[1,2]
-rownames(fitstat) <- c("tau","w")
-fitstat <- formatC(fitstat, 3,format="e")
-
-## PLOTS ##
-## particle distributions ####
-.gghist_plot <- function(df, name){
-  ggplot(df, aes_string(name)) +
-    geom_histogram(aes(y=..density..), fill="white", color="black") +
-    geom_density() + 
-    # stat_function(fun=dnorm, 
-    #               args=list(mean=attr(df[,name],"Synch"), 
-    #                         sd=attr(df[,name],"SD")), 
-    #               col="red", lty=2) +
-    theme_bw()
-}
-.gghist_plot(b2$EnsPS, "wFreq") + labs(x=expression(omega)) -> whist
-.gghist_plot(b2$EnsPS, "Phi") + labs(x=expression(phi))-> phist
-grid.arrange(whist,phist)
-
-## optimization function ####
-fn <- function(x) colSums( sin(b1$Phase(x)) )
-dx = pi/b1$Synch["wFreq"]
-x = seq(spts[5,"Time"]-dx, spts[5,"Time"]+dx, length.out=250)
-df = data.frame(Time=x, Sgl=fn(x), Tgt=fn(x)^2/1e3) %>% melt(id.vars="Time")
-
-ggplot(df, aes(Time, value)) + geom_line(aes(linetype=variable)) +
-  geom_hline(yintercept = 0, col="red") + theme_bw() + labs(y="Variable") +
-  scale_linetype_manual(breaks=c("Sgl","Tgt"),values=c(1,2), labels=c("Signal","Target/1e3")) +
-  theme(legend.position="top")
-
-## freq creep ####
-s1$specPts[N>1 & Which=="Optim",] %>% 
-  ggplot(aes(Time, w)) + geom_linerange(aes(ymin=w-SEw,ymax=w+SEw), size=.3) + 
-  geom_hline(yintercept=b1$Synch["wFreq"], col="red") +
-  geom_hline(yintercept=s1$ModelCoef[2,1]) +
-  theme_bw() + labs(y=expression(omega(t))) -> p1
-
-## signal ####
-ggplot(s1$Signal, aes(Time, Val)) + geom_line(col="red",lwd=.05) + 
-  theme_bw() + labs(y=expression(pi[bold(y)]*bold(P))) +
-  theme(legend.position="top") +
-  geom_point(aes(col=Which), size=1, data=s1$specPts, show.legend = TRUE) +
-  scale_color_manual(values = c("black","blue")) -> p2 #+
-  annotation_custom(tableGrob(fitstat),
-                    xmin=1000,ymin=-1000, ymax=-650) -> sglplot
-
-t0 = .7*Ttot; dt0=25
-ggplot(filter(s1$Signal, Time>t0&Time<t0+dt0), aes(Time,Val)) + geom_line(col="red") + theme_bw() +
-  scale_color_manual(values=c("black","blue"))+
-  geom_point(aes(Time, Val, col=Which), size=1, data=filter(s1$specPts, Time>t0&Time<t0+dt0))+labs(x="",y="") -> sglslc
-
-vp <- viewport(width = .4, height = .3, x = .6, y = .5, just = c("right","center"))
-print(sglplot); print(sglslc,vp=vp)
-
-## spectrum ####
-s1$Spectrum()->fps
