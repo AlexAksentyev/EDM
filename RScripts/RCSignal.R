@@ -35,12 +35,18 @@ RCSignal <- R6Class(
       sl
     },
     sample=function(smpl.pts, append=TRUE){
-      private$NSmpl <- private$NSmpl + 1
-      rerr = rnorm(length(smpl.pts), sd = self$SDrErr)
-      self$Signal <- rbind(
-        self$Signal,
-        self$Bunch$project(smpl.pts)[,`:=`(ValNs=Val*(1+rerr), Smpl=private$NSmpl)]
-      )
+      rerr <- rnorm(length(smpl.pts), sd = self$SDrErr)
+      df <- self$Bunch$project(smpl.pts)[,ValNs:=Val*(1+rerr)]
+      
+      if(append){
+        private$NSmpl <- private$NSmpl + 1
+        self$Signal <- rbind(
+          self$Signal,
+          df[,Smpl:=private$NSmpl]
+        )
+      } else 
+        self$Signal <- df[,Smpl:=private$NSmpl]
+      
     },
     fit=function(fitpack = NULL){
       if(is.null(self$Signal)) {print("Nothing to fit!"); return(NA)}
