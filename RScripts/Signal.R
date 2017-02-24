@@ -11,7 +11,6 @@ thm = theme_bw() + theme(axis.text=element_text(size=lblfnt), axis.title=element
 source("./RScripts/RCBunch.R")
 source("./RScripts/RCSignal.R")
 
-## microsampling ####
 b0 = RCBunch$new(WDist="norm")
 b1 = RCBunch$new(WDist="phys")
 
@@ -22,18 +21,6 @@ x0/x1
 dt = .5*pi/b0$Synch["wFreq"]
 s0 = RCSignal$new(b0, seq(0, 6000, dt))
 s1 = RCSignal$new(b1, seq(0,6000,dt))
-
-df=rbind(s0$Signal%>%mutate(WDist="Norm"), s1$Signal%>%mutate(WDist="Chi2"))
-
-ggplot(df, aes(Time, Val0)) + geom_line() + facet_grid(WDist~.)
-
-rm(df)
-
-ggplot(s0$Signal) + geom_point(aes(Val0, Valu), lwd=1) + geom_abline(slope=1, col="red") + theme_bw()
-
-s0$Signal%>%dplyr::select(Time,Val0, Valu)%>%melt(id.vars="Time")%>%#filter(abs(value)>450) %>%
-  ggplot(aes(Time, value)) + geom_line(lwd=.2) + facet_grid(variable~.) + theme_bw()
-
 
 w0 = b0$Synch["wFreq"]; p0 = b0$Synch["Phi"]
 Ntot = (w0*20000+p0-pi/2)/pi #The number of peaks during a given time
@@ -61,3 +48,15 @@ ggplot(ps%>%filter(dPh/pi>-2, dPh/pi<3)) + geom_density(aes(dPh/pi)) +
   geom_vline(aes(xintercept=SS), col="darkgreen") +
   thm +
   geom_segment(aes(x=dPh/pi, xend=dPh/pi, y=0, yend=.1, col=Shade, alpha=.2))
+
+
+fp = list(func = ValNs ~ 1000 * exp(lam*(Time-d)) * sin(w*Time + p0),
+          guess = list(lam=-1.4e-3, w=3, d=100))
+
+s0$fit(fp); s1$fit(fp)
+df = rbind(s0$Signal[,.(Time, ValNs, Fit)][,WDist:="Norm"], s1$Signal[,.(Time, ValNs, Fit)][,WDist:="Chi2"])
+df[seq(1, nrow(df), by=2), Fit := df[seq(2,nrow(df), by=2), Fit]] 
+
+ggplot(df) + geom_line(aes(Time, ValNs)) + 
+  geom_point(aes(Time, Fit), col="red", size=.5) + 
+  facet_grid(WDist~.) + thm + labs(y="Signal")

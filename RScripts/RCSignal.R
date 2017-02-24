@@ -53,12 +53,14 @@ RCSignal <- R6Class(
       if(is.null(fitpack)) {
         print("Hard-coded")
         n = nrow(self$Bunch$EnsPS); p0 = self$Bunch$Synch["Phi"]; wg = self$Bunch$Synch["wFreq"]
-        f = Val ~ n * exp(lam*Time) * sin(w*Time + p0)
+        f = ValNs ~ n * exp(lam*Time) * sin(w*Time + p0)
         guess = list(lam=-1.4e-3, w=wg)
       } else {
         f = fitpack$func; guess = fitpack$guess
       }
-      coef(summary(nls(f, data=self$Signal, start=guess))) -> self$ModelCoef
+      mod3l <- nls(f, data=self$Signal, start=guess)
+      self$Signal[,Fit:=fitted(mod3l)]
+      coef(summary(mod3l)) -> self$ModelCoef
       return(self$ModelCoef)
     },
     findPts=function(what="Node", w.guess=NULL, tol=1e-3){
