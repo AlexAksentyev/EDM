@@ -47,14 +47,17 @@ rbind(ps0, ps1) -> ps; rm(ps0, ps1)
 
 ps[,Ph0 := Time*b0$Synch["wFreq"]+b0$Synch["Phi"]]
 ps[,dPh := value-Ph0]
+ps[,Shade:=derivedFactor(
+  "add" = dPh < -1.5*pi| (dPh > -.5*pi & dPh < .5*pi) | (dPh > 1.5*pi & dPh < 2.5*pi),
+  .default="subtract"
+)]
 ps[, `:=`(S=sin(value),S0=sin(Ph0))]
-ps[,SS:=sum(S)/333, by=c("WDist", "Time")]
+ps[,`:=`(SS=sum(S)/333, Ph50=median(dPh)), by=c("WDist", "Time")]
 
-ggplot(ps%>%filter(dPh/pi>-3, dPh/pi<3)) + geom_density(aes(dPh/pi)) +
+ggplot(ps%>%filter(dPh/pi>-2, dPh/pi<3)) + geom_density(aes(dPh/pi)) + 
   geom_density(aes(S), col="red", linetype=2) + 
   facet_grid(Time~WDist, scales = "free_y") +
   labs(x=expression(Delta~Theta/pi)) +
   geom_vline(aes(xintercept=SS), col="darkgreen") +
-  geom_vline(xintercept=0, col="gray") +
-  thm 
-
+  thm +
+  geom_segment(aes(x=dPh/pi, xend=dPh/pi, y=0, yend=.1, col=Shade, alpha=.2))
