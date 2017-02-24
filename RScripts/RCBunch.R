@@ -9,12 +9,13 @@ RCBunch <- R6Class(
       n = nrow(self$EnsPS)
       # do computation one measurement at a time to minimize memory use
       registerDoParallel(detectCores())
-      aaply(at,1, function(x, npart){
-        r = runif(npart, 0, 1e-1)
-        c(
-          Val0 = sum(sin(self$EnsPS[,"wFreq"]*x+self$EnsPS[,"Phi"])),
-          Valu = sum(sin(self$EnsPS[,"wFreq"]*x+self$EnsPS[,"Phi"]+ self$EnsPS[,"wFreq"]*r))
-        )
+      aaply(at,1, function(x, npart){ sum(sin(self$EnsPS[,"wFreq"]*x+self$EnsPS[,"Phi"]))
+        ## checked near equivalence => no need for it now
+        # r = runif(npart, 0, 1e-1)
+        # c(
+        #   Val = sum(sin(self$EnsPS[,"wFreq"]*x+self$EnsPS[,"Phi"])),
+        #   Valu = sum(sin(self$EnsPS[,"wFreq"]*x+self$EnsPS[,"Phi"]+ self$EnsPS[,"wFreq"]*r))
+        # )
       }, n, .parallel = TRUE) ->res
       stopImplicitCluster()
       
@@ -61,7 +62,7 @@ RCBunch <- R6Class(
       # attr(self$EnsPS$Phi, "SD") <- private$SD["phi"]
     },
     Phase = function(at) self$EnsPS[,"wFreq"]%o%at + self$EnsPS[,"Phi"],
-    project = function(at) data.table(Time=at, (private$polProj(at)) )
+    project = function(at) data.table(Time=at, Val=private$polProj(at) )
   ) ## public members
 )
 

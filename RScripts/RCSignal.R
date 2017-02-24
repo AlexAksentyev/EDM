@@ -16,7 +16,7 @@ RCSignal <- R6Class(
       self$Signal <- self$Bunch$project(smpl.pts)
       private$NSmpl <- 1
       rerr <- rnorm(nrow(self$Signal), sd = self$SDrErr)
-      self$Signal[,`:=`(Val0Ns=Val0*(1+rerr), ValuNs=Valu*(1+rerr), Smpl=private$NSmpl)]
+      self$Signal[,`:=`(ValNs=Val*(1+rerr), Smpl=private$NSmpl)]
     },
     split=function(){
       
