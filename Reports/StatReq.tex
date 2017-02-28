@@ -93,6 +93,14 @@ We can express $\sum_{j=1}^{\Nmnd} x_{js} = \Nmnd \cdot x_{0s}$, for some mean v
 \end{align}
 
 Eq.~\eqref{eq:FItot} can be used to estimate the constraints on the duration of the experiment. $g(\Nnd)$ is a limited function; in Figure~\ref{fig:GofT} it is shown for different life-times. In Table~\ref{tbl:FItot} we have the time (in signal life-times) required to reach the different levels of total available information, $t(z)/\tau = -\ln(1-z)$. 
+
+\newcommand{\SNR}{\text{SNR}}
+\newcommand{\deq}{\overset{\triangle}{=}}
+The signal-to-noise ratios in Table~\ref{tbl:FItot} are computed according to
+\begin{equation}\label{eq:TauRatioSNR}
+\SNR \deq \frac{N_0(t)\cdot P\cdot e^{-\sfrac{t}{\LTd}}}{\SD{N_0}(t)} 
+= \frac{P}{A}\sqrt{\dtm}\cdot\exp\bkt{\frac{1-2x}{2x}\cdot\frac{t}{\LTd}},~ x\equiv \frac{\LTb}{\LTd}.
+\end{equation}
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=.5]{img/StatReq/XtotOnTime}
@@ -157,14 +165,6 @@ Assuming the polarimetry measurement time sufficient for 3\% error is 10$\mu$s, 
 	\end{tikzpicture}
 	\caption{Explanation for $x_0$\label{fig:x0Expl}.}
 \end{figure}
-
-\newcommand{\SNR}{\text{SNR}}
-\newcommand{\deq}{\overset{\triangle}{=}}
-The signal-to-noise ratios in Table~\ref{fig:x0Expl} are computed as 
-\begin{equation}\label{eq:TauRatioSNR}
-	\SNR \deq \frac{N_0(t)\cdot P\cdot e^{-\sfrac{t}{\LTd}}}{\SD{N_0}(t)} 
-	= \frac{P}{A}\sqrt{\dtm}\cdot\exp\bkt{\frac{1-2x}{2x}\cdot\frac{t}{\LTd}},~ x\equiv \frac{\LTb}{\LTd}.
-\end{equation}
 
 %\section{Beam/decoherence life-times}
 %
