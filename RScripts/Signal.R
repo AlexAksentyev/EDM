@@ -1,6 +1,7 @@
 library(plyr)
 library(ggplot2); library(gridExtra)
 library(grid)
+library(mosaic)
 
 rm(list=ls(all=TRUE))
 
@@ -46,7 +47,7 @@ ggplot(ps%>%filter(dPh/pi>-2, dPh/pi<3)) + geom_density(aes(dPh/pi)) +
   facet_grid(Time~WDist, scales = "free_y") +
   labs(x=expression(Delta~Theta/pi)) +
   geom_vline(aes(xintercept=SS), col="darkgreen") +
-  thm +
+  thm + 
   geom_segment(aes(x=dPh/pi, xend=dPh/pi, y=0, yend=.1, col=Shade, alpha=.2))
 
 
