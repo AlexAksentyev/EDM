@@ -12,6 +12,7 @@ setGeneric("expectation", def=function(object, at) standardGeneric("expectation"
 setGeneric("fiDer", def=function(object, at) standardGeneric("fiDer"))
 setGeneric("timeDer", def=function(object, at) standardGeneric("timeDer"))
 setGeneric("nodes", def=function(object, number) standardGeneric("nodes"))
+setGeneric("fit", def=function(object, sampling, duration) standardGeneric("fit"))
 
 setMethod(
   f="setValue", signature="CModel", 
@@ -57,5 +58,19 @@ setMethod(
     w = object@wFreq; phi = object@Phase
     
     (pi*0:number-phi)/w
+  }
+)
+setMethod(
+  f="fit", signature = "CModel",
+  definition = function(object, sampling, duration){
+    
+    N0 <- object@Num0; P <- object@Pol; w0 <- object@wFreq; phi <- object@Phase
+    lam.decoh <- object@decohLam; lam.beam <- object@beamLam
+    
+    f = Sgl ~ N0 * exp(lb*Time) * (1 + P*exp(ld*Time)*sin(w*Time + phi))
+    guess = llply(c("w" = w0, "lb"= lam.beam, "ld" = lam.decoh), function(x) rnorm(1, x, abs(x)*1e-4))
+    
+    s = simSample(sampling, object, duration)
+    nls(f, s, guess) %>% summary %>% coef
   }
 )
