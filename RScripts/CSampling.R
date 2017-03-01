@@ -1,5 +1,6 @@
 library(methods)
 library(dplyr); library(plyr)
+library(data.table)
 
 CSampling = setClass(
   "CSampling",
@@ -32,8 +33,7 @@ setMethod(
     
     t1 = seq(0, duration, by = 1/sampling@Freq) #uniform sampling
     
-    data.frame("Time" = t1, "XSgl" = expectation(signal, t1), "FIDrvt" = fiDer(signal, t1)) %>%  
-      mutate(Sgl = XSgl + rnorm(length(t1), sd=aerror))
+    data.table("Time" = t1, "XSgl" = expectation(signal, t1), "FIDrvt" = fiDer(signal, t1))[,Sgl := XSgl + rnorm(length(t1), sd=aerror)]
   }
 )
 
@@ -45,7 +45,7 @@ setMethod(
     P = signal@Pol; N0 = signal@Num0
     fs = sampling@Freq; wg = sampling@sglFreqGuess
     Tpg = pi/wg
-    Dt = sampling@CMPT
+    Dt = sampling@CMPT*.5*pi/signal@wFreq
     
     aerror <- rerror * N0*P
     
@@ -54,9 +54,10 @@ setMethod(
     t2 = seq(-.5*Dt,.5*Dt, 1/fs)
     t3 = rep(t2,length(t1))+rep(t1,each=length(t2))
     
-    data.frame("Node" = rep(t1,each=length(t2)),"Time" = t3, "XSgl" = expectation(signal, t3), "FIDrvt" = fiDer(signal, t3)) %>% 
-      `attr<-`("CMPT", sampling@CMPT) %>% 
-      mutate(Sgl = XSgl + rnorm(length(t3), sd=aerror)) %>%
-      filter(Time >=0 & Time <= duration)
+    data.table("Node" = rep(t1,each=length(t2)),
+               "Time" = t3, 
+               "XSgl" = expectation(signal, t3), 
+               "FIDrvt" = fiDer(signal, t3))[,Sgl := XSgl + rnorm(length(t3), sd=aerror)][Time >=0 & Time <= duration,] %>% 
+      setattr("CMPT", sampling@CMPT)
   }
 )
