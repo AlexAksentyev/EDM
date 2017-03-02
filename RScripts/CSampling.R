@@ -41,6 +41,8 @@ setMethod(
   f="simSample", signature = "CmSampling",
   definition=function(sampling, signal, duration, rerror = sampling@rerror){
     
+    if(sampling@CMPT > 1) sampling@CMPT <- 1
+    
     phi = signal@Phase; w0 = signal@wFreq; lam.decoh = signal@decohLam
     P = signal@Pol; N0 = signal@Num0
     fs = sampling@Freq; wg = sampling@sglFreqGuess
