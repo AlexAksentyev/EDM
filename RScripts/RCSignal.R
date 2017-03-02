@@ -148,7 +148,7 @@ RCSignal <- R6Class(
       
       p0 = self$Bunch$Synch["Phi"]
       
-      .dum <- function(Time) floor((w0*Time+p0-pi/2)/2/pi)
+      .dum <- function(Time) floor((w0*Time+p0)/2/pi)
       
       Nstt = .dum(self$Signal[1, Time])
       Ntot = .dum(self$Signal[nrow(self$Signal), Time])
