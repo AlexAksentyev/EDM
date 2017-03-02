@@ -45,7 +45,7 @@ setMethod(
     P = signal@Pol; N0 = signal@Num0
     fs = sampling@Freq; wg = sampling@sglFreqGuess
     Tpg = pi/wg
-    Dt = sampling@CMPT*.5*pi/signal@wFreq
+    Dt = sampling@CMPT*pi/signal@wFreq
     
     aerror <- rerror * N0*P
     
