@@ -21,3 +21,6 @@ Abstracts/*
 # Accelerator
 OptiMScripts/*
 COSYINF/*
+C++/*
+Python/*
+!Python/*.py
