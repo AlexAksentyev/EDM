@@ -35,24 +35,32 @@ RCSignal <- R6Class(
       sl
     },
     sample=function(smpl.pts, append=TRUE){
-      private$NSmpl <- private$NSmpl + 1
-      rerr = rnorm(length(smpl.pts), sd = self$SDrErr)
-      self$Signal <- rbind(
-        self$Signal,
-        self$Bunch$project(smpl.pts)[,`:=`(ValNs=Val*(1+rerr), Smpl=private$NSmpl)]
-      )
+      rerr <- rnorm(length(smpl.pts), sd = self$SDrErr)
+      df <- self$Bunch$project(smpl.pts)[,ValNs:=Val*(1+rerr)]
+      
+      if(append){
+        private$NSmpl <- private$NSmpl + 1
+        self$Signal <- rbind(
+          self$Signal,
+          df[,Smpl:=private$NSmpl]
+        )
+      } else 
+        self$Signal <- df[,Smpl:=private$NSmpl]
+      
     },
     fit=function(fitpack = NULL){
       if(is.null(self$Signal)) {print("Nothing to fit!"); return(NA)}
       if(is.null(fitpack)) {
         print("Hard-coded")
         n = nrow(self$Bunch$EnsPS); p0 = self$Bunch$Synch["Phi"]; wg = self$Bunch$Synch["wFreq"]
-        f = Val ~ n * exp(lam*Time) * sin(w*Time + p0)
+        f = ValNs ~ n * exp(lam*Time) * sin(w*Time + p0)
         guess = list(lam=-1.4e-3, w=wg)
       } else {
         f = fitpack$func; guess = fitpack$guess
       }
-      coef(summary(nls(f, data=self$Signal, start=guess))) -> self$ModelCoef
+      mod3l <- nls(f, data=self$Signal, start=guess)
+      self$Signal[,Fit:=fitted(mod3l)]
+      coef(summary(mod3l)) -> self$ModelCoef
       return(self$ModelCoef)
     },
     findPts=function(what="Node", w.guess=NULL, tol=1e-3){
@@ -140,12 +148,12 @@ RCSignal <- R6Class(
       
       p0 = self$Bunch$Synch["Phi"]
       
-      .dum <- function(Time) floor((w0*Time+p0-pi/2)/2/pi)
+      d = switch(what, "Envelope" = pi/2, "Node" = 0)
+      
+      .dum <- function(Time) floor((w0*Time+p0-d)/2/pi)
       
       Nstt = .dum(self$Signal[1, Time])
       Ntot = .dum(self$Signal[nrow(self$Signal), Time])
-      
-      d = switch(what, "Envelope" = pi/2, "Node" = 0)
       
       tnu = (2*pi*Nstt:Ntot-p0+d)/w0; tnu <- tnu[tnu>=0]
       tnd = tnu+pi/w0

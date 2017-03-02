@@ -11,13 +11,19 @@
 \newcommand{\LTb}{\tau_b}
 \newcommand{\LTd}{\tau_d}
 \newcommand{\lamb}{\lambda_b}
+\newcommand{\lamd}{\lambda_d}
 \newcommand{\pdet}{p}
 \newcommand{\pscat}{p_s}
 
 \begin{document}
 	
+\title{Statistical precision}
+\author{Alexander Aksentyev}
+\date{}
+\maketitle
+	
 		
-\section*{Preliminary}
+\section*{Statistical error of an event}
 
 The beam current falls according to the B-L law:
 \[
@@ -63,18 +69,18 @@ N(t) = N_0(t)\cdot\bkt{1 + P\cdot e^{-\sfrac{t}{\LTd}}\cdot\sin(\omega\cdot t + 
 \end{equation}
 given $\Nm = \Nnd\cdot\Nmnd$ sample points.
 
-Assuming the Gaussian error distribution with mean zero and variance $\nu \equiv \SD{\meas}^2 = \SD{N_0}^2(t)$, the maximum likelihood estimator for the variance of the frequency estimate can be expressed as
+Assuming the Gaussian error distribution with mean zero and variance $\SD{\meas}^2 = \SD{N_0}^2(t)$, the maximum likelihood estimator for the variance of the frequency estimate can be expressed as
 \begin{align*}
-\var{\hat\omega} &= \frac{\nu}{X_{tot}\cdot \var[w]{t}}, 
+\var{\hat\omega} &= \frac{\SD{\meas}^2}{X_{tot}\cdot \var[w]{t}}, 
 \shortintertext{with}
 X_{tot} &= \sum_{j=1}^{\Nm} x_j = \sum_{s=1}^{\Nnd}\sum_{j=1}^{\Nmnd} x_{js}, \\
 \var[w]{t} &= \sum_i w_i \bkt{t_i - \avg{t}_w}^2,~ \avg{t}_w = \sum_i w_i t_i, \\
 w_i &= \frac{x_i}{\sum_j x_j},~ x_i = (N_0P\exp(\lambda t_i))^2\cos^2(\omega t_i + \phi) = \bkt{\mupp}^2.
 \end{align*}
 
-The three factors, contributing to the standard error of the estimate are:
+The three factors contributing to the standard error of the estimate are:
 \begin{inparaenum}[\itshape a\upshape)]
-	\item the error variance $\nu = \SD{N_0}(t)^2$ (governed by, among other things, the number $\Ncm$ of polarimetry measurements per signal measurement, eq.~\eqref{eq:MeasSE}), 
+	\item the error variance $\SD{N_0}(t)^2$ (governed by, among other things, the number $\Ncm$ of polarimetry measurements per signal measurement, eq.~\eqref{eq:MeasSE}), 
 	\item the time spread $\sum_i w_i (t_i - \avg{t}_w)^2$ of the sample measurements, and
 	\item their net informational content $X_{tot}$.
 \end{inparaenum}
@@ -93,6 +99,14 @@ We can express $\sum_{j=1}^{\Nmnd} x_{js} = \Nmnd \cdot x_{0s}$, for some mean v
 \end{align}
 
 Eq.~\eqref{eq:FItot} can be used to estimate the constraints on the duration of the experiment. $g(\Nnd)$ is a limited function; in Figure~\ref{fig:GofT} it is shown for different life-times. In Table~\ref{tbl:FItot} we have the time (in signal life-times) required to reach the different levels of total available information, $t(z)/\tau = -\ln(1-z)$. 
+
+\newcommand{\SNR}{\text{SNR}}
+\newcommand{\deq}{\overset{\triangle}{=}}
+The signal-to-noise ratios in Table~\ref{tbl:FItot} are computed according to
+\begin{equation}\label{eq:TauRatioSNR}
+\SNR \deq \frac{N_0(t)\cdot P\cdot e^{-\sfrac{t}{\LTd}}}{\SD{N_0}(t)} 
+= \frac{P}{A}\sqrt{\dtm}\cdot\exp\bkt{\frac{1-2x}{2x}\cdot\frac{t}{\LTd}},~ x\equiv \frac{\LTb}{\LTd}.
+\end{equation}
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=.5]{img/StatReq/XtotOnTime}
@@ -100,7 +114,7 @@ Eq.~\eqref{eq:FItot} can be used to estimate the constraints on the duration of 
 \end{figure}
 \begin{table}[h]
 	\centering
-	\caption{Total Fisher information table.\label{tbl:FItot}}
+	\caption{Total Fisher information, by what time it is reached,\\ and the corresponding signal-to-noise ratio.\label{tbl:FItot}}
 	\begin{tabular}{rrr}
 		\hline
 		FI limit (\%) & Reached ($\times\tau$) & SNR \\ \hline
@@ -158,22 +172,58 @@ Assuming the polarimetry measurement time sufficient for 3\% error is 10$\mu$s, 
 	\caption{Explanation for $x_0$\label{fig:x0Expl}.}
 \end{figure}
 
-\newcommand{\SNR}{\text{SNR}}
-\newcommand{\deq}{\overset{\triangle}{=}}
-The signal-to-noise ratios in Table~\ref{fig:x0Expl} are computed as 
-\begin{equation}\label{eq:TauRatioSNR}
-	\SNR \deq \frac{N_0(t)\cdot P\cdot e^{-\sfrac{t}{\LTd}}}{\SD{N_0}(t)} 
-	= \frac{P}{A}\sqrt{\dtm}\cdot\exp\bkt{\frac{1-2x}{2x}\cdot\frac{t}{\LTd}},~ x\equiv \frac{\LTb}{\LTd}.
+\section{Time spread}
+
+From Table~\ref{tbl:FItot} it follows that by the time $3\cdot \tau$ we'll exhaust most of the information contained in the beam, so that measuring afterward does not make sense. The quantity $\tau = \LTd/(1+x)$, where $x=\sfrac{\LTd}{\LTb}$, and it is less than either $\LTd$ or $\LTb$. We would, however, like to have our sample as spread out in time as possible, which means $\tau$ needs to be increased.
+
+One way in which it is possible to do is by employing a non-uniform sampling scheme. This is beneficial in two respects:
+\begin{inparaenum}[1)]
+	\item in the first place, since we don't scatter the beam continuously, its life-time extends, thus extending the possible time-spread.
+	\item in the second place, the particles preserved during the periods in which the absolute value of the signal's time derivative is lowest can be more advantageously used when the derivative is maximal.
+\end{inparaenum} 
+
+This means by modulating the sampling time, we can simultaneously increase both $\stat*$ and $\var[w]{t}$.
+
+\section{Analysis}
+
+In order to achieve a precision on the order of $10^{-29}~e\cdot cm$ in the dEDM estimate, it is required that the spin tune be known down to $10^{-9}~rad/sec$. 
+
+For analysis, we will assume the following model of the signal:
+\begin{equation}
+	N(t) = pN_0^b\cdot\frac{\dtc}{\nu}\cdot\bkt{e^{\lamb\cdot t} + P\cdot e^{\lambda\cdot t}\cdot\sin(\omega\cdot t + \phi)}, ~ \lambda = (1+\sfrac{\LTd}{\LTb})\cdot \lamd.
 \end{equation}
+The parameters used in simulation are summarized in Table~\ref{tbl:ModParam}; the signal is plotted in Figure~\ref{fig:SignalModel}.
+\begin{table}[h]
+	\centering
+	\caption{Model parameters.\label{tbl:ModParam}}
+	\begin{tabular}{p{2.5cm}crr}
+		\hline
+		Parameter                 &      Symbol      & Value & Dimension \\ \hline
+		Decoherence life-time     &      $\LTd$      &   721 &       sec \\
+		Beam life-time            &      $\LTb$      &   721 &       sec \\
+		Event error               & $\SD{\meas}/N_0$ &     3 &        \% \\
+		Spin tune                 &     $\omega$     &     3 &   rad/sec \\
+		Initial phase             &      $\phi$      &     0 &       rad \\
+		Polarization              &       $P$        &   0.4 &      unit \\
+		Unpolarized counting rate &     $N_0(0)$     &  6750 & count/sec \\ \hline
+	\end{tabular}
+\end{table}
 
-%\section{Beam/decoherence life-times}
-%
-%Our want is to have the sample as spread out as possible; however, measurement time is limited by the signal life-time, which is 
-%\[
-%	\tau = \bkt{\sfrac{1}{\LTb} + \sfrac{1}{\LTd}}^{-1} = \frac{x}{1+x}\cdot \LTd,~ x \equiv \frac{\LTb}{\LTd}.
-%\]
-%By increasing $x$ we raise the signal life-time, and hence the limit on $\var[w]{t}$, but simultaneously the rate at which falls the SNR.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.8]{img/StatReq/Signal_model}
+	\caption{Signal model.\label{fig:SignalModel}}
+\end{figure}
 
+For the given parameters, Figure~\ref{fig:SEw_vs_w} shows the lack of dependence of the standard error of the frequency estimate on the value of the estimated frequency.
+
+The standard error of $2\cdot 10^{-7}$ is sufficiently low for the average estimate to be known with precision $10^{-9}$ rad/sec.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.8]{img/StatReq/SEw_vs_w}
+	\caption{The standard error of the frequency estimate is independent of the estimated value.\label{fig:SEw_vs_w}}
+\end{figure}
 
 \begin{thebibliography}{9}
 	\bibitem{CountRateStat}
