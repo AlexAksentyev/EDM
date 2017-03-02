@@ -148,12 +148,12 @@ RCSignal <- R6Class(
       
       p0 = self$Bunch$Synch["Phi"]
       
-      .dum <- function(Time) floor((w0*Time+p0)/2/pi)
+      d = switch(what, "Envelope" = pi/2, "Node" = 0)
+      
+      .dum <- function(Time) floor((w0*Time+p0-d)/2/pi)
       
       Nstt = .dum(self$Signal[1, Time])
       Ntot = .dum(self$Signal[nrow(self$Signal), Time])
-      
-      d = switch(what, "Envelope" = pi/2, "Node" = 0)
       
       tnu = (2*pi*Nstt:Ntot-p0+d)/w0; tnu <- tnu[tnu>=0]
       tnd = tnu+pi/w0
