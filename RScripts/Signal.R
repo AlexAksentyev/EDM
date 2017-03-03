@@ -96,4 +96,3 @@ ggplot(s0$Signal[seq(1,nrow(s0$Signal), length.out=3102)]) +
   thm + labs(y="Signal")
 
 s0$Spectrum()
-pspectrum(ts(s0$Signal$ValNs, start = s0$Signal$Time[1], end=s0$Signal$Time[nrow(s0$Signal)], deltat = diff(s0$Signal$Time[1:2])))
