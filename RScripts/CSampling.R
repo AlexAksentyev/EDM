@@ -29,6 +29,8 @@ setMethod(
   f="simSample", signature = "CuSampling",
   definition=function(sampling, signal, time, rerror = sampling@rerror){
     
+    if(length(time) < 2) time <- c(0, time)
+    
     aerror <- rerror * signal@Num0*signal@Pol
     
     t1 = seq(time[1], time[2], by = 1/sampling@Freq) #uniform sampling
@@ -42,6 +44,7 @@ setMethod(
   definition=function(sampling, signal, time, rerror = sampling@rerror){
     
     if(sampling@CMPT > 1) sampling@CMPT <- 1
+    if(length(time) < 2) time <- c(0, time)
     
     phi = signal@Phase; w0 = signal@wFreq; lam.decoh = signal@decohLam
     P = signal@Pol; N0 = signal@Num0

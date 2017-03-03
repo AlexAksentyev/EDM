@@ -34,23 +34,23 @@ SNR <- function(model, x, rerr0=3e-2){
   # as a result of normalizing A to have rel. error at t=0 rerr0
 }
 rError <- function(model, x, rerr0=3e-2) rerr0 * exp(-.5*model@beamLam * x) 
-.ggplot_Sgl <- function(s){
-  ggplot(s[seq(1,nrow(s), length.out=300),]) + 
+.ggplot_Sgl <- function(s, npts=300){
+  ggplot(s[seq(1,nrow(s), length.out=npts),]) + 
     geom_line(aes(Time, XSgl), lwd=.2) + 
     geom_point(aes(Time, Sgl), col="red", size=.5) +
     thm +labs(y="Signal")
 }
 
 ## SIGNAL ####
-mod = CModel(); mod@beamLam <-0# mod@decohLam
-smpl = CmSampling()
+mod = CModel(); mod@beamLam <- 0#mod@decohLam
+smpl = CuSampling()
 taud = -1/mod@decohLam
 taub = -1/mod@beamLam
 tau = taud/(1+taud/taub)
 Ttot=3*tau
 
 s = simSample(smpl, mod, Ttot)
-.ggplot_Sgl(s)
+.ggplot_Sgl(s, 502) 
 
 ## COMPACTION TIME VS W SE ####
 vwt = varwT(s, mod)
