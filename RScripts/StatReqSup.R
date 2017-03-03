@@ -110,7 +110,7 @@ ggplot(stats.w, aes(Estimate, `Std. Error`)) + geom_point() +
 
 
 ## MODULATION ####
-cmpts <- seq(1, .2, -.1)
+cmpts <- seq(1, .2, -.1); names(cmpts)<-cmpts
 test <- function(cmpt, mod, smpl){
   smpl@CMPT <- cmpt
   mod@beamLam <- mod@beamLam*as.numeric(cmpt)
@@ -144,9 +144,39 @@ test <- function(cmpt, mod, smpl){
   
   # c(StatT=sqrt(varwT(s, mod)), Xtot=nezc*g(s[length(Time),Time])*.5*(1+ sin(w*dt)/w))
 }
+test2<- function(cmpt, mod, smpl){
+  smpl@CMPT <- cmpt
+  smpl@Freq <- smpl@Freq/cmpt
+  
+  w = mod@wFreq; dt = cmpt*pi/w
+  
+  taud = -1/mod@decohLam
+  taub = -1/mod@beamLam
+  tau = taud/(1+taud/taub)
+  
+  
+  N0 <- mod@Num0; P <- mod@Pol; w0 <- mod@wFreq; phi <- mod@Phase
+  lam.decoh <- mod@decohLam; lam.beam <- mod@beamLam
+  
+  f = Sgl ~ N0 * exp(lb*Time) * (1 + P*exp(ld*Time)*sin(w*Time + phi))
+  guess = llply(c("w" = w0, "lb"= lam.beam, "ld" = lam.decoh), function(x) rnorm(1, x, abs(x)*1e-4))
+  
+  s = simSample(smpl, mod, 3*tau)
+  nezc <- as.numeric(s[,.(Num=length(Time)), by=Node][5,Num])
+  x0 = .5*(1+ sin(w*dt)/w/dt)
+  G=g(s[length(Time),Time])
+  
+  nls(f, s, guess) %>% summary %>% coef -> stats
+  
+  
+  list(Fit=stats, Smpl=c(
+    Size=nrow(s), PhysT=s[length(Time),Time]-s[1,Time], Spread=sqrt(varwT(s, mod)),
+    X0=x0, G=G, Nezc=nezc, FItot=x0*G*nezc
+  ))
+}
 
 mod = CModel(); mod@beamLam <- mod@decohLam
-smpl <- CmSampling(sglFreqGuess=rnorm(1,mod@wFreq,1e-4))
+smpl <- CmSampling(sglFreqGuess=rnorm(1,mod@wFreq,1e-4), Freq=500)
 
 registerDoParallel(detectCores()-1)
 llply(cmpts, function(x, m, s) test(x, m, s), mod, smpl,
@@ -173,7 +203,8 @@ filter(stats.smpl, parameter %in% c("Size", "Spread", "FItot","Denom")) %>%
   thm
 
 ggplot(stats.fit, aes(CMPT, `Std. Error`)) + geom_point() + thm + 
-  theme(axis.text.x = element_text(angle = 60, hjust = 1))
+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
+  labs(y=expression(sigma[hat(omega)]))
 
 stats <- setDT(stats)
 stats[,`:=`(Num=length(Time), Last=Time[length(Time)]), by=CMPT]
@@ -222,5 +253,5 @@ ldply(ntau, function(n,func,ini) test(n, func, ini), f, guess,
       ) -> stats
 stopImplicitCluster()
 
-ggplot(stats%>%mutate(`Std. Error`=`Std. Error`/`Std. Error`[6]), aes(NTau, `Std. Error`)) +
-  geom_point() + thm
+ggplot(stats%>%mutate(`Std. Error`=`Std. Error`/`Std. Error`[1]), aes(NTau, `Std. Error`)) +
+  geom_point() + thm + labs(y=expression(sigma[hat(omega)]), x=expression(n%*%tau))

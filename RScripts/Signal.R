@@ -54,10 +54,46 @@ ggplot(ps%>%filter(dPh/pi>-2, dPh/pi<3)) + geom_density(aes(dPh/pi)) +
 fp = list(func = ValNs ~ 1000 * exp(lam*(Time-d)) * sin(w*Time + p0),
           guess = list(lam=-1.4e-3, w=3, d=100))
 
-s0$fit(fp); s1$fit(fp)
+s0$fit(fp); #s1$fit(fp)
 df = rbind(s0$Signal[,.(Time, ValNs, Fit)][,WDist:="Norm"], s1$Signal[,.(Time, ValNs, Fit)][,WDist:="Chi2"])
 df[seq(1, nrow(df), by=2), Fit := df[seq(2,nrow(df), by=2), Fit]] 
 
 ggplot(df) + geom_line(aes(Time, ValNs)) + 
   geom_point(aes(Time, Fit), col="red", size=.5) + 
   facet_grid(WDist~.) + thm + labs(y="Signal")
+
+
+## CM ####
+.gghist <- function(df, name){
+  ggplot(df, aes_string(name)) + geom_histogram(aes(y=..density..), col="black",fill="white") + thm +
+    geom_density(col="red")
+}
+b0 = RCBunch$new(SDdy=1e-3)
+w0 = b0$Synch["wFreq"]; p0 = b0$Synch["Phi"]
+dt = .36*pi/b0$Synch["wFreq"]
+s0 = RCSignal$new(b0, seq(0, 3000, dt))
+
+## phase space 
+df = data.table(wFreq=b0$EnsPS[,"wFreq"], Phi=b0$EnsPS[,"Phi"])
+whist <- .gghist(df, "wFreq") + labs(x=expression(omega))
+phist <- .gghist(df, "Phi") + labs(x=expression(phi))
+grid.arrange(whist, phist, nrow=2)
+
+## signal and fit
+
+fp = list(func = ValNs ~ 1000 * exp(lam*(Time-d)) * sin(w*Time + p0),
+          guess = list(lam=-1.4e-3, w=3, d=100))
+
+s0$fit(fp) -> mod3l
+s0$findPts("Envelope", w.guess=s0$ModelCoeff["w",1])
+df = s0$specPts[Which=="Optim",.(N, Time, Side, Val)]
+df[,`:=`(Fit=predict(mod3l, newdata=list("Time"=Time)))]
+
+ggplot(s0$Signal[seq(1,nrow(s0$Signal), length.out=3102)]) + 
+  geom_line(aes(Time, Val), size=.15, col="red") +
+  geom_point(aes(Time, Val), data=df, size=.25) +
+  geom_point(aes(Time, Fit), data=df, size=.15, col="blue") +
+  thm + labs(y="Signal")
+
+s0$Spectrum()
+pspectrum(ts(s0$Signal$ValNs, start = s0$Signal$Time[1], end=s0$Signal$Time[nrow(s0$Signal)], deltat = diff(s0$Signal$Time[1:2])))

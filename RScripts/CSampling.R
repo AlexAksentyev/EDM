@@ -12,7 +12,7 @@ CuSampling = setClass("CuSampling", contains = "CSampling", prototype = list(Typ
 CmSampling = setClass(
   "CmSampling", contains = "CSampling",
   slots = c(CMPT="numeric", sglFreqGuess = "numeric"),
-  prototype = list(Type="Modulated", CMPT=.33, sglFreqGuess = rnorm(1, 3, .01))
+  prototype = list(Type="Modulated", CMPT=.42, sglFreqGuess = rnorm(1, 3, .01))
 )
 
 setGeneric("simSample", def=function(sampling, signal, time, rerror=sampling@rerror) standardGeneric("simSample"))
