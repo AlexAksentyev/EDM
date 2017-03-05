@@ -13,7 +13,6 @@ Reports/*.aux
 Reports/*.log
 Reports/*.out
 Reports/*synctex.gz
-Reports/*.pdf
 Abstracts/*
 !Abstracts/*.tex
 !Abstracts/*.sty

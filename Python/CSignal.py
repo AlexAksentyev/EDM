@@ -50,7 +50,7 @@ class Signal:
         switch = lambda x: {"Node": 1, "Envelope": -1}.get(x, 1)
         
         k = switch(what) #this'll determine the direction of optimization
-        tgt = lambda x: k*self.Bunch.project(x).Val**2
+        tgt = lambda x: k*self.Bunch._polProj(x)**2
         def finder(sub, fn):
             from scipy.optimize import minimize
             x0 = sub.Time.data[0]
@@ -72,7 +72,7 @@ class Signal:
         pool.close()
         pool.join()
         
-        pts1['Val'] = self.Bunch.project(pts1['Time']).Val
+        pts1['Val'] = self.Bunch._polProj(pts1['Time'])
       
         self.specPts = pandas.concat([pts0, pts1]).sort_values("Time")
         
