@@ -68,9 +68,9 @@ ggplot(df) + geom_line(aes(Time, ValNs)) +
   ggplot(df, aes_string(name)) + geom_histogram(aes(y=..density..), col="black",fill="white") + thm +
     geom_density(col="red")
 }
-b0 = RCBunch$new(SDdy=1e-3)
+b0 = RCBunch$new(SDdy=1e-5)
 w0 = b0$Synch["wFreq"]; p0 = b0$Synch["Phi"]
-dt = .36*pi/b0$Synch["wFreq"]
+dt = .37*pi/b0$Synch["wFreq"]
 s0 = RCSignal$new(b0, seq(0, 3000, dt))
 
 ## phase space 
