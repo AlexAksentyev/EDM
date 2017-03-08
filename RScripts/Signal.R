@@ -34,7 +34,7 @@ data.table(WDist="Chi2", Time=stime, t(b1$Phase(stime)))%>%melt.data.table(id.va
 rbind(ps0, ps1) -> ps; rm(ps0, ps1)
 
 ps[,Ph0 := Time*b0$Synch["wFreq"]+b0$Synch["Phi"]]
-ps[,dPh := value-Ph0]
+ps[,dPh := value-Ph0][,dPh2pi:=dPh-floor(dPh/2/pi)*2*pi][,dPh2:=dPh2pi/pi]
 ps[,Shade:=derivedFactor(
   "add" = dPh < -1.5*pi| (dPh > -.5*pi & dPh < .5*pi) | (dPh > 1.5*pi & dPh < 2.5*pi),
   .default="subtract"
@@ -42,13 +42,13 @@ ps[,Shade:=derivedFactor(
 ps[, `:=`(S=sin(value),S0=sin(Ph0))]
 ps[,`:=`(SS=sum(S)/333, Ph50=median(dPh)), by=c("WDist", "Time")]
 
-ggplot(ps%>%filter(dPh/pi>-2, dPh/pi<3)) + geom_density(aes(dPh/pi)) + 
+ggplot(ps%>%filter(dPh2>-2, dPh2<3)) + geom_density(aes(dPh2)) + 
   geom_density(aes(S), col="red", linetype=2) + 
   facet_grid(Time~WDist, scales = "free_y") +
   labs(x=expression(Delta~Theta/pi)) +
   geom_vline(aes(xintercept=SS), col="darkgreen") +
-  thm + 
-  geom_segment(aes(x=dPh/pi, xend=dPh/pi, y=0, yend=.1, col=Shade, alpha=.2))
+  thm #+ 
+  geom_segment(aes(x=dPh2pi/pi, xend=dPh2pi/pi, y=0, yend=.1, col=Shade, alpha=.2))
 
 
 fp = list(func = ValNs ~ 1000 * exp(lam*(Time-d)) * sin(w*Time + p0),
