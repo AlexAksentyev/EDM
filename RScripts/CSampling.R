@@ -12,11 +12,12 @@ CuSampling = setClass("CuSampling", contains = "CSampling", prototype = list(Typ
 CmSampling = setClass(
   "CmSampling", contains = "CSampling",
   slots = c(CMPT="numeric", sglFreqGuess = "numeric"),
-  prototype = list(Type="Modulated", CMPT=.33, sglFreqGuess = rnorm(1, 3, .01))
+  prototype = list(Type="Modulated", CMPT=.42, sglFreqGuess = rnorm(1, 3, .01))
 )
 
 setGeneric("simSample", def=function(sampling, signal, time, rerror=sampling@rerror) standardGeneric("simSample"))
 setGeneric("setValue",def=function(object, value) standardGeneric("setValue"))
+setGeneric("smplPts", def=function(sampling, time, ...) standardGeneric("smplPts"))
 
 setMethod(
   f="setValue", signature="CSampling",
@@ -28,6 +29,8 @@ setMethod(
 setMethod(
   f="simSample", signature = "CuSampling",
   definition=function(sampling, signal, time, rerror = sampling@rerror){
+    
+    if(length(time) < 2) time <- c(0, time)
     
     aerror <- rerror * signal@Num0*signal@Pol
     
@@ -42,6 +45,7 @@ setMethod(
   definition=function(sampling, signal, time, rerror = sampling@rerror){
     
     if(sampling@CMPT > 1) sampling@CMPT <- 1
+    if(length(time) < 2) time <- c(0, time)
     
     phi = signal@Phase; w0 = signal@wFreq; lam.decoh = signal@decohLam
     P = signal@Pol; N0 = signal@Num0
@@ -69,5 +73,40 @@ setMethod(
                "XSgl" = expectation(signal, t3), 
                "FIDrvt" = fiDer(signal, t3))[,Sgl := XSgl + rnorm(length(t3), sd=aerror)][Time >=time[1] & Time <= time[2],] %>% 
       setattr("CMPT", sampling@CMPT)
+  }
+)
+setMethod(
+  f="smplPts", signature = "CuSampling",
+  definition=function(sampling, time, ...){
+    
+    if(length(time) < 2) time <- c(0, time)
+    
+    t1 = seq(time[1], time[2], by = 1/sampling@Freq)
+    
+    return(t1)
+  }
+)
+setMethod(
+  f="smplPts", signature = "CmSampling",
+  definition=function(sampling, time, ...){
+    if(sampling@CMPT > 1) sampling@CMPT <- 1
+    if(length(time) < 2) time <- c(0, time)
+    
+    supplied <- list(...)
+    if("Phi"%in%names(supplied)) phi = supplied$Phi
+    fs = sampling@Freq; wg = sampling@sglFreqGuess
+    Dt = sampling@CMPT*pi/wg
+    
+    .dum <- function(Time) floor((wg*Time+phi)/2/pi)
+    Nstt = .dum(time[1])
+    Ntot = .dum(time[2])
+  
+    tnu = (2*pi*Nstt:Ntot-phi)/wg; tnu <- tnu[tnu>=0]
+    tnd = tnu+pi/wg
+    t1 = c(tnu, tnd); t1 <- t1[order(t1)]
+    
+    t2 = seq(-.5*Dt,.5*Dt, 1/fs)
+    t3 = rep(t2,length(t1))+rep(t1,each=length(t2))
+    return(list("Node"=t1, "CMPT"=Dt, "Pts"=t3))
   }
 )

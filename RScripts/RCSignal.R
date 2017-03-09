@@ -61,7 +61,7 @@ RCSignal <- R6Class(
       mod3l <- nls(f, data=self$Signal, start=guess)
       self$Signal[,Fit:=fitted(mod3l)]
       coef(summary(mod3l)) -> self$ModelCoef
-      return(self$ModelCoef)
+      return(mod3l)
     },
     findPts=function(what="Node", w.guess=NULL, tol=1e-3){
 

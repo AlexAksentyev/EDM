@@ -23,7 +23,7 @@ RCBunch <- R6Class(
     }
   ), ## private members
   public = list(
-    Synch=c(wFreq=3, Phi=0),
+    Synch=NULL,
     EnsPS=NULL, # keeps ensemble phase space
     initialize = function(Npart=1e3, SDdy=1e-3, SDphi=1e-2, WDist="phys", ...){
       require(bigmemory)
@@ -36,6 +36,7 @@ RCBunch <- R6Class(
       # dw(1sd) = sdw, and since norm is symmetric, sdw ~ q0/2
       
       supplied = list(...); sname = names(supplied)
+      if("Synch"%in%names(supplied)) self$Synch<-supplied$Synch else self$Synch <- c(wFreq=3, Phi=0)
       sdw = ifelse("SDwFreq" %in% sname, supplied$SDwFreq, .5*q0*private$G*SDdy^2)
       shpw = ifelse("ShpwFreq" %in% sname, supplied$ShpFreq, 1.5)
       skeww = ifelse("SkewwFreq" %in% sname, supplied$SkewwFreq, 1)
