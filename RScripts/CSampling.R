@@ -15,7 +15,7 @@ CmSampling = setClass(
   prototype = list(Type="Modulated", CMPT=.42, sglFreqGuess = rnorm(1, 3, .01))
 )
 
-setGeneric("simSample", def=function(sampling, signal, time, rerror=sampling@rerror) standardGeneric("simSample"))
+setGeneric("simSample", def=function(sampling, signal, time, rerror=sampling@rerror, grow=FALSE) standardGeneric("simSample"))
 setGeneric("setValue",def=function(object, value) standardGeneric("setValue"))
 setGeneric("smplPts", def=function(sampling, time, ...) standardGeneric("smplPts"))
 
@@ -28,21 +28,21 @@ setMethod(
 )
 setMethod(
   f="simSample", signature = "CuSampling",
-  definition=function(sampling, signal, time, rerror = sampling@rerror){
+  definition=function(sampling, signal, time, rerror = sampling@rerror, grow=FALSE){
     
     if(length(time) < 2) time <- c(0, time)
     
-    aerror <- rerror * signal@Num0*signal@Pol
+    aerror <- function(x) rerror * exp(ifelse(grow,-.5,0)*signal@beamLam* x)* signal@Num0*signal@Pol
     
     t1 = seq(time[1], time[2], by = 1/sampling@Freq) #uniform sampling
     
-    data.table("Time" = t1, "XSgl" = expectation(signal, t1), "FIDrvt" = fiDer(signal, t1))[,Sgl := XSgl + rnorm(length(t1), sd=aerror)]
+    data.table("Time" = t1, "XSgl" = expectation(signal, t1), "FIDrvt" = fiDer(signal, t1))[,Sgl := XSgl + rnorm(length(t1), sd=aerror(t1))]
   }
 )
 
 setMethod(
   f="simSample", signature = "CmSampling",
-  definition=function(sampling, signal, time, rerror = sampling@rerror){
+  definition=function(sampling, signal, time, rerror = sampling@rerror, grow=FALSE){
     
     if(sampling@CMPT > 1) sampling@CMPT <- 1
     if(length(time) < 2) time <- c(0, time)
@@ -53,7 +53,7 @@ setMethod(
     Tpg = pi/wg
     Dt = sampling@CMPT*pi/signal@wFreq
     
-    aerror <- rerror * N0*P
+    aerror <- function(x) rerror * exp(ifelse(grow,-.5,0)*signal@beamLam* x)* N0*P
     
     .dum <- function(Time) floor((wg*Time+phi)/2/pi)
     Nstt = .dum(time[1])
@@ -71,7 +71,7 @@ setMethod(
     data.table("Node" = rep(t1,each=length(t2)),
                "Time" = t3, 
                "XSgl" = expectation(signal, t3), 
-               "FIDrvt" = fiDer(signal, t3))[,Sgl := XSgl + rnorm(length(t3), sd=aerror)][Time >=time[1] & Time <= time[2],] %>% 
+               "FIDrvt" = fiDer(signal, t3))[,Sgl := XSgl + rnorm(length(t3), sd=aerror(t3))][Time >=time[1] & Time <= time[2],] %>% 
       setattr("CMPT", sampling@CMPT)
   }
 )
