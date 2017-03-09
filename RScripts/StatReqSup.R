@@ -74,7 +74,7 @@ ldply(sew,
     xtot = (SDe/sew)^2/vwt
     .f <- function(dt){
       w = mod@wFreq
-      dt + sin(2*w*dt)/2/w - 2*xtot*dte/Gtot
+      dt + sin(w*dt)/w - 2*xtot*dte/Gtot
     }
     
     x0 <- tryCatch(uniroot(.f, c(0,1))$root, error = function(e) x0 <- NA)

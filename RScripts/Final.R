@@ -15,20 +15,19 @@ source("./RScripts/CSampling.R")
 
 smpl = CuSampling(Freq=500)
 L = CModel(Phase=-pi/2); L@beamLam <- L@decohLam
-R = CModel(Phase=pi/2); R@beamLam <- R@decohLam
-
+R = CModel(Phase=+pi/2); R@beamLam <- R@decohLam
 
 Ttot=1082
 simSample(smpl, L, Ttot, grow=TRUE) -> Ls
 simSample(smpl, R, Ttot, grow=TRUE) -> Rs
-df = rbind(Ls%>%mutate(Which="L"), Rs%>%mutate(Which="R")); rm(Ls, Rs)
+df = rbind(Ls%>%mutate(Which="L"), Rs%>%mutate(Which="R"))
 ggplot(df[seq(1,nrow(df), length.out = 1200),]) + facet_grid(Which~.) + 
   geom_line(aes(Time, Sgl-XSgl, col=Which), lwd=.2) + theme(legend.position="top")
 
-Alr = merge(Ls[,FIDrvt:=NULL], Rs[,FIDrvt:=NULL], by="Time", suffixes = c(".L",".R"))
+Alr = merge(Ls[,FIDrvt:=NULL], Rs[,FIDrvt:=NULL], by="Time", suffixes = c(".L",".R")); rm(Ls, Rs)
 Alr[,`:=`(XVal=(XSgl.L-XSgl.R)/(XSgl.L+XSgl.R), Val=(Sgl.L-Sgl.R)/(Sgl.L+Sgl.R))]
-ggplot(Alr[seq(1, nrow(Alr), length.out = 4273),]) + #geom_line(aes(Time, Val-XVal), lwd=.2) #plot of residuals
-  geom_line(aes(Time, XVal), lwd=.2, col="red") + geom_point(aes(Time, Val), size=.2)
+ggplot(Alr[seq(1, nrow(Alr), length.out = 4273),]) + geom_line(aes(Time, Val-XVal), lwd=.2) #plot of residuals
+  # geom_line(aes(Time, XVal), lwd=.2, col="red") + geom_point(aes(Time, Val), size=.2) # plot of signal
 
 
 f = Val ~ n0*exp(lam*Time)*sin(w*Time + p)
