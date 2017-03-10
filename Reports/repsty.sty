@@ -26,8 +26,8 @@
 \DeclareDocumentCommand{\bkt}{sm}{\IfBooleanTF{#1}{\left[ #2 \right]}{\left(#2\right)}}
 \DeclareDocumentCommand{\Xpct}{mo}{\mathrm{E}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
 \DeclareDocumentCommand{\SE}{mo}{\mathrm{SE}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
-\DeclareDocumentCommand{\SD}{mo}{\sigma_{#1\IfNoValueTF{#2}{}{|~ #2}}}
-\newcommand{\avg}[1]{\langle #1\rangle}
+\DeclareDocumentCommand{\SD}{mo}{\sigma_{#1\IfNoValueTF{#2}{}{| #2}}}
+\DeclareDocumentCommand{\avg}{mo}{\langle #1\rangle_{#2}}
 
 \DeclareDocumentCommand{\var}{O{}mo}{\mathrm{var}_{#1}\bkt*{#2\IfValueT{#3}{\vert~ #3}}}
 
@@ -41,13 +41,24 @@
 \DeclareDocumentCommand{\mupp}{s}{\mu'_\phi\IfBooleanTF{#1}{}{(t_i)}}
 \DeclareDocumentCommand{\mudpp}{s}{\mu''_{\phi^2}\IfBooleanTF{#1}{}{(t_i)}}
 
+
+\newcommand{\vp}[2]{{#1}\cdot 10^{#2}}
 % % Statistical requirements definitions
 
 \newcommand{\cnt}{c}
 \newcommand{\meas}{\epsilon}
 
-\newcommand{\Ncm}{n_{\sfrac{\cnt}{\meas}}}
-\newcommand{\Nmnd}{n_{\sfrac{\meas}{zc}}}
-\newcommand{\Nnd}{n_{zc}}
-\newcommand{\Nm}{n_{\meas}}
-\newcommand{\Ncnt}{n_{\cnt}}
+\newcommand{\dt}{\Delta t}
+\newcommand{\dtm}{\dt_{\meas}}
+\newcommand{\dtc}{\dt_{\cnt}}
+
+\newcommand{\Ncm}{{n_{\sfrac{\cnt}{\meas}}}}
+\newcommand{\Nmnd}{{n_{\sfrac{\meas}{zc}}}}
+\newcommand{\Nnd}{{n_{zc}}}
+\newcommand{\Nm}{{n_{\meas}}}
+\newcommand{\Ncnt}{{n_{\cnt}}}
+
+\newcommand{\LTb}{\tau_b}
+\newcommand{\LTd}{\tau_d}
+\newcommand{\lamb}{\lambda_b}
+\newcommand{\lamd}{\lambda_d}
