@@ -14,9 +14,11 @@ source("./RScripts/CSampling.R")
     thm +labs(y="Signal")
 }
 
-smpl = CuSampling(Freq=500)
 L = CModel(Phase=-pi/2); L@beamLam <- L@decohLam
 R = CModel(Phase=+pi/2); R@beamLam <- R@decohLam
+
+smpl = CuSampling()
+smpl = CmSampling(sglFreqGuess=rnorm(1,3,1e-6), CMPT=.2, Freq=500/.2)
 
 Ttot=1000
 simSample(smpl, L, Ttot, grow=TRUE) -> Ls
@@ -39,3 +41,4 @@ nlreg(f, weights=~1/(n0*exp(lam*Time)), data=Alr, start=guess) -> mod3l
 
 mod3l%>%summary -> mod3l.s
 print(mod3l.s)
+
