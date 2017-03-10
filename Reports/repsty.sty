@@ -24,19 +24,43 @@
 \DeclareDocumentCommand{\slp}{sO{}}{\IfBooleanTF{#1}{\hat{\beta}_{#2}}{\beta_{#2}}}
 \DeclareDocumentCommand{\Thick}{O{}}{\Theta_{#1}}
 
-\DeclareDocumentCommand{\SE}{sm}{\IfBooleanTF{#1}{\hat{\sigma}\bkt*{#2}}{\sigma\bkt*{#2}}}
-\newcommand{\avg}[1]{\langle #1\rangle}
-
+% SYNTACTIC DEFINITIONS
 \DeclareDocumentCommand{\bkt}{sm}{\IfBooleanTF{#1}{\left[ #2 \right]}{\left(#2\right)}}
+\DeclareDocumentCommand{\Xpct}{mo}{\mathrm{E}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
+\DeclareDocumentCommand{\avg}{mo}{\langle #1\rangle_{#2}}
+\DeclareDocumentCommand{\SE}{mo}{\mathrm{SE}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
+\DeclareDocumentCommand{\SD}{mo}{\sigma_{#1\IfNoValueTF{#2}{}{| #2}}}
+
 \newcommand{\td}{\mathrm{d}}
 
-\DeclareDocumentCommand{\A}{sO{}}{\IfBooleanT{#1}{\hat}A_{#2}}
-\DeclareDocumentCommand{\Ayy}{sO{}}{\IfBooleanT{#1}{\hat}A_{y,y}}
-\DeclareDocumentCommand{\Ayxz}{s}{\IfBooleanT{#1}{\hat}A_{y,xz}}
+\newcommand{\pars}{\boldsymbol{\theta}}
+\DeclareDocumentCommand{\Fisher}{O{}D(){\pars_0}}{I_{#1}(#2)}
+
+\DeclareDocumentCommand{\XpctO}{m}{\Xpct{#1}[\pars_0]}
+
+\DeclareDocumentCommand{\mupp}{s}{\mu'_\phi\IfBooleanTF{#1}{}{(t_i)}}
+\DeclareDocumentCommand{\mudpp}{s}{\mu''_{\phi^2}\IfBooleanTF{#1}{}{(t_i)}}
+
+
+\newcommand{\vp}[2]{{#1}\cdot 10^{#2}}
+% % Statistical requirements definitions
 
 \DeclareDocumentCommand{\D}{s}{\IfBooleanTF{#1}{\hat{D}}{D}}
 \DeclareDocumentCommand{\R}{s}{\IfBooleanTF{#1}{\hat{R}}{R}}
 \DeclareDocumentCommand{\DP}{s}{\IfBooleanTF{#1}{(P^+ - P^-)}{\Delta P}}
 \DeclareDocumentCommand{\SP}{s}{\IfBooleanTF{#1}{(P^+ + P^-)}{\Sigma P}}
 
-\newcommand{\Dim}[1]{\mathrm{#1}}
+\newcommand{\dt}{\Delta t}
+\newcommand{\dtm}{\dt_{\meas}}
+\newcommand{\dtc}{\dt_{\cnt}}
+
+\newcommand{\Ncm}{{n_{\sfrac{\cnt}{\meas}}}}
+\newcommand{\Nmnd}{{n_{\sfrac{\meas}{zc}}}}
+\newcommand{\Nnd}{{n_{zc}}}
+\newcommand{\Nm}{{n_{\meas}}}
+\newcommand{\Ncnt}{{n_{\cnt}}}
+
+\newcommand{\LTb}{\tau_b}
+\newcommand{\LTd}{\tau_d}
+\newcommand{\lamb}{\lambda_b}
+\newcommand{\lamd}{\lambda_d}

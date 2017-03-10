@@ -32,7 +32,7 @@ setMethod(
     
     if(length(time) < 2) time <- c(0, time)
     
-    aerror <- function(x) rerror * exp(ifelse(grow,-.5,0)*signal@beamLam* x)* signal@Num0*signal@Pol
+    aerror <- function(x) rerror * ifelse(grow, exp(-.5*signal@beamLam* x), 1)* signal@Num0*signal@Pol
     
     t1 = seq(time[1], time[2], by = 1/sampling@Freq) #uniform sampling
     
@@ -53,7 +53,7 @@ setMethod(
     Tpg = pi/wg
     Dt = sampling@CMPT*pi/signal@wFreq
     
-    aerror <- function(x) rerror * exp(ifelse(grow,-.5,0)*signal@beamLam* x)* N0*P
+    aerror <- function(x) rerror * ifelse(grow, exp(-.5*signal@beamLam* x), 1)* N0*P
     
     .dum <- function(Time) floor((wg*Time+phi)/2/pi)
     Nstt = .dum(time[1])

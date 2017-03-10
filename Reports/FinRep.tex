@@ -1,0 +1,136 @@
+\documentclass{article}
+
+\usepackage{repsty}
+
+\title{Final report}
+\author{A. Aksentev}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}[1.]
+	\item Improvement by sampling modulation?
+\end{enumerate}
+
+\section{Detector counting rate model}
+We assume the following model for the detector counting rate:
+\begin{equation}\label{eq:DetCntRt}
+	N(t) = N_0(t)\cdot\bkt{1 + P\cdot e^{-\sfrac{t}{\LTd}}\cdot\sin(\omega\cdot t + \phi)},
+\end{equation}
+where $\LTd$ is the decoherence lifetime, and $N_0(t)$ is the counting rate from the unpolarized cross-section.
+
+Since the beam current can be expressed as a function of time as 
+\[
+	I(t) \equiv N^b(t)\nu = I_0\cdot e^{\lamb t},
+\]
+$\lamb$ the beam lifetime, the expected number of particles scattered in the direction of the detector during measurement time $\dtc$ is
+\begin{align}
+N_0(t) & = p\cdot\int_{-\dtc/2}^{+\dtc/2} I(t+\tau)\td\tau \notag                    \\
+& = p\cdot\frac{\nu N_0^b}{\lamb} e^{\lamb t}\cdot \bkt{e^{\lamb\sfrac{\dtc}{2}} - e^{-\lamb\sfrac{\dtc}{2}}} \notag \\
+& \approx \underbrace{p\cdot\nu N_0^b e^{\lamb t}}_{\text{rate}~r(t)} \cdot\dtc,
+\end{align}
+where $p$ is the probability of ``useful'' scattering (approximately 1\%).
+
+The actual number of detected particles will be distributed as a Poisson distribution
+\[
+	P_{N_0(t)}(\tilde{N}_0) = \frac{\bkt{r(t)\dtc}^{\tilde{N}_0}}{\tilde{N}_0!}\cdot e^{-r(t)\dtc},
+\]
+hence $\SD{\tilde{N}_0}^2(t) = N_0(t)$. %In the limit of large $N_0(t)$, one can use the Gaussian approximation.
+
+We are interested in the expectation value $N_0(t) = \Xpct{\tilde{N}_0(t)}$, and its variance $\SD{N_0}(t)$. Those are estimated in the usual way,~\cite{CountRateStat} as 
+\begin{align*}
+	\avg{\tilde{N}_0(t)}[\dtm] &= \sum_{i=1}^\Ncm \tilde{N}_0(t_i), ~ \Ncm = \dtm/\dtc,
+\shortintertext{and} 
+	\SD{\tilde{N}_0(t)}[\dtm] &= \sum_{i=1}^\Ncm \bkt{\tilde{N}_0(t_i) - \avg{\tilde{N}_0(t_i)}[\dtm]}^2.
+\end{align*}
+($\dtm$ is the event measurement time, $\dtc$ is the polarimetry measurement time.) A sum of random variables, $N_0(t)$ is normally distributed.
+
+The standard error of the mean then is % abuse of notation here (SD in place of SE) for aesthetic reasons
+\begin{align*}
+\SD{N_0}(t) & = \SD{\tilde{N}_0}(t)/\sqrt{\Ncm} = \sqrt{N_0(t)\frac{\dtc}{\dtm}}            \\
+& \approx \sqrt{\frac{p\cdot\nu N_0^b}{\dtm}}\cdot\dtc \cdot\exp\bkt{\frac{\lamb}{2}\cdot t}.
+\end{align*}
+\newcommand{\A}{\frac{1}{\sqrt{p\cdot\nu N_0^b}}}
+
+Relative error grows:
+\begin{equation}\label{eq:MeasRelErr}
+	\frac{\SD{N_0}(t)}{N_0(t)} \approx \frac{A}{\sqrt{\dtm}}\cdot\exp\bkt{-\frac{\lamb}{2}t} = \frac{A}{\sqrt{\dtm}}\cdot\exp\bkt{\frac{t}{2\LTb}},~ A=\A.
+\end{equation}
+
+\section{Figure of merit}
+\newcommand{\Asym}{\mathcal{A}}
+A measure of the beam's polarization is the relative asymmetry of detector counting rates:~\cite[p.~17]{Eversmann}
+\begin{equation}\label{eq:AsymDef}
+	\Asym = \frac{N(\frac\pi2) - N(-\frac\pi2)}{N(\frac\pi2)+N(-\frac\pi2)}.
+\end{equation}
+
+In the simulation to follow, the following function is fitted to the asymmetry data:
+\begin{equation}\label{eq:xFOM}
+	\Asym(t) = \Asym(0)\cdot e^{\lamd\cdot t}\cdot\sin\bkt{\omega\cdot t + \phi},
+\end{equation}
+with three nuisance parameters $\Asym(0)$, $\lamd$, and $\phi$. 
+
+Due to the decreasing beam size, the measurement of the figure of merit is heteroscedastic. From~\cite[p.~18]{Eversmann}, the heteroscedasticity model assumed is
+\begin{equation}\label{eq:AsymHtsk}
+	\SD{\Asym}^2(t) \approx \frac{1}{2N_0(t)}.
+\end{equation}
+
+\section{Simulation}
+We simulated data from two detectors with parameters gathered in Table~\ref{tbl:DetCntRtParam} for $T_{tot}=1000$ seconds, sampled uniformly at the rate $f_s = 500$ Hz. These figures are chosen for the following reason: if the beam size in a fill is on the order of $10^{11}$ particles, and only 1\% of them will be registered, we're left with $10^9$ useful scatterings. A measurement of the counting rate $N_0(t)$ with a precision of approximately 3\% requires somewhere in the neighborhood of 2000 detector counts, which further reduces the number of events to $5\cdot 10^5 = f_s\cdot T_{tot}$. One thousand seconds is the expected duration of a fill, hence $f_s = 500$ Hz. 
+
+Relative measurement error for the detector counting rates is depicted in Figure~\ref{fig:LRDetErr}; the cross-section asymmetry, computed according to Eq.~\eqref{eq:AsymDef}, is shown in Figure~\ref{fig:Asym}.
+To these data we fit via Maximum Likelihood a non-linear heteroscedastic model\footnote{R package nlreg.~\cite{NLREG}} given by Eq.~\eqref{eq:xFOM}, with the variance function for the weights given by Eq.~\eqref{eq:AsymHtsk}. The fit results are summarized in Table~\ref{tbl:FitRes}.
+\begin{table}[h]
+	\centering
+	\caption{Detector counting rates' model parameters\label{tbl:DetCntRtParam}}
+	\begin{tabular}{cccc}
+		\hline
+		         &   Left   &     Right     &  \\ \hline
+		 $\phi$  & $-\pi/2$ &   $+\pi/2$    &   rad   \\
+		$\omega$ &  \multicolumn{2}{c}{3}   & rad/sec \\
+		  $P$    & \multicolumn{2}{c}{0.4}  &  \\
+		 $\LTd$  & \multicolumn{2}{c}{721}  &   sec   \\
+		 $\LTb$  & \multicolumn{2}{c}{721}  &   sec   \\
+		$N_0(0)$ & \multicolumn{2}{c}{6730} &  \\ \hline
+	\end{tabular}
+\end{table}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.85]{img/Final/LR_detector_relErr}
+	\caption{Relative counting rate measurement error for the left and right detectors as a function of time.\label{fig:LRDetErr}}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.85]{img/Final/Asymmetry}
+	\caption{Expectation value (red line) and sample measurements (black dots) of the cross-section asymmetry.\label{fig:Asym}}
+\end{figure}
+
+\begin{table}[h]
+	\centering
+	\caption{Fit results\label{tbl:FitRes}}
+	\begin{tabular}{crr}
+		\hline
+		           & Estimate &             SE \\ \hline
+		$\Asym(0)$ &   0.4065 & $\vp{8.4}{-5}$ \\
+		 $\lamd$   &  -0.0016 & $\vp{8.7}{-7}$ \\
+		 $\omega$  &   3.0000 & $\vp{7.0}{-7}$ \\
+		  $\phi$   &  -1.5707 & $\vp{2.0}{-2}$ \\ \hline
+	\end{tabular}
+\end{table}
+
+\begin{thebibliography}{9}
+	\bibitem{CountRateStat}
+	\url{http://www.owlnet.rice.edu/~dodds/Files331/stat_notes.pdf}.
+	
+	\bibitem{Eversmann}
+	D. Eversmann et al. “Analysis of the Spin Coherence Time at the Cooler Synchrotron COSY,” 2013. \url{http://wwwo.physik.rwth-aachen.de/fileadmin/user_upload/www_physik/Institute/Inst_3B/Mitarbeiter/Joerg_Pretz/DEMasterarbeit.pdf}.
+	
+	\bibitem{NLREG}
+	\url{https://cran.r-project.org/web/packages/nlreg/index.html}
+	
+\end{thebibliography}
+
+\end{document}
