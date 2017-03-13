@@ -40,13 +40,13 @@ The actual number of detected particles will be distributed as a Poisson distrib
 \]
 hence $\SD{\tilde{N}_0}^2(t) = N_0(t)$. %In the limit of large $N_0(t)$, one can use the Gaussian approximation.
 
-We are interested in the expectation value $N_0(t) = \Xpct{\tilde{N}_0(t)}$, and its variance $\SD{N_0}(t)$. Those are estimated in the usual way,~\cite{CountRateStat} as 
+We are interested in the expectation value $N_0(t) = \Xpct{\tilde{N}_0(t)}$, and its variance $\SD{N_0}(t)$. Those are estimated as summary statistics:
 \begin{align*}
 	\avg{\tilde{N}_0(t)}[\dtm] &= \sum_{i=1}^\Ncm \tilde{N}_0(t_i), ~ \Ncm = \dtm/\dtc,
 \shortintertext{and} 
 	\SD{\tilde{N}_0(t)}[\dtm] &= \sum_{i=1}^\Ncm \bkt{\tilde{N}_0(t_i) - \avg{\tilde{N}_0(t_i)}[\dtm]}^2.
 \end{align*}
-($\dtm$ is the event measurement time, $\dtc$ is the polarimetry measurement time.) A sum of random variables, $N_0(t)$ is normally distributed.
+($\dtm$ is the event measurement time, $\dtc$ is the polarimetry measurement time.) Being a sum of random variables, $N_0(t)$ is normally distributed.
 
 The standard error of the mean then is % abuse of notation here (SD in place of SE) for aesthetic reasons
 \begin{align*}
@@ -179,12 +179,16 @@ given by Eq.~\eqref{eq:xFOM}, with the variance function for the weights given b
 \subsection{Modulation gains}
 If the initial frequency estimate obtained from a time-uniform sample has a standard error on the order of $\vp{1}{-6}$ rad/sec, simulation shows the standard error of the estimate can be improved to $\approx \vp{5.8}{-7}$ rad/sec.
 
+\section*{References}
+
 \begin{thebibliography}{9}
-	\bibitem{CountRateStat}
-	\url{http://www.owlnet.rice.edu/~dodds/Files331/stat_notes.pdf}.
+%	\bibitem{CountRateStat}
+%	\url{http://www.owlnet.rice.edu/~dodds/Files331/stat_notes.pdf}.
 	
 	\bibitem{Eversmann}
-	D. Eversmann et al. ``Analysis of the Spin Coherence Time at the Cooler Synchrotron COSY,'' 2013. \url{http://wwwo.physik.rwth-aachen.de/fileadmin/user_upload/www_physik/Institute/Inst_3B/Mitarbeiter/Joerg_Pretz/DEMasterarbeit.pdf}.
+	Eversmann D. Analysis of the Spin Coherence Time at the Cooler Synchrotron COSY [master's thesis on the Internet]. [Aachen (Germany)]: Rheinisch-Westf\"alische Technische Hochschule Aachen (RWTH); 2013 [cited 2017 Feb 28]. Available from: http://wwwo.physik.rwth-aachen.de/fileadmin/user_upload/www_physik/Institute/Inst_3B/Mitarbeiter/Joerg_Pretz/DEMasterarbeit.pdf
+	
+	
 	
 %	\bibitem{NLREG}
 %	\url{https://cran.r-project.org/web/packages/nlreg/index.html}
