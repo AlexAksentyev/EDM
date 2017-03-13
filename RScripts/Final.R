@@ -13,6 +13,7 @@ source("./RScripts/CSampling.R")
     geom_point(aes_string("Time", variable), col="red", size=.5) +
     thm +labs(y="Signal")
 }
+.SNR <- function(x, taub, taud) 33* exp(-x/taud * (1+.5*taud/taub))
 
 L = CModel(Phase=-pi/2); L@beamLam <- log(.25)/1000
 R = CModel(Phase=+pi/2); R@beamLam <- log(.25)/1000

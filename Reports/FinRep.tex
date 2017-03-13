@@ -2,11 +2,10 @@
 
 \usepackage{repsty}
 
-\title{Final report}
-\author{A. Aksentev}
-\date{}
-
 \begin{document}
+
+\title{Final report}
+\author{Aleksandr Aksentev}
 \maketitle
 
 \section{Detector counting rate model}
@@ -61,7 +60,7 @@ A measure of the beam's polarization is the relative asymmetry of detector count
 	\Asym = \frac{N(\frac\pi2) - N(-\frac\pi2)}{N(\frac\pi2)+N(-\frac\pi2)}.
 \end{equation}
 
-In the simulation to follow, the following function is fitted to the asymmetry data:
+In the simulation to follow, the function fitted to the asymmetry data is:
 \begin{equation}\label{eq:xFOM}
 	\Asym(t) = \Asym(0)\cdot e^{\lamd\cdot t}\cdot\sin\bkt{\omega\cdot t + \phi},
 \end{equation}
@@ -73,31 +72,57 @@ Due to the decreasing beam size, the measurement of the figure of merit is heter
 \end{equation}
 
 \section{Conditions for maximum precision}
+\DeclareDocumentCommand{\stat}{s}{\IfBooleanTF{#1}{X_{tot}}{\frac{\SD{\meas}^2}{\SE{\hat\omega}^2\cdot \var[w]{t}}}}
+\newcommand{\dtnd}{\dt_{zc}}
+\newcommand{\SNR}{\text{SNR}}
+\newcommand{\deq}{\overset{\triangle}{=}}
+
 Assuming a Gaussian error distribution with mean zero and variance $\SD{\meas}^2$, the maximum likelihood estimator for the variance of the frequency estimate of the cross-section asymmetry $\Asym$ can be expressed as
 \begin{align*}
 \var{\hat\omega} &= \frac{\SD{\meas}^2}{X_{tot}\cdot \var[w]{t}}, 
 \shortintertext{with}
 X_{tot} &= \sum_{j=1}^{\Nm} x_j = \sum_{s=1}^{\Nnd}\sum_{j=1}^{\Nmnd} x_{js}, \\
 \var[w]{t} &= \sum_i w_i \bkt{t_i - \avg{t}[w]}^2,~ \avg{t}[w] = \sum_i w_i t_i, \\
-w_i &= \frac{x_i}{\sum_j x_j},~ x_i = (N_0P\exp(\lambda t_i))^2\cos^2(\omega t_i + \phi) = \bkt{\mupp}^2.
+w_i &= \frac{x_i}{\sum_j x_j},~ x_i = (\Asym(0)\exp(\lamd t_i))^2\cos^2(\omega t_i + \phi) = \bkt{\mupp}^2.
 \end{align*}
 
-The three factors contributing to the standard error of the estimate are:
-\begin{inparaenum}[\itshape a\upshape)]
-	\item the error variance $\SD{\meas}(t)^2$ (governed by, among other things, the number $\Ncm$ of polarimetry measurements per signal measurement), 
-	\item the time spread $\sum_i w_i (t_i - \avg{t}[w])^2$ of the sample measurements, and
-	\item their net informational content $X_{tot}$.
-\end{inparaenum}
+In the expression above, $X_{tot}$ is the total Fisher information of the sample, and $\var[w]{t}$ is a measure of its time-spread. It can be observed that by picking appropriate sampling times, one can raise the $X_{tot}$ term, since it is proportional to a sum of the signal's time derivatives. If the oscillation frequency and phase are already known to a reasonable precision, further improvement can be achieved by the application of a sampling scheme in which measurements are taken only during rapid change in the signal (sampling modulation). Improvement here is limited by the polarimetry sampling rate.
 
+Both the $\var[w]{t}$ and $X_{tot}$ terms are bounded as a result of spin tune decoherence. We can express $\sum_{j=1}^{\Nmnd} x_{js} = \Nmnd \cdot x_{0s}$, for some mean value $x_{0s}$ at a given node $s$. $\Nmnd$ is the number of asymmetry measurements per node. The period of time during which measuring takes place, $\dtnd$, is termed \emph{compaction time}. The value of the sum $\sum_{j=1}^{\Nmnd} x_{js}$ falls exponentially due to decoherence, hence $x_{0s} = x_{01}\exp{(\lamd\cdot \frac{(s-1)\cdot\pi}{\omega})}$. Therefore,
+\begin{align}
+	X_{tot} & = \Nmnd\cdot x_{01} \cdot \frac{\exp{\bkt{\frac{\lamd\pi}{\omega}\Nnd}}-1}{\exp{\bkt{\frac{\lamd\pi}{\omega}}}-1} 
+	\equiv \Nmnd \cdot x_{01}\cdot g(\Nnd); \label{eq:FItot}\\
+	x_{01}  & = \frac{1}{\dtnd}\int_{-\dtnd/2}^{+\dtnd/2}\cos^2(\omega\cdot t)\td t = \frac12\cdot \bkt{1 + \frac{\sin\omega\dtnd}{\omega\dtnd}},                                    \label{eq:MeanFIZC}   \\
+	\Nmnd   & = \frac{\dtnd}{\dtm}. \label{eq:NumMeasNode}
+\end{align}
 
-With the oscillation frequency (and phase) known down to a reasonable precision, we can employ a modulated sampling strategy, in which events are collected only during rapid change in the figure of merit. That way, the beam particles are not wasted on sub-optimal (in terms of the frequency-related information they contain) measurements, and for the same lifetime we get a more informative sample.
-
+Eq.~\eqref{eq:FItot} provides us with a means to estimating the limits on the duration of the experiment. In Table~\ref{tbl:FItot}, the percentage of the total Fisher information limit, the time in decoherence lifetimes by which it is reached, and the signal-to-noise ratio by that time, are summarized. The signal-to-noise ratios are computed according to:
+\begin{equation}\label{eq:TauRatioSNR}
+\SNR \deq \frac{\Asym(0)\cdot e^{-\sfrac{t}{\LTd}}}{\SD{\Asym}(t)} 
+	\approx \sqrt{2\cdot p\cdot\nu N_0^b\cdot \dtc}\cdot \Asym(0)\cdot \exp\bkt*{-\frac{t}{\LTd}\cdot\bkt{1+\frac12\frac{\LTd}{\LTb}}},
+%	 \notag \\
+%	&\approx \Asym(0) \exp\bkt*{-\frac{t}{\LTd}\cdot\bkt{1+\frac12\frac{\LTd}{\LTb}}},
+\end{equation}
+%in which the factor before $\Asym(0)$ is approximately equal to 1 as a result of: $\SD{N_0}(0)/N_0(0)\approx 3\%$ with 2000 polarimetry measurements per asymmetry measurement ($\dtm = 2000\cdot\dtc$).
+in which, from $\SD{\Asym(0)}/\Asym(0) \approx 3\%$, the factor before the exponent is 33.
+\begin{table}[h]
+	\centering
+	\caption{Total Fisher information, by what time it is reached,\\ and the corresponding signal-to-noise ratio.\label{tbl:FItot}}
+	\begin{tabular}{rrr}
+		\hline
+		FI limit (\%) & Reached ($\times\LTd$) &  SNR \\ \hline
+		           95 &                    3.0 &  0.4 \\
+		           90 &                    2.3 &  1.1 \\
+		           70 &                    1.2 &  5.5 \\
+		           50 &                    0.7 & 11.7 \\ \hline
+	\end{tabular}
+\end{table}
 
 \section{Simulation}
 We simulated data from two detectors with parameters gathered in Table~\ref{tbl:DetCntRtParam} for $T_{tot}=1000$ seconds, sampled uniformly at the rate $f_s = 375$ Hz. These figures are chosen for the following reason: the beam size in a fill is on the order of $10^{11}$ particles; if we want to keep the beam lifetime equal to the decoherence lifetime, we cannot exhaust more than 75\% of it; only 1\% of all scatterings are of the sort we need for polarimetry, so we're left with $\vp{7.5}{8}$ useful scatterings. A measurement of the counting rate $N_0(t)$ with a precision of approximately 3\% requires somewhere in the neighborhood of 2000 detector counts, which further reduces the number of events to $\vp{3.75}{5}= f_s\cdot T_{tot}$. One thousand seconds is the expected duration of a fill, hence $f_s = 375$ Hz. 
 
 Relative measurement error for the detector counting rates is depicted in Figure~\ref{fig:LRDetErr}; the cross-section asymmetry, computed according to Eq.~\eqref{eq:AsymDef}, is shown in Figure~\ref{fig:Asym}.
-To these data we fit via Maximum Likelihood a non-linear heteroscedastic model\footnote{R package nlreg.~\cite{NLREG}} given by Eq.~\eqref{eq:xFOM}, with the variance function for the weights given by Eq.~\eqref{eq:AsymHtsk}. The fit results are summarized in Table~\ref{tbl:FitRes}. Typically, the standard error of the frequency estimate is approximately $\vp{1}{-6}$ rad/sec.
+To these data we fit via Maximum Likelihood a non-linear heteroscedastic model\footnote{R package nlreg.~\cite{NLREG}} given by Eq.~\eqref{eq:xFOM}, with the variance function for the weights given by Eq.~\eqref{eq:AsymHtsk}. The fit results are summarized in Table~\ref{tbl:FitRes}.
 \begin{table}[h]
 	\centering
 	\caption{Detector counting rates' model parameters\label{tbl:DetCntRtParam}}
