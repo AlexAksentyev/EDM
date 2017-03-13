@@ -3,6 +3,10 @@ library(ggplot2)
 
 rm(list=ls(all=TRUE))
 
+lblfnt = 20
+thm = theme_bw() + theme(axis.text=element_text(size=lblfnt), axis.title=element_text(size=lblfnt), 
+                         legend.title=element_text(size=lblfnt), legend.text=element_text(size=lblfnt), legend.position="top")
+
 source("./RScripts/CModel.R")
 source("./RScripts/CSampling.R")
 
@@ -25,13 +29,13 @@ Ttot=1000
 simSample(smpl, L, Ttot, grow=TRUE) -> Ls
 simSample(smpl, R, Ttot, grow=TRUE) -> Rs
 df = rbind(Ls%>%mutate(Detector="Left"), Rs%>%mutate(Detector="Right"))
-ggplot(df[seq(1,nrow(df), length.out = 1200),]) + facet_grid(Detector~.) + theme_bw() +
-  geom_line(aes(Time, (Sgl-XSgl)/XSgl, col=Detector), lwd=.2) + theme(legend.position="top") +
+ggplot(df[seq(1,nrow(df), length.out = 1200),]) + facet_grid(Detector~.) + thm +
+  geom_line(aes(Time, (Sgl-XSgl)/XSgl, col=Detector), lwd=.2) +
   labs(y=expression(frac(tilde(N)[0](t)-N[0](t),N[0](t))))
 
 Alr = merge(Ls[,FIDrvt:=NULL], Rs[,FIDrvt:=NULL], by="Time", suffixes = c(".L",".R")); rm(Ls, Rs)
 Alr[,`:=`(XVal=(XSgl.L-XSgl.R)/(XSgl.L+XSgl.R), Val=(Sgl.L-Sgl.R)/(Sgl.L+Sgl.R))]
-ggplot(Alr[seq(1, nrow(Alr), length.out = 4273),]) + theme_bw() + 
+ggplot(Alr[seq(1, nrow(Alr), length.out = 4273),]) + thm + 
   # geom_line(aes(Time, Val-XVal), lwd=.2) + labs(y="Error") #plot of residuals
    geom_line(aes(Time, XVal), lwd=.1, col="red") + geom_point(aes(Time, Val), size=.2) + labs(y="Asymmetry")# plot of signal
 
