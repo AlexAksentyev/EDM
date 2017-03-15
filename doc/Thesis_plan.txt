@@ -5,11 +5,11 @@ Creation-Date: 2017-03-14T12:00:43+01:00
 ====== Thesis plan ======
 Created Tuesday 14 March 2017
 
-1. Frozen-/Quasi-Frozen Spin lattice concepts.
+1. **Frozen-/Quasi-Frozen Spin lattice concepts.**
 	a. Measured quantities;
 	b. Required experimental conditions;
 	c. Devices (on the beam line) to set those conditions & measure those quantities.
-2. The spin-orbital motion in FS and QFS rings. (Ideal.)
-3. Consequences of imperfections in the lattice. (How the spin-orbital motion changes from the ideal.)
-4. Investigation of systematic errors. (How the deviation from the ideal increases our uncertainty in the value of the EDM.)
-5. Parameters of the ring for the CDR. (... that ensure sufficient reduction of that uncertainty.)
+2. **The spin-orbital motion in FS and QFS rings.** (Ideal spin precession.)
+3. **Consequences of imperfections in the lattice.** (How the spin-orbital motion changes from the ideal.)
+4. **Investigation of systematic errors.** (How the deviation from the ideal increases our uncertainty in the value of the EDM.)
+5. **Parameters of the ring for the CDR.** (... that ensure sufficient reduction of that uncertainty.)
