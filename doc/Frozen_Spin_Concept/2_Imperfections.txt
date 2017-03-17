@@ -1,7 +1,0 @@
-Content-Type: text/x-zim-wiki
-Wiki-Format: zim 0.4
-Creation-Date: 2017-03-14T13:40:09+01:00
-
-====== 2 Imperfections ======
-Created Tuesday 14 March 2017
-

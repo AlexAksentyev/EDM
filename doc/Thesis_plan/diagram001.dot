@@ -1,0 +1,8 @@
+digraph G{
+
+"Measure \n Omega" -> "Omega EDM + \n Omega MDM"
+"Omega EDM + \n Omega MDM" -> {"CW/CCW"
+ "minimization \n Omega y,z"}
+"CW/CCW" -> "calibration By"
+
+}
