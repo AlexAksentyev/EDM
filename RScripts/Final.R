@@ -29,10 +29,10 @@ Ttot=1000
 simSample(smpl, L, Ttot, grow=TRUE) -> Ls
 simSample(smpl, R, Ttot, grow=TRUE) -> Rs
 df = rbind(Ls%>%mutate(Detector="Left"), Rs%>%mutate(Detector="Right"))
-ggplot(df[seq(1,nrow(df), length.out = 1200),]) + facet_grid(Detector~.) + thm +
+ggplot(df[Time<5,]) + facet_grid(Detector~.) + thm +
   geom_line(aes(Time, XSgl, col=Detector)) +
-  geom_point(aes(Time, Sgl), col="black",size=.2) +
-  labs(y="Counting rate")
+  # geom_point(aes(Time, Sgl), col="black",size=.2) +
+  labs(y="Counting rate, #", x="Time, sec")
   # geom_line(aes(Time, (Sgl-XSgl)/XSgl, col=Detector), lwd=.2) +
   # labs(y=expression(frac(tilde(N)[0](t)-N[0](t),N[0](t))))
 
@@ -40,7 +40,7 @@ Alr = merge(Ls[,FIDrvt:=NULL], Rs[,FIDrvt:=NULL], by="Time", suffixes = c(".L","
 Alr[,`:=`(XVal=(XSgl.L-XSgl.R)/(XSgl.L+XSgl.R), Val=(Sgl.L-Sgl.R)/(Sgl.L+Sgl.R))]
 ggplot(Alr[seq(1, nrow(Alr), length.out = 433),]) + thm + 
   # geom_line(aes(Time, Val-XVal), lwd=.2) + labs(y="Error") #plot of residuals
-   geom_line(aes(Time, XVal), lwd=.1, col="black") + geom_point(aes(Time, Val), size=.2) + labs(y="Asymmetry")# plot of signal
+   geom_line(aes(Time, XVal), lwd=.1, col="black") + geom_point(aes(Time, Val), size=.2, col="red") + labs(y="Asymmetry", x="Time, sec")# plot of signal
 
 
 f = Val ~ n0*exp(lam*Time)*sin(w*Time + p)
