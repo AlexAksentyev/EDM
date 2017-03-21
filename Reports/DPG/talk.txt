@@ -3,7 +3,7 @@ Methodology.
 	1) The spin of a particle put into an electromagnetic field precesses according to the T-BMT equation.
 	2) The EDM term in it moves the spin in the vertical plane.
 	3) Due to imperfections in the ring, such as magnet misalignments, there's a vertical movement associated with the MDM; however
-	4) Using the CW/CCW procedure, the MDM influence can be removed, because the magnetic field and particle velocity reverse sign, so Omega_{MDM} reverse sign, so thesum is twice the EDM frequency, which is proportional to the EDM.
+	4) Using the CW/CCW procedure, the MDM influence can be removed, because the magnetic field and particle velocity reverse sign, so Omega_{MDM} reverse sign, so the sum is twice the EDM frequency, which is proportional to the EDM.
 	I've been estimating the statistical precision of this method.
 
 Detector counting rate.
@@ -12,8 +12,8 @@ Detector counting rate.
 	 3) Which in turn yields an expression for the relative error of the counting rate.
 
 Cross section asymmetry.
-      1) CS is a measure of polarization, and by definition it is the normalized difference between the detector rates of oppositely placed detectors.
-      2) For fitting, the signal's expectation value is modeled as a sinusoid with an exponentially falling envelope, and as a result of continually falling counting rates, the error term is heteroscedastic.
+      1) CS is a measure of polarization, and by definition it is the normalized difference between the counting rates of oppositely placed detectors.
+      2) For fitting, I used a single-harmonic model with an exponentially falling envelope for the signal's expectation value; as a result of continually falling counting rates, the error term is heteroscedastic.
       3) The MLE estimator for the variance of the frequency estimate is given by [equation]. In the numerator the error variance, and the denominator is the product of the sample's total Fisher information and its time spread. Fisher information is proportional to the square of the signal's derivative.
 
 Limiting factors.
