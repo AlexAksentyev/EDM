@@ -13,4 +13,4 @@ So far I know of two elements of the class "complications": 1) magnet misalignme
 The FS structure is characterized (defined) by the absence of vertical spin precession due to the MDM. Hence, when it occurs, decoherence induces a horizontal precession frequency. (Decoherence is caused by the beam's having a finite phase space size; doesn't that imply the existence of a subpopulation in the beam with gammas other than the "magic" gamma? Won't that introduce vertical MDM precession? Sure, if we denote by "decoherence" the phenomenon of dispersion of the frequencies in the horizontal plane from the start...)
 
 ==== Magnet misalignments ====
-This is what causes vertical MDM precession by the introduction of a horizontal (Bx) magnetic field component into the experimental system. 
+This is what causes vertical MDM precession by the introduction of a horizontal (Bx) magnetic field component into the experimental system.

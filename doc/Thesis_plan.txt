@@ -26,7 +26,7 @@ Here we 1) define the EDM observable to be the spin precession frequency in the 
 {{./diagram001.png?type=diagram}}
 
 ==== Build-up of the ideal machines ====
-Here we outline the structures of the FS/QFS machines, and then evaluate their parameters assuming the beam = the reference particle. Definition of the //ideal //("reference-particle") statistical (structural + probabilistic parts) models (one for FS and one for QFS, not necessarily --- but probably --- equal) occurs here as well. Here, also, occurs the formulation of "**goodness criteria**," by which we rank our preferences for the structures. (In case the statistical models are equivalent, QFS is initially preferable to FS as a structure with simpler elements.)
+Here we outline the structures of the FS/QFS machines, and then evaluate their parameters assuming the beam = the reference particle. Definition of the //ideal //("reference-particle") statistical (structural + probabilistic parts) models (one for the FS and one for the QFS, not necessarily --- but probably --- equal) occurs here as well. Here, also, occurs the formulation of "**goodness criteria**," by which we rank our preferences for the structures. (In case the statistical models are equivalent, the QFS is initially preferable to the FS as a structure with simpler elements.)
 
 ==== Comparison of the structures ====
 This is the iterative part; in here, we add **complicating properties** to the beam and lattices (beam phase space distribution, magnet misalignments, &c), and compare how well the structures pass the goodness criteria. After each iteration, we reevaluate the preference ranks of the lattices, and if QFS remains preferable, continue on to the next complication. 

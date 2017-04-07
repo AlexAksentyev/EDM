@@ -1,0 +1,28 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2017-04-05T12:51:49+02:00
+
+====== The lattices ======
+Created Wednesday 05 April 2017
+
+{{./diagram.png?type=diagram}}
+
+
+===== Classification =====
+There are **two** experimental design concepts: the Frozen Spin and Quasi-Frozen Spin, and **three** possible storage ring lattice designs: **one** for the FS and **two** for the QFS.
+
+The first QFS lattice option is to use **straight** "E+B"-field deflector units in the straight sections of the race-track storage ring; the second is to use purely-electrostatic, **bent** deflectors, hence arching the straight sections.
+
+In the FS lattice, **bent "E+B" **deflectors are used.
+
+===== Motivation for the FS/QFS concepts =====
+The original methodology for measuring the EDM of a particle in a storage ring consisted in measuring the growth of the vertical polarization component of the beam polarization. This required two conditions to hold: 1) the absence of any sources of vertical polarization growth other than the EDM, and 2) maximization of the EDM growth rate.
+
+The other source of spin precession is the particle's MDM, which reacts to the presence of the magnetic field. Precession in the horizontal plane caused by the vertical B-field component negatively affects the amplitude of the vertical polarization growth, and precession about the radial B-field is a major faking signal. 
+
+__Maximization of the signal is accomplished by adjusting the beam energy to the "magic value," at which the spin precesses at the same rate as the beam momentum in the horizontal plane. This is the basis of the Frozen Spin experiment concept. However, magnet misalignments, and the corresponding surious magnetic field components, are still a problem.__
+
+The QFS design allows for the spin precession in the horizontal plane relative to the momentum. This enables the use of a simpler lattice structure a reduction in the EDM signal
+
+===== Motivation for the structures =====
+The FS structure is obviously here to ensure the "frozen spin" condition.

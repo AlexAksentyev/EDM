@@ -1,0 +1,24 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2017-04-05T10:07:42+02:00
+
+====== FS vs QFS comparison ======
+Created Wednesday 05 April 2017
+
+Magnet misalignments cause the presence of the non-zero-average magnetic field components {{./equation.png?type=equation}} along the beam path, which turn the particle spins in the vertical, horizontal, and transversal planes (respectively).
+
+In the ideal FS machine, as a result of the reference particle's having magic energy, the spin precession in the vertical plane is only due to the EDM; however, the horizontal and transversal precessions remain as a source of systematic error (due to the non-commutativity of matrix products: counter rotations do not cancel [[[~/.mozilla/firefox/uddpttsa.default/zotero/storage/B8Z274EE/original.pdf|p. 23]]]). This means one must suppress the resultant spin precession frequencies to values //below// that of the EDM's. 
+
+In the QFS machine, on the other hand, the vertical MDM precession is allowed, and is dominant. This leads to a relaxation of the condition on the values of the {{./equation001.png?type=equation}} for the following reason:
+The measured frequency is
+{{./equation003.png?type=equation}}
+Since we want to measure {{./equation007.png?type=equation}}, {{./equation006.png?type=equation}} is a measure of systematic error; we want to have {{./equation008.png?type=equation}}.
+1. {{./equation004.png?type=equation}}
+{{./equation005.png?type=equation}}
+2. {{./equation009.png?type=equation}}
+{{./equation010.png?type=equation}}
+
+Define {{./equation011.png?type=equation}} 
+{{./equation012.png?type=equation}}
+As the MDM frequency goes up, the Q-factor goes up, meaning that {{./equation013.png?type=equation}} i.e., with the increase of the vertical MDM spin precession component, the systematic error of the measurement goes down.
+
