@@ -1,6 +1,6 @@
 \documentclass{article}
 
-\usepackage{repsty}
+\usepackage[widepage]{repsty}
 
 \begin{document}
 
@@ -35,9 +35,9 @@ hence $\SD{\tilde{N}_0}^2(t) = N_0(t)$. %In the limit of large $N_0(t)$, one can
 
 We are interested in the expectation value $N_0(t) = \Xpct{\tilde{N}_0(t)}$, and its variance $\SD{N_0}(t)$. Those are estimated in the usual way,~\cite{CountRateStat} as 
 \begin{align*}
-	\avg{\tilde{N}_0(t)}[\dtm] &= \sum_{i=1}^\Ncm \tilde{N}_0(t_i), ~ \Ncm = \dtm/\dtc,
+	\avg{\tilde{N}_0(t)}[\dtm] &= \frac{1}{\Ncm}\sum_{i=1}^\Ncm \tilde{N}_0(t_i), ~ \Ncm = \dtm/\dtc,
 \shortintertext{and} 
-	\SD{\tilde{N}_0(t)}[\dtm] &= \sum_{i=1}^\Ncm \bkt{\tilde{N}_0(t_i) - \avg{\tilde{N}_0(t_i)}[\dtm]}^2.
+	\SD{\tilde{N}_0(t)}[\dtm] &= \frac{1}{\Ncm}\sum_{i=1}^\Ncm \bkt{\tilde{N}_0(t_i) - \avg{\tilde{N}_0(t_i)}[\dtm]}^2.
 \end{align*}
 ($\dtm$ is the event measurement time, $\dtc$ is the polarimetry measurement time.) A sum of random variables, $N_0(t)$ is normally distributed.
 
@@ -78,13 +78,13 @@ Due to the decreasing beam size, the measurement of the figure of merit is heter
 \newcommand{\deq}{\overset{\triangle}{=}}
 
 Assuming a Gaussian error distribution with mean zero and variance $\SD{\meas}^2$, the maximum likelihood estimator for the variance of the frequency estimate of the cross-section asymmetry $\Asym$ can be expressed as
-\begin{align*}
-\var{\hat\omega} &= \frac{\SD{\meas}^2}{X_{tot}\cdot \var[w]{t}}, 
+\begin{align}
+\var{\hat\omega} &= \frac{\SD{\meas}^2}{X_{tot}\cdot \var[w]{t}}, \label{eq:VarW}
 \shortintertext{with}
-X_{tot} &= \sum_{j=1}^{\Nm} x_j = \sum_{s=1}^{\Nnd}\sum_{j=1}^{\Nmnd} x_{js}, \\
-\var[w]{t} &= \sum_i w_i \bkt{t_i - \avg{t}[w]}^2,~ \avg{t}[w] = \sum_i w_i t_i, \\
-w_i &= \frac{x_i}{\sum_j x_j},~ x_i = (\Asym(0)\exp(\lamd t_i))^2\cos^2(\omega t_i + \phi) = \bkt{\mupp}^2.
-\end{align*}
+X_{tot} &= \sum_{j=1}^{\Nm} x_j = \sum_{s=1}^{\Nnd}\sum_{j=1}^{\Nmnd} x_{js}, \notag\\
+\var[w]{t} &= \sum_i w_i \bkt{t_i - \avg{t}[w]}^2,~ \avg{t}[w] = \sum_i w_i t_i, \notag\\
+w_i &= \frac{x_i}{\sum_j x_j},~ x_i = (\Asym(0)\exp(\lamd t_i))^2\cos^2(\omega t_i + \phi) = \bkt{\mupp}^2. \notag
+\end{align}
 
 In the expression above, $X_{tot}$ is the total Fisher information of the sample, and $\var[w]{t}$ is a measure of its time-spread. It can be observed that by picking appropriate sampling times, one can raise the $X_{tot}$ term, since it is proportional to a sum of the signal's time derivatives. If the oscillation frequency and phase are already known to a reasonable precision, further improvement can be achieved by the application of a sampling scheme in which measurements are taken only during rapid change in the signal (sampling modulation). Improvement here is limited by the polarimetry sampling rate.
 
@@ -117,6 +117,16 @@ in which, from $\SD{\Asym(0)}/\Asym(0) \approx 3\%$, the factor before the expon
 		           50 &                    0.7 & 11.7 \\ \hline
 	\end{tabular}
 \end{table}
+
+\subsection{Related formula}
+Eq.~\eqref{eq:VarW} can be rewritten in physical terms assuming zero-decoherence ($\lamd=0$) and uniform sampling with sampling period $\dt$:
+\begin{align*}
+	\stat* &= \sum_{k=1}^K \Asym^2(0)\cos^2(\omega t_k + \phi) = \frac12 \Asym^2(0)\cdot K, \\
+	\var[w]{t} &= \sum_{k=1}^K(k\dt - \avg{t}[w])^2\underbrace{w_k}_{1/K} \\
+				&\approx \frac{\dt^2}{12}K^2 = \frac{T^2}{12},
+\intertext{and so}					
+	\var{\hat{\omega}} &= \frac{24}{KT^2}\cdot\bkt{\frac{\SD{\meas}}{\Asym(0)}}^2.
+\end{align*}
 
 \section{Simulation}
 We simulated data from two detectors with parameters gathered in Table~\ref{tbl:DetCntRtParam} for $T_{tot}=1000$ seconds, sampled uniformly at the rate $f_s = 375$ Hz. These figures are chosen for the following reason: the beam size in a fill is on the order of $10^{11}$ particles; if we want to keep the beam lifetime equal to the decoherence lifetime, we cannot exhaust more than 75\% of it; only 1\% of all scatterings are of the sort we need for polarimetry, so we're left with $\vp{7.5}{8}$ useful scatterings. A measurement of the counting rate $N_0(t)$ with a precision of approximately 3\% requires somewhere in the neighborhood of 2000 detector counts, which further reduces the number of events to $\vp{3.75}{5}= f_s\cdot T_{tot}$. One thousand seconds is the expected duration of a fill, hence $f_s = 375$ Hz. 
