@@ -42,9 +42,9 @@ hence $\SD{\tilde{N}_0}^2(t) = N_0(t)$. %In the limit of large $N_0(t)$, one can
 
 We are interested in the expectation value $N_0(t) = \Xpct{\tilde{N}_0(t)}$, and its variance $\SD{N_0}(t)$. Those are estimated as summary statistics:
 \begin{align*}
-	\avg{\tilde{N}_0(t)}[\dtm] &= \sum_{i=1}^\Ncm \tilde{N}_0(t_i), ~ \Ncm = \dtm/\dtc,
+	\avg{\tilde{N}_0(t)}[\dtm] &= \frac{1}{\Ncm}\sum_{i=1}^\Ncm \tilde{N}_0(t_i), ~ \Ncm = \dtm/\dtc,
 \shortintertext{and} 
-	\SD{\tilde{N}_0(t)}[\dtm] &= \sum_{i=1}^\Ncm \bkt{\tilde{N}_0(t_i) - \avg{\tilde{N}_0(t_i)}[\dtm]}^2.
+	\SD{\tilde{N}_0(t)}[\dtm] &= \frac{1}{\Ncm}\sum_{i=1}^\Ncm \bkt{\tilde{N}_0(t_i) - \avg{\tilde{N}_0(t_i)}[\dtm]}^2.
 \end{align*}
 ($\dtm$ is the event measurement time, $\dtc$ is the polarimetry measurement time.) Being a sum of random variables, $N_0(t)$ is normally distributed.
 
