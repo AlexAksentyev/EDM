@@ -29,12 +29,12 @@ Ttot=1000
 simSample(smpl, L, Ttot, grow=TRUE) -> Ls
 simSample(smpl, R, Ttot, grow=TRUE) -> Rs
 df = rbind(Ls%>%mutate(Detector="Left"), Rs%>%mutate(Detector="Right"))
-ggplot(df[Time<5,]) + facet_grid(Detector~.) + thm +
-  geom_line(aes(Time, XSgl, col=Detector)) +
+ggplot(df[seq(1,nrow(df),length.out=500),]) + facet_grid(Detector~.) + thm +
+  #geom_line(aes(Time, XSgl, col=Detector)) +
   # geom_point(aes(Time, Sgl), col="black",size=.2) +
-  labs(y="Counting rate, #", x="Time, sec")
-  # geom_line(aes(Time, (Sgl-XSgl)/XSgl, col=Detector), lwd=.2) +
-  # labs(y=expression(frac(tilde(N)[0](t)-N[0](t),N[0](t))))
+  #labs(y="Counting rate, #", x="Time, sec")
+   geom_line(aes(Time, (Sgl-XSgl)/XSgl, col=Detector), lwd=.2) +
+   labs(y=expression(frac(tilde(N)[0](t)-N[0](t),N[0](t))), x="Time, sec")
 
 Alr = merge(Ls[,FIDrvt:=NULL], Rs[,FIDrvt:=NULL], by="Time", suffixes = c(".L",".R")); rm(Ls, Rs)
 Alr[,`:=`(XVal=(XSgl.L-XSgl.R)/(XSgl.L+XSgl.R), Val=(Sgl.L-Sgl.R)/(Sgl.L+Sgl.R))]
