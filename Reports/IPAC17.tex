@@ -1,6 +1,7 @@
 \documentclass{jacow}
 
 \usepackage{repsty}
+\usepackage[justification=justified]{caption}
 
 \renewcommand*{\thefootnote}{\fnsymbol{footnote}}
 
@@ -114,7 +115,7 @@ Eq.~\eqref{eq:FItot} provides us with a means to estimating the limits on the du
 in which, from $\SD{\Asym(0)}/\Asym(0) \approx 3\%$, the factor before the exponent is 33.
 
 \begin{table}[h]
-	\caption{Amount of Fisher information (in percents of the available limit) contained in a sample collected for the duration specified in decoherence lifetimes, and the corresponding signal-to-noise ratio.\label{tbl:FItot}}
+	\caption{Amount of Fisher information (in percents of the available limit) contained in a sample collected for the duration specified in decoherence lifetimes, and the corresponding signal-to-noise ratio\label{tbl:FItot}}
 	
 	\centering
 	\begin{tabular}{rrr}
@@ -132,11 +133,11 @@ in which, from $\SD{\Asym(0)}/\Asym(0) \approx 3\%$, the factor before the expon
 \section{Simulation}
 We simulated data from two detectors with parameters gathered in Table~\ref{tbl:DetCntRtParam} for $T_{tot}=1000$ seconds, sampled uniformly at the rate $f_s = 375$\,Hz. These figures are chosen for the following reason: the beam size in a fill is on the order of $10^{11}$ particles; if we want to keep the beam lifetime equal to the decoherence lifetime, we cannot exhaust more than 75\% of it; only 1\% of all scatterings are of the sort we need for polarimetry, so we're left with $\vp{7.5}{8}$ useful scatterings. A measurement of the counting rate $N_0(t)$ with a precision of approximately 3\% requires somewhere in the neighborhood of 2000 detector counts, which further reduces the number of events to $\vp{3.75}{5}= f_s\cdot T_{tot}$. One thousand seconds is the expected duration of a fill, hence $f_s = 375$\,Hz. 
 
-Relative measurement error for the detector counting rates is depicted in Figure~\ref{fig:LRDetErr}; the cross-section asymmetry, computed according to Eq.~\eqref{eq:AsymDef}, is shown in Figure~\ref{fig:Asym}.
+Relative measurement error for the detector counting rates is depicted in Fig.~\ref{fig:LRDetErr}; the cross-section asymmetry, computed according to Eq.~\eqref{eq:AsymDef}, is shown in Fig.~\ref{fig:Asym}.
 To these data we fit via Maximum Likelihood a non-linear heteroscedastic model %\footnote{R package nlreg.~\cite{NLREG}} 
 given by Eq.~\eqref{eq:xFOM}, with the variance function for the weights given by Eq.~\eqref{eq:AsymHtsk}. The fit results are summarized in Table~\ref{tbl:FitRes}.
 \begin{table}[h]
-	\caption{Detector counting rates' model parameters.\label{tbl:DetCntRtParam}}
+	\caption{Detector counting rates' model parameters\label{tbl:DetCntRtParam}}
 	\centering
 	\begin{tabular}{llll}
 		\hline
@@ -165,7 +166,7 @@ given by Eq.~\eqref{eq:xFOM}, with the variance function for the weights given b
 \end{figure*}
 
 \begin{table}[h]
-	\caption{Asymmetry fit results.\label{tbl:FitRes}}
+	\caption{Asymmetry fit results\label{tbl:FitRes}}
 	\centering
 	\begin{tabular}{llll}
 		\hline
