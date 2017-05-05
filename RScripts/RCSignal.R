@@ -1,7 +1,7 @@
 library(R6)
 library(data.table)
 library(doParallel)
-library(dplyr)
+library(dplyr); library(plyr)
 library(ggplot2)
 
 RCSignal <- R6Class(
