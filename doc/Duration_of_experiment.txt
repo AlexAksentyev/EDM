@@ -1,0 +1,14 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2017-03-14T11:22:29+01:00
+
+====== Duration of experiment ======
+Created Tuesday 14 March 2017
+
+1000 seconds experiment time comes from the [[../Frozen_Spin_Concept.txt|Frozen Spin ring concept]], in which there's no spin precession due to the magnetic field and hence the vertical component of the beam polarization is measured. The EDM is supposed to turn it at 1e-9 rad/sec, we **can measure** angles at the level of 1e-6 rad, therefore --- 1000 seconds measurement time.
+
+But then, the Frozen Spin ring might not be a feasible way to measure the EDM, therefore there's no basis for 1e3 sec measurement time.
+
+What should it be? My Fisher information criterion indicates about three decoherence lifetimes. (The beam lifetime also has an influence there, due to the heteroscadasticity of the measurement.) That would be around 2000 seconds.
+
+**Intrabeam scattering** increases the beam's phase-space size, and sets the time-scale of a fill.

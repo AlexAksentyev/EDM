@@ -1,0 +1,15 @@
+digraph G{
+
+	"Frozen Spin" -> "Bent\nE+B";
+	"Quasi-Frozen\nSpin" -> {"Straight\nE+B", "Bent\nE"};
+
+	subgraph cluster0{
+		label = "Experiment designs";
+		"Frozen Spin" ;"Quasi-Frozen\nSpin";
+	}
+	subgraph cluster1{
+		label="lattice designs";
+		"Bent\nE+B"; "Straight\nE+B"; "Bent\nE";
+	}
+
+}

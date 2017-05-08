@@ -1,0 +1,4 @@
+digraph G{
+Omega -> Omega_{EDM} + Omega_{MDM}
+Omega_{EDM} + Omega_{MDM} -> CW/CCW
+}

@@ -7,6 +7,7 @@ RCBunch <- R6Class(
     G=7e2, SD=numeric(2),
     polProj=function(at){
       n = nrow(self$EnsPS)
+      at <- at - private$FlipPnt
       # do computation one measurement at a time to minimize memory use
       registerDoParallel(detectCores())
       aaply(at,1, function(x, npart){ sum(sin(self$EnsPS[,"wFreq"]*x+self$EnsPS[,"Phi"]))
@@ -20,7 +21,8 @@ RCBunch <- R6Class(
       stopImplicitCluster()
       
       res
-    }
+    },
+    FlipPnt=0
   ), ## private members
   public = list(
     Synch=NULL,
@@ -63,7 +65,12 @@ RCBunch <- R6Class(
       # attr(self$EnsPS$Phi, "SD") <- private$SD["phi"]
     },
     Phase = function(at) self$EnsPS[,"wFreq"]%o%at + self$EnsPS[,"Phi"],
-    project = function(at) data.table(Time=at, Val=private$polProj(at) )
+    project = function(at) data.table(Time=at, Val=private$polProj(at) ),
+    flipFreq = function(at) {
+      private$FlipPnt <- at
+      self$EnsPS[,"Phi"] <- self$Phase(at)
+      self$EnsPS[,"wFreq"] <- -self$EnsPS[,"wFreq"]
+    }
   ) ## public members
 )
 

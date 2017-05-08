@@ -5,14 +5,14 @@ library(data.table)
 CSampling = setClass(
   "CSampling",
   slots = c(Type = "character", Freq = "numeric", rerror = "numeric"),
-  prototype = list(Type = NULL, Freq=5000, rerror = 3e-2),
+  prototype = list(Type = NULL, Freq=500, rerror = 3e-2),
   contains = "VIRTUAL"
 )
 CuSampling = setClass("CuSampling", contains = "CSampling", prototype = list(Type="Uniform"))
 CmSampling = setClass(
   "CmSampling", contains = "CSampling",
   slots = c(CMPT="numeric", sglFreqGuess = "numeric"),
-  prototype = list(Type="Modulated", CMPT=.42, sglFreqGuess = rnorm(1, 3, .01))
+  prototype = list(Type="Modulated", Freq=1250, CMPT=.4, sglFreqGuess = rnorm(1, 3, .001))
 )
 
 setGeneric("simSample", def=function(sampling, signal, time, rerror=sampling@rerror, grow=FALSE) standardGeneric("simSample"))

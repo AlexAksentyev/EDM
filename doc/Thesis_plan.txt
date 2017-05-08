@@ -1,0 +1,37 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2017-03-14T12:00:43+01:00
+
+====== Thesis plan ======
+Created Tuesday 14 March 2017
+
+1. **Frozen-/Quasi-Frozen Spin lattice concepts.**
+	a. Measured quantities (spin precession frequency in both variants);
+	b. Required experimental conditions: 
+		1. enabling the CW/CCW methodology, 
+		2. minimization of orthogonal frequencies;
+	c. Devices (on the beam line) to set those conditions & measure those quantities: 
+		1. orthodonal solenoid (to remove spin precession in the vertical plane for calibrating the vertical ring guiding field by observing spin precession in the horizontal plane), 
+		2. longitudinal solenoid (sets the magnetic field to where spin precession about the y- & z-axes is less than //condition//).
+2. **The spin-orbital motion in FS and QFS rings.** (Ideal spin precession.)
+3. **Consequences of imperfections in the lattice.** (How the spin-orbital motion changes from the ideal.)
+4. **Investigation of systematic errors.** (How the deviation from the ideal increases our uncertainty in the value of the EDM.)
+5. **Parameters of the ring for the CDR.** (... that ensure sufficient reduction of that uncertainty.)
+
+===== Workflow =====
+
+==== Experiment ====
+Here we 1) define the EDM observable to be the spin precession frequency in the vertical plane, 2) formulate the measurement methodology (CW/CCW comparison), 3) justify why we need to employ this methodology, 4) formulate the **conditions** necessary for estimating the observable with the required precision (we don't want to measure frequencies other than Bx+EDM --- because polarimetry detector angles, --- hence those frequencies, as they figure in the equation for what we'll be measuring, must be negligible).
+
+{{./diagram001.png?type=diagram}}
+
+==== Build-up of the ideal machines ====
+Here we outline the structures of the FS/QFS machines, and then evaluate their parameters assuming the beam = the reference particle. Definition of the //ideal //("reference-particle") statistical (structural + probabilistic parts) models (one for the FS and one for the QFS, not necessarily --- but probably --- equal) occurs here as well. Here, also, occurs the formulation of "**goodness criteria**," by which we rank our preferences for the structures. (In case the statistical models are equivalent, the QFS is initially preferable to the FS as a structure with simpler elements.)
+
+==== Comparison of the structures ====
+This is the iterative part; in here, we add **complicating properties** to the beam and lattices (beam phase space distribution, magnet misalignments, &c), and compare how well the structures pass the goodness criteria. After each iteration, we reevaluate the preference ranks of the lattices, and if QFS remains preferable, continue on to the next complication. 
+
+If at some complication the preferences reverse, but there remain complications to check, we only check them for the FS lattice, to evaluate the feasibility of the EDM measurement. 
+
+==== Write-up ====
+If after all complications are checked the experiment remains feasible, we summarize: 1) the structure to be used, 2) its parameters, 3) other required conditions; if it turns out unfeasible, we pinpoint why.

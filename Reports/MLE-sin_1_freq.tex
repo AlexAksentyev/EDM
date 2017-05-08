@@ -1,5 +1,5 @@
 \documentclass{article}
-\usepackage{repsty}
+\usepackage[widepage]{repsty}
 
 \newcommand{\y}{\mathbf{y}}
 
@@ -102,7 +102,7 @@ with the well-known expression for the slope variance
 Let us denote $\bkt{\mupp}^2 = (N_0P)^2\cos^2(\omega t_i + \phi) \equiv x_i$. Eq.~\eqref{eq:Var1} can be rewritten in the following form:
 \begin{align}
 \var{\hat\omega} &= \frac{\nu}{\sum_j x_j \bkt{\sum_i t_i^2 \frac{x_i}{\sum_j x_j} - \bkt{\sum_i t_i \frac{x_i}{\sum_j x_j}}^2}} \notag\\
-				&= \frac{\nu}{\sum_j x_j \sum_i w_i\bkt{t_i - \avg{t}_w}^2} \notag\\
+				&= \frac{\nu}{\sum_j x_j \sum_i w_i\bkt{t_i - \avg{t}[w]}^2} \notag\\
 				&= \frac{\nu}{\sum_j x_j \cdot\var[w]{t}}. \label{eq:Var2}
 \end{align}
 
@@ -148,8 +148,8 @@ $\Fisher[i] = -\XpctO{\frac{\partial^2}{\partial\pars^2}\log f(y_i|\pars)\vert_{
 \begin{subfigure}{.5\textwidth}
 \begin{tikzpicture}
 \begin{axis}[axis lines=center, xlabel=$t$, domain=-.5:2*pi, legend pos=outer north east]
-	\addplot[color=blue, name path=signal, domain=-.1:2*pi] {sin(deg(x))}; \addlegendentry{signal}
-	\addplot[color=red] {cos(deg(x))^2}; \addlegendentry{$\bkt{\mupp}^2$}
+	\addplot[color=blue, name path=signal, domain=-.1:2*pi,samples=50] {sin(deg(x))}; \addlegendentry{signal}
+	\addplot[color=red, samples=50] {cos(deg(x))^2}; \addlegendentry{$\bkt{\mupp}^2$}
 	\addplot[mark=none,dashed, domain=0:2*pi]{.5};
 	\draw[dashed] (axis cs:.785,0) -- (axis cs:.785,{sin(deg(.785))});
 	\draw[dashed] (axis cs:2.36,0) -- (axis cs:2.36,{sin(deg(2.36))});

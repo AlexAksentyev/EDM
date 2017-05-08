@@ -1,0 +1,13 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2017-03-17T15:13:34+01:00
+
+====== Goodness criteria ======
+Created Friday 17 March 2017
+
+The idea here is that a structure is good so long as the frequency estimate systematic error associated with using it can be kept below statistical error.
+
+The two factors at play here are: 1) how many faking observables are introduced into the system, and 2) how sensitive the systems are to uncertainties in their parameters.
+
+Basically, you have the FS(p_{1}, p_{2}, ... p_{N}) and QFS(p_{1}, p_{2}, ...p_{M}) transfer maps (with knobs), and you have distributions for the parameters p_{k}. From that, you estimate the magnitudes of negative effects; in particular, what we're interested in is to what precision can we reproduce the gamma when going between the CW & CCW regimes.
+

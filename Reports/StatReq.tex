@@ -67,14 +67,14 @@ Assuming the Gaussian error distribution with mean zero and variance $\SD{\meas}
 \var{\hat\omega} &= \frac{\SD{\meas}^2}{X_{tot}\cdot \var[w]{t}}, 
 \shortintertext{with}
 X_{tot} &= \sum_{j=1}^{\Nm} x_j = \sum_{s=1}^{\Nnd}\sum_{j=1}^{\Nmnd} x_{js}, \\
-\var[w]{t} &= \sum_i w_i \bkt{t_i - \avg{t}_w}^2,~ \avg{t}_w = \sum_i w_i t_i, \\
+\var[w]{t} &= \sum_i w_i \bkt{t_i - \avg{t}[w]}^2,~ \avg{t}[w] = \sum_i w_i t_i, \\
 w_i &= \frac{x_i}{\sum_j x_j},~ x_i = (N_0P\exp(\lambda t_i))^2\cos^2(\omega t_i + \phi) = \bkt{\mupp}^2.
 \end{align*}
 
 The three factors contributing to the standard error of the estimate are:
 \begin{inparaenum}[\itshape a\upshape)]
 	\item the error variance $\SD{N_0}(t)^2$ (governed by, among other things, the number $\Ncm$ of polarimetry measurements per signal measurement, eq.~\eqref{eq:MeasSE}), 
-	\item the time spread $\sum_i w_i (t_i - \avg{t}_w)^2$ of the sample measurements, and
+	\item the time spread $\sum_i w_i (t_i - \avg{t}[w])^2$ of the sample measurements, and
 	\item their net informational content $X_{tot}$.
 \end{inparaenum}
 
@@ -129,7 +129,6 @@ produce an equation by which the required compaction time $\dtnd$ can be found:
 
 Assuming the polarimetry measurement time sufficient for 3\% error is 10$\mu$s, estimated compaction time (in percents of the signal quarter period --- 100\% is uniform sampling) is summarized in Table~\ref{tbl:CmpTvsSEw} and shown in Figure~\ref{fig:CmpTvsSEw}.
 
-\newcommand{\vp}[2]{{#1}\cdot 10^{#2}}
 \begin{table}[h]
 	\centering
 	\caption{Compaction time.\label{tbl:CmpTvsSEw}}

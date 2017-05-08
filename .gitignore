@@ -1,11 +1,9 @@
-## Open-Source ##
 # R-related
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 # Languages
-C++/*
 Python/*
 !Python/*.py
 # Reports
@@ -17,7 +15,3 @@ Abstracts/*
 !Abstracts/*.tex
 !Abstracts/*.sty
 !Abstracts/*.doc
-!Abstracts/*.pdf
-# Accelerator
-OptiMScripts/*
-COSYINF/*
