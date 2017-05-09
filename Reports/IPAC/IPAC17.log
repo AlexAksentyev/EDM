@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.5.4)  9 MAY 2017 11:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.5.4)  9 MAY 2017 11:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1433,23 +1433,21 @@ Overfull \hbox (2.60352pt too wide) in paragraph at lines 114--114
 [] 
  []
 
-<../img/Final/LR_detector_relErr.png, id=25, 560.0925pt x 581.92406pt>
-File: ../img/Final/LR_detector_relErr.png Graphic file (type png)
+<LR_detector_relErr.png, id=25, 560.0925pt x 581.92406pt>
+File: LR_detector_relErr.png Graphic file (type png)
 
-<use ../img/Final/LR_detector_relErr.png>
-Package pdftex.def Info: ../img/Final/LR_detector_relErr.png used on input line
- 157.
+<use LR_detector_relErr.png>
+Package pdftex.def Info: LR_detector_relErr.png used on input line 157.
 (pdftex.def)             Requested size: 224.03302pt x 232.7655pt.
 
 Overfull \hbox (6.37093pt too wide) in paragraph at lines 157--158
  [][] 
  []
 
-<../img/Final/Asymmetry.png, id=26, 560.0925pt x 581.92406pt>
-File: ../img/Final/Asymmetry.png Graphic file (type png)
-
-<use ../img/Final/Asymmetry.png>
-Package pdftex.def Info: ../img/Final/Asymmetry.png used on input line 162.
+<Asymmetry.png, id=26, 560.0925pt x 581.92406pt>
+File: Asymmetry.png Graphic file (type png)
+ <use Asymmetry.png>
+Package pdftex.def Info: Asymmetry.png used on input line 162.
 (pdftex.def)             Requested size: 224.03302pt x 232.7655pt.
 
 Overfull \hbox (6.37093pt too wide) in paragraph at lines 162--163
@@ -1477,43 +1475,45 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             `lmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
+
+Underfull \vbox (badness 2237) has occurred while \output is active []
+
 - LAST -
-Extra skip:10.48495pt
-Left:208.2789pt/2.18pt
-Right:198.38095pt/1.59299pt
-Output:204.32993pt
- [3 <../img/Final/LR_detector_relErr.png (PNG copy)> <../img/Final/Asymmetry.pn
-g (PNG copy)>]
-(./IPAC17.aux) ) 
+Extra skip:22.36005pt
+Left:244.2789pt/2.18pt
+Right:222.50586pt/1.59299pt
+Output:240.39238pt
+ [3 <./LR_detector_relErr.png (PNG copy)> <./Asymmetry.png (PNG copy)>] (./IPAC
+17.aux) ) 
 Here is how much of TeX's memory you used:
- 37456 strings out of 493013
- 858452 string characters out of 6133329
+ 37459 strings out of 493013
+ 858373 string characters out of 6133329
  1056919 words of memory out of 5000000
  40293 multiletter control sequences out of 15000+600000
- 150258 words of font info for 302 fonts, out of 8000000 for 9000
+ 150470 words of font info for 304 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  69i,21n,98p,10421b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-ec.en
-c}{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/tex-gyre/q-ts1.enc}{/usr/
-local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texlive/2
-016/texmf-dist/fonts/enc/dvips/tex-gyre/q-ec.enc}{/usr/local/texlive/2016/texmf
--dist/fonts/enc/dvips/newtx/ntx-ot1-tlf.enc}</usr/local/texlive/2016/texmf-dist
-/fonts/type1/public/lm/lmtt9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type
-1/public/tex-gyre/qtmb.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/publ
-ic/tex-gyre/qtmr.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/tex
--gyre/qtmri.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/newtx/rn
-txmi.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/newtx/rntxmi5.p
-fb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/newtx/rntxmi7.pfb></u
-sr/local/texlive/2016/texmf-dist/fonts/type1/public/txfonts/rtxmi.pfb></usr/loc
-al/texlive/2016/texmf-dist/fonts/type1/public/newtx/rtxmi5.pfb></usr/local/texl
-ive/2016/texmf-dist/fonts/type1/public/newtx/rtxmi7.pfb></usr/local/texlive/201
-6/texmf-dist/fonts/type1/public/txfonts/rtxr.pfb></usr/local/texlive/2016/texmf
--dist/fonts/type1/public/newtx/txexas.pfb></usr/local/texlive/2016/texmf-dist/f
-onts/type1/public/newtx/txexs.pfb></usr/local/texlive/2016/texmf-dist/fonts/typ
-e1/public/txfonts/txmia.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pub
-lic/newtx/txsys.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/u
-tmri8a.pfb>
-Output written on IPAC17.pdf (3 pages, 323949 bytes).
+{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr
+/local/texlive/2016/texmf-dist/fonts/enc/dvips/tex-gyre/q-ts1.enc}{/usr/local/t
+exlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texlive/2016/tex
+mf-dist/fonts/enc/dvips/tex-gyre/q-ec.enc}{/usr/local/texlive/2016/texmf-dist/f
+onts/enc/dvips/newtx/ntx-ot1-tlf.enc}</usr/local/texlive/2016/texmf-dist/fonts/
+type1/public/lm/lmtt9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/publi
+c/tex-gyre/qtmb.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/tex-
+gyre/qtmr.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/tex-gyre/q
+tmri.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/newtx/rntxmi.pf
+b></usr/local/texlive/2016/texmf-dist/fonts/type1/public/newtx/rntxmi5.pfb></us
+r/local/texlive/2016/texmf-dist/fonts/type1/public/newtx/rntxmi7.pfb></usr/loca
+l/texlive/2016/texmf-dist/fonts/type1/public/txfonts/rtxmi.pfb></usr/local/texl
+ive/2016/texmf-dist/fonts/type1/public/newtx/rtxmi5.pfb></usr/local/texlive/201
+6/texmf-dist/fonts/type1/public/newtx/rtxmi7.pfb></usr/local/texlive/2016/texmf
+-dist/fonts/type1/public/txfonts/rtxr.pfb></usr/local/texlive/2016/texmf-dist/f
+onts/type1/public/newtx/txexas.pfb></usr/local/texlive/2016/texmf-dist/fonts/ty
+pe1/public/newtx/txexs.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/publ
+ic/txfonts/txmia.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/new
+tx/txsys.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/utmri8a.
+pfb>
+Output written on IPAC17.pdf (3 pages, 324470 bytes).
 PDF statistics:
  92 PDF objects out of 1000 (max. 8388607)
  68 compressed objects within 1 object stream
