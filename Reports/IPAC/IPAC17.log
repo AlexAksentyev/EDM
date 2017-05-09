@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.5.4)  9 MAY 2017 11:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.5.4)  9 MAY 2017 11:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1478,19 +1478,19 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 - LAST -
-Extra skip:4.2518pt
-Left:220.2789pt/2.18pt
-Right:216.6141pt/1.59299pt
-Output:219.4465pt
+Extra skip:10.48495pt
+Left:208.2789pt/2.18pt
+Right:198.38095pt/1.59299pt
+Output:204.32993pt
  [3 <../img/Final/LR_detector_relErr.png (PNG copy)> <../img/Final/Asymmetry.pn
 g (PNG copy)>]
 (./IPAC17.aux) ) 
 Here is how much of TeX's memory you used:
- 37450 strings out of 493013
- 858394 string characters out of 6133329
+ 37456 strings out of 493013
+ 858452 string characters out of 6133329
  1056919 words of memory out of 5000000
  40293 multiletter control sequences out of 15000+600000
- 149940 words of font info for 299 fonts, out of 8000000 for 9000
+ 150258 words of font info for 302 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  69i,21n,98p,10421b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-ec.en
@@ -1513,7 +1513,7 @@ onts/type1/public/newtx/txexs.pfb></usr/local/texlive/2016/texmf-dist/fonts/typ
 e1/public/txfonts/txmia.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pub
 lic/newtx/txsys.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/u
 tmri8a.pfb>
-Output written on IPAC17.pdf (3 pages, 324167 bytes).
+Output written on IPAC17.pdf (3 pages, 323949 bytes).
 PDF statistics:
  92 PDF objects out of 1000 (max. 8388607)
  68 compressed objects within 1 object stream
