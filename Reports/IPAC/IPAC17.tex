@@ -1,6 +1,6 @@
 \documentclass{jacow}
 
-\usepackage{repsty}
+\usepackage{../repsty}
 \usepackage[justification=justified]{caption}
 
 \renewcommand*{\thefootnote}{\fnsymbol{footnote}}
@@ -8,7 +8,7 @@
 \begin{document}
 
 \title{Statistical precision in charged particle EDM search in storage rings}
-\author{A. E. Aksentev$^1$\footnotemark[2], Y. V. Senichev  \\IKP, Forschungszentrum J\"ulich, J\"ulich, Germany \\$^1$ also at National Research Nuclear University ``MEPhI,'' Moscow, Russia}
+\author{A. E. Aksentev$^1$\footnotemark[2], Y. V. Senichev, Institut f\"ur Kernphysik, Forschungszentrum J\"ulich, J\"ulich, Germany \\$^1$ also at National Research Nuclear University ``MEPhI,'' Moscow, Russia}
 %\author{$^1$ also at National Research Nuclear University ``MEPhI,'' Moscow, Russia}
 %\ead{a.aksentev@fz-juelich.de}
 \maketitle
@@ -35,7 +35,7 @@ N_0(t) & = p\cdot\int_{-\dtc/2}^{+\dtc/2} I(t+\tau)\td\tau \notag               
 & = p\cdot\frac{\nu N_0^b}{\lamb} e^{\lamb t}\cdot \bkt{e^{\lamb\sfrac{\dtc}{2}} - e^{-\lamb\sfrac{\dtc}{2}}} \notag \\
 & \approx \underbrace{p\cdot\nu N_0^b e^{\lamb t}}_{\text{rate}~r(t)} \cdot\dtc,
 \end{align}
-where $p$ is the probability of ``useful'' scattering (approximately 1\%, according to Y.V. Senichev, Dr. Sci. (written communication, December 2016)).
+where $p$ is the probability of ``useful'' scattering.
 
 The actual number of detected particles will be distributed as a Poisson distribution
 \[
@@ -154,12 +154,12 @@ given by Eq.~\eqref{eq:xFOM}, with the variance function for the weights given b
 \begin{figure*}[h]
 	\begin{minipage}{.45\textwidth}
 		\centering
-		\includegraphics[scale=.4]{img/Final/LR_detector_relErr}
+		\includegraphics[scale=.4]{../img/Final/LR_detector_relErr}
 		\caption{Simulated relative counting rate measurement error for the left and right detectors as a function of time.\label{fig:LRDetErr}}
 	\end{minipage}\hspace{.5in}
 	\begin{minipage}{.45\textwidth}
 		\centering
-		\includegraphics[scale=.4]{img/Final/Asymmetry}
+		\includegraphics[scale=.4]{../img/Final/Asymmetry}
 		\caption{Expectation value (gray line) and sample measurements (red dots) of the cross-section asymmetry in a simulation.\label{fig:Asym}}
 	\end{minipage}
 	
@@ -181,15 +181,18 @@ given by Eq.~\eqref{eq:xFOM}, with the variance function for the weights given b
 \subsection{Modulation gains}
 If the initial frequency estimate obtained from a time-uniform sample has a standard error on the order of $10^{-6}$\,rad/sec, simulation shows the standard error of the estimate can be improved to $\approx \vp{5.8}{-7}$\,rad/sec.
 
+\section{Conclusion}
+Because in the proposed experiment the deuteron EDM is probed by measuring an oscillating function, a suggestion was made that the experimental precision could be improved by the application of a frequency-modulated sampling strategy. In developing the statistical model, the concept of Fisher information was directly employed, which was instrumental in quantifying the gains in precision from both the increase in the duration of an experiment run, and sampling modulation. The model predicts that ultimately, the standard error of the frequency estimate can be improved by at the most a factor of $\sqrt{2}$, i.e. by 29\%; however, due to imprecision in the prerequisite frequency estimate, this improvement is inevitably weakened, down to 23\% in the present simulation.
+
 \begin{thebibliography}{9}
 %	\bibitem{CountRateStat}
 %	\url{http://www.owlnet.rice.edu/~dodds/Files331/stat_notes.pdf}.
 
 	\bibitem{BNL}
-	Anastassopoulos D., et al. AGS Proposal: Search for a permanent electric dipole moment of the deuteron nucleus at the $10^{-29}$ e$\cdot$cm level. BNL; 2008	
-	
+	D. Anastassopoulos et al., (srEDM Collaboration), ``Search for a permanent electric dipole moment of the deuteron nucleus at the $10^{-29}$ e$\cdot$cm level,'' proposal as submitted to the BNL PAC, April 2008; \url{https://www.bnl.gov/edm/proposal.asp}
+		
 	\bibitem{Eversmann}
-	Eversmann D. Analysis of the Spin Coherence Time at the Cooler Synchrotron COSY [master's thesis on the Internet]. [Aachen (Germany)]: Rheinisch-Westf\"alische Technische Hochschule Aachen (RWTH); 2013 [cited 2017 Feb 28]. Available from: \url{http://wwwo.physik.rwth-aachen.de/fileadmin/user_upload/www_physik/Institute/Inst_3B/Mitarbeiter/Joerg_Pretz/DEMasterarbeit.pdf}
+	D. Eversmann, Analysis of the Spin Coherence Time at the Cooler Synchrotron COSY, Master thesis, RWTH Aachen (2013).
 	
 	
 	
