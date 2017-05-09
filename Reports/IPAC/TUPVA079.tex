@@ -1,6 +1,41 @@
-\documentclass{jacow}
+\documentclass[a4paper]{jacow}
 
-\usepackage{../repsty}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{xparse}
+\usepackage{xfrac}
+\usepackage{url}
+
+\DeclareDocumentCommand{\bkt}{sm}{\IfBooleanTF{#1}{\left[ #2 \right]}{\left(#2\right)}}
+\DeclareDocumentCommand{\Xpct}{mo}{\mathrm{E}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
+\DeclareDocumentCommand{\SE}{mo}{\mathrm{SE}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
+\DeclareDocumentCommand{\SD}{mo}{\sigma_{#1\IfNoValueTF{#2}{}{| #2}}}
+\DeclareDocumentCommand{\avg}{mo}{\langle #1\rangle_{#2}}
+
+\DeclareDocumentCommand{\var}{O{}mo}{\mathrm{var}_{#1}\bkt*{#2\IfValueT{#3}{\vert~ #3}}}
+
+\newcommand{\td}{\mathrm{d}}
+
+\newcommand{\vp}[2]{{#1}\cdot 10^{#2}}
+
+\newcommand{\cnt}{c}
+\newcommand{\meas}{\epsilon}
+
+\newcommand{\dt}{\Delta t}
+\newcommand{\dtm}{\dt_{\meas}}
+\newcommand{\dtc}{\dt_{\cnt}}
+
+\newcommand{\Ncm}{{n_{\sfrac{\cnt}{\meas}}}}
+\newcommand{\Nmnd}{{n_{\sfrac{\meas}{zc}}}}
+\newcommand{\Nnd}{{n_{zc}}}
+\newcommand{\Nm}{{n_{\meas}}}
+\newcommand{\Ncnt}{{n_{\cnt}}}
+
+\newcommand{\LTb}{\tau_b}
+\newcommand{\LTd}{\tau_d}
+\newcommand{\lamb}{\lambda_b}
+\newcommand{\lamd}{\lambda_d}
+
 \usepackage[justification=justified]{caption}
 
 \renewcommand*{\thefootnote}{\fnsymbol{footnote}}
@@ -8,7 +43,7 @@
 \begin{document}
 
 \title{Statistical precision in charged particle EDM search in storage rings}
-\author{A. E. Aksentev$^1$\footnotemark[2], Y. V. Senichev, Institut f\"ur Kernphysik, Forschungszentrum J\"ulich, J\"ulich, Germany \\$^1$ also at National Research Nuclear University ``MEPhI,'' Moscow, Russia}
+\author{A. E. Aksentyev$^1$\footnotemark[2], Y. V. Senichev, Institut f\"ur Kernphysik, Forschungszentrum J\"ulich, J\"ulich, Germany \\$^1$ also at National Research Nuclear University ``MEPhI,'' Moscow, Russia}
 %\author{$^1$ also at National Research Nuclear University ``MEPhI,'' Moscow, Russia}
 %\ead{a.aksentev@fz-juelich.de}
 \maketitle
@@ -182,7 +217,7 @@ given by Eq.~\eqref{eq:xFOM}, with the variance function for the weights given b
 If the initial frequency estimate obtained from a time-uniform sample has a standard error on the order of $10^{-6}$\,rad/sec, simulation shows the standard error of the estimate can be improved to $\approx \vp{5.8}{-7}$\,rad/sec.
 
 \section{Conclusion}
-Because in the proposed experiment the deuteron EDM is probed by measuring an oscillating function, a suggestion was made that the experimental precision could be improved by the application of a frequency-modulated sampling strategy. In developing the statistical model, the concept of Fisher information was directly employed, which was instrumental in quantifying the gains in precision from both the increase in the duration of an experiment run, and sampling modulation. The model predicts that ultimately, the standard error of the frequency estimate can be improved by at the most a factor of $\sqrt{2}$, i.e. by 29\%; however, due to imprecision in the prerequisite frequency estimate, this improvement is inevitably weakened, down to 23\% in the present simulation. The best achieved precision in the simulation is $\vp{5.8}{-7}$\,rad/sec, which in a year of 1000-second-long measurements should produce an average value with the standard error of approximately $\vp{4.0}{-9}$\,rad/sec, sufficient for the detection of an EDM on the order of $10^{-29}$\,e$\cdot$cm.
+Because in the proposed experiment the deuteron EDM is probed by measuring an oscillating function, a suggestion was made that the experimental precision could be improved by the application of a frequency-modulated sampling strategy. In developing the statistical model, the concept of Fisher information was directly employed, which was instrumental in quantifying the gains in precision from both the increase in the duration of an experiment run, and sampling modulation. The model predicts that ultimately, the standard error of the frequency estimate can be improved by at the most a factor of $\sqrt{2}$, i.e. by 29\%; however, due to imprecision in the prerequisite frequency estimate, this improvement is inevitably weakened, down to 23\% in the present simulation. The best achieved precision in the simulation is $\vp{5.8}{-7}$\,rad/sec, which in a year of 1000-second long measurements should produce an average value with the standard error of approximately $\vp{4.0}{-9}$\,rad/sec, sufficient for the detection of an EDM on the order of $10^{-29}$\,e$\cdot$cm.
 
 \begin{thebibliography}{9}
 %	\bibitem{CountRateStat}
@@ -200,5 +235,5 @@ Because in the proposed experiment the deuteron EDM is probed by measuring an os
 %	\url{https://cran.r-project.org/web/packages/nlreg/index.html}
 	
 \end{thebibliography}
-
+\null
 \end{document}
