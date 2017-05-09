@@ -42,7 +42,7 @@
 
 \begin{document}
 
-\title{Statistical precision in charged particle EDM search in storage rings}
+\title{Model of statistical errors in the search for the deuteron EDM in the storage ring}
 \author{A. E. Aksentyev$^1$\footnotemark[2], Y. V. Senichev, Institut f\"ur Kernphysik, Forschungszentrum J\"ulich, J\"ulich, Germany \\$^1$ also at National Research Nuclear University ``MEPhI,'' Moscow, Russia}
 %\author{$^1$ also at National Research Nuclear University ``MEPhI,'' Moscow, Russia}
 %\ead{a.aksentev@fz-juelich.de}
@@ -50,7 +50,7 @@
 \footnotetext[2]{a.aksentev@fz-juelich.de}
 
 \begin{abstract}
-	Currently, the ``J\"ulich Electric Dipole moment Investigations'' (JEDI) collaboration, together with present EDM experiments at the COSY ring, is developing the conceptual design of a ring specifically for the search for the deuteron electric dipole moment (dEDM). One of the main problems in EDM study is the spin precession in the vertical plane through the magnetic dipole moment (MDM), caused by non-ideal positioning of accelerator elements. For that reason, in the proposed experiment one estimates the spin tune, rather than the vertical beam polarization growth, as was proposed earlier~\cite{BNL}. To differentiate the EDM effect from that of the MDM we measure the spin tune twice: once when the beam revolves clockwise (CW), and once counter-clockwise (CCW); the magnitude difference of the CW/CCW spin tunes is proportional to the EDM. An estimate's statistical precision is conditional on the following factors: the total measurement time, determining the independent variable spread; measurement error; temporal modulation and spacing of sample points. In this paper we analyze the interplay between these factors, and estimate the best achievable precision under given conditions.
+In this work we investigate the standard error of the spin precession frequency estimate in an experiment for the search for the electric dipole moment (EDM) of the deuteron using the polarimeter. The basic principle of polarimetry is the scattering of a polarized beam on a carbon target. Since the number of particles in one fill is limited, we must maximize the utility of the beam. This raises the question of sampling efficiency, as the signal, being an oscillating function, varies in informational content. To address it, we define a numerical measurement model, and compare two sampling strategies (uniform and frequency-modulated) in terms of beam-use efficiency. The upshot is the formulation of the conditions necessary for the effective use of the modulated sampling strategy, and the evaluation of its advantage over the uniform strategy. The simulation results are also used to compare two competing analytical models for the standard error of the frequency estimate.
 \end{abstract}
 
 \section{Detector counting rate model}
@@ -189,12 +189,12 @@ given by Eq.~\eqref{eq:xFOM}, with the variance function for the weights given b
 \begin{figure*}[h]
 	\begin{minipage}{.45\textwidth}
 		\centering
-		\includegraphics[scale=.4]{LR_detector_relErr}
+		\includegraphics[scale=.4]{TUPVA079f1}
 		\caption{Simulated relative counting rate measurement error for the left and right detectors as a function of time.\label{fig:LRDetErr}}
 	\end{minipage}\hspace{.5in}
 	\begin{minipage}{.45\textwidth}
 		\centering
-		\includegraphics[scale=.4]{Asymmetry}
+		\includegraphics[scale=.4]{TUPVA079f2}
 		\caption{Expectation value (gray line) and sample measurements (red dots) of the cross-section asymmetry in a simulation.\label{fig:Asym}}
 	\end{minipage}
 	
