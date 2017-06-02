@@ -5,9 +5,8 @@ Creation-Date: 2017-03-17T15:42:47+01:00
 ====== Experiment ======
 Created Friday 17 March 2017
 
-We measure the EDM by estimating the spin precession frequency in the vertical plane. The spin of a particle precesses for two reasons: the MDM and EDM. 
-
-===== The reference particle model =====
-
-==== FS machine ====
-In the ideal FS machine, as a result of the reference particle's having magic energy, the spin precession in the vertical plane is only due to the EDM. 
+[[../../TheFourConcepts.pdf|The four concepts]] in the foundation of theJEDI experiment are:
+	A. Boundary factors:
+		1. Measure frequency;
+		2. Confounding;
+	B. Procedures:
