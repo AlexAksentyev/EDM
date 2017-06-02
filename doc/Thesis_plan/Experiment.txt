@@ -9,13 +9,14 @@ Created Friday 17 March 2017
 	A. Boundary factors:
 		1. Measure frequency;
 		2. Confounding;
-	B. Procedures:
+	B. @Procedures:
 		1. CW/CCW;
 		2. Calibration.
 
-==== Modeling of CW/CCW ====
+===== Modeling of CW/CCW =====
+@modeling
 
-Distribute tilt error => Transfer map.
+Distribute tilt error => Transfer map. 
 Track/Spin tune/&c => Spin Motion Characteristic (1). 
 Reverse injection direction (map). 
 Track/Spin tune/&c => SPC (2). 
@@ -24,10 +25,15 @@ Repeat many times => Statistic distribution.
 
 Analyze the statistic distribution and conclude if/under what constriction of the error distribution we can get it sufficiently narrow.
 
-==== Modeling of Calibration ====
+==== note ====
+I actually already did this except for distributing error.
+
+===== Modeling of Calibration =====
 
 Turn on solenoid (turn off vertical precession). // Transfer map w/solenoid on
 Set B_{y}.
 Compute {{./equation.png?type=equation}}.
 Turn off solenoid (turn on vertical precession). // Transfer map w/solenoid off
 Compute {{./equation001.png?type=equation}}.
+
+{{../../SpinTuneCOSYInf.png?height=600}}
