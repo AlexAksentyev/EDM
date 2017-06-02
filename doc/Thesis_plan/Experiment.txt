@@ -5,7 +5,7 @@ Creation-Date: 2017-03-17T15:42:47+01:00
 ====== Experiment ======
 Created Friday 17 March 2017
 
-[[../../TheFourConcepts.pdf|The four concepts]] in the foundation of theJEDI experiment are:
+[[../../TheFourConcepts.pdf|The four concepts]] in the foundation of the JEDI experiment are:
 	A. Boundary factors:
 		1. Measure frequency;
 		2. Confounding;
@@ -26,8 +26,8 @@ Analyze the statistic distribution and conclude if/under what constriction of th
 
 ==== Modeling of Calibration ====
 
-Turn on solenoid (turn off vertical precession).
+Turn on solenoid (turn off vertical precession). // Transfer map w/solenoid on
 Set B_{y}.
 Compute {{./equation.png?type=equation}}.
-Turn off solenoid (turn on vertical precession).
+Turn off solenoid (turn on vertical precession). // Transfer map w/solenoid off
 Compute {{./equation001.png?type=equation}}.
