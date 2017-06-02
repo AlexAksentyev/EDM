@@ -36,4 +36,4 @@ Compute {{./equation.png?type=equation}}.
 Turn off solenoid (turn on vertical precession). // Transfer map w/solenoid off
 Compute {{./equation001.png?type=equation}}.
 
-{{../../SpinTuneCOSYInf.png?height=600}}
+{{./SpinTuneCOSYInf.png?height=600}}
