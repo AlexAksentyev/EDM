@@ -31,6 +31,9 @@ I actually already did this except for distributing error.
 ==== note 2 ====
 
 {{./CW-CCW_comparison_idea.xpm}}
+Show that {{./equation004.png?type=equation}}.
+{{./Equate_OmegaY_Equate_OmegaR.png}}
+{{./equation005.png?type=equation}} iff the directions {{./equation006.png?type=equation}} coincide.
 
 ===== Modeling of Calibration =====
 
