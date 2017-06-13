@@ -25,15 +25,19 @@ Repeat many times => Statistic distribution.
 
 Analyze the statistic distribution and conclude if/under what constriction of the error distribution we can get it sufficiently narrow.
 
-==== note ====
+==== note 1 ====
 I actually already did this except for distributing error.
+
+==== note 2 ====
+
+{{./CW-CCW_comparison_idea.xpm}}
 
 ===== Modeling of Calibration =====
 
 Turn on solenoid (turn off vertical precession). // Transfer map w/solenoid on
 Set B_{y}.
-Compute {{./equation.png?type=equation}}.
+Compute {{./equation.png?type=equation}}. // TSP computes all Omegas; observe {{./equation002.png?type=equation}}
 Turn off solenoid (turn on vertical precession). // Transfer map w/solenoid off
-Compute {{./equation001.png?type=equation}}.
+Compute {{./equation001.png?type=equation}}. // Observe from TSP {{./equation003.png?type=equation}}
 
-{{./SpinTuneCOSYInf.png?height=600}}
+{{./SpinTuneCOSYInf.png}}
