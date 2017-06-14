@@ -17,23 +17,27 @@ Created Friday 17 March 2017
 @modeling
 
 Distribute tilt error => Transfer map. 
-Track/Spin tune/&c => Spin Motion Characteristic (1). 
+Track/Spin tune/&c => Spin Motion Characteristic (1). // SMC : {{./equation012.png?type=equation}}; see image below.
 Reverse injection direction (map). 
 Track/Spin tune/&c => SPC (2). 
-Compare SMC (1) & SMC (2) => statistic.
+Compare SMC (1) & SMC (2) => statistic. // angle {{./equation018.png?type=equation}} between {{./equation019.png?type=equation}} ?
 Repeat many times => Statistic distribution.
 
 Analyze the statistic distribution and conclude if/under what constriction of the error distribution we can get it sufficiently narrow.
 
 ==== note 1 ====
-I actually already did this except for distributing error.
+[ ] Fix the problem with spin tune not an orbital invariant.
 
 ==== note 2 ====
+Every time the beam is injected into the ring, it occupies a different subspace of phase space (call it {{./equation007.png?type=equation}}). Spin tune is, theoretically, a function of the beam position (x,y), momentum spread (dp/p =: d), and kinetic energy ({{./equation008.png?type=equation}}); the first two are second order terms, while the kinetic energy dependence is linear. Hence we propose to calibrate the transition between the CW to CCW regimes via adjusting the beam energy {{./equation009.png?type=equation}}.
 
 {{./CW-CCW_comparison_idea.xpm}}
-Show that {{./equation004.png?type=equation}}.
+In calibrating, we observe the spin precession in the horizontal plane, i.e. {{./equation010.png?type=equation}}. We need to show that (under our conditions)
+	 {{./equation004.png?type=equation}}.
 {{./Equate_OmegaY_Equate_OmegaR.png}}
-{{./equation005.png?type=equation}} iff the directions {{./equation006.png?type=equation}} coincide.
+{{./equation005.png?type=equation}} requires the directions {{./equation006.png?type=equation}} to coincide, as can be observed from the figure above.
+
+__Must show that __{{./equation020.png?type=equation}}
 
 ===== Modeling of Calibration =====
 
