@@ -1,3 +1,4 @@
+library(readr)
 library(data.table)
 library(dplyr)
 library(plyr)
@@ -67,8 +68,18 @@ plot_grid(p1,p2,nrow=2)
 ggplot(dr) + geom_histogram(aes(Wx.CW, fill=dgamma.CW),binwidth=1e-4) + facet_grid(sigTILT~.)
 
 ##CROSS PLOT
-filter(DR, abs(dWy)<1e-3)%>% 
-  ggplot(aes(dWy,dWx, col=sigTILT))+
+filter(DR, abs(dWy)>0)%>% 
+  ggplot(aes(abs(dWy),abs(dWx), col=sigTILT))+
   geom_point() + theme_bw() + theme(legend.position="top") +
-  labs(x=expression(Delta~Omega[y]), y=expression(Sigma~Omega[x]), col=expression(sigma[tilt])) +
-  geom_smooth(method="lm")
+  labs(x=expression(abs(Delta~Omega[y])), y=expression(abs(Sigma~Omega[x])), col=expression(sigma[tilt])) +
+  geom_smooth(method="lm", se=FALSE)
+
+ddply(DR, .(sigTILT), function(df){
+  lm(abs(dWx)~abs(dWy), df, abs(dWy)>0) -> m
+  coef(summary(m))[1:2, 1:2]-> mt
+  c(Itct=mt[1,1],SEItct=mt[1,2],Slp=mt[2,1],SESlp=mt[2,2])
+}) -> .stats
+
+ggplot(.stats, aes(sigTILT, Itct)) + geom_point() +
+  geom_errorbar(aes(ymin=Itct-SEItct, ymax=Itct+SEItct)) +
+  theme_bw() + labs(x=expression(sigma[tilt]), y=expression(abs(Sigma~Omega[x])))
