@@ -7,6 +7,7 @@ library(cowplot)
 library(lattice)
 library(scatterplot3d)
 library(mosaic)
+library(lme4)
 
 .complete <- function(DT){
   Nrev = attr(DT,"Parameters")$Nrev #revolutions per simulation
@@ -138,11 +139,15 @@ dr[x.CW==x.CCW&dgamma.CW==dgamma.CCW] -> dr
 ggplot(dr[fsigTILT=="1.00e-03"], aes(x.CW, dgamma.CW)) + geom_tile(aes(fill=Wx.CW))+
   scale_fill_continuous(high="red")
 with(dr[fsigTILT=="1.00e-03"],{scatterplot3d(
-  x.CW, dgamma.CW, Wx.CCW, 
+  x.CW, dgamma.CW, Wx.CW, 
   type="o", highlight.3d = TRUE,
   xlab="x",ylab=expression(Delta~gamma)
 )})
 
-ggplot(dr[fsigTILT=="1.00e-03"&x.CW==-.001], aes(dgamma.CW,Wx.CW)) + geom_point() -> p1
-ggplot(dr[fsigTILT=="1.00e-03"&dgamma.CW==-1e-5], aes(x.CW,Wx.CW)) + geom_point() -> p2
+ggplot(dr[fsigTILT=="1.00e-03"&x.CW==.001], aes(dgamma.CW,Wx.CW)) + geom_point() -> p1
+ggplot(dr[fsigTILT=="1.00e-03"&dgamma.CW==1e-5], aes(x.CW,Wx.CW)) + geom_point() -> p2
 plot_grid(p1,p2,nrow=2)
+
+lm(Wx.CW~dgamma.CW, dr[fsigTILT=="1.00e-03"&x.CW==.001]) %>% summary %>% coef
+lm(Wx.CW~x.CW, dr[fsigTILT=="1.00e-03"&dgamma.CW==1e-5]) %>% summary %>% coef
+
