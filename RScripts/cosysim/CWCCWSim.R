@@ -4,7 +4,9 @@ library(dplyr)
 library(plyr)
 library(ggplot2)
 library(cowplot)
-
+library(lattice)
+library(scatterplot3d)
+library(mosaic)
 
 .complete <- function(DT){
   Nrev = attr(DT,"Parameters")$Nrev #revolutions per simulation
@@ -99,3 +101,48 @@ ggplot(.stats, aes(sigTILT, Itct)) + geom_point() +
   ) +
   scale_y_log10() + scale_x_log10() -> p4
 plot_grid(p3,p4,nrow = 2)
+
+## injection point analysis
+dr <- DR[x.CW==x.CCW&dgamma.CW==dgamma.CCW,][,slp:=dWx/dWy][,.(x.CW, dgamma.CW, dWx, dWy, dWz, slp, fsigTILT)]
+dr[,sslp:=as.vector(scale(slp,center=.5*(max(slp)+min(slp)),scale=ifelse(max(slp)-min(slp)!=0,max(slp)-min(slp),1))),by=fsigTILT]
+dr[fsigTILT=="1.00e-04",] %>% 
+  ggplot(aes(x.CW, dgamma.CW)) +
+  geom_contour(aes(z=sslp,col=..level..)) +
+  scale_color_continuous(low="blue",high="red") + theme_bw()
+
+levelplot(sslp~x.CW*dgamma.CW, dr[fsigTILT=="1.00e-04",])
+
+ggplot(dr[x.CW==-.001&fsigTILT!="0.00e+00"], aes(dgamma.CW,sslp)) + geom_point(aes(col=fsigTILT))
+ggplot(dr[dgamma.CW==1e-5&fsigTILT=="1.00e-06"], aes(x.CW,sslp)) + geom_point(aes(col=fsigTILT))
+
+dr[,
+   pcol:=derivedFactor(
+     "red" = sslp>.90*max(sslp), 
+     "magenta" = sslp>.60*max(sslp),
+     "green" = sslp>.20*max(sslp), 
+     .default="blue", 
+     .method="first"
+   )]
+with(dr[fsigTILT=="1.00e-05"],{scatterplot3d(
+  x.CW, dgamma.CW, sslp,
+  color=pcol, pch=19, type="o",
+  highlight.3d = TRUE
+)})
+
+
+## ONE DIRECTION ####
+
+DR[,.(x.CW, x.CCW, dgamma.CW, dgamma.CCW, fsigTILT, Wx.CW, Wx.CCW)]->dr
+dr[x.CW==x.CCW&dgamma.CW==dgamma.CCW] -> dr
+
+ggplot(dr[fsigTILT=="1.00e-03"], aes(x.CW, dgamma.CW)) + geom_tile(aes(fill=Wx.CW))+
+  scale_fill_continuous(high="red")
+with(dr[fsigTILT=="1.00e-03"],{scatterplot3d(
+  x.CW, dgamma.CW, Wx.CCW, 
+  type="o", highlight.3d = TRUE,
+  xlab="x",ylab=expression(Delta~gamma)
+)})
+
+ggplot(dr[fsigTILT=="1.00e-03"&x.CW==-.001], aes(dgamma.CW,Wx.CW)) + geom_point() -> p1
+ggplot(dr[fsigTILT=="1.00e-03"&dgamma.CW==-1e-5], aes(x.CW,Wx.CW)) + geom_point() -> p2
+plot_grid(p1,p2,nrow=2)

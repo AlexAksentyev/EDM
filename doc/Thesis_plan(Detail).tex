@@ -1,0 +1,73 @@
+\documentclass{article}
+
+\usepackage[widepage]{../Reports/repsty}
+
+\newcommand{\MDM}{{\text{MDM}}}
+\newcommand{\EDM}{{\text{EDM}}}
+
+\begin{document}
+
+\paragraph{Part 1. Q/FS lattices}
+\begin{itemize}
+	\item Description of `spin-orbit motion,' as in:
+	\begin{enumerate}
+		\item Form of \textbf{equation} (TBMT) $\rightarrow$
+		\item Form of \textbf{solution} ($\vec{s}(t) = \vec{s}_{homo}(t) + \vec{s}_{inhomo}(t)$) $\rightarrow$
+		\item Form of \textbf{observable} ($\Omega_{\text{meas}}$).
+		\item[*] Problematic aspects of the observable:
+		\begin{itemize}
+			\item mixing of irrelevant components into measured signal $\Rightarrow$ \fbox{$\Omega_{\text{meas}}\neq \Omega_x$.}
+		\end{itemize}
+	\end{enumerate}
+\end{itemize}
+
+\paragraph{Part 2. Problem statement}
+\begin{itemize}
+	\item Experimental conditions:
+	\begin{enumerate}
+		\item bounds on component mixing (*);
+		\item requirements for enabling the CW/CCW Comparison methodology (see Part 3.).
+	\end{enumerate}
+	\item Devices (reflects `Experimental conditions'):
+	\begin{enumerate}
+		\item Minimization solenoid;
+		\item Calibration solenoid.
+	\end{enumerate}
+	\item Precision requirements
+	\begin{enumerate}
+		\item Decoherence.
+	\end{enumerate}
+\end{itemize}
+
+\paragraph{Part 3. Imperfect ring\label{par:ImpRing}}
+\begin{itemize}
+	\item[] \textbf{Comparison} methodology $\rightarrow$
+	\item[] \textbf{Reproduction} of experimental conditions $\rightarrow$
+	\item[] \textbf{Calibration} of $\Omega_x$ by $\Omega_y$ $\Rightarrow$
+	\item Study imperfections~\footnote{List of categories of imperfections!} \emph{as relevant for} \begin{inparaenum}[\itshape a\upshape)]
+		\item \underline{O}bservable, 
+		\item \underline{C}alibration:
+	\end{inparaenum}
+	\begin{itemize}
+		\item[O1.] (Tilt) introduction of MDM precession in the \emph{signal plane} $\Rightarrow$ \fbox{$\Omega_x \neq \Omega_x^\EDM$;}~\footnote{We deal with that by the intriduction of the CW/CCW procedure, i.e. by change of estimator to $\hat{\Omega}^\EDM = \kappa \cdot (\hat{\Omega}_{meas}^{CW}+\hat{\Omega}^{CCW}_{meas})$.}
+		\item[C1.] (Tilt) Different relationship between $\Omega_x^\MDM$ and $\Omega_y^\MDM$ for the same $(\vec{x},\Delta\gamma_s)$ point $\Rightarrow$ 
+		\[
+		\boxed{\exists\epsilon>0\forall\delta>0~ \Delta|\Omega_y^\MDM|<\delta \land \Delta|\Omega_x^\MDM|>\epsilon;}
+		\]
+		\begin{itemize}
+			\item Study how much the relationship between $\Omega_y^\MDM$ and $\Omega_x^\MDM$ changes from CW to CCW under a given $\sigma[\text{tilt}]$. \textbf{Quantify} $\epsilon(\sigma[\text{tilt}])$.
+		\end{itemize}
+		\item[C2.] (Injection) variation of the injection point $\Rightarrow$ \fbox{$\vec{\Omega} \coloneqq f(\vec{x},\Delta\gamma_s); \sigma[(\vec{x},\Delta\gamma_s)]\implies \sigma[\vec{\Omega}]$.}~\footnote{Unless the deviation of an injection point changes the angle between $\Omega_y^\MDM$ and $\Omega_x^\MDM$, this is irrelevant, is covered by calibration; if it does, then it affects our ability to calibrate the CW-to-CCW transition, and thus the problem is reduced to that of C1.}
+		\begin{itemize}
+			\item Study whether variation in the injection point changes the angle between $\Omega_x^\MDM$ and $\Omega_y^\MDM$.~\footnote{In COSYInf, that would be given by n-bar from TSP; however, TSP yields the spin-tune and spin-invariant axis' dependence on parameters \emph{only}, we need that on phase space variables. \textbf{Figure out how to do that?}}
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+
+\paragraph{Research questions}
+\begin{enumerate}
+	\item Magnet tilts affect our ability to calibrate $\Omega_x^\MDM$ by observing $\Omega_y^\MDM$. Quantify calibration \emph{accuracy} (the difference in $\Omega_x^\MDM$ when $\Delta\Omega_y^\MDM$ is \emph{strictly} 0) as a function of $\sigma[\text{tilt}]$. (Bonus: quantify precision.)
+	\item Do the same, but as a function of $\sigma[(\vec{x},\Delta\gamma_s)]$. (Bonus: modify COSYInf to make TSP produce an appropriate (phase-space-dependent) DA-vector.)
+\end{enumerate}
+
+\end{document}
