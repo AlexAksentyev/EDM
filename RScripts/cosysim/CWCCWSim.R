@@ -13,8 +13,8 @@ library(mosaic)
   Nrps = 1e6 #revolutions per second
   
   DT[,':='(
-    ThXY = atan(Sy/Sx),
-    ThXZ = atan(Sz/Sx),
+    ThXY = atan(Sx/Sy),
+    ThXZ = atan(Sx/Sz),
     ThYZ = atan(Sy/Sz)
   )
   ]
@@ -187,7 +187,7 @@ dlply(slpdf, "sigTILT",function(df){
 plot_grid(plotlist=pl,nrow=3,ncol=2)
 
 DR[,
-  .(CW = mean(Wx.CW), CCW = mean(Wx.CCW)),
+  .(CW = mean(Wx.CW), CCW = mean(Wx.CCW), SCW = sd(Wx.CW), SCCW = sd(Wx.CCW)),
   by=muTILT
 ] -> x0
 laply(unique(DR$muTILT)%>%as.numeric, function(mu){th=rnorm(1000,mu,1e-4);s=sin(th);mean(s)}) -> m
