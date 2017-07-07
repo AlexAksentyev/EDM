@@ -11,7 +11,10 @@ library(mosaic)
 .complete <- function(DT){
   Nrev = attr(DT,"Parameters")$Nrev #revolutions per simulation
   Nrps = 1e6 #revolutions per second
+  muTILT = attr(DT,"Parameters")$muTILT
+  sigTILT = attr(DT,"Parameters")$sigTILT
   
+  DT[,`:=`(muTILT=muTILT,sigTILT=sigTILT)]
   DT[,':='(
     ThXY = atan(Sx/Sy),
     ThXZ = atan(Sx/Sz),
@@ -45,19 +48,19 @@ library(mosaic)
   return(DR)
 }
 
-ldply(1:6, function(k){
+ldply(1:5, function(k){
   ddf = paste0("~/git/COSYINF/test/fort.",(6+2*k))
   rdf = paste0("~/git/COSYINF/test/fort.",(6+2*k+1))
   
   para = read_csv(ddf, n_max=1)
   # nbar = read_csv(ddf, skip=2, n_max=1); names(nbar) <- c("x","y","z")
   Direct <- data.table(read_csv(ddf, skip=4))
-  attr(Direct, "Parameters")<-para
+  setattr(Direct, "Parameters", para)
   # attr(Direct, "Nbar")<-nbar
   para =  read_csv(rdf, n_max=1)
   # nbar = read_csv(rdf, skip=2, n_max=1); names(nbar) <- c("x","y","z")
   Reverse <- data.table(read_csv(rdf, skip=4))
-  attr(Reverse, "Parameters")<-para
+  setattr(Reverse, "Parameters", para)
   # attr(Reverse, "Nbar")<-nbar
   
   DR <- .prep(Direct, Reverse)
@@ -69,7 +72,7 @@ ldply(1:6, function(k){
   DR
 }) %>% data.table() -> DR
 
-ldply(1:6, function(k){
+ldply(1:5, function(k){
   ddf = paste0("~/git/COSYINF/test/fort.",(6+2*k))
   rdf = paste0("~/git/COSYINF/test/fort.",(6+2*k+1))
   
