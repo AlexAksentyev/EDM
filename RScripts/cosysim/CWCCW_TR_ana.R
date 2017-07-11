@@ -119,8 +119,10 @@ ggplot(SYTRb[Part%in%c("X1","X41", "X81")], aes(Turn, Sy, col=Proc)) +
 
 ## Analysis ####
 
-.loadData(10) -> DR
+.loadData(10,11) -> DR
 
 DR2 <- rbind(DR$FWD10[,Dir:="FWD"],DR$REV11[,Dir:="REV"])
-ggplot(DR2[y==1e-8&d==min(abs(d))],aes(x,Wx,col=Dir)) + geom_point()+geom_line() +
-  theme(legend.position="top") 
+ggplot(DR2[y==1e-8&d==-1e-3,.(meanWx=mean(Wx),SEWx=sd(Wx)/sqrt(10)),by=c("muTILT","x","Dir")],aes(x,meanWx,col=Dir)) + 
+  geom_point()+ geom_pointrange(aes(ymin=meanWx-SEWx,ymax=meanWx+SEWx)) +
+  geom_line() +
+  theme(legend.position="top") + facet_grid(muTILT~.,scales="free_y")
