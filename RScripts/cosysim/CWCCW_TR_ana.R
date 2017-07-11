@@ -60,7 +60,7 @@ library(lattice)
     para = read_csv(filename, n_max=1)
     DT <- data.table(read_csv(filename, skip=2))
     setattr(DT, "Parameters", para)
-    setkey(DT, muTILT, sigTILT, Trl, x, a, y, b, l, d)
+    # setkey(DT, muTILT, sigTILT, Trl, x, a, y, b, l, d)
     .complete(DT)
   }) 
   
@@ -117,12 +117,17 @@ ggplot(SYTRb[Part%in%c("X1","X41", "X81")], aes(Turn, Sy, col=Proc)) +
   geom_line() + geom_point() + 
   theme_bw() + facet_grid(Part~., scales = "free_y")
 
-## Analysis ####
+## Analysis tilt ####
 
 .loadData(10,11) -> DR
 
 DR2 <- rbind(DR$FWD10[,Dir:="FWD"],DR$REV11[,Dir:="REV"])
-ggplot(DR2[y==1e-8&d==-1e-3,.(meanWx=mean(Wx),SEWx=sd(Wx)/sqrt(10)),by=c("muTILT","x","Dir")],aes(x,meanWx,col=Dir)) + 
+ggplot(DR2[d==-1e-3,.(meanWx=mean(Wx),SEWx=sd(Wx)/sqrt(10)),by=c("muTILT","x","Dir")],aes(x,meanWx,col=Dir)) + 
   geom_point()+ geom_pointrange(aes(ymin=meanWx-SEWx,ymax=meanWx+SEWx)) +
   geom_line() +
   theme(legend.position="top") + facet_grid(muTILT~.,scales="free_y")
+
+## Analysis solenoid By ####
+.loadData(10)$FWD10 -> DR
+DR[,fBsol:=as.factor(Bsol/10)]
+ggplot(DR[d==0],aes(x,Wx,col=fBsol))+geom_point() + geom_line() + facet_grid(Bsol~.,scales="free_y")

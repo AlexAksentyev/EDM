@@ -26,9 +26,6 @@ Repeat many times => Statistic distribution.
 Analyze the statistic distribution and conclude if/under what constriction of the error distribution we can get it sufficiently narrow.
 
 ==== note 1 ====
-[*] Fix the problem with spin tune not an orbital invariant. (Transform to fixed point ; TSP key parameter neq 0.)
-
-==== note 2 ====
 Every time the beam is injected into the ring, it occupies a different subspace of phase space (call it {{./equation007.png?type=equation}}). Spin tune is, theoretically, a function of the beam position (x,y), momentum spread (dp/p =: d), and kinetic energy ({{./equation008.png?type=equation}}); the first two are second order terms, while the kinetic energy dependence is linear. Hence we propose to calibrate the transition between the CW to CCW regimes via adjusting the beam energy {{./equation009.png?type=equation}}.
 
 {{./CW-CCW_comparison_idea.xpm}}
@@ -36,17 +33,6 @@ In calibrating, we observe the spin precession in the horizontal plane, i.e. {{.
 	 {{./equation004.png?type=equation}}.
 {{./Equate_OmegaY_Equate_OmegaR.png}}
 {{./equation005.png?type=equation}} requires the directions {{./equation006.png?type=equation}} to coincide, as can be observed from the figure above.
-
-==== note 1 ====
-The directions {{./equation021.png?type=equation}} are not dependent (theoretically) on the argument {{./equation022.png?type=equation}}: {{./equation023.png?type=equation}}. That implies that whether or not {{./equation024.png?type=equation}} (as well as the angle {{./equation025.png?type=equation}} between the directions in the s-direction) is independent of the actual injection point and energy; it further implies that the calibration of the magnetic field by the horizontal precession is valid iff {{./equation026.png?type=equation}}, otherwise (see the figure above) the equalization of the horizontal precession frequencies does not translate into that of the vertical precession.
-
-==== note 2 ====
-This simplifies simulation; we need only distribute error, compute the direct and reverse n-bars, dot-product them to obtain {{./equation027.png?type=equation}}, repeat. // WRONG: The direction is a function ofdelta gamma; I compute the direct and reverse omegas, and take their **difference** as statistic now
-
-==== note 3 The difference statistic ====
-We compute the spin tune vector --- {{./equation028.png?type=equation}} --- for the direct and reverse (procedure MR in COSYInf) transfer maps. {{./equation029.png?type=equation}}, {{./equation030.png?type=equation}}; the Taylor series coefficients before phase space variables are all 0. Because we need to estimate the repeatability precision of the (vertical) spin tune, the difference statistic is defined as {{./equation031.png?type=equation}}. Its standard deviation, from the propagation of errors formula, is {{./equation032.png?type=equation}}, assuming {{./equation033.png?type=equation}}, and {{./equation034.png?type=equation}}. (The latter is true by definition, the former is true by the independence of injection energy from the injection direction.)
-
-Assuming {{./equation035.png?type=equation}}, from the COSYInf-computed values of the Taylor coefficients, {{./equation036.png?type=equation}}
 
 
 ===== Modeling of Calibration =====
