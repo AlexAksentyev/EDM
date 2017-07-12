@@ -55,14 +55,15 @@ library(lattice)
   n <- ifelse(n>0,n,1)
   names(filenames) <- ifelse(filenames%%2,"REV","FWD")%>%paste0(filenames)
   
-  llply(filenames, function(k){
+  ldply(filenames, function(k){
     filename = paste0("~/git/COSYINF/test/fort.",k)
+    drn <- ifelse(k%%2,"REV","FWD")%>%paste0(k)
     para = read_csv(filename, n_max=1)
     DT <- data.table(read_csv(filename, skip=2))
     setattr(DT, "Parameters", para)
     # setkey(DT, muTILT, sigTILT, Trl, x, a, y, b, l, d)
     .complete(DT)
-  }) 
+  }, .id="Drn") %>%data.table()
   
   # filenameD = paste0("~/git/COSYINF/test/fort.",k)
   # filenameR = paste0("~/git/COSYINF/test/fort.",k+1)
@@ -128,6 +129,7 @@ ggplot(DR2[d==-1e-3,.(meanWx=mean(Wx),SEWx=sd(Wx)/sqrt(10)),by=c("muTILT","x","D
   theme(legend.position="top") + facet_grid(muTILT~.,scales="free_y")
 
 ## Analysis solenoid By ####
-.loadData(10)$FWD10 -> DR
+.loadData(10,11) -> DR
 DR[,fBsol:=as.factor(Bsol/10)]
-ggplot(DR[d==0],aes(x,Wx,col=fBsol))+geom_point() + geom_line() + facet_grid(Bsol~.,scales="free_y")
+ggplot(DR[d==0],aes(x,Wx,col=fBsol))+geom_point() + geom_line() + 
+  facet_grid(Drn~.,scales="free_y") + theme(legend.position="top")
