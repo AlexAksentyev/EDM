@@ -86,24 +86,41 @@ library(lattice)
 
 .readSpin <- function(filename){
   require(reshape2)
-  SyTR = scan(filename, " ",skip=1)
-  i = which(SyTR==SyTR[1])
-  f = rep(1:length(i), each=diff(i)[1])
-  split(SyTR,f) -> SyTR.list
-  ldply(SyTR.list, function(e) data.frame(t(as.numeric(e[-1]))), .id="Turn") %>%data.table() -> SYTR
-  melt.data.table(SYTR, id.vars = "Turn", variable.name = "Part", value.name = "Sy")
+  cnt <- switch(filename%%100, "1" = "Sx", "2" = "Sy", "3" = "Sz")
+  filename <- paste0("~/git/COSYINF/test/fort.",filename)
+  SaTR = as.numeric(scan(filename,skip=1,na.strings = "g"))
+  
+  rle(!is.na(SaTR))->x
+  gn=length(x$lengths[!x$values])
+  gl <- x$lengths[x$values][1]
+  f <- rep(1:gn, each=gl)
+  SaTR<-SaTR[!is.na(SaTR)]
+  
+  split(SaTR,f) -> SaTR.list
+  ldply(SaTR.list, function(e) data.frame(t(e[-1])), .id="Turn") %>%data.table() -> SaTR
+  rm(SaTR.list)
+
+  melt.data.table(SaTR, id.vars = "Turn", variable.name = "Part", value.name = cnt) -> SaTR
+  setkey(SaTR,Turn, Part); SaTR
 }
 
 ## Comparing the horizontally rotated vs unrotated TR  ####
-fileTR = "~/git/COSYINF/test/fort.7"
-fileTR1 = "~/git/COSYINF/test/fort.8"
+SXTR <- .readSpin(101)
+SYTR <- .readSpin(102)
+SZTR <- .readSpin(103)
+SXYZTR <- merge(SXTR,SYTR)%>%merge(SZTR)
+SXTR <- .readSpin(201)
+SYTR <- .readSpin(202)
+SZTR <- .readSpin(203)
+SXYZTR1 <- merge(SXTR,SYTR)%>%merge(SZTR)
+rm(SXTR,SYTR,SZTR)
 
-SYTR <- .readSpin(fileTR)
-SYTR1 <- .readSpin(fileTR1)
+SXYZTR[,Proc:="TR"]; SXYZTR1[,Proc:="TR1"]
+rbind(SXYZTR,SXYZTR1) -> SXYZTRb
+SXYZTRb[,Turn:=as.numeric(Turn)]
 
-SYTR[,Proc:="TR"]; SYTR1[,Proc:="TR1"]
-rbind(SYTR,SYTR1) -> SYTRb
-SYTRb[,Turn:=as.numeric(Turn)]
+ggplot(SXYZTRb,aes(Turn,Sy, col=Proc)) + geom_line() + 
+  facet_grid(Proc~.,scales="free_y")
 # subset(cbind(SYTR,SYTR1),select=-c(4,5,6,8)) -> SYTRb2
 # setnames(SYTRb2, c("Turn","Part","Sy.TR","Sy.TR1"))
 # SYTRb2[,DSy:=Sy.TR-Sy.TR1]
@@ -130,6 +147,11 @@ ggplot(DR2[d==-1e-3,.(meanWx=mean(Wx),SEWx=sd(Wx)/sqrt(10)),by=c("muTILT","x","D
 
 ## Analysis solenoid By ####
 .loadData(10,11) -> DR
-DR[,fBsol:=as.factor(Bsol/10)]
-ggplot(DR[d==0],aes(x,Wx,col=fBsol))+geom_point() + geom_line() + 
-  facet_grid(Drn~.,scales="free_y") + theme(legend.position="top")
+DR[,`:=`(fBsol=as.factor(Bsol/10),
+         # fd=factor(d,labels=formatC(unique(d),0,format="e"))
+         fd = cut(d,9,labels=1:9)
+         )
+   ]
+ggplot(DR[x==1e-8],aes(Wy,Wx,col=fd))+geom_point() + 
+  facet_grid(fBsol~Drn,scales="free") +
+  theme_bw() #+ theme(legend.position="top")
