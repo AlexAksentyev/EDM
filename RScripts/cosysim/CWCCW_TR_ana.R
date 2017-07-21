@@ -84,10 +84,12 @@ library(lattice)
   
 }
 
-.readSpin <- function(filename){
+.read_data <- function(filename, directory = "~/git/COSYINF/test/"){
   require(reshape2)
-  cnt <- switch(filename%%100, "1" = "Sx", "2" = "Sy", "3" = "Sz")
-  filename <- paste0("~/git/COSYINF/test/fort.",filename)
+  cnt <- switch(filename%%100, "1" = "Sx", "2" = "Sy", "3" = "Sz",
+                  "4"="x","5"="a","6"="y","7"="b","8"="l","9"="d")
+    
+  filename <- paste0(directory,"fort.",filename)
   SaTR = as.numeric(scan(filename,skip=1,na.strings = "g"))
   
   rle(!is.na(SaTR))->x
@@ -97,61 +99,111 @@ library(lattice)
   SaTR<-SaTR[!is.na(SaTR)]
   
   split(SaTR,f) -> SaTR.list
-  ldply(SaTR.list, function(e) data.frame(t(e[-1])), .id="Turn") %>%data.table() -> SaTR
-  rm(SaTR.list)
+  ldply(SaTR.list, function(e) data.frame(Turn=e[1], t(e[-(1:2)]))) %>%data.table() -> SaTR
+  rm(SaTR.list); SaTR[,.id:=NULL]
 
-  melt.data.table(SaTR, id.vars = "Turn", variable.name = "Part", value.name = cnt) -> SaTR
-  setkey(SaTR,Turn, Part); SaTR
+  melt.data.table(SaTR, id.vars = "Turn", variable.name = "PID", value.name = cnt) -> SaTR
+  SaTR[,Sec:=Turn*1e-6]
+  setkey(SaTR,Turn, Sec, PID); SaTR
 }
 
 ## Comparing the horizontally rotated vs unrotated TR  ####
-SXTR <- .readSpin(101)
-SYTR <- .readSpin(102)
-SZTR <- .readSpin(103)
-SXYZTR <- merge(SXTR,SYTR)%>%merge(SZTR)
-SXTR <- .readSpin(201)
-SYTR <- .readSpin(202)
-SZTR <- .readSpin(203)
-SXYZTR1 <- merge(SXTR,SYTR)%>%merge(SZTR)
-rm(SXTR,SYTR,SZTR)
+if(FALSE){
+  ddt <- function(dt1, dt2, id.vars=c("Turn","PID","Proc","variable")){
+    which(id.vars%in%names(dt1)) -> i
+    i <- setdiff(1:length(names(dt1)), i)
+    id.vars <- id.vars[id.vars!="Proc"]
+    setkeyv(dt1, id.vars)
+    setkeyv(dt2, id.vars)
+    
+    merge(dt1,dt2)[,Diff:=value.x-value.y][]
+  }
+  
+  PID <- read_table("~/git/COSYINF/test/fort.100", col_names=c("x","y","d"))
+  PID$PID <- paste0("X",1:nrow(PID))
+  
+  llply(101:109, .read_data) %>% Reduce(function(dt1, dt2) merge(dt1,dt2),.) -> DL
+  DL[,Proc:="TR"]
+  llply(201:209, .read_data) %>% Reduce(function(dt1, dt2) merge(dt1,dt2),.) -> DL1
+  DL1[,Proc:="TR1"]
+  iv = c("Turn","Sec","PID","Proc")
+  DDL <- ddt(melt(DL,id.vars = iv), melt(DL1,id.vars = iv));
+  DL <- rbind(DL,DL1)%>%melt(id.vars=iv)
+  
+  ggplot(DL, aes(Sec, value, col=Proc)) + 
+    geom_point(size=.1) + 
+    facet_wrap(~variable,scales="free_y") + 
+    scale_color_manual(values=c("red","blue"), breaks=c("TR1","TR"), labels=c("present","absent"), name="XZ-rotation") +
+    theme(legend.position="top")
 
-SXYZTR[,Proc:="TR"]; SXYZTR1[,Proc:="TR1"]
-rbind(SXYZTR,SXYZTR1) -> SXYZTRb
-SXYZTRb[,Turn:=as.numeric(Turn)]
-
-ggplot(SXYZTRb,aes(Turn,Sy, col=Proc)) + geom_line() + 
-  facet_grid(Proc~.,scales="free_y")
-# subset(cbind(SYTR,SYTR1),select=-c(4,5,6,8)) -> SYTRb2
-# setnames(SYTRb2, c("Turn","Part","Sy.TR","Sy.TR1"))
-# SYTRb2[,DSy:=Sy.TR-Sy.TR1]
-# SYTRb2[Turn%in%c("1","50","100"),.(sdDSy=sd(DSy)),by="Turn"]
-
-# ggplot(SYTRb2[Turn%in%c("1","50","100")], aes(DSy)) + geom_histogram() + 
-#   facet_grid(.~Turn,scales="free_x") + 
-#   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-#   labs(x="TR - TR1 Sy difference")
-
-ggplot(SYTRb[Part%in%c("X1","X41", "X81")], aes(Turn, Sy, col=Proc)) + 
-  geom_line() + geom_point() + 
-  theme_bw() + facet_grid(Part~., scales = "free_y")
+  ggplot(DL[PID%in%c("X1","X2","X3","X4")&Turn<500*300], aes(Turn, l, col=Proc)) + 
+    geom_point() + geom_line() +
+    theme_bw() + facet_grid(PID~., scales = "free_y") 
+}
 
 ## Analysis tilt ####
 
-.loadData(10,11) -> DR
-
-DR2 <- rbind(DR$FWD10[,Dir:="FWD"],DR$REV11[,Dir:="REV"])
-ggplot(DR2[d==-1e-3,.(meanWx=mean(Wx),SEWx=sd(Wx)/sqrt(10)),by=c("muTILT","x","Dir")],aes(x,meanWx,col=Dir)) + 
-  geom_point()+ geom_pointrange(aes(ymin=meanWx-SEWx,ymax=meanWx+SEWx)) +
-  geom_line() +
-  theme(legend.position="top") + facet_grid(muTILT~.,scales="free_y")
+if(FALSE){
+  .loadData(10,11) -> DR
+  
+  DR2 <- rbind(DR$FWD10[,Dir:="FWD"],DR$REV11[,Dir:="REV"])
+  ggplot(DR2[d==-1e-3,.(meanWx=mean(Wx),SEWx=sd(Wx)/sqrt(10)),by=c("muTILT","x","Dir")],aes(x,meanWx,col=Dir)) + 
+    geom_point()+ geom_pointrange(aes(ymin=meanWx-SEWx,ymax=meanWx+SEWx)) +
+    geom_line() +
+    theme(legend.position="top") + facet_grid(muTILT~.,scales="free_y")
+}
 
 ## Analysis solenoid By ####
-.loadData(10,11) -> DR
-DR[,`:=`(fBsol=as.factor(Bsol/10),
-         # fd=factor(d,labels=formatC(unique(d),0,format="e"))
-         fd = cut(d,9,labels=1:9)
-         )
-   ]
-ggplot(DR[x==1e-8],aes(Wy,Wx,col=fd))+geom_point() + 
-  facet_grid(fBsol~Drn,scales="free") +
-  theme_bw() #+ theme(legend.position="top")
+if(FALSE){
+  .loadData(10,11) -> DR
+  DR[,`:=`(fBsol=as.factor(Bsol/10),
+           # fd=factor(d,labels=formatC(unique(d),0,format="e"))
+           fd = cut(d,9,labels=1:9)
+  )
+  ]
+  ggplot(DR[x==1e-8],aes(Wy,Wx,col=fd))+geom_point() + 
+    facet_grid(fBsol~Drn,scales="free") +
+    theme_bw() #+ theme(legend.position="top")
+  
+}
+
+## testing Rotation ####
+Rotate <- function(invec, angle){
+  Ry = c(cos(angle), 0, -sin(angle),
+         0, 1, 0,
+         sin(angle), 0 , cos(angle))
+  
+  outvec <- array(3)
+  for(i in 1:3) outvec[i]<- sum(Ry[3*(i-1) + 1:3]*invec)
+  
+  outvec
+}
+
+ang <- scan("~/git/COSYINF/test/fort.204",skip=1)
+plot(ang[seq(1,length(ang),length.out = 300)], type="l")
+pacf(ang)
+ll <- length(ang)
+s <- array(dim=c(ll,3), dimnames = list(NULL, c("Sx","Sy","Sz"))); s[1,] <- c(0,0,1)
+for(n in 2:ll) s[n,] <- Rotate(s[n-1,],ang[n-1])
+plot(s[,"Sx"],s[,"Sz"])
+plot(s[,"Sz"])
+
+## Comparing the spin maps from TR and TR1 ####
+smTR <- scan("~/git/COSYINF/test/fort.111",skip=1)
+id = 1; npid = nrow(PID)
+smTR <- matrix(smTR[seq(id+1,length(smTR), by=npid+1)], nrow=3, ncol=3, byrow=TRUE)
+smTR1 <- scan("~/git/COSYINF/test/fort.211",skip=1)
+smTR1 <- matrix(smTR1[seq(id+1,length(smTR1), by=npid+1)], nrow=3, ncol=3, byrow=TRUE)
+
+smTR == smTR1
+
+Sn = array(dim=3)
+for(i in 1:3) Sn[i] <- sum(smTR[i,]*c(0,0,1))
+Sn
+
+### Spectral analysis ####
+
+DL[Proc=="TR1"&variable=="Sy"]->sdat
+tsSY <- ts(sdat$value, start=0, end=sdat[Turn==1e6,Sec], deltat=as.numeric(sdat$Sec[2]-sdat$Sec[1]))
+spec.pgram(tsSY,log="no")
+plot(tsSY)
