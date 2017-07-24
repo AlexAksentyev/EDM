@@ -204,6 +204,6 @@ Sn
 ### Spectral analysis ####
 
 DL[Proc=="TR1"&variable=="Sy"]->sdat
-tsSY <- ts(sdat$value, start=0, end=sdat[Turn==1e6,Sec], deltat=as.numeric(sdat$Sec[2]-sdat$Sec[1]))
+tsSY <- ts(sdat$value, start=0, end=sdat[nrow(sdat),Sec], deltat=as.numeric(sdat$Sec[2]-sdat$Sec[1]))
 spec.pgram(tsSY,log="no")
 plot(tsSY)
