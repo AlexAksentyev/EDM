@@ -84,6 +84,16 @@ library(lattice)
   
 }
 
+.degroup <- function(scanvec){
+  rle(!is.na(scanvec))->x
+  gn=length(x$lengths[!x$values])
+  gl <- x$lengths[x$values][1]
+  f <- rep(1:gn, each=gl)
+  scanvec<-scanvec[!is.na(scanvec)]
+  
+  split(scanvec,f)
+}
+
 .read_data <- function(filename, directory = "~/git/COSYINF/test/"){
   require(reshape2)
   cnt <- switch(filename%%100, "1" = "Sx", "2" = "Sy", "3" = "Sz",
@@ -92,13 +102,7 @@ library(lattice)
   filename <- paste0(directory,"fort.",filename)
   SaTR = as.numeric(scan(filename,skip=1,na.strings = "g"))
   
-  rle(!is.na(SaTR))->x
-  gn=length(x$lengths[!x$values])
-  gl <- x$lengths[x$values][1]
-  f <- rep(1:gn, each=gl)
-  SaTR<-SaTR[!is.na(SaTR)]
-  
-  split(SaTR,f) -> SaTR.list
+  .degroup(SaTR) -> SaTR.list
   ldply(SaTR.list, function(e) data.frame(Turn=e[1], t(e[-(1:2)]))) %>%data.table() -> SaTR
   rm(SaTR.list); SaTR[,.id:=NULL]
 
@@ -107,18 +111,18 @@ library(lattice)
   setkey(SaTR,Turn, Sec, PID); SaTR
 }
 
+ddt <- function(dt1, dt2, id.vars=c("Turn","PID","Proc","variable")){
+  which(id.vars%in%names(dt1)) -> i
+  i <- setdiff(1:length(names(dt1)), i)
+  id.vars <- id.vars[id.vars!="Proc"]
+  setkeyv(dt1, id.vars)
+  setkeyv(dt2, id.vars)
+  
+  merge(dt1,dt2)[,Diff:=value.x-value.y][]
+}
 ## Comparing the horizontally rotated vs unrotated TR  ####
 if(FALSE){
-  ddt <- function(dt1, dt2, id.vars=c("Turn","PID","Proc","variable")){
-    which(id.vars%in%names(dt1)) -> i
-    i <- setdiff(1:length(names(dt1)), i)
-    id.vars <- id.vars[id.vars!="Proc"]
-    setkeyv(dt1, id.vars)
-    setkeyv(dt2, id.vars)
-    
-    merge(dt1,dt2)[,Diff:=value.x-value.y][]
-  }
-  
+
   PID <- read_table("~/git/COSYINF/test/fort.100", col_names=c("x","y","d"))
   PID$PID <- paste0("X",1:nrow(PID))
   
@@ -144,13 +148,23 @@ if(FALSE){
 ## Analysis tilt ####
 
 if(FALSE){
-  .loadData(10,11) -> DR
+  PID <- read_table("~/git/COSYINF/test/fort.100", col_names=c("x","y","d"))
+  PID$PID <- paste0("X",1:nrow(PID))
   
-  DR2 <- rbind(DR$FWD10[,Dir:="FWD"],DR$REV11[,Dir:="REV"])
-  ggplot(DR2[d==-1e-3,.(meanWx=mean(Wx),SEWx=sd(Wx)/sqrt(10)),by=c("muTILT","x","Dir")],aes(x,meanWx,col=Dir)) + 
-    geom_point()+ geom_pointrange(aes(ymin=meanWx-SEWx,ymax=meanWx+SEWx)) +
-    geom_line() +
-    theme(legend.position="top") + facet_grid(muTILT~.,scales="free_y")
+  ldply(1:5, function(p) {
+    l1 <- 100 + (p-1)*100 + 1:9
+    l2 <- 600 + (p-1)*100 + 1:9
+    
+    llply(l1, .read_data) %>% Reduce(function(dt1, dt2) merge(dt1,dt2),.) -> DL
+    DL[,Proc:="TR"]
+    llply(l2, .read_data) %>% Reduce(function(dt1, dt2) merge(dt1,dt2),.) -> DL1
+    DL1[,Proc:="TR1"]
+    iv = c("Turn","Sec","PID","Proc")
+    DDL <- ddt(melt(DL,id.vars = iv), melt(DL1,id.vars = iv));
+    DL <- rbind(DL,DL1)%>%melt(id.vars=iv)
+  })
+  
+  
 }
 
 ## Analysis solenoid By ####
@@ -189,10 +203,11 @@ plot(s[,"Sx"],s[,"Sz"])
 plot(s[,"Sz"])
 
 ## Comparing the spin maps from TR and TR1 ####
+
 smTR <- scan("~/git/COSYINF/test/fort.111",skip=1)
 id = 1; npid = nrow(PID)
 smTR <- matrix(smTR[seq(id+1,length(smTR), by=npid+1)], nrow=3, ncol=3, byrow=TRUE)
-smTR1 <- scan("~/git/COSYINF/test/fort.211",skip=1)
+smTR1 <- scan("~/git/COSYINF/test/fort.212",skip=1,na.strings = "g")
 smTR1 <- matrix(smTR1[seq(id+1,length(smTR1), by=npid+1)], nrow=3, ncol=3, byrow=TRUE)
 
 smTR == smTR1
@@ -205,5 +220,6 @@ Sn
 
 DL[Proc=="TR1"&variable=="Sy"]->sdat
 tsSY <- ts(sdat$value, start=0, end=sdat[nrow(sdat),Sec], deltat=as.numeric(sdat$Sec[2]-sdat$Sec[1]))
-spec.pgram(tsSY,log="no")
-plot(tsSY)
+par(mfrow=c(2,1))
+plot(tsSY, main="No tilt, rotated TR", ylab="Sy")
+spec.pgram(tsSY,log="no") -> sps
