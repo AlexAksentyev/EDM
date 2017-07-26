@@ -1,7 +1,6 @@
 library(readr)
 library(data.table)
-library(dplyr)
-library(plyr)
+library(plyr); library(dplyr)
 library(ggplot2)
 library(cowplot)
 library(lattice)
@@ -156,13 +155,25 @@ if(FALSE){
     l2 <- 600 + (p-1)*100 + 1:9
     
     llply(l1, .read_data) %>% Reduce(function(dt1, dt2) merge(dt1,dt2),.) -> DL
-    DL[,Proc:="TR"]
+    DL[,`:=`(Proc="TR",TILT=p*1e-4)]
     llply(l2, .read_data) %>% Reduce(function(dt1, dt2) merge(dt1,dt2),.) -> DL1
-    DL1[,Proc:="TR1"]
-    iv = c("Turn","Sec","PID","Proc")
+    DL1[,`:=`(Proc="TR1",TILT=p*1e-4)]
+    iv = c("Turn","Sec","PID","Proc","TILT")
     DDL <- ddt(melt(DL,id.vars = iv), melt(DL1,id.vars = iv));
     DL <- rbind(DL,DL1)%>%melt(id.vars=iv)
-  })
+  }) %>% data.table() -> DL
+  
+  ggplot(DL[variable%in%c("Sy","x","a","y","b")],aes(Sec, value, col=as.factor(TILT))) +
+    geom_point(size=.2) + theme_bw() +
+    facet_grid(variable~Proc,scales="free_y") + 
+    # scale_color_manual(values=c("red","blue"), breaks=c("TR1","TR"), labels=c("present","absent"), name="XZ-rotation") +
+    theme(legend.position="top")
+  
+  ggplot(DL, aes(Sec, value, col=Proc)) + 
+    geom_point(size=.1) + 
+    facet_wrap(~variable,scales="free_y") + 
+    scale_color_manual(values=c("red","blue"), breaks=c("TR1","TR"), labels=c("present","absent"), name="XZ-rotation") +
+    theme(legend.position="top")
   
   
 }
@@ -217,9 +228,12 @@ for(i in 1:3) Sn[i] <- sum(smTR[i,]*c(0,0,1))
 Sn
 
 ### Spectral analysis ####
+par(mfrow=c(5,2))
+laply(1:5, function(p){
+  DL[Proc=="TR1"&variable=="Sy"&TILT==p*1e-4]->sdat
+  tsSY <- ts(sdat$value, start=0, end=sdat[nrow(sdat),Sec], deltat=as.numeric(sdat$Sec[2]-sdat$Sec[1]))
+  plot(tsSY, main="Tilt, rotated TR", ylab="Sy")
+  spec.pgram(tsSY,log="no") -> sps
+  sps$freq[which.max(sps$spec)]
+})
 
-DL[Proc=="TR1"&variable=="Sy"]->sdat
-tsSY <- ts(sdat$value, start=0, end=sdat[nrow(sdat),Sec], deltat=as.numeric(sdat$Sec[2]-sdat$Sec[1]))
-par(mfrow=c(2,1))
-plot(tsSY, main="No tilt, rotated TR", ylab="Sy")
-spec.pgram(tsSY,log="no") -> sps
