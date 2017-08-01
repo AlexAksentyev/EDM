@@ -45,20 +45,22 @@ ddt <- function(dt1, dt2, id.vars=c("Turn","PID","Rotated","variable")){
 }
 
 ## ANALYSIS ####
-from = "~/git/COSYINF/test/"
+from = "~/git/COSYINF/BNL/LINEAR/"#ALLWC/"
 
 ## reading particle initial data ####
 PID <- read_table(paste0(from,"fort.100"), col_names=c("x","y","d"))
 PID$PID <- paste0("X",1:nrow(PID))
 
+
 ## Analysis tilt ####
 
-if(FALSE){
+if(TRUE){
   
-  ldply(1:2, function(p) {
+  ldply(1:3, function(p) {
     l1 <- 100 + (p-1)*100 + 1:9
     l2 <- 600 + (p-1)*100 + 1:9
-    tiltp <- (p-1)*0.0057
+    scan(paste0(from,"fort.1"),skip = 1) -> tiltlist
+    tiltp <- tiltlist[p]
     
     llply(l1, read_data, directory=from) %>% Reduce(function(dt1, dt2) merge(dt1,dt2),.) -> DL
     DL[,`:=`(Rotated="No",TILT=tiltp)]
@@ -67,28 +69,27 @@ if(FALSE){
     iv = c("Turn","Sec","PID","Rotated","TILT")
     DDL <- ddt(melt(DL,id.vars = iv), melt(DL1,id.vars = iv));
     DL <- rbind(DL,DL1)%>%melt(id.vars=iv)
-    # melt(DL,id.vars = iv)
+    # melt(DL1,id.vars = iv)
   }) %>% data.table() -> DL
   
-  ggplot(DL[variable%in%c("Sy","Sx","Sz","x","y")],aes(Sec, value, col=Rotated)) +
+  ggplot(DL[variable=="Sy"],aes(Sec, value, col=as.factor(TILT))) +
     geom_line(size=.2) + theme_bw() +
-    facet_grid(variable~TILT,scales="free_y") + 
-    theme(legend.position="top")
+    facet_grid(PID~Rotated,scales="free_y") + 
+    theme(legend.position="top") +
+    scale_color_manual(values=c("red","green","blue"))
   
-  sdat[Rotated=="Yes",.(Th = asin(value), Sec, PID), by=c("TILT","variable","PID")][,.(W=(Th-Th[1])/Sec, Sec), by=c("TILT","variable","PID")]->Wdat
-  ggplot(Wdat[Sec>.25&variable=="Sy"], aes(Sec, W, col=PID)) + geom_line() + 
-    facet_grid(TILT~variable,scales="free_y") + geom_smooth(method="gam") + 
-    theme(legend.position="top")
   
   ## spectral analysis
-  par(mfrow=c(2,2))
-  laply(1:2, function(p){
-    DL[Rotated=="Yes"&variable=="Sy"&TILT==(p-1)*0.0057]->sdat
+  par(mfrow=c(3,2))
+  laply(1:3, function(p){
+    DL[Rotated=="Yes"&PID=="X5"&variable=="Sy"&TILT==unique(TILT)[p]]->sdat
     tsSY <- ts(sdat$value, start=0, end=sdat[nrow(sdat),Sec], deltat=as.numeric(sdat$Sec[2]-sdat$Sec[1]))
-    plot(tsSY, ylab="Sy")
+    plot(tsSY, ylab="Sy", main=sdat$TILT[1])
     spec.pgram(tsSY,log="no") -> sps
-    sps$freq[which.max(sps$spec)]
+    sps$freq[which.max(sps$spec)]*2*pi
   })
+  par(mfrow=c(1,1))
+  print(PID)
   
 }
 
