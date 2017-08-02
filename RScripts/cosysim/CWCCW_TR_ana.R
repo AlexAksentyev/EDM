@@ -45,7 +45,7 @@ ddt <- function(dt1, dt2, id.vars=c("Turn","PID","Rotated","variable")){
 }
 
 ## ANALYSIS ####
-from = "~/git/COSYINF/BNL/LINEAR/"#ALLWC/"
+from = "~/git/COSYINF/BNL/"#ALLWC/"
 
 ## reading particle initial data ####
 PID <- read_table(paste0(from,"fort.100"), col_names=c("x","y","d"))
@@ -62,27 +62,27 @@ if(TRUE){
     scan(paste0(from,"fort.1"),skip = 1) -> tiltlist
     tiltp <- tiltlist[p]
     
-    llply(l1, read_data, directory=from) %>% Reduce(function(dt1, dt2) merge(dt1,dt2),.) -> DL
-    DL[,`:=`(Rotated="No",TILT=tiltp)]
+    # llply(l1, read_data, directory=from) %>% Reduce(function(dt1, dt2) merge(dt1,dt2),.) -> DL
+    # DL[,`:=`(Rotated="No",TILT=tiltp)]
     llply(l2, read_data, directory=from) %>% Reduce(function(dt1, dt2) merge(dt1,dt2),.) -> DL1
     DL1[,`:=`(Rotated="Yes",TILT=tiltp)]
     iv = c("Turn","Sec","PID","Rotated","TILT")
-    DDL <- ddt(melt(DL,id.vars = iv), melt(DL1,id.vars = iv));
-    DL <- rbind(DL,DL1)%>%melt(id.vars=iv)
-    # melt(DL1,id.vars = iv)
+    # DDL <- ddt(melt(DL,id.vars = iv), melt(DL1,id.vars = iv));
+    # DL <- rbind(DL,DL1)%>%melt(id.vars=iv)
+    melt(DL1,id.vars = iv)
   }) %>% data.table() -> DL
   
-  ggplot(DL[variable=="Sy"],aes(Sec, value, col=as.factor(TILT))) +
+  ggplot(DL[variable%in%c("Sy","Sx","x","y")&Turn<2&PID%in%c("X1","X5","X3")],aes(Turn, value, col=PID)) +
     geom_line(size=.2) + theme_bw() +
-    facet_grid(PID~Rotated,scales="free_y") + 
-    theme(legend.position="top") +
+    facet_grid(variable~TILT,scales="free_y") + 
+    theme(legend.position="top") #+
     scale_color_manual(values=c("red","green","blue"))
   
   
-  ## spectral analysis
+  c## spectral analysis
   par(mfrow=c(3,2))
   laply(1:3, function(p){
-    DL[Rotated=="Yes"&PID=="X5"&variable=="Sy"&TILT==unique(TILT)[p]]->sdat
+    DL[Rotated=="Yes"&PID=="X1"&variable=="Sy"&TILT==unique(TILT)[p]]->sdat
     tsSY <- ts(sdat$value, start=0, end=sdat[nrow(sdat),Sec], deltat=as.numeric(sdat$Sec[2]-sdat$Sec[1]))
     plot(tsSY, ylab="Sy", main=sdat$TILT[1])
     spec.pgram(tsSY,log="no") -> sps
