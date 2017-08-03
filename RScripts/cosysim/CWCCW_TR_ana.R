@@ -56,30 +56,39 @@ PID$PID <- paste0("X",1:nrow(PID))
 
 if(TRUE){
   
-  ldply(1:3, function(p) {
+  ldply(1:9, function(p) {
     l1 <- 100 + (p-1)*100 + 1:9
     l2 <- 600 + (p-1)*100 + 1:9
-    scan(paste0(from,"fort.1"),skip = 1) -> tiltlist
-    tiltp <- tiltlist[p]
+    scan(paste0(from,"fort.1"),skip = 1) -> MultiPoleLength
+    scan(paste0(from,"fort.2"),skip = 1) -> tiltlist
+    MPLp <- MultiPoleLength[p]
+    tiltp <- tiltlist[p] 
     
     # llply(l1, read_data, directory=from) %>% Reduce(function(dt1, dt2) merge(dt1,dt2),.) -> DL
-    # DL[,`:=`(Rotated="No",TILT=tiltp)]
+    # DL[,`:=`(Rotated="No",TILT=tiltp,MPS=MPSp)]
     llply(l2, read_data, directory=from) %>% Reduce(function(dt1, dt2) merge(dt1,dt2),.) -> DL1
-    DL1[,`:=`(Rotated="Yes",TILT=tiltp)]
-    iv = c("Turn","Sec","PID","Rotated","TILT")
+    DL1[,`:=`(Rotated="Yes",TILT=tiltp,MPL=MPLp)]
+    iv = c("Turn","Sec","PID","Rotated","TILT","MPL")
     # DDL <- ddt(melt(DL,id.vars = iv), melt(DL1,id.vars = iv));
     # DL <- rbind(DL,DL1)%>%melt(id.vars=iv)
     melt(DL1,id.vars = iv)
   }) %>% data.table() -> DL
   
-  ggplot(DL[variable%in%c("Sy","Sx","x","y")&Turn<2&PID%in%c("X1","X5","X3")],aes(Turn, value, col=PID)) +
-    geom_line(size=.2) + theme_bw() +
-    facet_grid(variable~TILT,scales="free_y") + 
-    theme(legend.position="top") #+
-    scale_color_manual(values=c("red","green","blue"))
+  ggplot(DL[variable%in%c("Sy","Sx")&Turn<2&PID%in%c("X5","X4")],
+         aes(Turn, value, col=PID, shape=variable)) +
+    geom_line(size=.3) + geom_point(size=2) + theme_bw() + #scale_y_log10()+
+    facet_grid(TILT~MPL,scales="free_y") + 
+    theme(legend.position="top") + scale_color_manual(values=c("blue","red"))
+    
+  DL[variable=="Sy"&Turn==1] -> sdat
+  sdat[,.(SyG=value),by=c("TILT","MPL","PID")] ->df
+  data.table(merge(PID,df))->df
+  ggplot(df[PID%in%paste0("X",c(4))], aes(MPL,SyG, col=as.factor(x), shape=as.factor(TILT))) + 
+    geom_point(size=2) +  #scale_y_log10() + 
+    theme_bw() + theme(legend.position="top") +
+    labs(y="Growth of Sy in 1 turn", x="Multipole Length")
   
-  
-  c## spectral analysis
+  ## spectral analysis
   par(mfrow=c(3,2))
   laply(1:3, function(p){
     DL[Rotated=="Yes"&PID=="X1"&variable=="Sy"&TILT==unique(TILT)[p]]->sdat
