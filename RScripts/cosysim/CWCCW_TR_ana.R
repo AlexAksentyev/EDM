@@ -45,7 +45,7 @@ ddt <- function(dt1, dt2, id.vars=c("Turn","PID","Rotated","variable")){
 }
 
 ## ANALYSIS ####
-from = "~/git/COSYINF/BNL/"#ALLWC/"
+from = "~/git/COSYINF/test/"#ALLWC/"
 
 ## reading particle initial data ####
 PID <- read_table(paste0(from,"fort.100"), col_names=c("x","y","d"))
@@ -57,35 +57,33 @@ PID$PID <- paste0("X",1:nrow(PID))
 if(TRUE){
   
   ldply(1:9, function(p) {
-    l1 <- 100 + (p-1)*100 + 1:9
     l2 <- 600 + (p-1)*100 + 1:9
-    scan(paste0(from,"fort.1"),skip = 1) -> MultiPoleLength
-    scan(paste0(from,"fort.2"),skip = 1) -> tiltlist
-    MPLp <- MultiPoleLength[p]
-    tiltp <- tiltlist[p] 
+    scan(paste0(from,"fort.1"),skip = 1) -> p1list
+    scan(paste0(from,"fort.1"),what=character(), nlines=1)%>%paste0(collapse=".") -> p1name
+    scan(paste0(from,"fort.2"),skip = 1)-> p2list
+    scan(paste0(from,"fort.2"),what=character(), nlines=1)%>%paste0(collapse=".") -> p2name
+    p1 <- p1list[p]
+    p2 <- p2list[p] 
     
-    # llply(l1, read_data, directory=from) %>% Reduce(function(dt1, dt2) merge(dt1,dt2),.) -> DL
-    # DL[,`:=`(Rotated="No",TILT=tiltp,MPS=MPSp)]
     llply(l2, read_data, directory=from) %>% Reduce(function(dt1, dt2) merge(dt1,dt2),.) -> DL1
-    DL1[,`:=`(Rotated="Yes",TILT=tiltp,MPL=MPLp)]
-    iv = c("Turn","Sec","PID","Rotated","TILT","MPL")
-    # DDL <- ddt(melt(DL,id.vars = iv), melt(DL1,id.vars = iv));
-    # DL <- rbind(DL,DL1)%>%melt(id.vars=iv)
+    DL1[,Rotated:="No"][,(p1name):=p1][,(p2name):=p2]
+    iv = c("Turn","Sec","PID","Rotated",p1name,p2name)
     melt(DL1,id.vars = iv)
   }) %>% data.table() -> DL
   
-  ggplot(DL[variable%in%c("Sy","Sx")&Turn<2&PID%in%c("X5","X4")],
+  ggplot(DL[variable%in%c("Sy","Sx")&Turn<2&PID%in%c("X3","X2")],
          aes(Turn, value, col=PID, shape=variable)) +
     geom_line(size=.3) + geom_point(size=2) + theme_bw() + #scale_y_log10()+
-    facet_grid(TILT~MPL,scales="free_y") + 
+    facet_grid(magnet.length~aperture,scales="free_y") + 
     theme(legend.position="top") + scale_color_manual(values=c("blue","red"))
     
   DL[variable=="Sy"&Turn==1] -> sdat
-  sdat[,.(SyG=value),by=c("TILT","MPL","PID")] ->df
+  sdat[,.(SyG=value),by=c("aperture","magnet.length","PID")] ->df
   data.table(merge(PID,df))->df
-  ggplot(df[PID%in%paste0("X",c(4))], aes(MPL,SyG, col=as.factor(x), shape=as.factor(TILT))) + 
+  ggplot(df[PID%in%paste0("X",c(1:3))], aes(magnet.length,SyG, col=as.factor(x),shape=as.factor(y))) + 
     geom_point(size=2) +  #scale_y_log10() + 
     theme_bw() + theme(legend.position="top") +
+    facet_grid(aperture~.) +
     labs(y="Growth of Sy in 1 turn", x="Multipole Length")
   
   ## spectral analysis
