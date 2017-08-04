@@ -66,33 +66,33 @@ if(TRUE){
     p2 <- p2list[p] 
     
     llply(l2, read_data, directory=from) %>% Reduce(function(dt1, dt2) merge(dt1,dt2),.) -> DL1
-    DL1[,Rotated:="No"][,(p1name):=p1][,(p2name):=p2]
+    DL1[,Rotated:="Yes"][,(p1name):=p1][,(p2name):=p2]
     iv = c("Turn","Sec","PID","Rotated",p1name,p2name)
     melt(DL1,id.vars = iv)
   }) %>% data.table() -> DL
   
-  DL[variable=="Sy"&Turn==1] -> sdat
-  sdat[,.(DeltaSy=value),by=c("multipole_strength","aperture","PID")] ->df
+  DL[variable=="Sy"&Turn<3] -> sdat
+  sdat[,.(DeltaSy=value),by=c("magnet_strength","aperture","PID")] ->df
   data.table(merge(PID,df))->df
-  ggplot(df[PID%in%paste0("X",c(1:3))], aes(multipole_strength,DeltaSy, col=as.factor(x),shape=as.factor(y))) + 
+  ggplot(df[PID%in%paste0("X",c(1:3))], aes(magnet_strength,DeltaSy, col=as.factor(x),shape=as.factor(y))) + 
     geom_point(size=2) +  #scale_y_log10() + 
     theme_bw() + #theme(legend.position="top") +
     facet_grid(aperture~.,scales = "free_y") +
     scale_x_continuous(labels=function(x)formatC(x,2,format="e"))
   
   
-  ggplot(df,aes(multipole_strength, DeltaSy, col=as.factor(aperture))) + 
+  ggplot(df,aes(magnet_strength, DeltaSy, col=as.factor(aperture))) + 
     geom_point() + geom_line() + 
     theme_bw() + theme(legend.position="top",axis.text.x = element_text(angle = 90, hjust = 1)) +
     facet_grid(y~x,scales = "free_y") + 
     scale_x_continuous(labels=function(x)formatC(x,2,format="e"))
   
   
-  ggplot(DL[variable%in%c("Sy","Sx")&Turn<2&PID%in%c("X3","X2")],
-         aes(Turn, value, col=PID, shape=variable)) +
+  ggplot(DL[variable%in%c("Sy","Sx","x","y")&Turn<300&PID%in%c("X6","X7","X8","X9")],
+         aes(Turn, value, col=PID)) +
     geom_line(size=.3) + geom_point(size=2) + theme_bw() + #scale_y_log10()+
-    facet_grid(magnet_length~aperture,scales="free_y") + 
-    theme(legend.position="top") + scale_color_manual(values=c("blue","red"))
+    facet_grid(variable~magnet_strength,scales="free_y") + 
+    theme(legend.position="top") #+ scale_color_manual(values=c("blue","red"))
   
   ## spectral analysis
   par(mfrow=c(3,2))
