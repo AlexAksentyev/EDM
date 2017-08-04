@@ -52,16 +52,16 @@ PID <- read_table(paste0(from,"fort.100"), col_names=c("x","y","d"))
 PID$PID <- paste0("X",1:nrow(PID))
 
 
-## Analysis tilt ####
+## Analysis ####
 
 if(TRUE){
   
   ldply(1:9, function(p) {
     l2 <- 600 + (p-1)*100 + 1:9
     scan(paste0(from,"fort.1"),skip = 1) -> p1list
-    scan(paste0(from,"fort.1"),what=character(), nlines=1)%>%paste0(collapse=".") -> p1name
+    scan(paste0(from,"fort.1"),what=character(), nlines=1)%>%paste0(collapse="_") -> p1name
     scan(paste0(from,"fort.2"),skip = 1)-> p2list
-    scan(paste0(from,"fort.2"),what=character(), nlines=1)%>%paste0(collapse=".") -> p2name
+    scan(paste0(from,"fort.2"),what=character(), nlines=1)%>%paste0(collapse="_") -> p2name
     p1 <- p1list[p]
     p2 <- p2list[p] 
     
@@ -71,20 +71,28 @@ if(TRUE){
     melt(DL1,id.vars = iv)
   }) %>% data.table() -> DL
   
+  DL[variable=="Sy"&Turn==1] -> sdat
+  sdat[,.(DeltaSy=value),by=c("multipole_strength","aperture","PID")] ->df
+  data.table(merge(PID,df))->df
+  ggplot(df[PID%in%paste0("X",c(1:3))], aes(multipole_strength,DeltaSy, col=as.factor(x),shape=as.factor(y))) + 
+    geom_point(size=2) +  #scale_y_log10() + 
+    theme_bw() + #theme(legend.position="top") +
+    facet_grid(aperture~.,scales = "free_y") +
+    scale_x_continuous(labels=function(x)formatC(x,2,format="e"))
+  
+  
+  ggplot(df,aes(multipole_strength, DeltaSy, col=as.factor(aperture))) + 
+    geom_point() + geom_line() + 
+    theme_bw() + theme(legend.position="top",axis.text.x = element_text(angle = 90, hjust = 1)) +
+    facet_grid(y~x,scales = "free_y") + 
+    scale_x_continuous(labels=function(x)formatC(x,2,format="e"))
+  
+  
   ggplot(DL[variable%in%c("Sy","Sx")&Turn<2&PID%in%c("X3","X2")],
          aes(Turn, value, col=PID, shape=variable)) +
     geom_line(size=.3) + geom_point(size=2) + theme_bw() + #scale_y_log10()+
-    facet_grid(magnet.length~aperture,scales="free_y") + 
+    facet_grid(magnet_length~aperture,scales="free_y") + 
     theme(legend.position="top") + scale_color_manual(values=c("blue","red"))
-    
-  DL[variable=="Sy"&Turn==1] -> sdat
-  sdat[,.(SyG=value),by=c("aperture","magnet.length","PID")] ->df
-  data.table(merge(PID,df))->df
-  ggplot(df[PID%in%paste0("X",c(1:3))], aes(magnet.length,SyG, col=as.factor(x),shape=as.factor(y))) + 
-    geom_point(size=2) +  #scale_y_log10() + 
-    theme_bw() + theme(legend.position="top") +
-    facet_grid(aperture~.) +
-    labs(y="Growth of Sy in 1 turn", x="Multipole Length")
   
   ## spectral analysis
   par(mfrow=c(3,2))
