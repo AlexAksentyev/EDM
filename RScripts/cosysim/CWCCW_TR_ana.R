@@ -5,6 +5,8 @@ library(ggplot2)
 library(cowplot)
 library(lattice)
 
+rm(list=ls(all=TRUE))
+
 ## DEFINITIONS ####
 
 degroup <- function(scanvec){
@@ -45,7 +47,7 @@ ddt <- function(dt1, dt2, id.vars=c("Turn","PID","Rotated","variable")){
 }
 
 ## ANALYSIS ####
-from = "~/git/COSYINF/test/"#ALLWC/"
+from = "~/git/COSYINF/test/"
 
 ## reading particle initial data ####
 PID <- read_table(paste0(from,"fort.100"), col_names=c("x","y","d"))
@@ -71,39 +73,42 @@ if(TRUE){
     melt(DL1,id.vars = iv)
   }) %>% data.table() -> DL
   
-  DL[variable=="Sy"&Turn<3] -> sdat
-  sdat[,.(DeltaSy=value),by=c("magnet_strength","aperture","PID")] ->df
+  DL[variable=="Sy"&Turn==2] -> sdat
+  sdat[,.(DeltaSy=value,DT=magnet_length/(.4855*2.9979e3)),by=c("magnet_length","magnet_strength","PID")] ->df
   data.table(merge(PID,df))->df
-  ggplot(df[PID%in%paste0("X",c(1:3))], aes(magnet_strength,DeltaSy, col=as.factor(x),shape=as.factor(y))) + 
-    geom_point(size=2) +  #scale_y_log10() + 
+  ggplot(df[PID%in%paste0("X",c(1:9))], aes(magnet_length,DeltaSy, col=as.factor(x),shape=as.factor(y))) + 
+    geom_point(size=2) + geom_line()+ #scale_y_log10() + 
     theme_bw() + #theme(legend.position="top") +
-    facet_grid(aperture~.,scales = "free_y") +
+    facet_grid(magnet_strength~.,scales = "free_y") +
     scale_x_continuous(labels=function(x)formatC(x,2,format="e"))
   
   
-  ggplot(df,aes(magnet_strength, DeltaSy, col=as.factor(aperture))) + 
+  ggplot(df,aes(magnet_length, DeltaSy, col=as.factor(magnet_strength))) + 
     geom_point() + geom_line() + 
     theme_bw() + theme(legend.position="top",axis.text.x = element_text(angle = 90, hjust = 1)) +
     facet_grid(y~x,scales = "free_y") + 
     scale_x_continuous(labels=function(x)formatC(x,2,format="e"))
   
   
-  ggplot(DL[variable%in%c("Sy","Sx","x","y")&Turn<300&PID%in%c("X6","X7","X8","X9")],
+  ggplot(DL[variable%in%c("Sy","Sx","x","y")&Turn<100&PID%in%paste0("X",c(3,8))&magnet_strength==.46],
          aes(Turn, value, col=PID)) +
-    geom_line(size=.3) + geom_point(size=2) + theme_bw() + #scale_y_log10()+
-    facet_grid(variable~magnet_strength,scales="free_y") + 
+    geom_line(size=.3) + geom_point(size=1) + theme_bw() + #scale_y_log10()+
+    facet_grid(variable~magnet_length,scales="free_y") + 
     theme(legend.position="top") #+ scale_color_manual(values=c("blue","red"))
   
   ## spectral analysis
-  par(mfrow=c(3,2))
-  laply(1:3, function(p){
-    DL[Rotated=="Yes"&PID=="X1"&variable=="Sy"&TILT==unique(TILT)[p]]->sdat
-    tsSY <- ts(sdat$value, start=0, end=sdat[nrow(sdat),Sec], deltat=as.numeric(sdat$Sec[2]-sdat$Sec[1]))
-    plot(tsSY, ylab="Sy", main=sdat$TILT[1])
-    spec.pgram(tsSY,log="no") -> sps
-    sps$freq[which.max(sps$spec)]*2*pi
-  })
-  par(mfrow=c(1,1))
+  if(FALSE){
+    par(mfrow=c(3,2))
+    laply(1:3, function(p){
+      DL[Rotated=="Yes"&PID=="X1"&variable=="Sy"&TILT==unique(TILT)[p]]->sdat
+      tsSY <- ts(sdat$value, start=0, end=sdat[nrow(sdat),Sec], deltat=as.numeric(sdat$Sec[2]-sdat$Sec[1]))
+      plot(tsSY, ylab="Sy", main=sdat$TILT[1])
+      spec.pgram(tsSY,log="no") -> sps
+      sps$freq[which.max(sps$spec)]*2*pi
+    })
+    par(mfrow=c(1,1))
+  }
+
   print(PID)
   
 }
