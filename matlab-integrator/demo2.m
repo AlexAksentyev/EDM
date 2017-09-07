@@ -69,7 +69,7 @@ ELS2 =   @()equadr(0.05, 0, h);
 
 lattice = [
         
-        %{ELS1};
+        % {ELS1};
         {LfA};{O1};{Sf};{O2};{R1};{O2};{BPM};{O1};{LdA};{LdA};{O1};{Sd};{O2};{R2};{O2};{BPM};{O1};{LfA};    
         {LfA};{O1};{Sf};{O2};{R3};{O2};{BPM};{O1};{LdA};%{     ELS2     };
         {LdA};{O1};{Sd};{O2};{R4};{O2};{BPM};{O1};{LfA};
@@ -79,7 +79,7 @@ lattice = [
         {LfA};{O1};{Sf};{O2};{R5};{O2};{BPM};{O1};{LdA};{LdA};{O1};{Sd};{O2};{R6};{O2};{BPM};{O1};{LfA};    
         {LfA};{O1};{Sf};{O2};{R7};{O2};{BPM};{O1};{LdA};{LdA};{O1};{Sd};{O2};{R8};{O2};{BPM};{O1};{LfA};
         
-        %{ELS1};
+        % {ELS1};
         
         {LfA};{O1};{Sf};{O2};{R9};{O2};{BPM};{O1};{LdA};{LdA};{O1};{Sd};{O2};{R10};{O2};{BPM};{O1};{LfA};    
         {LfA};{O1};{Sf};{O2};{R11};{O2};{BPM};{O1};{LdA};%{     ELS2     };
