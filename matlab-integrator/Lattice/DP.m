@@ -19,7 +19,7 @@ R1 = @()ecyldeflm(L, j, R, h);
 
 lattice = [{R1}];
 
-X0 = [2e-3 zeros(1,7) 1 0]; n=100;
+X0 = [1e-3 5e-3 zeros(1,6) 1 0]; n=30;
 X = turn(lattice, X0, n);
 x = X(1, :);
 y = X(2, :);
@@ -27,7 +27,7 @@ sy = X(8,:);
 sx = X(7,:);
 
 
-subplot(2,2,1); plot([1:1:n+1], x); title('x');
-subplot(2,2,2); plot([1:1:n+1], y); title('y');
-subplot(2,2,3); plot([1:1:n+1], sx); title('Sx');
-subplot(2,2,4); plot([1:1:n+1], sy); title('Sy');
+subplot(2,2,1); plot(x, '-b'); title('x');
+subplot(2,2,2); plot(y, '-r'); title('y');
+subplot(2,2,3); plot(sx, '-.b'); title('Sx');
+subplot(2,2,4); plot(sy, '-.r'); title('Sy');
