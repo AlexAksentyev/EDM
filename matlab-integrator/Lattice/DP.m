@@ -15,19 +15,27 @@ PHI=L/R/DEGRAD;
 
 h=0.05;
 
-R1 = @()ecyldeflm(L, j, R, h);
+R1 = @()mdipole(L, j, R);
 
 lattice = [{R1}];
 
-X0 = [1e-3 5e-3 zeros(1,6) 1 0]; n=30;
-X = turn(lattice, X0, n);
-x = X(1, :);
-y = X(2, :);
-sy = X(8,:);
-sx = X(7,:);
+n=100
+X0 = [1e-3*ones(1,3) -2e-3:2e-3:2e-3; [-2e-3:2e-3:2e-3] 1e-3*ones(1,3); zeros(6,6); ones(1,6); zeros(1,6)];
+X = cell(6)
+for i=1:4
+  disp(num2str(i));
+  X{i} = turn(lattice, X0(:,i), n);
+end
+
+x=[X{1}(1,:); X{2}(1,:); X{3}(1,:); X{4}(1,:)]
+y=[X{1}(2,:); X{2}(2,:); X{3}(2,:); X{4}(2,:)]
+sx=[X{1}(7,:); X{2}(7,:); X{3}(7,:); X{4}(7,:)]
+Sy=[X{1}(8,:); X{2}(8,:); X{3}(8,:); X{4}(8,:)]
 
 
-subplot(2,2,1); plot(x, '-b'); title('x');
-subplot(2,2,2); plot(y, '-r'); title('y');
-subplot(2,2,3); plot(sx, '-.b'); title('Sx');
-subplot(2,2,4); plot(sy, '-.r'); title('Sy');
+
+for i=1:4; subplot(2,2,1); plot(x(i,:)); hold all; title('x'); end; legend("p1","p2","p3","p4");
+for i=1:4; subplot(2,2,2); plot(y(i,:)); hold all; title('y'); end; legend("p1","p2","p3","p4");
+for i=1:4; subplot(2,2,3); plot(sx(i,:)); hold all; title('Sx'); end; legend("p1","p2","p3","p4");
+for i=1:4; subplot(2,2,4); plot(sy(i,:)); hold all; title('Sy'); end; legend("p1","p2","p3","p4");
+

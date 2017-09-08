@@ -1,4 +1,4 @@
-% · mdipole(length, B0, R)
+%  mdipole(length, B0, R)
 %     represents a horizontally bending dipole B_y=B0
 %     if B0 is equal to j then B0 = p/(R*q)
 function [f, L, left, right] = mdipole(length, B0, R)
