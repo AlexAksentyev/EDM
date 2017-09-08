@@ -1,6 +1,6 @@
 function X = turn(els, X0, n)
 global options
-options = odeset('AbsTol',1e-5, 'RelTol',1e-5, 'MaxStep', 0.01, 'InitialStep', .01);
+options = odeset('AbsTol',1e-5, 'RelTol',1e-5, 'MaxStep', 0.1, 'InitialStep', .1);
 X = zeros(length(X0), n+1);
 X(:,1)=X0;
 
@@ -11,7 +11,6 @@ N=1;
 for k=1:n
     for i=1:length(els)
         elf = els{i}; 
-        disp(['turn ' num2str(k) ' element ' num2str(i)]);
         [element, L, leftcorrection, rightcorrection] = elf(); 
         Xtmp = leftcorrection(Xtmp);
         [t, x] = ode45(element, [0 L], Xtmp, options);
