@@ -1,4 +1,4 @@
-function [f, L, left, right] = ecyldeflm(length, V, R, HGAP)
+function [f, L, left, right] = wien(length, V, R, HGAP)
 
     global m q G c MeV W0
     R1 = R-HGAP;
