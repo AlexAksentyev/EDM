@@ -1,6 +1,6 @@
 function X = turn(els, X0, n)
 global options
-options = odeset('AbsTol',1e-5, 'RelTol',1e-5, 'MaxStep', 0.1, 'InitialStep', .1);
+options = odeset('AbsTol',1e-5, 'RelTol',1e-5, 'MaxStep', 0.01, 'InitialStep', .01);
 X = zeros(length(X0), n+1);
 X(:,1)=X0;
 

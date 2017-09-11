@@ -2,13 +2,11 @@ clc; clear;
 
 initBDT; setD;
 
-G = -.14;
 h = .05;
 R = 9.207;
-Ebp = -12e6; %V/m
-Lbp = pi/16 *(m*c*c/MeV)*g^3*b^2*G*1e6/(Ebp*(G+1));
-
 Lq = 5;
+Lw = 1.808;
+
 GSFP = 0;
 GSDP = 0;
 
@@ -107,5 +105,9 @@ lattice = [
         {QFS};{QFS};{DL_25};{SfA};{DL_25};{DL2_2};{DL_25};{BPM};{DL_25};
         {QDS};
 
-     ];
+];
+
+
+X0 = [1e-3*ones(1,3) -2e-3:2e-3:2e-3; [-2e-3:2e-3:2e-3] 1e-3*ones(1,3); zeros(6,6); ones(1,6); zeros(1,6)];
+n=10; i=1;
 

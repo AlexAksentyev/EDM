@@ -6,4 +6,4 @@ DEGRAD = 180/pi;
 AMUMEV = 931.4940136;
 AMU = 1.66053873e-27;
 
-options = odeset('AbsTol',1e-5, 'RelTol',1e-5, 'MaxStep', 0.1);
+options = odeset('AbsTol',1e-5, 'RelTol',1e-5, 'MaxStep', 0.01);
