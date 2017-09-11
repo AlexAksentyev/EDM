@@ -12,6 +12,9 @@
 \usepackage{url}
 %\usepackage{hyperref}
 
+\usepackage{tikz}
+\usepackage{pgfplots}
+
 % SYNTACTIC DEFINITIONS
 \newcommand{\err}{\epsilon}
 
@@ -25,6 +28,9 @@
 \DeclareDocumentCommand{\avg}{mo}{\langle #1\rangle_{#2}}
 \DeclareDocumentCommand{\SE}{mo}{\mathrm{SE}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
 \DeclareDocumentCommand{\SD}{mo}{\sigma_{#1\IfNoValueTF{#2}{}{| #2}}}
+\DeclareDocumentCommand{\avg}{mO{}}{\langle #1\rangle_{#2}}
+
+\DeclareDocumentCommand{\var}{O{}mo}{\mathrm{var}_{#1}\bkt*{#2\IfValueT{#3}{\vert~ #3}}}
 
 \newcommand{\td}{\mathrm{d}}
 

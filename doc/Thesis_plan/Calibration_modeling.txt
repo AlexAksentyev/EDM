@@ -1,0 +1,17 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2017-07-12T09:47:39+02:00
+
+====== Calibration modeling ======
+Created Wednesday 12 July 2017
+
+1. For a given ensemble of rays, compute Wx => (x, Wx).
+2. Make Wx = 0 by adjusting the perpendicular solenoid magnetic field strength.
+3. Compute Wy.
+4. Revert the transfer map, repeat 2.
+5. Adjust the beam energy to make Wy(REV) = Wy(FWD).
+6. Turn off the solenoid, compute Wx.
+7. Compare Wx(REV) to Wx(FWD).
+
+[[../../Calibration_modeling.odp|Details]]
+I have an ensemble of rays varying in x and d. I track the ensemble spins and compute the precession frequencies Wx, Wy under two conditions: Bsol=0 & (Bsol : Wx=0). That gives me [(Wx, Wy)_FWD](x, d). I repeat the same for the reversed map, get [(Wx, Wy)_REV](x, d).

@@ -20,7 +20,7 @@ The original methodology for measuring the EDM of a particle in a storage ring c
 
 The other source of spin precession is the particle's MDM, which reacts to the presence of the magnetic field. Precession in the horizontal plane caused by the vertical B-field component negatively affects the amplitude of the vertical polarization growth, and precession about the radial B-field is a major faking signal. 
 
-__Maximization of the signal is accomplished by adjusting the beam energy to the "magic value," at which the spin precesses at the same rate as the beam momentum in the horizontal plane. This is the basis of the Frozen Spin experiment concept. However, magnet misalignments, and the corresponding surious magnetic field components, are still a problem.__
+__Maximization of the signal is accomplished by adjusting the beam energy to the "magic value," at which the spin precesses at the same rate as the beam momentum in the horizontal plane. This is the basis of the Frozen Spin experiment concept. However, magnet misalignments, and the corresponding spurious magnetic field components, are still a problem.__
 
 The QFS design allows for the spin precession in the horizontal plane relative to the momentum. This enables the use of a simpler lattice structure a reduction in the EDM signal
 

@@ -18,6 +18,12 @@ Created Tuesday 14 March 2017
 4. **Investigation of systematic errors.** (How the deviation from the ideal increases our uncertainty in the value of the EDM.)
 5. **Parameters of the ring for the CDR.** (... that ensure sufficient reduction of that uncertainty.)
 
+===== Detailed plan =====
+Three parts: 
+1. Problem statement;
+2. Precision;
+3. Hardware methods to achieve that precision.
+
 ===== Workflow =====
 
 ==== Experiment ====

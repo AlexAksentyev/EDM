@@ -5,9 +5,42 @@ Creation-Date: 2017-03-17T15:42:47+01:00
 ====== Experiment ======
 Created Friday 17 March 2017
 
-We measure the EDM by estimating the spin precession frequency in the vertical plane. The spin of a particle precesses for two reasons: the MDM and EDM. 
+[[../../TheFourConcepts.pdf|The four concepts]] in the foundation of the JEDI experiment are:
+	A. Boundary factors:
+		1. Measure frequency;
+		2. Confounding;
+	B. @Procedures:
+		1. CW/CCW;
+		2. Calibration.
 
-===== The reference particle model =====
+===== Modeling of CW/CCW =====
+@modeling
 
-==== FS machine ====
-In the ideal FS machine, as a result of the reference particle's having magic energy, the spin precession in the vertical plane is only due to the EDM. 
+Distribute tilt error => Transfer map. 
+Track/Spin tune/&c => Spin Motion Characteristic (1). // SMC : {{./equation012.png?type=equation}}; see image below.
+Reverse injection direction (map). 
+Track/Spin tune/&c => SPC (2). 
+Compare SMC (1) & SMC (2) => statistic. // angle {{./equation018.png?type=equation}} between {{./equation019.png?type=equation}} ?
+Repeat many times => Statistic distribution.
+
+Analyze the statistic distribution and conclude if/under what constriction of the error distribution we can get it sufficiently narrow.
+
+==== note 1 ====
+Every time the beam is injected into the ring, it occupies a different subspace of phase space (call it {{./equation007.png?type=equation}}). Spin tune is, theoretically, a function of the beam position (x,y), momentum spread (dp/p =: d), and kinetic energy ({{./equation008.png?type=equation}}); the first two are second order terms, while the kinetic energy dependence is linear. Hence we propose to calibrate the transition between the CW to CCW regimes via adjusting the beam energy {{./equation009.png?type=equation}}.
+
+{{./CW-CCW_comparison_idea.xpm}}
+In calibrating, we observe the spin precession in the horizontal plane, i.e. {{./equation010.png?type=equation}}. We need to show that (under our conditions)
+	 {{./equation004.png?type=equation}}.
+{{./Equate_OmegaY_Equate_OmegaR.png}}
+{{./equation005.png?type=equation}} requires the directions {{./equation006.png?type=equation}} to coincide, as can be observed from the figure above.
+
+
+===== Modeling of Calibration =====
+
+Turn on solenoid (turn off vertical precession). // Transfer map w/solenoid on
+Set B_{y}.
+Compute {{./equation.png?type=equation}}. // TSP computes all Omegas; observe {{./equation002.png?type=equation}}
+Turn off solenoid (turn on vertical precession). // Transfer map w/solenoid off
+Compute {{./equation001.png?type=equation}}. // Observe from TSP {{./equation003.png?type=equation}}
+
+{{./SpinTuneCOSYInf.png}}
