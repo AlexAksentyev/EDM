@@ -26,6 +26,8 @@ SdA = @()msext(.15, GSDP);
 
 WA = @()wien(1.808, j, R, h); % i don't understand the By formula in there
 
+X0 = [1e-3 -1e-3 0 0 0 0 0 0 1 0];
+
 lattice = [
         
         %%%% SS1H2 %%%%
