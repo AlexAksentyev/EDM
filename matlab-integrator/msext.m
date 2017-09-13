@@ -1,6 +1,6 @@
-% · msext(length, g)
+%  msext(length, g)
 %     represents a normal sextupole B_x=gp*x*y, B_y=0.5*gp*(x^2-y^2)
-function [f, L, left, right] = mquadr(length, gp)
+function [f, L, left, right] = msext(length, gp)
 
     global m q G c MeV W0
     

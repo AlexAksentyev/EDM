@@ -1,5 +1,7 @@
 clc; clear
 
+disp("Running DP\n");
+
 initBDT; setD;
 
 %global MeV AMU AMUMEV DEGRAD c m q W0
@@ -22,9 +24,9 @@ lattice = [{R1}];
 n=100
 X0 = [1e-3*ones(1,3) -2e-3:2e-3:2e-3; [-2e-3:2e-3:2e-3] 1e-3*ones(1,3); zeros(6,6); ones(1,6); zeros(1,6)];
 X = cell(6)
-for i=4:6
+for i=1:4
   disp(num2str(i));
-  X{i-3} = turn(lattice, X0(:,i), n);
+  X{i} = turn(lattice, X0(:,i), n);
 end
 
 x=[X{1}(1,:); X{2}(1,:); X{3}(1,:); X{4}(1,:)]
