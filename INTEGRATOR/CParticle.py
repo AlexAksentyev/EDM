@@ -23,9 +23,8 @@ class Particle:
     def __init__(self, State0):
         
         self._fIniState = list(State0)
-        self.fState = {0:list(State0)}
-        
         self.fGamma0, self.fBeta0 = self._GammaBeta(self.fKinEn0)
+        
     
     def _GammaBeta(self, NRG):
         gamma = NRG / self.fMass0 + 1
@@ -89,6 +88,7 @@ class Particle:
     def track(self, ElementSeq, ntimes):
         brks = 101
         Xtmp = self._fIniState
+        self.fState = {0:list(Xtmp)}
         for n in range(1,ntimes+1):
             for i in range(len(ElementSeq)):
                 element = ElementSeq[i]
@@ -98,6 +98,7 @@ class Particle:
                 Xtmp = odeint(self._RHS, Xtmp, at, args=(element,))[brks-1]
                 Xtmp = element.rearKick(Xtmp)
             self.fState.update({n:Xtmp})
+            self._Stats.update({n: StatTmp})
         
         
 
