@@ -12,9 +12,13 @@ fquad = MQuad(5,.831)
 dquad = MQuad(5,-.86)
 fsext = MSext(5,1.023)
 dsext = MSext(5,-1.34)
+mdip = MDipole(1.8, 7.55, (0,.46,0))
+
 p = Particle(state)
 
-p.track([fquad, ds, dquad],500)
+FODO = [fquad, ds, dquad, ds]
+
+p.track([mdip],5)
 
 x = [p.fState[i][0] for i in p.fState]
 y = [p.fState[i][1] for i in p.fState]
@@ -29,6 +33,10 @@ df = pandas.DataFrame({'x':x,'y':y,'Sx':Sx,'Sy':Sy,'t':t,'H':H,'dW':dW})
 df = pandas.melt(df, id_vars=['t','H'])
 ggplot(df.loc[df['variable'].isin(['x','y','Sx','Sy'])],aes(x='t',y='value'))+\
     geom_line() + facet_wrap('variable',scales='free')
+
+
+
+
 
 
 
