@@ -33,7 +33,7 @@ class Particle:
         return (gamma, beta)
     
     def _RHS(self, state, at, element):
-        x,y,s,px,py,dEn,Sx,Sy,Ss = state#.values() # px, py are normalized to P0c for consistency with the other vars
+        x,y,t,px,py,dEn,Sx,Sy,Ss,H = state # px, py are normalized to P0c for consistency with the other vars
         
         KinEn = self.fKinEn0*(1+dEn) # dEn = (En - En0) / En0
         lPC = lambda KNRG:  np.sqrt((self.fMass0 + KNRG)**2 - self.fMass0**2)
@@ -82,7 +82,7 @@ class Particle:
         Syp =                   t6 * ((Px * Ey - Py * Ex) * Sx - (Py * Es - Ps * Ey) * Ss) + (sp1*Bs+sp2*Ps)*Sx-(sp1*Bx+sp2*Px)*Ss
         Ssp = (-1)*kappa * Sx + t6 * ((Py * Es - Ps * Ey) * Sy - (Ps * Ex - Px * Es) * Sx) + (sp1*Bx+sp2*Px)*Sy-(sp1*By+sp2*Py)*Sx
         
-        DX = [xp, yp, tp, Pxp/P0c, Pyp/P0c, Wp/self.fKinEn0, Sxp, Syp, Ssp]
+        DX = [xp, yp, tp, Pxp/P0c, Pyp/P0c, Wp/self.fKinEn0, Sxp, Syp, Ssp, H]
         
         return DX
     
