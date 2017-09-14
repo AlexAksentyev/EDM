@@ -1,39 +1,11 @@
 from scipy.integrate import odeint
 import numpy as np
-import pandas
 
-class Element:
-    
-    fCurve = None
-    fLength = None
-    
-    def __init__(self, Curve, Length):
-        self.fCurve = Curve
-        self.fLength = Length
-    
-    def EField(self,arg):
-        return (0,0,0)
-    
-    def BField(self,arg):
-        return (0,0,0)
 
-    def frontKick(self,arg):
-        return arg
-    
-    def rearKick(self,arg):
-        return arg
 
-class Drift(Element):
-    
-    def __init__(self, Length):
-        Element.__init__(self, 0, Length)
-        
-    
-    def EField(self, X):
-        x,y = X[0:2]
-        return (-100*x, -100*y, 0 ) # test
-    
 class Particle:
+    
+    _Stats = {}
     
     _EZERO = 1.602176462e-19 # Coulomb
     _clight = 2.99792458e8 # m/s
@@ -61,9 +33,7 @@ class Particle:
         return (gamma, beta)
     
     def _RHS(self, state, at, element):
-        """ accepts field definitions in the form of a dictionary
-        """
-        x,y,s,px,py,dEn,Sx,Sy,Ss = state # px, py are normalized to P0c for consistency with the other vars
+        x,y,s,px,py,dEn,Sx,Sy,Ss,H = state.values() # px, py are normalized to P0c for consistency with the other vars
         
         KinEn = self.fKinEn0*(1+dEn) # dEn = (En - En0) / En0
         lPC = lambda KNRG:  np.sqrt((self.fMass0 + KNRG)**2 - self.fMass0**2)
@@ -90,13 +60,14 @@ class Particle:
         
         m0 = self.fMass0/self._clight**2
         q = self._EZERO
+        
         ## I don't understand the following formulas
         betap = (Wp*(self.fMass0)**2)/((KinEn+self.fMass0)**2*np.sqrt(KinEn**2+2*KinEn*self.fMass0))
         tp = H/v
         
         D = (q/(m0*hs))*(xp*By-yp*Bx+H*Es/v)-((gamma*v)/(H*hs))*3*kappa*xp # what's this?
-        xpp=((-H*D)/(gamma*v))*xp+((q*H)/Pc)*(H*Ex/v+yp*Bs-hs*By)+kappa*hs
-        ypp=((-H*D)/(gamma*v))*yp+((q*H)/Pc)*(H*Ey/v+hs*Bx-xp*Bs)
+        xpp=((-H*D)/(gamma*v))*xp+(H/(Pc*1e6))*(H*Ex/v+yp*Bs-hs*By)+kappa*hs
+        ypp=((-H*D)/(gamma*v))*yp+(H/(Pc*1e6))*(H*Ey/v+hs*Bx-xp*Bs)
         
         Pxp = Px*(betap/beta - gammap/gamma)+Pc*xpp/H-Px*((Px*xpp)/(Pc*H)+(Py*ypp)/(Pc*H)+(hs*kappa*xp)/(H**2))
         Pyp = Py*(betap/beta - gammap/gamma)+Pc*ypp/H-Py*((Px*xpp)/(Pc*H)+(Py*ypp)/(Pc*H)+(hs*kappa*xp)/(H**2))
@@ -111,7 +82,7 @@ class Particle:
         Syp =                   t6 * ((Px * Ey - Py * Ex) * Sx - (Py * Es - Ps * Ey) * Ss) + (sp1*Bs+sp2*Ps)*Sx-(sp1*Bx+sp2*Px)*Ss
         Ssp = (-1)*kappa * Sx + t6 * ((Py * Es - Ps * Ey) * Sy - (Ps * Ex - Px * Es) * Sx) + (sp1*Bx+sp2*Px)*Sy-(sp1*By+sp2*Py)*Sx
         
-        DX = [xp, yp, tp, Pxp/P0c, Pyp/P0c, Wp/self.fKinEn0, Sxp, Syp, Ssp]
+        DX = [xp, yp, tp, Pxp/P0c, Pyp/P0c, Wp/self.fKinEn0, Sxp, Syp, Ssp, H]
         
         return DX
     
@@ -129,3 +100,5 @@ class Particle:
             self.fState.update({n:Xtmp})
         
         
+
+
