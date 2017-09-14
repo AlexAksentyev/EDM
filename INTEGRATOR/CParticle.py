@@ -31,14 +31,17 @@ class Particle:
         beta = np.sqrt(gamma**2-1)/gamma
         return (gamma, beta)
     
+    def Pc(self, KNRG):
+        return np.sqrt((self.fMass0 + KNRG)**2 - self.fMass0**2)
+        
+    
     def _RHS(self, state, at, element):
         x,y,t,px,py,dEn,Sx,Sy,Ss,H = state # px, py are normalized to P0c for consistency with the other vars
         
         KinEn = self.fKinEn0*(1+dEn) # dEn = (En - En0) / En0
-        lPC = lambda KNRG:  np.sqrt((self.fMass0 + KNRG)**2 - self.fMass0**2)
         
-        Pc = lPC(KinEn) # momentum
-        P0c = lPC(self.fKinEn0) # reference momentum
+        Pc = self.Pc(KinEn) # momentum
+        P0c = self.Pc(self.fKinEn0) # reference momentum
         
         Px,Py = [P0c*x for x in (px,py)] # turn px,py back to MeVs
         Ps = np.sqrt(Pc**2 - Px**2 - Py**2)
@@ -98,7 +101,6 @@ class Particle:
                 Xtmp = odeint(self._RHS, Xtmp, at, args=(element,))[brks-1]
                 Xtmp = element.rearKick(Xtmp)
             self.fState.update({n:Xtmp})
-            self._Stats.update({n: StatTmp})
         
         
 
