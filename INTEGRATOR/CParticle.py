@@ -88,13 +88,14 @@ class Particle:
         
         return DX
     
-    def track(self, ElementSeq, ntimes):
+    def track(self, ElementSeq, ntimes, FWD = True):
         brks = 101
         Xtmp = self._fIniState
         self.fState = {0:list(Xtmp)}
         for n in range(1,ntimes+1):
             for i in range(len(ElementSeq)):
-                element = ElementSeq[i]
+                if FWD: element = ElementSeq[i]
+                else: element = ElementSeq[len(ElementSeq)-1-i]
                 at = np.linspace(0, element.fLength, brks)
                 
                 Xtmp = element.frontKick(Xtmp)
