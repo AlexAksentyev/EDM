@@ -48,9 +48,10 @@ class MQuad(Element):
         
 
 class MDipole(Element):
-    """ bending magnetic dipole (horizontally/vertically bending);
+    """ bending magnetic dipole (horizontally bending);
     define _BField as a tuple;
     could also be used as a solenoid, if _BField = (0,0,Bz)
+    and fCurve = 0
     """
     
     _BField = None
@@ -67,11 +68,11 @@ class MDipole(Element):
     
     @staticmethod    
     def computeBStrength(particle, R):
-        return particle.Pc(particle.fKinEn0)*1e6/R
+        return particle.Pc(particle.fKinEn0)*1e6/(R*particle.CLIGHT())
     
     @staticmethod
-    def computeRaduis(particle, BField):
-        return particle.Pc(particle.fKinEn0)/(particle.CLIGHT()*1e-6*BField)
+    def computeRaduis(particle, BField): 
+        return particle.Pc(particle.fKinEn0)*1e6/(BField*particle.CLIGHT())
         
         
     def BField(self, arg):
@@ -110,21 +111,20 @@ class Wien(Element):
     @staticmethod
     def computeVoltage(particle, R, Hgap):
         gamma,beta = particle.GammaBeta(particle.fKinEn0)
-        v = beta*particle.CLIGHT()
         R = [R, R-Hgap, R**2/(R-Hgap)]
-        E0 = - particle.Pc(particle.fKinEn0)*v/R[0] * 1e6
+        E0 = - particle.Pc(particle.fKinEn0)*beta/R[0] * 1e6
         return (E0 * R[0] * NP.log(R[2] / R[1])) / (-2)
     
     @staticmethod
     def computeBStrength(particle, R, Hgap): # no idea about the formulas here
         x = particle[0]
         gamma,beta = particle.GammaBeta(particle.fKinEn0)
-        v = beta*particle.CLIGHT()
         R = [R, R-Hgap, R**2/(R-Hgap)]
-        E0 = - particle.Pc(particle.fKinEn0)*v/R[0] * 1e6
+        E0 = - particle.Pc(particle.fKinEn0)*beta/R[0] * 1e6
         qm = particle.EZERO()/particle.fMass0
         k = qm * ((2 - 3*beta**2 - .75*beta**4)/beta**2 + 1/gamma)
         
+        v=beta*particle.CLIGHT()
         B0 = -E0/v
         k = k*1.18
         return 0.018935*(-B0)*(-1/R + k*B0*v)*x
