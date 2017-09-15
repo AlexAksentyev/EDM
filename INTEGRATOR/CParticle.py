@@ -7,7 +7,7 @@ class Particle:
     
     _Stats = {}
     
-    _EZERO = 1.602176462e-19 # Coulomb
+    _ezero = 1.602176462e-19 # Coulomb
     _clight = 2.99792458e8 # m/s
     
     _fIniState = None
@@ -24,10 +24,16 @@ class Particle:
     def __init__(self, State0):
         
         self._fIniState = list(State0)
-        self.fGamma0, self.fBeta0 = self._GammaBeta(self.fKinEn0)
+        self.fGamma0, self.fBeta0 = self.GammaBeta(self.fKinEn0)
         
+        
+    def CLIGHT(self):
+        return self._clight
     
-    def _GammaBeta(self, NRG):
+    def EZERO(self):
+        return self._ezero
+    
+    def GammaBeta(self, NRG):
         gamma = NRG / self.fMass0 + 1
         beta = np.sqrt(gamma**2-1)/gamma
         return (gamma, beta)
@@ -35,6 +41,11 @@ class Particle:
     def Pc(self, KNRG):
         return np.sqrt((self.fMass0 + KNRG)**2 - self.fMass0**2)
         
+    def getState(self):
+        return self._fState[:]
+    
+    def setState(self, value):
+        self._fState = value[:]
     
     def _RHS(self, state, at, element):
         x,y,t,px,py,dEn,Sx,Sy,Ss,H = state # px, py are normalized to P0c for consistency with the other vars
@@ -58,11 +69,11 @@ class Particle:
         Wp = (Ex*xp +Ey*yp +Es) * 1e-6 # Kinetic energy prime (in MeV)
         gammap = Wp/self.fMass0 # gamma prime
         
-        gamma,beta = self._GammaBeta(KinEn)
+        gamma,beta = self.GammaBeta(KinEn)
         v = beta*self._clight
         
         m0 = self.fMass0/self._clight**2
-        q = self._EZERO
+        q = self._ezero
         
         ## I don't understand the following formulas
         betap = (Wp*(self.fMass0)**2)/((KinEn+self.fMass0)**2*np.sqrt(KinEn**2+2*KinEn*self.fMass0))
