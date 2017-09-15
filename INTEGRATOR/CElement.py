@@ -18,11 +18,11 @@ class Element:
     def BField(self,arg):
         return (0,0,0)
 
-    def frontKick(self,arg):
-        return arg[:]
+    def frontKick(self,particle):
+        pass # do nothing
     
-    def rearKick(self,arg):
-        return arg[:]
+    def rearKick(self,particle):
+        pass # do nothing
 
 class Drift(Element):
     """ drift space
@@ -99,13 +99,20 @@ class Wien(Element):
     def BField(self, arg):        
         return (0, self._BField, 0)
     
-    def frontKick(self, arg):
-        x=arg[0]
+    def frontKick(self, particle):
+        x=particle._fState[0]
         R = self._R[0]
         R1 = self._R[1]
         R2 = self._R[2]
         V = self._Volt
         u = -V + 2*V*NP.log((R+x)/R1)/NP.log(R2/R1)
-        Xk = arg[:]
-        Xk[5] += 
+        particle._fState[5] -= u*1e-6/particle.fKinEn0
         
+    def rearKick(self, particle):
+        x=particle._fState[0]
+        R = self._R[0]
+        R1 = self._R[1]
+        R2 = self._R[2]
+        V = self._Volt
+        u = -V + 2*V*NP.log((R+x)/R1)/NP.log(R2/R1)
+        particle._fState[5] += u*1e-6/particle.fKinEn0
