@@ -28,6 +28,8 @@ WA = @()wien(1.808, j, R, h); % i don't understand the By formula in there
 
 X0 = [1e-3 -1e-3 0 0 0 0 0 0 1 0];
 
+FODO = [{QFS}; {DL_25}; {QDS}; {DL_25}];
+
 lattice = [
         
         %%%% SS1H2 %%%%

@@ -23,10 +23,10 @@ function Es = Es(t,x, y, s)
     Es = 0;
 end
 function Bx = Bx(t,x, y, s, g)
-    Bx = g*y;
+    Bx = -g*y;
 end
 function By = By(t,x, y, s, g)
-    By = g*x;
+    By = -g*x;
 end
 function Bs = Bs(t,x, y, s)
     Bs = 0;
