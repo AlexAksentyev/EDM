@@ -11,7 +11,8 @@ class Particle:
     _clight = 2.99792458e8 # m/s
     
     _fIniState = None
-    fState = None 
+    _fState = None 
+    fStateLog = dict()
     
     fMass0 = 1876.5592 # deuteron mass in MeV
     fKinEn0 = 270.005183 # deuteron magic energy
@@ -90,18 +91,18 @@ class Particle:
     
     def track(self, ElementSeq, ntimes, FWD = True):
         brks = 101
-        Xtmp = self._fIniState
-        self.fState = {0:list(Xtmp)}
+        self._fState = list(self._fIniState)
+        self.fStateLog = {0:list(self._fState)}
         for n in range(1,ntimes+1):
             for i in range(len(ElementSeq)):
                 if FWD: element = ElementSeq[i]
                 else: element = ElementSeq[len(ElementSeq)-1-i]
                 at = np.linspace(0, element.fLength, brks)
                 
-                Xtmp = element.frontKick(Xtmp)
-                Xtmp = odeint(self._RHS, Xtmp, at, args=(element,))[brks-1]
-                Xtmp = element.rearKick(Xtmp)
-            self.fState.update({n:Xtmp})
+                element.frontKick(self)
+                self._fState = odeint(self._RHS, self._fState, at, args=(element,))[brks-1]
+                element.rearKick(self)
+            self.fStateLog.update({n:self._fState})
         
         
 
