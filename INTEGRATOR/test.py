@@ -16,18 +16,21 @@ dsext = ENT.MSext(5,-1.34)
 
 p = PCL.Particle(state)
 
+#%%
+
 FODO = [fquad, ds_25, dquad, ds_25]
 
-B0 = .46
+B0 = .46; V0 = 120
 R = ENT.MDipole.computeRaduis(p,B0)
-mdip = ENT.MDipole(1.8, R, (0,B0,0))
+B0 = ENT.MDipole.computeBStrength(p, R)
 V = ENT.Wien.computeVoltage(p,R,.05)
-WA = ENT.Wien(1.808,R,.05,V,B0)
+
+mdip = ENT.MDipole(1.8, 7.55, (0,B0,0))
+wa = ENT.Wien(1.808,R,.05,V,B0)
 
 #%%
 
-p.track([mdip],1000,FWD=True)
-
+p.track([wa],2000,FWD=True)
 x = [p.fStateLog[i][0] for i in p.fStateLog]
 y = [p.fStateLog[i][1] for i in p.fStateLog]
 t = [p.fStateLog[i][2] for i in p.fStateLog]
