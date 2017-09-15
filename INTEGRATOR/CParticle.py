@@ -52,7 +52,7 @@ class Particle:
         
         KinEn = self.fKinEn0*(1+dEn) # dEn = (En - En0) / En0
         
-        Pc = self.Pc(KinEn) # momentum
+        Pc = self.Pc(KinEn) # momentum in MeVs
         P0c = self.Pc(self.fKinEn0) # reference momentum
         
         Px,Py = [P0c*x for x in (px,py)] # turn px,py back to MeVs
@@ -70,21 +70,28 @@ class Particle:
         gammap = Wp/self.fMass0 # gamma prime
         
         gamma,beta = self.GammaBeta(KinEn)
-        v = beta*self._clight
         
-        m0 = self.fMass0/self._clight**2
         q = self._ezero
+        clight = self._clight
+        v = beta*clight
+        m0 = q*1e6*self.fMass0/clight**2
         
         ## I don't understand the following formulas
         betap = (Wp*(self.fMass0)**2)/((KinEn+self.fMass0)**2*np.sqrt(KinEn**2+2*KinEn*self.fMass0))
         tp = H/v
         
         D = (q/(m0*hs))*(xp*By-yp*Bx+H*Es/v)-((gamma*v)/(H*hs))*3*kappa*xp # what's this?
-        xpp=((-H*D)/(gamma*v))*xp+(H/(Pc*1e6))*(H*Ex/v+yp*Bs-hs*By)+kappa*hs
-        ypp=((-H*D)/(gamma*v))*yp+(H/(Pc*1e6))*(H*Ey/v+hs*Bx-xp*Bs)
         
+        # these two are in the original dimensions
+        xpp=((-H*D)/(gamma*v))*xp+(clight*H/(Pc*1e6))*(H*Ex/v+yp*Bs-hs*By)+kappa*hs
+        ypp=((-H*D)/(gamma*v))*yp+(clight*H/(Pc*1e6))*(H*Ey/v+hs*Bx-xp*Bs)
+        
+        # these two are in MeVs
         Pxp = Px*(betap/beta - gammap/gamma)+Pc*xpp/H-Px*((Px*xpp)/(Pc*H)+(Py*ypp)/(Pc*H)+(hs*kappa*xp)/(H**2))
         Pyp = Py*(betap/beta - gammap/gamma)+Pc*ypp/H-Py*((Px*xpp)/(Pc*H)+(Py*ypp)/(Pc*H)+(hs*kappa*xp)/(H**2))
+        
+        
+        Px,Py,Ps = tuple([e/clight for e in (Px,Py,Ps)]) # the original formulas use momenta, not P*c
         
         t5 = tp
         t6 =  t5* (q / (gamma * m0 * self.fMass0)) * (self.fG + 1/(1 + gamma))
