@@ -1,4 +1,3 @@
-from importlib  import reload
 from ggplot import ggplot, aes, geom_line, theme_bw, facet_wrap
 import pandas as PDS
 import CParticle as PCL
@@ -19,13 +18,15 @@ p = PCL.Particle(state)
 
 FODO = [fquad, ds_25, dquad, ds_25]
 
-R = 7.55
-B0 = p.Pc(p.fKinEn0)*1e6/R
+B0 = .46
+R = ENT.MDipole.computeRaduis(p,B0)
 mdip = ENT.MDipole(1.8, R, (0,B0,0))
-WA = ENT.Wien(1.808,R,.05,120e5,B0)
+V = ENT.Wien.computeVoltage(p,R,.05)
+WA = ENT.Wien(1.808,R,.05,V,B0)
 
+#%%
 
-p.track([mdip]*3,40,FWD=False)
+p.track([mdip],1000,FWD=True)
 
 x = [p.fStateLog[i][0] for i in p.fStateLog]
 y = [p.fStateLog[i][1] for i in p.fStateLog]
@@ -40,5 +41,6 @@ df = PDS.DataFrame({'x':x,'y':y,'Sx':Sx,'Sy':Sy,'t':t,'H':H,'dW':dW})
 df = PDS.melt(df, id_vars=['t','H'])
 ggplot(df.loc[df['variable'].isin(['x','y','Sx','Sy'])],aes(x='t',y='value'))+\
     geom_line() + facet_wrap('variable',scales='free')
+
 
 
