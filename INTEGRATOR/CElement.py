@@ -66,17 +66,31 @@ class MDipole(Element):
     def getBField(self):
         return self._BField[:]
     
-    @staticmethod    
-    def computeBStrength(particle, R):
+    @classmethod    
+    def computeBStrength(cls,particle, R):
         return particle.Pc(particle.fKinEn0)*1e6/(R*particle.CLIGHT())
     
-    @staticmethod
-    def computeRaduis(particle, BField): 
+    @classmethod
+    def computeRadius(cls,particle, BField): 
         return particle.Pc(particle.fKinEn0)*1e6/(BField*particle.CLIGHT())
         
         
     def BField(self, arg):
         return self._BField
+  
+
+class Solenoid(MDipole):
+    def __init__(self, Length, Bs):
+        Element.__init__(self, 0, Length)
+        self.setBField((0,0,Bs))
+        
+    @classmethod
+    def computeBStrength(cls, *args):
+        print('Not defined')
+        
+    @classmethod
+    def computeRadius(cls, *args):
+        print('Infinite radius = zero curvature')
         
 
 class MSext(Element):
@@ -116,8 +130,8 @@ class Wien(Element):
         return (E0 * R[0] * NP.log(R[2] / R[1])) / (-2)
     
     @staticmethod
-    def computeBStrength(particle, R, Hgap): # no idea about the formulas here
-        x = particle[0]
+    def computeBStrength(particle, R, Hgap): # no idea about the end-formula here
+        x = particle.getState()[0]
         gamma,beta = particle.GammaBeta(particle.fKinEn0)
         R = [R, R-Hgap, R**2/(R-Hgap)]
         E0 = - particle.Pc(particle.fKinEn0)*beta/R[0] * 1e6
@@ -125,9 +139,9 @@ class Wien(Element):
         k = qm * ((2 - 3*beta**2 - .75*beta**4)/beta**2 + 1/gamma)
         
         v=beta*particle.CLIGHT()
-        B0 = -E0/v
+        B0 = -E0/v # this yields .46 for the deuteron at 270 MeV, as expected 
         k = k*1.18
-        return 0.018935*(-B0)*(-1/R + k*B0*v)*x
+        return 0.018935*(-B0)*(-1/R[0] + k*B0*v)*x
         
     def EField(self, arg):
         x = arg[0]
