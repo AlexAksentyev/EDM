@@ -24,6 +24,7 @@ class Particle:
     def __init__(self, State0):
         
         self._fIniState = list(State0)
+        self._fState = list(State0)
         self.fGamma0, self.fBeta0 = self.GammaBeta(self.fKinEn0)
         
         
@@ -48,7 +49,7 @@ class Particle:
         self._fState = value[:]
     
     def _RHS(self, state, at, element):
-        x,y,t,px,py,dEn,Sx,Sy,Ss,H = state # px, py are normalized to P0c for consistency with the other vars
+        x,y,t,px,py,dEn,Sx,Sy,Ss,H = state # px, py are normalized to P0c for consistency with the other vars, i think
         
         KinEn = self.fKinEn0*(1+dEn) # dEn = (En - En0) / En0
         
@@ -96,7 +97,7 @@ class Particle:
         Pyp = Py*(betap/beta - gammap/gamma)+Pc*ypp/Hp-Py*((Px*xpp)/(Pc*Hp)+(Py*ypp)/(Pc*Hp)+(hs*kappa*xp)/(Hp**2))
         
         
-        Px,Py,Ps = tuple([e/clight for e in (Px,Py,Ps)]) # the original formulas use momenta, not P*c
+        Px,Py,Ps = tuple([e*q*1e6/clight for e in (Px,Py,Ps)]) # the original formulas use momenta, not P*c
         
         t5 = tp
         t6 =  t5* (q / (gamma * m0 * self.fMass0)) * (self.fG + 1/(1 + gamma))
@@ -114,7 +115,6 @@ class Particle:
     
     def track(self, ElementSeq, ntimes, FWD = True):
         brks = 101
-        self._fState = list(self._fIniState)
         self.fStateLog = {0:list(self._fState)}
         for n in range(1,ntimes+1):
             for i in range(len(ElementSeq)):
