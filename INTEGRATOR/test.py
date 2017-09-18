@@ -2,6 +2,7 @@ from ggplot import ggplot, aes, geom_line, theme_bw, facet_wrap
 import pandas as PDS
 import CParticle as PCL
 import CElement as ENT
+from importlib import reload
 
 theme_bw()
 
@@ -20,17 +21,18 @@ p = PCL.Particle(state)
 
 FODO = [fquad, ds_25, dquad, ds_25]
 
-B0 = .46; V0 = 120
-R = ENT.MDipole.computeRaduis(p,B0)
-B0 = ENT.MDipole.computeBStrength(p, R)
-V = ENT.Wien.computeVoltage(p,R,.05)
+B0 = .46
+R = ENT.MDipole.computeRadius(p,B0)
+mdip = ENT.MDipole(1.8, R, (0,B0,0))
+sol = ENT.Solenoid(1.8, .46)
 
-mdip = ENT.MDipole(1.8, 7.55, (0,B0,0))
+V = ENT.Wien.computeVoltage(p,R,.05)
+B1 = ENT.Wien.computeBStrength(p,R,.05)
 wa = ENT.Wien(1.808,R,.05,V,B0)
 
 #%%
 
-p.track([wa],2000,FWD=True)
+p.track([sol],1000,FWD=True)
 x = [p.fStateLog[i][0] for i in p.fStateLog]
 y = [p.fStateLog[i][1] for i in p.fStateLog]
 t = [p.fStateLog[i][2] for i in p.fStateLog]
@@ -44,6 +46,3 @@ df = PDS.DataFrame({'x':x,'y':y,'Sx':Sx,'Sy':Sy,'t':t,'H':H,'dW':dW})
 df = PDS.melt(df, id_vars=['t','H'])
 ggplot(df.loc[df['variable'].isin(['x','y','Sx','Sy'])],aes(x='t',y='value'))+\
     geom_line() + facet_wrap('variable',scales='free')
-
-
-
