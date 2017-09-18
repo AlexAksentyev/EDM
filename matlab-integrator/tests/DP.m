@@ -18,8 +18,11 @@ PHI=L/R/DEGRAD;
 h=0.05;
 
 R1 = @()mdipole(L, j, R);
+sol = @()solenoid(L,.46); % alternative
 
 lattice = [{R1}];
+
+X0 = [1e-3 -1e-3 0 0 0 1e-4 0 0 1 0]; % alternative
 
 n=100
 X0 = [1e-3*ones(1,3) -2e-3:2e-3:2e-3; [-2e-3:2e-3:2e-3] 1e-3*ones(1,3); zeros(6,6); ones(1,6); zeros(1,6)];
