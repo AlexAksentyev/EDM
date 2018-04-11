@@ -7,16 +7,13 @@
 Python/*
 !Python/*.py
 # Reports
-Reports/*
-!Reports/*.tex
-!Reports/*.sty
-!Reports/*.png
-!Reports/*.pdf
-Reports/**/*
-!Reports/**/*.tex
-!Reports/**/*.sty
-!Reports/**/*.png
-!Reports/**/*.pdf
+Reports/**/*.synctex.gz
+Reports/**/*.aux
+Reports/**/*.log
+Reports/**/*.nav
+Reports/**/*.out
+Reports/**/*.snm
+Reports/**/*.toc
 Abstracts/*
 !Abstracts/*.tex
 !Abstracts/*.sty
