@@ -10,9 +10,13 @@ Python/*
 Reports/*
 !Reports/*.tex
 !Reports/*.sty
+!Reports/*.png
+!Reports/*.pdf
 Reports/**/*
 !Reports/**/*.tex
 !Reports/**/*.sty
+!Reports/**/*.png
+!Reports/**/*.pdf
 Abstracts/*
 !Abstracts/*.tex
 !Abstracts/*.sty
