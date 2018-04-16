@@ -59,27 +59,37 @@
 %	\end{frame}
 
 	\begin{frame}
-		\frametitle{Decoherence test histograms}
+		\frametitle{Decoherence test}
 		\begin{itemize}
-			\item
+			\item 1000 initial conditions from $\Delta K \sim N(0, 10^{-4})$;
+			\item $\vec{S}(0) = (0,0,1)$;
+			\item Tracking for the first 100 turns;
+			\item Statistics: $\Omega_x = S_y(100) / \Delta t(100), ~ \Omega_y = S_x(100) / \Delta t(100)$.
 		\end{itemize}
 		\begin{figure}
-			\includegraphics[scale=.25]{Sy_hist_dK}
-			\caption{Histogram from $dK \sim N(0, 10^{-4})$ test}
+			\includegraphics[scale=.25]{Wx_dK_reference_vs_tilt_mean_cut}
+			\caption{Reference particle spin precession frequency vs mean tilt angle}
 		\end{figure}
 	\end{frame}
 	\begin{frame}
 		\begin{figure}
-			\includegraphics[scale=.3]{Sy_hist_x}
-			\caption{Histogram from $x \sim N(0, 10^{-3})$ test}
+			\includegraphics[scale=.3]{Wx_dK_hist_most_positive_mean_tilt}
+			\caption{Vertical spin precession frequencies at the most positive mean tilt; (red): reference particle}
 		\end{figure}
 	\end{frame}
 	\begin{frame}
 		\begin{figure}
-			\includegraphics[scale=.3]{Sy_hist_y}
-			\caption{Histogram from $y \sim N(0, 10^{-3})$ test}
+			\includegraphics[scale=.3]{Wx_dK_hist_most_negative_mean_tilt}
+			\caption{Vertical spin precession frequencies at the most negative mean tilt; (red): reference particle}
 		\end{figure}
 	\end{frame}
+	\begin{frame}
+		\begin{figure}
+			\includegraphics[scale=.3]{Wy_dK_hist_most_positive_mean_tilt}
+			\caption{Horizontal spin precession frequencies at the most positive mean tilt; (red): reference particle}
+		\end{figure}
+	\end{frame}
+
 
 	\begin{frame}
 		\frametitle{Conventional ODE integrator}
