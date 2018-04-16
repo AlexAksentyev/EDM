@@ -12,8 +12,8 @@
 	\begin{frame}
 		\frametitle{Tasks from supervisor}
 		\begin{itemize}
-			\item Study effects of WF tilts (preserves Lorentz force) in FS lattice on $S_x, S_y, S_z$;
-			\item Same for quadrupole shifts (doesn't preserve LF);
+			\item Study effects of E+B tilts (preserves Lorentz force) in FS lattice on $S_x, S_y, S_z$;
+			\item Same for quadrupole shifts (doesn't preserve LF in the quadrupole);
 			\item Study decoherence as a function of the inital beam distribution ($x, y, \delta W$);
 			\item Study optimal sextupole placement for the suppression of decoherence and chromaticity;
 			\item Modeling of field calibration by effective gamma in the horizontal plane (CW/CCW procedure);
@@ -25,12 +25,12 @@
 		\framesubtitle{Python prototype}
 		\begin{itemize}
 %			\item Wrote that because couldn't get COSY INFINITY to produce results that I could interpret;
-			\item Classes defining most commonly utilized accelerator elements (dipoles, quadrupoles, Wien filters, etc);
+			\item Classes defining most commonly utilized accelerator elements (dipoles, quadrupoles, E+B, etc);
 			\item Vectorized RHS computation;
 			\item Two versions of element positioning imperfections (tilting):
 			\begin{itemize}
 				\item via computing the tilt matrix, and applying it to the computed field at run time (more general but time-consuming, doesn't preserve guiding field strength by default);
-				\item customized tilting for dipole, WF (less time-consuming, preserves the Lorentz force acting on the particle), and shift for quadrupole;
+				\item customized tilting for dipole, E+B (less time-consuming, preserves the Lorentz force acting on the particle), and shift for quadrupole;
 			\end{itemize}
 		\item Reason: needed a tool whose output could be exactly interpreted (source code could be understood by \emph{me})
 		\end{itemize}
