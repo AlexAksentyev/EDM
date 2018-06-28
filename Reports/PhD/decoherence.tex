@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage[widepage]{repsty}
+
+\begin{document}
+
+\title{Analysis of decoherence in an imperfect FS lattice (BNL) with E+B element tilts}
+\maketitle
+
+\section{Introduction. The Frozen Spin lattice}
+
+The Frozen Spin (FS) lattice is a storage ring for the EDM experiment in which the spin of a beam particle is continuously pointing along the direction of its momentum. This is realized for some particles, such as the deuteron, only at certain ``magical'' energies. For the deuteron, this energy is found somewhere in the neighborhood of 270 MeV.
+
+The lattice analyzed in this work uses combined E+B field cylindrical elements, placed in the arcs of the storage ring. 
+
+\section{Simulation design}
+Simulation was done in COSY Infinity, with the three dimensional lattice map Taylor expansion of up to order 5. E+B elements are modeled by combined function Wien filters (WC), rotated by a random angle about the optical axis. Two cases are considered: the angle distribution has 
+\begin{inparaenum}[1)]
+\item a zero mean, and
+\item a mean of $0.5\cdot 10^{-4}$ radian.
+\end{inparaenum}
+In both cases, the standard deviation of the angle distribution is $10^{-4}$ radian.
+
+Three ensembles of 15 rays, plus a quasi-reference (with initial offset in the x-direction of $10^-7$ cm) were tracked through the lattice for $10^6$ turns:
+\begin{inparaenum}[1)]
+\item rays with initial offset in the x-direction in the range $\pm 5$ mm,
+\item same offset range in the y-direction,
+\item initial energy offset in the range $\pm 5\cdot 10^{-4} \Delta K/K$, where $K$ is the reference kinetic energy (270.009 MeV).
+\end{inparaenum}
+
+The best estimate for the magic energy that has been found for this lattice is 270.0092362 MeV. The simulation results are not sensitive to any higher accuracy adjustments. At this energy, spin precession in the horizontal plane can still be observed in the beamline coordinate system, i.e. the FS condition does not hold. (In 250,000 turns, approximately a quarter of a second, the $S_x$ component of spin grows by $10^{-5}$.) For this reason, we correct the spin direction in the x-z plane after every turn manually to simulate frozen spin. The adjustment is made by rotating the spins of ensemble particles into the line of the original spin direction ($\vec S_0: S_x = 0,~ S_z = 1$) by their average deviation angle. This way, horizontal plane decoherence is assumed to remain unaffected. If the average angle is less than $\pi/2$, the rotation is made toward $+\vec S_0$, otherwise, toward $-\vec S_0$. This is so in order not to interfere with the vertical plane precession: when the vertical component of spin $S_y$ is increasing, the spin projection onto the x-z plane is in the 1st and 2nd quadrants, while when it is decreasing, the projection is in the quadrants 3 and 4. If the direction of correction was always $+\vec S_0$, the spin would freez after reaching $\vec S = (0, 1, 0)$, and would stop precessing in either of the x-z or z-y planes.
+
+In the following, decoherence in both the horizontal and the vertical planes is considered.
+
+\section{Decoherence in the horizontal plane}
+
+\section{Decoherence in the vertical plane}
+\end{document}
+

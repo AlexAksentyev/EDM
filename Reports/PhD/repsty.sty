@@ -1,0 +1,71 @@
+\ProvidesPackage{repsty}
+
+% PACKAGES
+\usepackage{mathtools}
+\usepackage{amsmath}
+%\usepackage{subcaption}
+
+\usepackage{xparse}
+\usepackage{xfrac}
+
+\usepackage{threeparttable}
+\usepackage{url}
+%\usepackage{hyperref}
+
+\usepackage{paralist}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+
+% SYNTACTIC DEFINITIONS
+\DeclareDocumentCommand{\bkt}{sm}{\IfBooleanTF{#1}{\left[ #2 \right]}{\left(#2\right)}}
+\DeclareDocumentCommand{\Xpct}{mo}{\mathrm{E}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
+\DeclareDocumentCommand{\SE}{mo}{\mathrm{SE}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
+\DeclareDocumentCommand{\SD}{mo}{\sigma_{#1\IfNoValueTF{#2}{}{| #2}}}
+\DeclareDocumentCommand{\avg}{mO{}}{\langle #1\rangle_{#2}}
+
+\DeclareDocumentCommand{\var}{O{}mo}{\mathrm{var}_{#1}\bkt*{#2\IfValueT{#3}{\vert~ #3}}}
+
+\newcommand{\td}{\mathrm{d}}
+
+\newcommand{\pars}{\boldsymbol{\theta}}
+\DeclareDocumentCommand{\Fisher}{O{}D(){\pars_0}}{I_{#1}(#2)}
+
+\DeclareDocumentCommand{\XpctO}{m}{\Xpct{#1}[\pars_0]}
+
+\DeclareDocumentCommand{\mupp}{s}{\mu'_\phi\IfBooleanTF{#1}{}{(t_i)}}
+\DeclareDocumentCommand{\mudpp}{s}{\mu''_{\phi^2}\IfBooleanTF{#1}{}{(t_i)}}
+
+
+\newcommand{\vp}[2]{{#1}\cdot 10^{#2}}
+% % Statistical requirements definitions
+
+\newcommand{\cnt}{c}
+\newcommand{\meas}{\epsilon}
+
+\newcommand{\dt}{\Delta t}
+\newcommand{\dtm}{\dt_{\meas}}
+\newcommand{\dtc}{\dt_{\cnt}}
+
+\newcommand{\Ncm}{{n_{\sfrac{\cnt}{\meas}}}}
+\newcommand{\Nmnd}{{n_{\sfrac{\meas}{zc}}}}
+\newcommand{\Nnd}{{n_{zc}}}
+\newcommand{\Nm}{{n_{\meas}}}
+\newcommand{\Ncnt}{{n_{\cnt}}}
+
+\newcommand{\LTb}{\tau_b}
+\newcommand{\LTd}{\tau_d}
+\newcommand{\lamb}{\lambda_b}
+\newcommand{\lamd}{\lambda_d}
+
+
+% PAGE STYLE
+\newif\if@widepage\@widepagefalse
+\DeclareOption{widepage}{\@widepagetrue}
+\ProcessOptions\relax
+
+\if@widepage
+	\RequirePackage[left=1cm,top=1cm,right=1cm,bottom=1.5cm]{geometry} %
+	\setlength{\parindent}{0pt} %
+	\RequirePackage{parskip}%
+\fi
