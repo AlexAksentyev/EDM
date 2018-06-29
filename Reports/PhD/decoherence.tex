@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage[widepage]{repsty}
 
+\newcommand{\Kmagic}{270.0092} %% best estimate by Sx component was 270.0092362, but at that point I didn't observe Sz turning from 1, and besides, our rest mass is defined down to the 4th digit
+
 \begin{document}
 
 \title{Analysis of decoherence in an imperfect FS lattice (BNL) with E+B element tilts}
@@ -24,12 +26,12 @@ Three ensembles of 15 rays, plus a quasi-reference (with initial offset in the x
 \begin{inparaenum}[1)]
 \item rays with initial offset in the x-direction in the range $\pm 5$ mm,
 \item same offset range in the y-direction,
-\item initial energy offset in the range $\pm 5\cdot 10^{-4} \Delta K/K$, where $K$ is the reference kinetic energy (270.009 MeV).
+\item initial energy offset in the range $\pm 5\cdot 10^{-4} \Delta K/K$, where $K$ is the reference kinetic energy (\Kmagic MeV).
 \end{inparaenum}
 
-The best estimate for the magic energy that has been found for this lattice is 270.0092362 MeV. The simulation results are not sensitive to any higher accuracy adjustments. At this energy, spin precession in the horizontal plane can still be observed in the beamline coordinate system, i.e. the FS condition does not hold. (In 250,000 turns, approximately a quarter of a second, the $S_x$ component of spin grows by $10^{-5}$.) For this reason, we correct the spin direction in the x-z plane after every turn manually to simulate frozen spin. The adjustment is made by rotating the spins of ensemble particles into the line of the original spin direction ($\vec S_0: S_x = 0,~ S_z = 1$) by their average deviation angle. This way, horizontal plane decoherence is assumed to remain unaffected. If the average angle is less than $\pi/2$, the rotation is made toward $+\vec S_0$, otherwise, toward $-\vec S_0$. This is so in order not to interfere with the vertical plane precession: when the vertical component of spin $S_y$ is increasing, the spin projection onto the x-z plane is in the 1st and 2nd quadrants, while when it is decreasing, the projection is in the quadrants 3 and 4. If the direction of correction was always $+\vec S_0$, the spin would freez after reaching $\vec S = (0, 1, 0)$, and would stop precessing in either of the x-z or z-y planes.
+The best estimate for the magic energy that has been found for this lattice is \Kmagic MeV. The simulation results are not sensitive to any higher accuracy adjustments. At this energy, spin precession in the horizontal plane can still be observed in the beamline coordinate system, i.e. the FS condition does not hold. (In 250,000 turns, approximately a quarter of a second, the $S_x$ component of spin grows by $10^{-5}$.) For this reason, we correct the spin direction in the x-z plane after every turn manually to simulate frozen spin. The adjustment is made by rotating the spins of ensemble particles into the line of the original spin direction ($\vec S_0: S_x = 0,~ S_z = 1$) by their average deviation angle. This way, horizontal plane decoherence is assumed to remain unaffected. If the average angle is less than $\pi/2$, the rotation is made toward $+\vec S_0$, otherwise, toward $-\vec S_0$. This is so in order not to interfere with the vertical plane precession: when the vertical component of spin $S_y$ is increasing, the spin projection onto the x-z plane is in the 1st and 2nd quadrants, while when it is decreasing, the projection is in the quadrants 3 and 4. If the direction of correction was always $+\vec S_0$, the spin would freez after reaching $\vec S = (0, 1, 0)$, and would stop precessing in either of the x-z or z-y planes.
 
-In the following, decoherence in both the horizontal and the vertical planes is considered.
+In the following, decoherence in both the horizontal and vertical planes is considered.
 
 \section{Decoherence in the horizontal plane}
 
