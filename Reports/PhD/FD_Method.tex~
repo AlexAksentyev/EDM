@@ -1,0 +1,16 @@
+\documentclass{article}
+
+\usepackage[widepage]{repsty}
+
+
+\begin{document}
+	\title{Frequency domain method for the dEDM search}
+	The original proposal~\cite{BNL_proposal} was to measure the growth of the vertical polarization component $P_y$ over a prolonged period of time.
+	
+	
+	
+	\begin{thebibliography}{99}
+		\bibitem{BNL_proposal}
+		
+	\end{thebibliography}
+\end{document}

@@ -1,0 +1,89 @@
+\documentclass{article}
+
+\usepackage[widepage]{repsty}
+
+\newcommand{\W}{\Omega}
+\newcommand{\w}{\omega}
+\newcommand{\MDM}{^\mathrm{MDM}}
+\newcommand{\EDM}{^\mathrm{EDM}}
+\newcommand{\CW}{^\mathrm{CW}}
+\newcommand{\CCW}{^\mathrm{CCW}}
+
+
+
+\begin{document}
+\title{Frequency domain method for the dEDM search}
+The original proposal was to measure the growth of the vertical polarization component $\Delta P_V$ over a prolonged period of time.~\cite{BNL_proposal} This approach, however, has a weakness in that it requires the MDM spin precession in the y-z plane to be neglibible compared to the EDM one. For a sensitivity of $10^{-29} e\cdot cm$, a change in polarization asymmetry of about $5\cdot 10^{-6}$ has to be detectable.~\cite[p. 18]{BNL_proposal} This fact puts a stringent constraint on the element alignment precision. Specifically, it would have to be at least as good as $10^{-10} m$;~\cite{Senichev:alignment} otherwise the weak EDM signal would be drowned by the stronger MDM precession. Such precision, of course, is not feasible.
+
+This was the reason for the development of the Frequency Domain Method (FDM). In this method we give up the attempts on minimizing the parasitic MDM precession about the radial axis, and instead measure the total precession frequency $\vec\W = \vec\W\EDM + \vec\W\MDM$. Then two versions of the experiment have to be performed: one in which $\vec\W = \vec\W\EDM + \vec\W\MDM$, and one in which $\vec\W = \vec\W\EDM - \vec\W\MDM$. This is accomplised by reversing the polarity of the guiding magnetic field, and injecting the beam in the reverse direction (thereinafter referred to as CW \& CCW beams). The required frequency is then estimated from the statistic $\vec\W := \frac12\bkt{\vec\W\CW + \vec\W\CCW}$.
+
+At first glance, there are several problems apparent with this method:
+\begin{enumerate}
+\item The necessity of double injection for the computation of a single statistic. The problem here is that we cannot guarantee that the two beams follow the same orbit, and hence experience the same fields. This is problematic for two reasons \label{itm:Injection}
+  \begin{inparaenum}[a)]
+  \item a spin rotation is proportional to the experienced field strength, and
+  \item spin rotations are not commutative.
+  \end{inparaenum}
+  
+  \item The necessity of reversing the polarity of the guiding field. This is essentially the same problem (due to a different cause) as above: the reversed magnetic field must have the same absolute value as the direct one, else $\W\MDM$ is not reproduced. \label{itm:Polarity}
+\end{enumerate}
+
+In what follows we argue that double injection does not pose a problem, so long as 
+\begin{inparaenum}[a)]
+\item the frozen spin condition is strictly observed (rotations only occur in one plane), and
+\item the parameter $\gamma_{eff}(\gamma_s, x_0, y_0, \sfrac{\Delta p_0}{p_s})$ is kept constant.
+\end{inparaenum}
+We will also provide a methodology for ensuring that the MDM precession frequency in the y-z plane is reproduced with sufficient precision.
+
+\section{Effective gamma}
+The concept of effective gamma can be traced to the decoherence studies in the storage ring for the dEDM experiment.~\cite{Senichev:StorageRingMethod}
+
+We start with the expressions for the spin tune in the E-,B-fileds:
+\begin{equation}\label{eq:spin_tune}
+  \begin{cases}
+    \nu^B(\gamma) = \gamma B,\\
+    \nu^E(\gamma) = \bkt{\frac{1}{\gamma^2-1}-G}\gamma\beta^2.
+  \end{cases}
+\end{equation}
+
+If we Taylor-expand those around the synchronous energy point $\gamma_0$, we get:
+\begin{equation}
+  \begin{cases}
+    \nu^B(\Delta\gamma) = \Delta\gamma B,\\
+    \nu^E(\delta\gamma) = \Delta\gamma\bkt*{-G - \frac{1+G}{\gamma_0^2}} + \Delta\gamma^2\frac{1+G}{\gamma_0^3} + \dots
+  \end{cases}
+\end{equation}
+
+The gamma deviation for a particle betatron-oscillating about the reference orbit can be expressed as
+\begin{equation}\label{eq:delta_gamma}
+  \Delta\gamma_m = \cos\Omega_s t - \frac{\beta^2}{\eta}\bkt*{\bkt{\alpha_1 - \frac{\eta}{\gamma_s^2}}\frac{\Delta\gamma_m^2}{\beta_s^2} + \gamma^2\bkt{\frac{\Delta L}{L}}_\beta},
+\end{equation}
+where $\frac{\Delta L}{L}$ is the orbit lengthening due to betatron oscillation, and $\Delta\gamma_m$ is the amplitude of synchortron oscillations. The cosine term is reduced due to RF averaging; what remains is called ``gamma effective.''
+
+Our argument is that two orbits are equivalent in terms of the spin dynamics on them, so long as their effective gammas (i.e., orbit lengths) are equal. This principle lies in the foundation of our ability to reduce decoherence via the use of sextupole fields. In fact, our sextupole decoherence reduction guarantees [REFERENCE TO COSY INFINITY SIMULATION] that the spin tune is near constant (and equal that of the reference particle's) in a large volume of injection space (x,y,d).
+
+\section{Change of polarity problem}
+This problem has its roots in the inability of our magnetic field measuring devices to produce measurements with required precision. This problem, however, can be circumvented in this way:
+\begin{enumerate}
+\item suppose there's no EDM precession about the y-axis;
+\item $\W_y\MDM\propto B_y$, $W_x\MDM\propto B_x$, and $\frac{B_x}{B_y} = \tan\theta$, where $\theta$ is the rotation angle of the element about the optic axis $s$ (tilt) due to misalignment;
+\item when we reverse the direction of the field, the relationship between $B_y$ and $B_x$ is preserved;
+\item therefore, if $\W_y\MDM\CCW = -\W_y\MDM\CW$, then $B_y\CCW = -B_y\CW$, then $B_x\CCW = -B_x\CW$, and therefore, $\W_x\MDM\CCW = -\W_x\MDM\CW$.
+\end{enumerate}
+
+Now instead of the magnetic field, our task is to reproduce the $\W_y\MDM$ frequency, which doesn't per se require our knowledge of the magnetic field value. The advantage gained is such: to reproduce the precession frequency to a given precision, the magnetic field must be reproduced to a much higher 
+
+The question remaining at this point is if the precision to which we can reproduce $\W_y\MDM$ is on par with that of $\W_x\MDM$; that is, if
+\begin{equation}\label{eq:calibration_condition}
+  |\Delta\W_x\MDM\CCW - \Delta\W_x\MDM\CW| \leq |\Delta\W_y\MDM\CCW - \Delta\W_y\MDM\CW|.
+\end{equation}
+
+\begin{thebibliography}{99}
+\bibitem{BNL_proposal}
+  D. Anastassopoulos, V. Anastassopoulos, D. Babusci. AGS Proposal: Search for a permanent electric dipole moment of the deuteron nucleus at the 10 −29 e · cm level. [Internet]. BNL; 2008 [cited 2016 Nov 25]. Available from: \url{https://www.bnl.gov/edm/files/pdf/deuteron_proposal_080423_final.pdf}
+\bibitem{Senichev:alignment}
+\bibitem{Senichev:StorageRingMethod}
+  Yurij Senichev. Search for the Charged Particle Electric Dipole Moments in Storage Rings. In: 25th Russian Particle Accelerator Conf(RuPAC’16), St Petersburg, Russia, November 21-25, 2016 [Internet]. JACOW, Geneva, Switzerland; 2017 [cited 2017 Apr 5]. p. 6–10. Available from: \url{http://accelconf.web.cern.ch/AccelConf/rupac2016/papers/mozmh03.pdf}
+
+\end{thebibliography}
+\end{document}
