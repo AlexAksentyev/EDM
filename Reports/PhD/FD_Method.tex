@@ -36,31 +36,31 @@ In what follows we argue that double injection does not pose a problem, so long 
 We will also provide a methodology for ensuring that the MDM precession frequency in the y-z plane is reproduced with sufficient precision.
 
 \section{Effective gamma}
-The concept of effective gamma can be traced to the decoherence studies in the storage ring for the dEDM experiment.~\cite{Senichev:StorageRingMethod}
+Let us consider the injection space $(x,y,d)$, where $x$, $y$, are the initial offsets of the particle from the reference orbit, and $d := \frac{\Delta\gamma}{\gamma_0}$ is the energy deviation. A particle injected into the storage ring can then be represented by a point in injection space. Each point in the injection space corresponds to an orbit traveled by the particle. We introduce the concept of gamma effective as an equivalence relation on injection space: if two points in injection space are characterized by the same spin tune, they are said to possess the same gamma effective. 
+
+The origin of the notion can be traced to decoherence studies in the storage ring for the dEDM experiment,~\cite{Senichev:StorageRingMethod} where it is instrumental in understanding the mechanism by which sextupole fields can be used in order to increse the spin coherence time. Here, we will sketch an outline of the argument presented in~\cite{SenichevStorageRingMethod}.
 
 We start with the expressions for the spin tune in the E-,B-fileds:
 \begin{equation}\label{eq:spin_tune}
   \begin{cases}
     \nu^B(\gamma) = \gamma B,\\
-    \nu^E(\gamma) = \bkt{\frac{1}{\gamma^2-1}-G}\gamma\beta^2.
+    \nu^E(\gamma) = \bkt{\frac{1}{\gamma^2-1}-G}\gamma\beta^2,
   \end{cases}
 \end{equation}
-
-If we Taylor-expand those around the synchronous energy point $\gamma_0$, we get:
+the Taylor-expansions of which around the synchronous energy point $\gamma_0$ are:
 \begin{equation}
   \begin{cases}
     \nu^B(\Delta\gamma) = \Delta\gamma B,\\
     \nu^E(\delta\gamma) = \Delta\gamma\bkt*{-G - \frac{1+G}{\gamma_0^2}} + \Delta\gamma^2\frac{1+G}{\gamma_0^3} + \dots
   \end{cases}
 \end{equation}
-
-The gamma deviation for a particle betatron-oscillating about the reference orbit can be expressed as
+Here, the gamma deviation of a particle betatron-oscillating about the reference orbit can be expressed as
 \begin{equation}\label{eq:delta_gamma}
-  \Delta\gamma_m = \cos\Omega_s t - \frac{\beta^2}{\eta}\bkt*{\bkt{\alpha_1 - \frac{\eta}{\gamma_s^2}}\frac{\Delta\gamma_m^2}{\beta_s^2} + \gamma^2\bkt{\frac{\Delta L}{L}}_\beta},
+  \Delta\gamma(t) = \cos\Omega_s t - \frac{\beta^2}{\eta}\bkt*{\bkt{\alpha_1 - \frac{\eta}{\gamma_s^2}}\frac{\Delta\gamma_m^2}{\beta_s^2} + \gamma^2\bkt{\frac{\Delta L}{L}}_\beta},
 \end{equation}
-where $\frac{\Delta L}{L}$ is the orbit lengthening due to betatron oscillation, and $\Delta\gamma_m$ is the amplitude of synchortron oscillations. The cosine term is reduced due to RF averaging; what remains is called ``gamma effective.''
+where $\frac{\Delta L}{L}$ is the orbit lengthening due to betatron motion, and $\Delta\gamma_m$ is the synchrotron oscillation amplitude. Use of an RF field averages out the cosine term; the remaining, time-independent quantity is called ``gamma effective.''
 
-Our argument is that two orbits are equivalent in terms of the spin dynamics on them, so long as their effective gammas (i.e., orbit lengths) are equal. This principle lies in the foundation of our ability to reduce decoherence via the use of sextupole fields. In fact, our sextupole decoherence reduction guarantees [REFERENCE TO COSY INFINITY SIMULATION] that the spin tune is near constant (and equal that of the reference particle's) in a large volume of injection space (x,y,d).
+Use of sextupole fields affects the spin coherence time by modifying the orbit lengths of particles off the referenced orbit. This modification is such as to guarantee [REFERENCE TO COSY INFINITY SIMULATION] that the spin tune is near constant (and equal that of the reference particle's) in a large volume of injection space.
 
 \section{Change of polarity problem}
 This problem has its roots in the inability of our magnetic field measuring devices to produce measurements with required precision. This problem, however, can be circumvented in this way:
@@ -71,11 +71,11 @@ This problem has its roots in the inability of our magnetic field measuring devi
 \item therefore, if $\W_y\MDM\CCW = -\W_y\MDM\CW$, then $B_y\CCW = -B_y\CW$, then $B_x\CCW = -B_x\CW$, and therefore, $\W_x\MDM\CCW = -\W_x\MDM\CW$.
 \end{enumerate}
 
-Now instead of the magnetic field, our task is to reproduce the $\W_y\MDM$ frequency, which doesn't per se require our knowledge of the magnetic field value. The advantage gained is such: to reproduce the precession frequency to a given precision, the magnetic field must be reproduced to a much higher 
+Now instead of the magnetic field, our task is to reproduce the $\W_y\MDM$ frequency, which doesn't per se require our knowledge of the magnetic field strength. The advantage gained is such: while the precision to which the magnetic field has to be reproduced in order to gain the required precision in the reprodution of the frequency is out of our technical capabilities, necessarily, the horizontal precession frequency estimate can be made with a precision not worse than that of the sought-after precession about the radial axis.\footnote{Actually, the vertical precession frequency estimate gets an adequate precision after a year of measurement. So, unless the precision of the horizontal frequency estimate is several orders of magnitude better that the vertical one's, we cannot spend a year of measurement just to switch a polarity once. Which I'm not sure about, though, because $\w_y \gg \w_x$, and we'd have to fit a sine function (or use an FFT), and the precision is always better when fitting a line.}
 
 The question remaining at this point is if the precision to which we can reproduce $\W_y\MDM$ is on par with that of $\W_x\MDM$; that is, if
 \begin{equation}\label{eq:calibration_condition}
-  |\Delta\W_x\MDM\CCW - \Delta\W_x\MDM\CW| \leq |\Delta\W_y\MDM\CCW - \Delta\W_y\MDM\CW|.
+  |\W_x\MDM\CCW - \W_x\MDM\CW| \leq |\W_y\MDM\CCW - \W_y\MDM\CW|.
 \end{equation}
 
 \begin{thebibliography}{99}
