@@ -13,9 +13,34 @@
 
 \begin{document}
 \title{Frequency domain method for the dEDM search}
-The original proposal was to measure the growth of the vertical polarization component $\Delta P_V$ over a prolonged period of time.~\cite{BNL_proposal} This approach, however, has a weakness in that it requires the MDM spin precession in the y-z plane to be neglibible compared to the EDM one. For a sensitivity of $10^{-29} e\cdot cm$, a change in polarization asymmetry of about $5\cdot 10^{-6}$ has to be detectable.~\cite[p. 18]{BNL_proposal} This fact puts a stringent constraint on the element alignment precision. Specifically, it would have to be at least as good as $10^{-10} m$;~\cite{Senichev:alignment} otherwise the weak EDM signal would be drowned by the stronger MDM precession. Such precision, of course, is not feasible.
 
-This was the reason for the development of the Frequency Domain Method (FDM). In this method we give up the attempts on minimizing the parasitic MDM precession about the radial axis, and instead measure the total precession frequency $\vec\W = \vec\W\EDM + \vec\W\MDM$. Then two versions of the experiment have to be performed: one in which $\vec\W = \vec\W\EDM + \vec\W\MDM$, and one in which $\vec\W = \vec\W\EDM - \vec\W\MDM$. This is accomplised by reversing the polarity of the guiding magnetic field, and injecting the beam in the reverse direction (thereinafter referred to as CW \& CCW beams). The required frequency is then estimated from the statistic $\vec\W := \frac12\bkt{\vec\W\CW + \vec\W\CCW}$.
+\begin{enumerate}
+\item BNL FS proposal;
+\item Spin Wheel method
+\end{enumerate}
+
+\begin{equation}\label{eq:TBMT}
+  \begin{cases}
+    \vec\W\MDM &= -\alpha_0\bkt*{\alpha_1\vec B + \alpha_2\vec\beta\times\vec E}, \\
+    \vec\W\MDM &= -\alpha_0\eta\bkt*{\vec E + \vec\beta\times\vec B}.
+  \end{cases}
+\end{equation}
+
+According to the T-BMT equation~\eqref{eq:TBMT}, the storage ring method for measuring the deuteron EDM of necessity induces a radial $\vec\W\EDM$ and a vertical $\vec\W\MDM$ component, due to the guiding B-filed. Since the frequencies are orthogonal, they add up in squares, so that the particle spin precesses about a near-vertical axis (because the radial EDM contribution is much smaller than the vertical MDM), with a frequency $\w  = \sqrt{\w_{MDM}^2 + \w_{EDM}^2}$. In such a configuration, $\w_{EDM}$ will be drowned by the much higher $\w_{MDM}$. 
+
+
+This problem can be solved by reducing the MDM precession to zero, i.e., fulfilling the Frozen Spin condition. Since there does not exist a ``magic'' energy for the deuteron, in the original BNL proposal a radial electric field was added such that $\vec\W\MDM = \vec 0$ (in the rest frame), and the growth of the vertical polarization component $\Delta P_V$ over a prolonged period of time was measured.~\cite{BNL_proposal}
+
+The immediate challenge one faces with the vanilla FS approach is the EDM effect size. At the limit of the experiment sensitivity, the polarization rotation angle is about one microradian, a problematic figure for polarimetry.
+
+The EDM effect size problem itself can be addressed via the Spin Wheel (SW) method.~\cite{Mane:SpinWheel} The core idea of the method consists in adding a controlled MDM rotation about the radial axis, in order to get a measurable signal. Then by varying the MDM contribution of the combined signal, the EDM component can be extracted.
+
+However, neigher of these approaches address the systematic errors caused by the stray electric and magnetic fields present in any storage ring. Causes of these stray fields are numerous: from element misalignments to Earth's inherent magnetic field. The only common denominator is that their values are not known.
+
+This is where the Frequency Domain Method (FDM) comes into play. Drawing upon the lessons of the SW method, we measure the total precession frequency $\w_x = \w_x\EDM + \w_x\MDM$; however, the radial MDM precession is not due to any external magnetic field applied. Simulatinos show that magnet misalignment error is sufficient to produce an MDM precession on the order of up to a hundred radians per second. 
+
+
+Then two versions of the experiment have to be performed: one in which $\vec\W = \vec\W\EDM + \vec\W\MDM$, and one in which $\vec\W = \vec\W\EDM - \vec\W\MDM$. This is accomplised by reversing the polarity of the guiding magnetic field, and injecting the beam in the reverse direction (thereinafter referred to as CW \& CCW beams). The required frequency is then estimated from the statistic $\vec\W := \frac12\bkt{\vec\W\CW + \vec\W\CCW}$.
 
 At first glance, there are several problems apparent with this method:
 \begin{enumerate}
@@ -81,6 +106,8 @@ The question remaining at this point is if the precision to which we can reprodu
 \begin{thebibliography}{99}
 \bibitem{BNL_proposal}
   D. Anastassopoulos, V. Anastassopoulos, D. Babusci. AGS Proposal: Search for a permanent electric dipole moment of the deuteron nucleus at the 10 −29 e · cm level. [Internet]. BNL; 2008 [cited 2016 Nov 25]. Available from: \url{https://www.bnl.gov/edm/files/pdf/deuteron_proposal_080423_final.pdf}
+\bibitem{Mane:SpinWheel}
+S. R. Mane. Spin Wheel. arXiv:150901167 [physics] [Internet]. 2015 Sep 3 [cited 2018 Sep 28]; Available from: http://arxiv.org/abs/1509.01167
 \bibitem{Senichev:alignment}
 \bibitem{Senichev:StorageRingMethod}
   Yurij Senichev. Search for the Charged Particle Electric Dipole Moments in Storage Rings. In: 25th Russian Particle Accelerator Conf(RuPAC’16), St Petersburg, Russia, November 21-25, 2016 [Internet]. JACOW, Geneva, Switzerland; 2017 [cited 2017 Apr 5]. p. 6–10. Available from: \url{http://accelconf.web.cern.ch/AccelConf/rupac2016/papers/mozmh03.pdf}
