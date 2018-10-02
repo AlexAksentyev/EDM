@@ -19,4 +19,5 @@ Abstracts/*
 !Abstracts/*.sty
 !Abstracts/*.doc
 
+.~lock.*
 .DS_Store
