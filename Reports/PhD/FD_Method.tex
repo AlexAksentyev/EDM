@@ -1,6 +1,7 @@
 \documentclass{article}
 
 \usepackage[widepage]{repsty}
+\usepackage{subcaption}
 
 \newcommand{\W}{\Omega}
 \newcommand{\w}{\omega}
@@ -13,35 +14,59 @@
 
 \begin{document}
 \title{Frequency domain method for the dEDM search}
-
-There exist two EDM measurement concepts:
-\begin{enumerate}
+Let us start by briefly describing the two presently known approaches to measuring the deuteron EDM in a storage ring:
+\begin{itemize}
 \item the BNL Frozen Spin method;
-\item Ivan Koop's Spin Wheel method.
-\end{enumerate}
+\item Ivan Koop's Spin Wheel.
+\end{itemize}
 
-According to the T-BMT equation~\eqref{eq:TBMT}, the storage ring method for measuring the deuteron EDM of necessity induces a radial $\vec\W\EDM$ and a vertical $\vec\W\MDM$ component, due to the guiding B-filed. Since the frequencies are orthogonal, they add up in squares, so that the particle spin precesses about a near-vertical axis (because the radial EDM contribution is much smaller than the vertical MDM), with a frequency $\w  = \sqrt{\w_{MDM}^2 + \w_{EDM}^2}$. In such a configuration, $\w_{EDM}$ will be drowned by the much higher $\w_{MDM}$. 
+As we will try to show in what follows, these methodologies require that the accelerator elements be aligned with a precision that exceeds the capabilities of today's technology.
+
+\section{Known methodologies}
+According to the T-BMT equation~\eqref{eq:TBMT}, the storage ring method for measuring the deuteron EDM of necessity induces a radial $\vec\W\EDM$ and a vertical $\vec\W\MDM$ frequency, due to the guiding B-filed. Since the frequencies are orthogonal, they add up in squares, so that the particle spin precesses about a near-vertical axis (because the radial EDM contribution is much smaller than the vertical MDM), with a frequency $\w  = \sqrt{\w_{MDM}^2 + \w_{EDM}^2}$. In such a configuration, $\w_{EDM}$ is drowned by the much higher $\w_{MDM}$.
+
+This problem can be solved by reducing the MDM precession to zero, i.e., fulfilling the Frozen Spin (FS) condition.
 
 \begin{equation}\label{eq:TBMT}
   \begin{cases}
     \vec\W\MDM &= -\alpha_0\bkt*{\alpha_1\vec B + \alpha_2\vec\beta\times\vec E}, \\
-    \vec\W\MDM &= -\alpha_0\eta\bkt*{\vec E + \vec\beta\times\vec B}.
+    \vec\W\EDM &= -\alpha_0\eta\bkt*{\vec E + \vec\beta\times\vec B}.
   \end{cases}
 \end{equation}
 
-This problem can be solved by reducing the MDM precession to zero, i.e., fulfilling the Frozen Spin condition. Since there does not exist a ``magic'' energy for the deuteron, in the original BNL proposal a radial electric field was added such that $\vec\W\MDM = \vec 0$ (in the rest frame), and the growth of the vertical polarization component $\Delta P_V$ over a prolonged period of time was measured.~\cite{BNL_proposal}
+For protons, whose anomalous magnetic moment is positive, the beam energy can be adjusted so that the FS condition is fulfilled. Since there does not exist such a ``magic'' energy for the deuteron, in the original BNL proposal a radial electric field was added such that $\vec\W\MDM = \vec 0$ (in the rest frame), and the growth of the vertical polarization component $\Delta P_V$ over a prolonged period of time was measured.~\cite{BNL_proposal}
 
-The immediate challenge one faces with the vanilla FS approach is the EDM effect size. At the limit of the experiment sensitivity, the polarization rotation angle is about one microradian, a problematic figure for polarimetry.
+The immediate challenge one faces with the vanilla FS approach is the EDM effect size. At the limit of the experiment sensitivity, the polarization rotation angle is about one microradian, a problematic figure for polarimetry. The EDM effect size problem itself can be addressed via the Spin Wheel (SW) method.~\cite{Mane:SpinWheel}
 
-The EDM effect size problem itself can be addressed via the Spin Wheel (SW) method.~\cite{Mane:SpinWheel} The core idea of the method consists in adding a controlled MDM rotation about the radial axis, by means of a transverse solenoid, in order to get a measurable signal. Then by varying the MDM contribution of the combined signal, the EDM component can be extracted.
+The core idea of the SW method consists in adding a controlled MDM rotation about the radial axis, by means of a transverse magnetic dipole, in order to get a measurable signal. Then, by varying the MDM contribution of the combined signal, the EDM component, whose action remains unchanged during the dipole field sweep, can be extracted.
 
-However, neigher of these approaches address the systematic errors caused by the element misalignment error. Simulations show that at the realistic value of 100 microns installation error, the fields generated induce an MDM precession at about 50--100 rad/sec. This, of course, completely invalidates the original BNL FS method; neither does the SW method have a way to disentangle the EDM precession from the misalignment-generated MDM precession.
+\section{Systematic errors}
+\begin{itemize}
+\item Element misalignment;
+\item Geometric phase.
+\end{itemize}
 
-There's more. Not only are the strict alignment conditions required for the proposed experimental accuracy impractical, attempts at reducing the misalignments open the door to the geometric phase problem, caused by the incommutativity of the spin rotations. The geometric phase error is the result of the deviation of the invariant spin axis from one of the coordinate system axes. As the radial component of the invariant spin axis due to the MDM precession recedes, the net MDM + EDM axis turns away from the radial direction (the FS condition is assumed). Unless the other frequencies $\w_z\MDM,~\w_y\MDM$ are significantly less than $\w_x\MDM + \w_x\EDM$, the spin axis turns away from the radial direction, thus inducing a geometric phase error.
+Element misalignment is the primary cause of the field imperfections systematic error.~\cite[p. 24]{BNL_proposal}
 
-This is where the Frequency Domain Method (FDM) comes into play. By not removing the radial MDM frequency, we allow it to overpower the frequencies in the other directions, thus diminishing the geometric phase error. Drawing upon the lessons of the SW method, we also measure the total precession frequency $\w_x = \w_x\EDM + \w_x\MDM$. There's no need to add any external magnetic field, as the misalignment error fields are sufficient.
+Assuming a realistic value of 100 microns installation error, simulations show that the fields generated induce an MDM precession at about 50--100 rad/sec.~\cite{Senichev:FDM} This, of course, completely invalidates the original BNL FS method, because instead of observing a slow, EDM-driven vertical polarization growth, one gets a sinusoidal signal oscillating at 8--16 Hz. Neither does the SW method have any way to disentangle the EDM precession from the misalignment-generated MDM precession.
 
-Then two versions of the experiment have to be performed: one in which $\vec\W = \vec\W\EDM + \vec\W\MDM$, and one in which $\vec\W = \vec\W\EDM - \vec\W\MDM$. This is accomplised by reversing the polarity of the guiding magnetic field, and injecting the beam in the reverse direction (thereinafter referred to as CW \& CCW beams). The required frequency is then estimated from the statistic $\vec\W := \frac12\bkt{\vec\W\CW + \vec\W\CCW}$.
+The geometric phase error is due to the non-commutativity of spin rotations. It happens when the spin rotation axis deviates from one of the coordinate system axes, i.e., the rotation occurs in three dimensions. This means that unless one can reduce the misalignments to the degree where the radial EDM component of rotation completely dominates all others, it is actually beneficial to go the SW way and maximize the radial MDM rotation (see Figure~\ref{fig:GeomPhase}).
+
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{.5\textwidth}\centering
+    \includegraphics[width=\textwidth]{img/geometric_phase_1}
+    \caption{Spin rotation axis with reduced element misalignments. The deviation from either of the coordinate system axes is great, and so is geometric phase error.}
+  \end{subfigure}~
+  \begin{subfigure}[b]{.5\textwidth}\centering
+    \includegraphics[width=\textwidth]{img/geometric_phase_2}
+    \caption{Spin rotation axis with an emphasized radial MDM precession; the error is greatly diminished.}
+  \end{subfigure}
+\caption{Geometric phase error source.\label{fig:GeomPhase}}
+\end{figure}
+
+\section{The Frequency Domain methodology}
+The FD methodology promises to solve these 
 
 At first glance, there are several problems apparent with this method:
 \begin{enumerate}
@@ -109,7 +134,7 @@ The question remaining at this point is if the precision to which we can reprodu
   D. Anastassopoulos, V. Anastassopoulos, D. Babusci. AGS Proposal: Search for a permanent electric dipole moment of the deuteron nucleus at the 10 −29 e · cm level. [Internet]. BNL; 2008 [cited 2016 Nov 25]. Available from: \url{https://www.bnl.gov/edm/files/pdf/deuteron_proposal_080423_final.pdf}
 \bibitem{Mane:SpinWheel}
 S. R. Mane. Spin Wheel. arXiv:150901167 [physics] [Internet]. 2015 Sep 3 [cited 2018 Sep 28]; Available from: http://arxiv.org/abs/1509.01167
-\bibitem{Senichev:alignment}
+\bibitem{Senichev:FDM}
 \bibitem{Senichev:StorageRingMethod}
   Yurij Senichev. Search for the Charged Particle Electric Dipole Moments in Storage Rings. In: 25th Russian Particle Accelerator Conf(RuPAC’16), St Petersburg, Russia, November 21-25, 2016 [Internet]. JACOW, Geneva, Switzerland; 2017 [cited 2017 Apr 5]. p. 6–10. Available from: \url{http://accelconf.web.cern.ch/AccelConf/rupac2016/papers/mozmh03.pdf}
 
