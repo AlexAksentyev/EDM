@@ -5,22 +5,20 @@
 
 \newcommand{\W}{\Omega}
 \newcommand{\w}{\omega}
-\newcommand{\MDM}{^\mathrm{MDM}}
-\newcommand{\EDM}{^\mathrm{EDM}}
-\newcommand{\CW}{^\mathrm{CW}}
-\newcommand{\CCW}{^\mathrm{CCW}}
+\newcommand{\MDM}{{}^\mathrm{MDM}}
+\newcommand{\EDM}{{}^\mathrm{EDM}}
+\newcommand{\CW}{{}^\mathrm{CW}}
+\newcommand{\CCW}{{}^\mathrm{CCW}}
 
 
 
 \begin{document}
 \title{Frequency domain method for the dEDM search}
-Let us start by briefly describing the two presently known approaches to measuring the deuteron EDM in a storage ring:
+We will start by briefly describing the two presently known approaches to measuring the deuteron EDM in a storage ring:
 \begin{itemize}
 \item the BNL Frozen Spin method;
 \item Ivan Koop's Spin Wheel.
 \end{itemize}
-
-As we will try to show in what follows, these methodologies require that the accelerator elements be aligned with a precision that exceeds the capabilities of today's technology.
 
 \section{Known methodologies}
 According to the T-BMT equation~\eqref{eq:TBMT}, the storage ring method for measuring the deuteron EDM of necessity induces a radial $\vec\W\EDM$ and a vertical $\vec\W\MDM$ frequency, due to the guiding B-filed. Since the frequencies are orthogonal, they add up in squares, so that the particle spin precesses about a near-vertical axis (because the radial EDM contribution is much smaller than the vertical MDM), with a frequency $\w  = \sqrt{\w_{MDM}^2 + \w_{EDM}^2}$. In such a configuration, $\w_{EDM}$ is drowned by the much higher $\w_{MDM}$.
@@ -41,14 +39,9 @@ The immediate challenge one faces with the vanilla FS approach is the EDM effect
 The core idea of the SW method consists in adding a controlled MDM rotation about the radial axis, by means of a transverse magnetic dipole, in order to get a measurable signal. Then, by varying the MDM contribution of the combined signal, the EDM component, whose action remains unchanged during the dipole field sweep, can be extracted.
 
 \section{Systematic errors}
-\begin{itemize}
-\item Element misalignment;
-\item Geometric phase.
-\end{itemize}
-
 Element misalignment is the primary cause of the field imperfections systematic error.~\cite[p. 24]{BNL_proposal}
 
-Assuming a realistic value of 100 microns installation error, simulations show that the fields generated induce an MDM precession at about 50--100 rad/sec.~\cite{Senichev:FDM} This, of course, completely invalidates the original BNL FS method, because instead of observing a slow, EDM-driven vertical polarization growth, one gets a sinusoidal signal oscillating at 8--16 Hz. Neither does the SW method have any way to disentangle the EDM precession from the misalignment-generated MDM precession.
+Assuming a realistic value of 100 microns installation error, simulations show that the fields generated induce an MDM precession at about 50--100 rad/sec.~\cite{Senichev:FDM} This, of course, completely invalidates the original BNL FS method, because instead of observing a slow, EDM-driven vertical polarization growth, one gets a sinusoidal signal oscillating at 8--16 Hz. Neither does the SW modification provide any way of disentangling the EDM precession from the misalignment-generated MDM precession.
 
 The geometric phase error is due to the non-commutativity of spin rotations. It happens when the spin rotation axis deviates from one of the coordinate system axes, i.e., the rotation occurs in three dimensions. This means that unless one can reduce the misalignments to the degree where the radial EDM component of rotation completely dominates all others, it is actually beneficial to go the SW way and maximize the radial MDM rotation (see Figure~\ref{fig:GeomPhase}).
 
@@ -56,7 +49,7 @@ The geometric phase error is due to the non-commutativity of spin rotations. It 
   \centering
   \begin{subfigure}[b]{.5\textwidth}\centering
     \includegraphics[width=\textwidth]{img/geometric_phase_1}
-    \caption{Spin rotation axis with reduced element misalignments. The deviation from either of the coordinate system axes is great, and so is geometric phase error.}
+    \caption{Spin rotation axis with reduced element misalignments. The deviation from either of the coordinate system axes is large, and so is geometric phase error.}
   \end{subfigure}~
   \begin{subfigure}[b]{.5\textwidth}\centering
     \includegraphics[width=\textwidth]{img/geometric_phase_2}
@@ -66,11 +59,17 @@ The geometric phase error is due to the non-commutativity of spin rotations. It 
 \end{figure}
 
 \section{The Frequency Domain methodology}
-The FD methodology promises to solve these 
+In view of the misalignment problem described above, it is obvious that a successful methodology will require measurement of a precession frequency. Hence the name: ``Frequency Domain.'' Since a combined EDM + MDM precession is being observed, the next step is to separate the EDM and MDM components. This can be achieved by injecting the beam in the opposite direction, and then adding up results. Since both $\vec B$, and $\vec\beta$ change sign, while $\vec E$ remains constant, going from CW to CCW:
+\begin{align}
+  \w_x\CW &= \w_x\CW\MDM + \w_x\EDM, \\
+  \w_x\CCW &= -\w_x\CCW\MDM + \w_x\EDM, \\
+  \shortintertext{and so}
+  \hat\w_x\EDM &= \frac12\bkt{\w_x\CW + \w_x\CCW} + \frac12\bkt{\w_x\CW\MDM - \w_x\CCW\MDM}.
+\end{align}
 
-At first glance, there are several problems apparent with this method:
+The several aspects of concern are:
 \begin{enumerate}
-\item The necessity of double injection for the computation of a single statistic. The problem here is that we cannot guarantee that the two beams follow the same orbit, and hence experience the same fields. This is problematic for two reasons \label{itm:Injection}
+\item The necessity of double injection for the computation of a single statistic. The problem here is that we cannot guarantee that the two beams follow the same orbit, and hence experience the same fields. This is problematic for two reasons: \label{itm:Injection}
   \begin{inparaenum}[a)]
   \item a spin rotation is proportional to the experienced field strength, and
   \item spin rotations are not commutative.
@@ -79,7 +78,7 @@ At first glance, there are several problems apparent with this method:
   \item The necessity of reversing the polarity of the guiding field. This is essentially the same problem (due to a different cause) as above: the reversed magnetic field must have the same absolute value as the direct one, else $\W\MDM$ is not reproduced. \label{itm:Polarity}
 \end{enumerate}
 
-In what follows we argue that double injection does not pose a problem, so long as 
+Below we argue that double injection does not pose a problem, so long as 
 \begin{inparaenum}[a)]
 \item the frozen spin condition is strictly observed (rotations only occur in one plane), and
 \item the parameter $\gamma_{eff}(\gamma_s, x_0, y_0, \sfrac{\Delta p_0}{p_s})$ is kept constant.
@@ -87,7 +86,7 @@ In what follows we argue that double injection does not pose a problem, so long 
 We will also provide a methodology for ensuring that the MDM precession frequency in the y-z plane is reproduced with sufficient precision.
 
 \section{Effective gamma}
-Let us consider the injection space $(x,y,d)$, where $x$, $y$, are the initial offsets of the particle from the reference orbit, and $d := \frac{\Delta\gamma}{\gamma_0}$ is the energy deviation. A particle injected into the storage ring can then be represented by a point in injection space. Each point in the injection space corresponds to an orbit traveled by the particle. We introduce the concept of gamma effective as an equivalence relation on injection space: if two points in injection space are characterized by the same spin tune, they are said to possess the same gamma effective. 
+Consider the injection space $(x,y,d)$, where $x$, $y$, are the initial offsets of the particle from the reference orbit, and $d := \frac{\Delta\gamma}{\gamma_0}$ is the energy deviation. A particle injected into the storage ring can then be represented by a point in injection space. Each point in the injection space corresponds to an orbit traveled by the particle. We introduce the concept of gamma effective as an equivalence relation on injection space: if two points in injection space are characterized by the same spin tune, they are said to possess the same gamma effective.
 
 The origin of the notion can be traced to decoherence studies in the storage ring for the dEDM experiment,~\cite{Senichev:StorageRingMethod} where it is instrumental in understanding the mechanism by which sextupole fields can be used in order to increse the spin coherence time. Here, we will sketch an outline of the argument presented in~\cite{SenichevStorageRingMethod}.
 
