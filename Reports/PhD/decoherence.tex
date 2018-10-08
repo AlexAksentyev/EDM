@@ -1,40 +1,60 @@
 \documentclass{article}
 \usepackage[widepage]{repsty}
 
-\newcommand{\Kmagic}{270.0092} %% best estimate by Sx component was 270.0092362, but at that point I didn't observe Sz turning from 1, and besides, our rest mass is defined down to the 4th digit
-
 \begin{document}
 
-\title{Analysis of decoherence in an imperfect FS lattice (BNL) with E+B element tilts}
+\title{Study of spin-orbit motion in the Frozen and Quasi-Frozen rings}
 \maketitle
 
-\section{Introduction. The Frozen Spin lattice}
+\section{Spin decoherence effect in a perfectly aligned storage ring}
 
-The Frozen Spin (FS) lattice is a storage ring for the EDM experiment in which the spin of a beam particle is continuously pointing along the direction of its momentum. This is realized for some particles, such as the deuteron, only at certain ``magical'' energies. For the deuteron, this energy is found somewhere in the neighborhood of 270 MeV.
+We study decoherence for two major reasons:
+\begin{enumerate}
+\item it reduces the measurement time frame;
+\item vertical plane decoherence is a source of systematic error.~\cite[p. 8]{Senichev:StorageRingMethod}
+\end{enumerate}
 
-The lattice analyzed in this work uses combined E+B field cylindrical elements, placed in the arcs of the storage ring. 
+Here we consider the decoherence resulting from the beam particles' spin tune difference.
 
-\section{Simulation design}
-Simulation was done in COSY Infinity, with the three dimensional lattice map Taylor expansion of up to order 5. E+B elements are modeled by combined function Wien filters (WC), rotated by a random angle about the optical axis. Two cases are considered: the angle distribution has 
-\begin{inparaenum}[1)]
-\item a zero mean, and
-\item a mean of $0.5\cdot 10^{-4}$ radian.
+The spin dynamics in a storage ring is governed by the FT-BMT equation,~\cite[p. 4]{JEDI:SpinTuneMapping} In the standard spinor formalism, spin evolution is described by a rotation matrix, whose eigenvector is the spin precession axis, $\bar n$, and eigenvalue the spin tune, $\nu_s$. For particles traveling along the design orbit of a perfectly aligned, flat storage ring, the equilibrium direction of $\bar n$ is vertical.~\cite[p. 1362]{DESY:SpinTune} The spin tune expressions in the electric and magnetic fields are:~\cite[p. 8]{Senichev:StorageRingMethod}
+\begin{align}
+  \nu_s^E &= \bkt{\frac1{\gamma^2-1}-G}\gamma\beta^2, \\
+  \nu_s^B &= \gamma G,
+\end{align}
+where $G = \frac{g-2}{2}$ is the magnetic moment anomaly, $\gamma = (1-\beta^2)^{-\sfrac12}$ is the particle's Lorentz factor. 
+
+The phase stability principle requires that orbit lengthening is accompanied by a corresponding equilibrium energy shift~\cite{Senichev:Decoh}. This means that particles traveling on different orbits will have differring spin tunes, hence decoherence. Orbit lengthening is due to two reasons:
+\begin{inparaenum}[a)]
+\item betatron motion,
+\item momentum deviation.
 \end{inparaenum}
-In both cases, the standard deviation of the angle distribution is $10^{-4}$ radian.
 
-Three ensembles of 15 rays, plus a quasi-reference (with initial offset in the x-direction of $10^-7$ cm) were tracked through the lattice for $10^6$ turns:
-\begin{inparaenum}[1)]
-\item rays with initial offset in the x-direction in the range $\pm 5$ mm,
-\item same offset range in the y-direction,
-\item initial energy offset in the range $\pm 5\cdot 10^{-4} \Delta K/K$, where $K$ is the reference kinetic energy (\Kmagic MeV).
-\end{inparaenum}
+\section{Decoherence suppression via sextupole fields}
+Sextupole fields influence orbit lengthening via two paths:
+\begin{enumerate}
+\item by affecting the momentum compaction factor: $\Delta\alpha_1 = -\frac{S\cdot D_0^3}{L}$
+\item by directly changing the orbit length: $\frac{\Delta L}{L} = \mp \frac{S\cdot D_0\cdot \beta_{x,y}\varepsilon_{x,y}}{L}$.
+\end{enumerate}
 
-The best estimate for the magic energy that has been found for this lattice is \Kmagic MeV. The simulation results are not sensitive to any higher accuracy adjustments. At this energy, spin precession in the horizontal plane can still be observed in the beamline coordinate system, i.e. the FS condition does not hold. (In 250,000 turns, approximately a quarter of a second, the $S_x$ component of spin grows by $10^{-5}$.) For this reason, we correct the spin direction in the x-z plane after every turn manually to simulate frozen spin. The adjustment is made by rotating the spins of ensemble particles into the line of the original spin direction ($\vec S_0: S_x = 0,~ S_z = 1$) by their average deviation angle. This way, horizontal plane decoherence is assumed to remain unaffected. If the average angle is less than $\pi/2$, the rotation is made toward $+\vec S_0$, otherwise, toward $-\vec S_0$. This is so in order not to interfere with the vertical plane precession: when the vertical component of spin $S_y$ is increasing, the spin projection onto the x-z plane is in the 1st and 2nd quadrants, while when it is decreasing, the projection is in the quadrants 3 and 4. If the direction of correction was always $+\vec S_0$, the spin would freez after reaching $\vec S = (0, 1, 0)$, and would stop precessing in either of the x-z or z-y planes.
+For this reason, the orbit-lengthening decoherence is suppressed by use of three families of sextupoles, put into the maxima of $\beta_x,~\beta_y,~D$ functions respectively.
 
-In the following, decoherence in both the horizontal and vertical planes is considered.
+\section{Simulation}
+In the simulation we tried to optimize the strengths of sextupoles placed in the maxima of the $\beta_x,~\beta_y,~D$ functions in order to suppress spin tune decoherence. Optimization was carried out 
 
-\section{Decoherence in the horizontal plane}
 
-\section{Decoherence in the vertical plane}
+\begin{thebibliography}{99}
+\bibitem{JEDI:SpinTuneMapping}
+  Saleev A, Nikolaev NN, Rathmann F, Augustyniak W, Bagdasarian Z, Bai M, et al. Spin tune mapping as a novel tool to probe the spin dynamics in storage rings. Physical Review Accelerators and Beams [Internet]. 2017 Jul 7 [cited 2018 Oct 8];20(7). Available from: \url{http://arxiv.org/abs/1703.01295}
+  
+\bibitem{DESY:SpinTune}
+  Barber D P, Vogt M, Hoffst\"atter G H. The Amplitude Dependent Spin Tune and the Invariant Spin Field in High Energy Proton Accelerators. \url{http://accelconf.web.cern.ch/AccelConf/e98/PAPERS/THP35G.PDF}
+
+\bibitem{Senichev:StorageRingMethod}
+  Yurij Senichev. Search for the Charged Particle Electric Dipole Moments in Storage Rings. In: 25th Russian Particle Accelerator Conference (RuPAC’16), St Petersburg, Russia, November 21-25, 2016 [Internet]. JACOW, Geneva, Switzerland; 2017 [cited 2017 Apr 5]. p. 6–10. Available from: \url{http://accelconf.web.cern.ch/AccelConf/rupac2016/papers/mozmh03.pdf}
+
+\bibitem{Senichev:Decoh}
+  Senichev Y, Zyuzin D. SPIN TUNE DECOHERENCE EFFECTS IN ELECTRO- AND  MAGNETOSTATIC STRUCTURES. In: Beam Dynamics and Electromagnetic Fields [Internet]. Changhai, China: JACoW; 2013 [cited 2017 Jul 31]. p. 2579--2581. Available from: \url{https://accelconf.web.cern.ch/accelconf/IPAC2013/papers/wepea036.pdf}
+\end{thebibliography}
+
 \end{document}
 
