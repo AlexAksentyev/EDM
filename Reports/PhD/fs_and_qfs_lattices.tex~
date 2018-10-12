@@ -1,0 +1,34 @@
+\documentclass{article}
+
+\usepackage[widepage]{repsty}
+\usepackage{subcaption}
+
+\newcommand{\W}{\Omega}
+\newcommand{\w}{\omega}
+\newcommand{\MDM}{{}^\mathrm{MDM}}
+\newcommand{\EDM}{{}^\mathrm{EDM}}
+\newcommand{\CW}{{}^\mathrm{CW}}
+\newcommand{\CCW}{{}^\mathrm{CCW}}
+
+
+
+\begin{document}
+\title{Imperfect structures}
+\section{}
+\section{Analysis of systematic errors}
+\begin{thebibliography}{99}
+\bibitem{BNL_proposal}
+  D. Anastassopoulos, V. Anastassopoulos, D. Babusci. AGS Proposal: Search for a permanent electric dipole moment of the deuteron nucleus at the $10^{−29} ~ e\cdot cm$ level. [Internet]. BNL; 2008 [cited 2016 Nov 25]. Available from: \url{https://www.bnl.gov/edm/files/pdf/deuteron_proposal_080423_final.pdf}
+\bibitem{Mane:SpinWheel}
+  S. R. Mane. Spin Wheel. arXiv:150901167 [physics] [Internet]. 2015 Sep 3 [cited 2018 Sep 28]; Available from: http://arxiv.org/abs/1509.01167
+\bibitem{Senichev:FDM}
+  Frequency domain method of the search for the deuteron electric dipole moment in a storage ring with imperfections
+
+\bibitem{Senichev:StorageRingMethod}
+  Yurij Senichev. Search for the Charged Particle Electric Dipole Moments in Storage Rings. In: 25th Russian Particle Accelerator Conference (RuPAC’16), St Petersburg, Russia, November 21-25, 2016 [Internet]. JACOW, Geneva, Switzerland; 2017 [cited 2017 Apr 5]. p. 6–10. Available from: \url{http://accelconf.web.cern.ch/AccelConf/rupac2016/papers/mozmh03.pdf}
+
+\bibitem{Senichev:Decoh}
+  Senichev Y, Zyuzin D. SPIN TUNE DECOHERENCE EFFECTS IN ELECTRO- AND  MAGNETOSTATIC STRUCTURES. In: Beam Dynamics and Electromagnetic Fields [Internet]. Changhai, China: JACoW; 2013 [cited 2017 Jul 31]. p. 2579--2581. Available from: \url{https://accelconf.web.cern.ch/accelconf/IPAC2013/papers/wepea036.pdf}
+
+\end{thebibliography}
+\end{document}
