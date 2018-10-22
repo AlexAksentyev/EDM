@@ -1,0 +1,16 @@
+\ProvidesPackage{phdstyle}
+
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{xparse}
+\usepackage{xfrac}
+\usepackage{paralist}
+
+\newcommand{\W}{\Omega}
+\newcommand{\w}{\omega}
+
+\DeclareDocumentCommand{\bkt}{sm}{\IfBooleanTF{#1}{\left[ #2 \right]}{\left(#2\right)}}
+\DeclareDocumentCommand{\ddt}{m}{\frac{\mathrm{d} {#1}}{\mathrm{d} t}}
+

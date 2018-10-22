@@ -1,0 +1,78 @@
+\documentclass{article}
+
+\usepackage{phdstyle}
+
+\let\oldvec\vec
+\renewcommand{\vec}{\boldsymbol}
+
+\begin{document}
+\tableofcontents
+\newpage
+
+\section{Thomas-BMT equation}
+The Thomas-BMT equation describes the dynamics of spin vector $\vec s$ in magnetic field $\vec B$ and electrostatic field $\vec E$. Generalized to account for the EDM effects, it can be written (in the rest frame) as follows:~\cite[p. 6]{Eremey:Thesis}
+\begin{align}
+  \ddt{\vec s} &= \vec s\times \bkt{\vec\W_{MDM} +\vec\W_{EDM}}, \label{eq:TBMT_main}
+  \intertext{where the MDM and EDM angular frequencies $\vec\W_{MDM}$ and $\vec\W_{EDM}$ are}
+  \vec\W_{MDM} &= \frac qm \bkt*{G\vec B - \bkt{G - \frac{1}{\gamma^2-1}}\frac{\vec E\times\vec\beta}{c}},\label{eq:TBMT_MDM} \\
+  \vec\W_{EDM} &= \frac qm \frac\eta2 \bkt*{\frac{\vec E}c + \vec\beta\times \vec B}.\label{eq:TBMT_EDM}
+\end{align}
+In the equations above, $m,~q,~G$ are the particle mass, electric charge, and anomalous MDM respectively; $\beta = \sfrac{v_0}{c}$, is the ratio of the particle velocity to the speed of light; $\gamma$ is the Lorentz factor. The EDM factor $\eta$ is defined by $d = \eta\frac{q}{2mc}s$, where $d$ is the particle EDM and $s$ is its spin.
+
+\section{Spin tune}
+In the standard spinor formalism, the spin transfer matrix per turn in a ring R equals~[p. 4]\cite{COSY:SpinTuneMapping}
+\begin{equation}
+  \boldsymbol t_R = \exp\bkt{-i\pi\nu_s\vec\sigma\cdot\vec c} = \cos\pi\nu_s - i(\vec\sigma\cdot\vec c)\sin\pi\nu_s,
+\end{equation}
+where $\vec\sigma$ is the Pauli matrix vector, $\vec c$ is a unit vector, pointing along the local spin precession axis. The spin precession angular velocity can be written as
+\[
+\vec\W_s = 2\pi f_s\vec c = 2\pi f_R\nu_s\vec c,
+\]
+where $f_R$ is the beam revolution frequency, and $\nu_s$ is the \emph{spin tune}, i.e. the number of spin revolutions per turn.
+
+\section{The Frozen Spin concept}
+It can be observed in eq~\eqref{eq:TBMT_MDM} that, in the absence of an EDM, the spin of a beam particle can be frozen along its momentum direction: $\vec\W_{MDM}=\vec 0$, i.e., the so-called Frozen Spin (FS) condition can be realized.
+
+EXPLAIN HOW FS IS A RESONANCE.~\cite{COSY:ImperfectionResonance}
+
+EDM experiment methodologies can be classified into:
+\begin{inparaenum}[1)]
+\item Resonance; those utilizing the FS condition to maximize the EDM signal, and
+\item Non-resonance.
+\end{inparaenum}
+
+\subsection{Storage rings for EDM search experiments}
+Storage rings can be classified into three groups:
+\begin{enumerate}
+\item purely magnetic (like COSY, NICA, etc),
+\item purely electrostatic (Brookhaven AGS Analog Ring),
+\item combined rings.
+\end{enumerate}
+
+In view of eq~\eqref{eq:TBMT_MDM}, the FS condition cannot be realized in a purely magnetic ring. For a number of particles, such as the proton, whose $G>0$, a purely electrostatic ring can be used in a resonance-type EDM experiment methodology. For particles with $G<0$ (such as the deuteron), this is not an option, and a combined ring must be used. In order to realize the FS condition in a combined ring, a radial E-field $E_r = \frac{GBc\beta\gamma^2}{1-G\beta^2\gamma^2}$ is introduced.~\cite{BNL:Deuteron2008} 
+
+\section{Non-resonance methods}
+
+\subsection{COSY Spin Tune Mapping + RF Wien Filter Method}
+
+\section{Resonance methods}
+
+\subsection{BNL Frozen Spin Method}
+
+\subsection{Koop's Spin Wheel Modification}
+
+\subsection{Frequency Domain Method}
+
+\begin{thebibliography}{99}
+\bibitem{Eremey:Thesis}
+  Eremey Valetov. FIELD MODELING, SYMPLECTIC TRACKING, AND SPIN DECOHERENCE FOR EDM AND MUON G-2 LATTICES [Internet]. [Michigan, USA]: Michigan State University; Available from: \url{http://collaborations.fz-juelich.de/ikp/jedi/public_files/theses/valetovphd.pdf}
+\bibitem{COSY:SpinTuneMapping}
+  Saleev A, Nikolaev NN, Rathmann F, Augustyniak W, Bagdasarian Z, Bai M, et al. Spin tune mapping as a novel tool to probe the spin dynamics in storage rings. Physical Review Accelerators and Beams [Internet]. 2017 Jul 7 [cited 2018 Oct 8];20(7). Available from: \url{http://arxiv.org/abs/1703.01295}
+\bibitem{BNL:Deuteron2008}
+  D. Anastassopoulos, V. Anastassopoulos, D. Babusci. AGS Proposal: Search for a permanent electric dipole moment of the deuteron nucleus at the 10 −29 e · cm level. [Internet]. BNL; 2008 [cited 2016 Nov 25]. Available from: \url{https://www.bnl.gov/edm/files/pdf/deuteron_proposal_080423_final.pdf}
+\bibitem{COSY:ImperfectionResonance}
+  Stockhorst H. Polarized Proton and Deuteron Beams at COSY. arXiv:physics/0411148 [Internet]. 2004 Nov 16 [cited 2018 Oct 22]; Available from: \url{http://arxiv.org/abs/physics/0411148}
+
+
+\end{thebibliography}
+\end{document}
