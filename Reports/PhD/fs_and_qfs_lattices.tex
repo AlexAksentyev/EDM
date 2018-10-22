@@ -9,6 +9,7 @@
 \newcommand{\EDM}{{}^\mathrm{EDM}}
 \newcommand{\CW}{{}^\mathrm{CW}}
 \newcommand{\CCW}{{}^\mathrm{CCW}}
+\newcommand{\st}{\nu_s}
 
 
 
@@ -23,14 +24,18 @@ The FS ring design concept's main objective is the maximization of the EDM signa
 \end{itemize}
 This last point is the major motivation for the use of a Quasi-Frozen Spin ring design.
 
-If the spin vector oscillates in the horizontal plane with an amplitude $\Phi$, the EDM signal is reduced by the factor $1 - \frac{\Phi^2}{4}$. In a QFS ring with $n$-periodicity, the spin oscillates relative to the momentum vector within half the value of the advanced spin phase $\gamma G \cdot \frac{\pi}{2n}$.~\cite{Senichev:Shanghai} In our designs, with the accelerator length is approximately 150 meters, $\Phi\approx 0.25$, and hence the signal is reduced by as little as 2\%.
+The Quasi-Frozen Spin design concept consists in correcting the necessarily occurring MDM spin rotation in the magnetic arcs by a reverse rotation in the straight sections. The ring can be implemented in two versions: one in which the E- and B-field elements are separated, and another in which the combined E+B elements are located in the straight sections of the lattice.~\cite{Senichev:Shanghai}
 
-The ring can be implemented in two versions: one in which the E- and B-field elements are separated, and another in which the E+B elements are located in the straight sections of the lattice.
+In the first option, the ring is made up of two types of arcs: magnetic, in each of which the closed orbit is bent by an angle $\Phi^B_{co} = \pi + 2\alpha$, and the spin is rotated, accordingly, by $\Phi^B_{spin} = \st^B\cdot \Phi^B_{co}$, and electrostatic, with the closed orbit bend angle $\Phi^E_{co} = -2\alpha$, and $\Phi^E_{spin} = \st^E\cdot \Phi^E_{co}$. The Quasi-Frozen Spin condition in this case can be formulated simply as $\Phi^E_{spin} + \Phi^B_{spin} = 0$. One drawback of this lattice is the use of cylindrical electrostatic deflectors, and the non-linearities involved.
+
+In the second option, straight E+B spin rotators (placed in the straight sections) are used to compensate the arc MDM rotation. 
+
+If the spin vector oscillates in the horizontal plane with an amplitude $\Phi$, the EDM signal is reduced by a factor $1 - \frac{\Phi^2}{4}$. In a QFS ring with $n$-periodicity, the spin oscillates relative to the momentum vector within half the value of the advanced spin phase $\gamma G \cdot \frac{\pi}{2n}$.~\cite{Senichev:Shanghai} In our designs, with the accelerator length approximately 150 meters, $\Phi\approx 0.25$, and hence the signal is reduced by no more than 2\%.
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{img/EB_QFS_Sx_vs_s_1turn}
-  \caption{Spin precession in the horizontal plane in a QFS lattice.\label{fig:QFS_Sx_vs_s}}
+  \caption{Spin precession in the horizontal plane in a QFS lattice. Dashed vertical lines mark the ends of sections of the lattice.\label{fig:QFS_Sx_vs_s}}
 \end{figure}
 
 
