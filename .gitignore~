@@ -18,6 +18,3 @@ Abstracts/*
 !Abstracts/*.tex
 !Abstracts/*.sty
 !Abstracts/*.doc
-
-.~lock.*
-.DS_Store
