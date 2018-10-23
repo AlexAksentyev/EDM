@@ -3,6 +3,7 @@
 .Rhistory
 .RData
 .Ruserdata
+*~
 # Languages
 Python/*
 !Python/*.py

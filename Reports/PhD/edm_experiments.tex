@@ -11,19 +11,21 @@
 
 \section{Thomas-BMT equation}
 The Thomas-BMT equation describes the dynamics of spin vector $\vec s$ in magnetic field $\vec B$ and electrostatic field $\vec E$. Generalized to account for the EDM effects, it can be written (in the rest frame) as follows:~\cite[p. 6]{Eremey:Thesis}
-\begin{align}
-  \ddt{\vec s} &= \vec s\times \bkt{\vec\W_{MDM} +\vec\W_{EDM}}, \label{eq:TBMT_main}
-  \intertext{where the MDM and EDM angular frequencies $\vec\W_{MDM}$ and $\vec\W_{EDM}$ are}
-  \vec\W_{MDM} &= \frac qm \bkt*{G\vec B - \bkt{G - \frac{1}{\gamma^2-1}}\frac{\vec E\times\vec\beta}{c}},\label{eq:TBMT_MDM} \\
-  \vec\W_{EDM} &= \frac qm \frac\eta2 \bkt*{\frac{\vec E}c + \vec\beta\times \vec B}.\label{eq:TBMT_EDM}
-\end{align}
+\begin{subequations}
+  \begin{align}
+    \ddt{\vec s} &= \vec s\times \bkt{\vec\W_{MDM} +\vec\W_{EDM}}, \label{eq:TBMT_main}
+    \intertext{where the MDM and EDM angular frequencies $\vec\W_{MDM}$ and $\vec\W_{EDM}$ are}
+    \vec\W_{MDM} &= \frac qm \bkt*{G\vec B - \bkt{G - \frac{1}{\gamma^2-1}}\frac{\vec E\times\vec\beta}{c}},\label{eq:TBMT_MDM} \\
+    \vec\W_{EDM} &= \frac qm \frac\eta2 \bkt*{\frac{\vec E}c + \vec\beta\times \vec B}.\label{eq:TBMT_EDM}
+  \end{align}
+\end{subequations}
 In the equations above, $m,~q,~G$ are the particle mass, electric charge, and anomalous MDM respectively; $\beta = \sfrac{v_0}{c}$, is the ratio of the particle velocity to the speed of light; $\gamma$ is the Lorentz factor. The EDM factor $\eta$ is defined by $d = \eta\frac{q}{2mc}s$, where $d$ is the particle EDM and $s$ is its spin.
 
 \section{Spin tune}
 In the standard spinor formalism, the spin transfer matrix per turn in a ring R equals~[p. 4]\cite{COSY:SpinTuneMapping}
-\begin{equation}
+\begin{equation*}
   \boldsymbol t_R = \exp\bkt{-i\pi\nu_s\vec\sigma\cdot\vec c} = \cos\pi\nu_s - i(\vec\sigma\cdot\vec c)\sin\pi\nu_s,
-\end{equation}
+\end{equation*}
 where $\vec\sigma$ is the Pauli matrix vector, $\vec c$ is a unit vector, pointing along the local spin precession axis. The spin precession angular velocity can be written as
 \[
 \vec\W_s = 2\pi f_s\vec c = 2\pi f_R\nu_s\vec c,
@@ -33,15 +35,25 @@ where $f_R$ is the beam revolution frequency, and $\nu_s$ is the \emph{spin tune
 \section{The Frozen Spin concept}
 It can be observed in eq~\eqref{eq:TBMT_MDM} that, in the absence of an EDM, the spin of a beam particle can be frozen along its momentum direction: $\vec\W_{MDM}=\vec 0$, i.e., the so-called Frozen Spin (FS) condition can be realized.
 
-EXPLAIN HOW FS IS A RESONANCE.~\cite{COSY:ImperfectionResonance}
+The advantage of imposing the FS condition on the beam in a storage ring is as follows: according to equations~\cref{eq:TBMT_main,eq:TBMT_MDM,eq:TBMT_EDM}, the MDM and EDM angular velocity vectors are orthogonal, and hence add ap in squares in the total spin precession frequency, thus resulting in a second-order EDM-related shift:~\cite[p. 5]{Mane:SpinWheel}
+\[
+\w \propto \sqrt{\W_{MDM}^2 + \W_{EDM}^2} \approx \W_{MDM} + \frac{\W_{EDM}^2}{2\W_{MDM}}.
+\]
+This greatly reduces the experiment sensitivity.
 
-EDM experiment methodologies can be classified into:
+However, by freezing the spin in the horizontal plane, the only MDM component remaining is along the EDM, and adds linearly with it. Thus the sensitivity is greatly improved.
+
+\subsection{Integer resonance}
+A particle in a Frozen Spin state has a spin tune $\nu_s = 0 \in \mathbb{N}$ in the rest frame (and $\nu_s = 1$ in the laboratory frame), i.e., it is susceptible to \emph{integer resonance}.~\cite{COSY:ImperfectionResonance} As a result of integer resonance, any magnetic field imperfection causing the appearance of a radial component will inevitably tilt the polarizatrion of the particle bunch into the horizontal plane.~\cite[p. 8]{COSY:ImperfectionResonance} Once there, due to the energy-dependence of spin tune, the beam particles' spin vectors will decohere, depolarizing the beam. %% This circumstance imposes stringent accelerator element alignment conditions on any experiment methodology making use of the Frozen Spin concept.
+
+We can classify EDM experiment methodologies into
 \begin{inparaenum}[1)]
-\item Resonance; those utilizing the FS condition to maximize the EDM signal, and
-\item Non-resonance.
+\item Resonance, and
+\item Non-resonance,
 \end{inparaenum}
+depending on whether or not they put the particles into an integer resonance.
 
-\subsection{Storage rings for EDM search experiments}
+\subsection{Realization of the FS condition in a storage ring}
 Storage rings can be classified into three groups:
 \begin{enumerate}
 \item purely magnetic (like COSY, NICA, etc),
@@ -49,19 +61,68 @@ Storage rings can be classified into three groups:
 \item combined rings.
 \end{enumerate}
 
-In view of eq~\eqref{eq:TBMT_MDM}, the FS condition cannot be realized in a purely magnetic ring. For a number of particles, such as the proton, whose $G>0$, a purely electrostatic ring can be used in a resonance-type EDM experiment methodology. For particles with $G<0$ (such as the deuteron), this is not an option, and a combined ring must be used. In order to realize the FS condition in a combined ring, a radial E-field $E_r = \frac{GBc\beta\gamma^2}{1-G\beta^2\gamma^2}$ is introduced.~\cite{BNL:Deuteron2008} 
+In view of eq~\eqref{eq:TBMT_MDM}, the FS condition cannot be realized in a purely magnetic ring.
+
+For a number of particles, such as the proton, whose $G>0$, a purely electrostatic ring can be used in a resonance-type EDM experiment methodology with a beam at a so-called ``magic'' energy, defined by $\gamma_{mag} = \sqrt{(1+G)/G}$.
+
+For particles with $G<0$ (such as the deuteron), this is not an option, and a combined ring must be used. In order to realize the FS condition in a combined ring, a radial E-field of magnitude
+\begin{equation}\label{eq:FS_Er}
+  E_r = \frac{GB_yc\beta\gamma^2}{1-G\beta^2\gamma^2},
+\end{equation}
+is introduced.~\cite{BNL:Deuteron2008}
 
 \section{Non-resonance methods}
 
 \subsection{COSY Spin Tune Mapping + RF Wien Filter Method}
+This method has been devised by the J\"ulich Electric Dipole Moments Investigations (JEDI) collaboration, based in Forschungszentum J\"ulich GmbH, J\"ulich, Germany. It proposes to conduct a precusror experiment for finding the deuteron EDM at the Cooler Synchrotron COSY. COSY is a purely magnetic storage ring approximately 184 m in circumferance. It provides un-/polarized proton and deuteron beams in the momentum range of 300 MeV/c to 3.7 GeV/c.~\cite{COSY:ElectronCooling}
 
 \section{Resonance methods}
 
 \subsection{BNL Frozen Spin Method}
+The BNL FS method, proposed by BNL's Storage Ring EDM collaboration in 2008,~\cite{BNL:Deuteron2008} is a resonance method in a combined ring. A beam of longitudinally-polarized deuterons is injected into a storage ring; the spin precession in both the vertical and horizontal planes  is probed by polarimetry; the EDM signal is the change in the vertical polarization over time, given by:~\cite[p. 8]{BNL:Deuteron2008}
+\begin{equation}
+  \Delta P_V = P\frac{\w_{edm}}{\W}\sin\bkt{\W t + \Theta_0},
+\end{equation}
+where $\W = \sqrt{\w_{edm}^2 + \w_a^2}$, $\w_a,~\w_{edm}$ are the angular velocities arising, respectively, from the magnetic and electric dipole moments.
 
-\subsection{Koop's Spin Wheel Modification}
+By applying a radial electric field $E_r$~\eqref{eq:FS_Er}, the $\w_a$ component is expected to be reduced by at least a factor of $10^9$; in view of the small value of the hypothesized $\w_{edm}$, $\Delta P_V \approx P \w_{edm} t$, and the maximum value of $\Delta P_V$ is amplified by $10^9$.
+
+The expected one-sigma measurement sensitivity is $10^{-29}~e\cdot cm$ per $10^7$ seconds (6 months) of total run time. At this sensitivity level, the left-right cross-section asymmetry $\varepsilon_{LR} \approx 5\cdot 10^{-6}$ for the smallest practical values of $\w_a$.~\cite[p. 18]{BNL:Deuteron2008} This is a challenging task for polarimetry.~\cite{Mane:SpinWheel} One way to deal with this challenge is to apply an external radial magnetic field and measure the combined MDM + EDM spin precession frequency. This is the basis of the so-called Spin Wheel method, which will be outlined below.
+
+The only known first-order spin dynamics systematic effect is the presence of a non-zero average vertical component of the electric field $\avg{E_V}$. In that case, the spin will precess about the radial direction with a frequency~\cite[p. 11]{BNL:Deuteron2008}
+\[
+\w_{syst} \approx \frac{\mu\avg{E_V}}{\beta c\gamma^2}.
+\]
+There are two points to consider with this effect:
+\begin{itemize}
+\item the presence of $\avg{E_V}\neq 0$ is due to accelerator element misalignment;
+\item this systematic effect changes sign when the beam is injected in the opposite direction.
+\end{itemize}
+The latter is the reason for the clockwise/counter-clockwise (CW/CCW) beam injection structure used in this method. Though it is true that $\w_{syst}$ flips sign when the beam direction is reversed, what this methodology doesn't account for is its \emph{magnitude}. Our simulations\footnote{REFERENCE TO SIMULATION} show, that at the realistic value of 100 $\mu$m deflector installation error, the MDM precession frequency about the radial axis is in the order of 50--100 rad/sec.~\cite{Senichev:FDM} For this reason, it is impossible to use this methodology as is.
+
+%% Also, there's the problem of ensuring that the CW and CCW closed orbits coincide (the problem of precisely flipping the magnetic field).
+
+\subsection{I. Koop's Spin Wheel}
+
+The above problems with polarimetry and high spin precession rate are solved in the Spin Wheel (SW) modification, proposed by Ivan Koop of BINP, Novosibirsk, Russia. The outline of the idea is as follows: first, the FS condition is imposed; then, a radial magnetic field of magnitude $B_x$, strong enought to cause a spin precession on the order of 1 Hz, is introduced into the system. Since the field is radial, the MDM precession it induces is aligned with the EDM, which means they add linearly: $\w \propto \W_{MDM} + \W_{EDM}$.
+
+The EDM contribution is then extracted by comparing the runs with reversed sign $B_x$:~\cite[p. 1963]{Koop:IPAC13}
+\[
+\W_{EDM} = \frac{\W_x(+B_x) + \W_x(-B_x)}{2}.
+\]
+
+The applied field will also result in vertical orbit splitting for the CW and CCW beams.~\cite[p. 8]{Koop:SW_Presentation} This splitting can be measured at the picometer level by SQUIDs, and is proposed as a means for calibrating the radial magnetic field.
+
+Since due to the applied field, the radial precession is now ten orders of magnitude higher, the task for polarimetry is much simplified. However, there have been voiced doubts that the field calibration via orbit splitting is a viable option, since it is likely to be too small for detection even by SQUIDs.
+
+Also, the reversal of the beam revolution direction poses a problem. In order to do that, the magnitude of the guiding field must be reproduced in the following run with an opposite sign. It follows that the vertical orbit split measurement is not limited by the SQUID precision, but by the precision of the guiding field flipping system.
+
+Another remaining problem is the radial magnetic field caused by element misalignment. It reverses sign when the beam is injected in the reversed direction, and there has not been proposed a method for separating the MDM contribution arising from that field.
 
 \subsection{Frequency Domain Method}
+
+This latter problem was the motivation for the development of the Frequency Domain method. Just like in the SW method, we propose to measure the spin precession frequency. However, as we previously mentioned, the misalignment MDM frequency is on the order of 8--16 Hz, so there's no necessity of introducing an external radial field. Instead, of using the CW/CCW method in order to measure the applied field, 
+
 
 \begin{thebibliography}{99}
 \bibitem{Eremey:Thesis}
@@ -69,9 +130,19 @@ In view of eq~\eqref{eq:TBMT_MDM}, the FS condition cannot be realized in a pure
 \bibitem{COSY:SpinTuneMapping}
   Saleev A, Nikolaev NN, Rathmann F, Augustyniak W, Bagdasarian Z, Bai M, et al. Spin tune mapping as a novel tool to probe the spin dynamics in storage rings. Physical Review Accelerators and Beams [Internet]. 2017 Jul 7 [cited 2018 Oct 8];20(7). Available from: \url{http://arxiv.org/abs/1703.01295}
 \bibitem{BNL:Deuteron2008}
-  D. Anastassopoulos, V. Anastassopoulos, D. Babusci. AGS Proposal: Search for a permanent electric dipole moment of the deuteron nucleus at the 10 −29 e · cm level. [Internet]. BNL; 2008 [cited 2016 Nov 25]. Available from: \url{https://www.bnl.gov/edm/files/pdf/deuteron_proposal_080423_final.pdf}
+  D. Anastassopoulos, V. Anastassopoulos, D. Babusci. AGS Proposal: Search for a permanent electric dipole moment of the deuteron nucleus at the $10^{−29}~e\cdot cm$ level. [Internet]. BNL; 2008 [cited 2016 Nov 25]. Available from: \url{https://www.bnl.gov/edm/files/pdf/deuteron_proposal_080423_final.pdf}
 \bibitem{COSY:ImperfectionResonance}
   Stockhorst H. Polarized Proton and Deuteron Beams at COSY. arXiv:physics/0411148 [Internet]. 2004 Nov 16 [cited 2018 Oct 22]; Available from: \url{http://arxiv.org/abs/physics/0411148}
+\bibitem{Mane:SpinWheel}
+  S. R. Mane. Spin Wheel. arXiv:150901167 [physics] [Internet]. 2015 Sep 3 [cited 2018 Sep 28]; Available from: \url{http://arxiv.org/abs/1509.01167}
+\bibitem{Koop:IPAC13}
+  I. A. Koop, Proceedings of IPAC13, Shanghai (2013). Available at \url{http://accelconf.web.cern.ch/accelconf/ipac2013/papers/tupwo040.pdf}
+\bibitem{Koop:SWPresentation}
+  I. A. Koop, IKP seminar. Available at \url{http://collaborations.fz-juelich.de/ikp/jedi/public_files/student_seminar/SpinWheel-2012.pdf}
+\bibitem{COSY:ElectronCooling}
+  Stein HJ, Prasuhn D, Stockhorst H, Dietrich J, Fan K, Kamerdjiev V, et al. Present Performance of Electron Cooling at Cosy-J\"ulich. 2011 Jan 31 [cited 2018 Oct 23]; Available from: \url{https://arxiv.org/abs/1101.5963}
+\bibitem{Senichev:FDM}
+  Senichev Y, Aksentev A, Ivanov A, Valetov E. Frequency domain method of the search for the deuteron electric dipole moment in a storage ring with imperfections. arXiv:171106512 [physics] [Internet]. 2017 Nov 17 [cited 2018 Oct 23]; Available from: \url{http://arxiv.org/abs/1711.06512}
 
 
 \end{thebibliography}
