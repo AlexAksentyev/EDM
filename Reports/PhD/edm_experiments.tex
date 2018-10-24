@@ -73,7 +73,7 @@ is introduced.~\cite{BNL:Deuteron2008}
 
 \section{Non-resonance methods}
 
-\subsection{COSY Spin Tune Mapping + RF Wien Filter Method}
+\subsection{COSY Spin Tune Mapping + RF Wien Filter Method [TO FINISH]}
 This method has been devised by the J\"ulich Electric Dipole Moments Investigations (JEDI) collaboration, based in Forschungszentum J\"ulich GmbH, J\"ulich, Germany. It proposes to conduct a precusror experiment for finding the deuteron EDM at the Cooler Synchrotron COSY. COSY is a purely magnetic storage ring approximately 184 m in circumferance. It provides un-/polarized proton and deuteron beams in the momentum range of 300 MeV/c to 3.7 GeV/c.~\cite{COSY:ElectronCooling}
 
 \section{Resonance methods}
@@ -98,13 +98,13 @@ There are two points to consider with this effect:
 \item the presence of $\avg{E_V}\neq 0$ is due to accelerator element misalignment;
 \item this systematic effect changes sign when the beam is injected in the opposite direction.
 \end{itemize}
-The latter is the reason for the clockwise/counter-clockwise (CW/CCW) beam injection structure used in this method. Though it is true that $\w_{syst}$ flips sign when the beam direction is reversed, what this methodology doesn't account for is its \emph{magnitude}. Our simulations\footnote{REFERENCE TO SIMULATION} show, that at the realistic value of 100 $\mu$m deflector installation error, the MDM precession frequency about the radial axis is in the order of 50--100 rad/sec.~\cite{Senichev:FDM} For this reason, it is impossible to use this methodology as is.
+The latter is the reason for the clockwise/counter-clockwise (CW/CCW) beam injection structure used in this method. Though it is true that $\w_{syst}$ flips sign when the beam direction is reversed, what this methodology doesn't account for is its \emph{magnitude}. Our simulations\footnote{REFERENCE TO SIMULATION} show, that at the realistic value of 100 $\mu$m deflector installation error, the MDM precession frequency about the radial axis is on the order of 50--100 rad/sec.~\cite{Senichev:FDM} This circumstance prevents the use of this methodology as is.
 
 %% Also, there's the problem of ensuring that the CW and CCW closed orbits coincide (the problem of precisely flipping the magnetic field).
 
 \subsection{I. Koop's Spin Wheel}
 
-The above problems with polarimetry and high spin precession rate are solved in the Spin Wheel (SW) modification, proposed by Ivan Koop of BINP, Novosibirsk, Russia. The outline of the idea is as follows: first, the FS condition is imposed; then, a radial magnetic field of magnitude $B_x$, strong enought to cause a spin precession on the order of 1 Hz, is introduced into the system. Since the field is radial, the MDM precession it induces is aligned with the EDM, which means they add linearly: $\w \propto \W_{MDM} + \W_{EDM}$.
+The abovementioned problems with polarimetry and high spin precession rate are solved in the Spin Wheel (SW) modification, proposed by Ivan Koop of BINP, Novosibirsk, Russia. The outline of the idea is as follows: first, the FS condition is imposed; then, a radial magnetic field of magnitude $B_x$, strong enough to cause a spin precession on the order of 1 Hz, is introduced into the system. Since the field is radial, the MDM precession it induces is aligned with the EDM, which means they add linearly: $\w \propto \W_{MDM} + \W_{EDM}$.
 
 The EDM contribution is then extracted by comparing the runs with reversed sign $B_x$:~\cite[p. 1963]{Koop:IPAC13}
 \[
@@ -113,15 +113,26 @@ The EDM contribution is then extracted by comparing the runs with reversed sign 
 
 The applied field will also result in vertical orbit splitting for the CW and CCW beams.~\cite[p. 8]{Koop:SW_Presentation} This splitting can be measured at the picometer level by SQUIDs, and is proposed as a means for calibrating the radial magnetic field.
 
-Since due to the applied field, the radial precession is now ten orders of magnitude higher, the task for polarimetry is much simplified. However, there have been voiced doubts that the field calibration via orbit splitting is a viable option, since it is likely to be too small for detection even by SQUIDs.
+Since due to the applied field, the radial precession is ten orders of magnitude higher than in the original method, the task for polarimetry is muchgreatly simplified. However, there have been voiced doubts\footnote{CITATION NEEDED} that the field calibration via orbit splitting is a viable option, since it is likely to be too small for detection even by SQUIDs.
 
 Also, the reversal of the beam revolution direction poses a problem. In order to do that, the magnitude of the guiding field must be reproduced in the following run with an opposite sign. It follows that the vertical orbit split measurement is not limited by the SQUID precision, but by the precision of the guiding field flipping system.
 
 Another remaining problem is the radial magnetic field caused by element misalignment. It reverses sign when the beam is injected in the reversed direction, and there has not been proposed a method for separating the MDM contribution arising from that field.
 
 \subsection{Frequency Domain Method}
+Frequency Domain is a Frozen Spin-type methodology. It was specifically designed to address the element misalignment problem; as we mentioned earlier, the misalignment MDM frequency is on the order of 8--16 Hz, which precludes the observation of a slow, EDM-drived vertical polarization growth, proposed in the original FS method. In FD, the EDM effect is extracted by comparing the combined MDM + EDM spin precession rates, measured in CW and CCW injection cases. Since, when the guiding magnetic field changes its polarity, $\vec B \mapsto -\vec B$, $\vec\beta \mapsto -\vec\beta$, and $\vec E \mapsto \vec E$:
+\begin{subequations}
+  \begin{align}
+    \w_x^{CW/CCW} &= \w_x^{MDM, CW/CCW} + \w_x^{EDM, CW/CCW}, \\
+    \w_x^{MDM, CW} &= -\w_x^{MDM, CCW} \equiv \w_x^{MDM}, \label{eq:FDM_CW_CCW_MDM} \\
+    \w_x^{EDM, CW} &= \w_x^{EDM, CCW} \equiv \w_x^{EDM},
+    \intertext{and so, the EDM estimator}
+    \hat\w_x^{EDM} &:= \frac12\bkt{\w_x^{CW} + \w_x^{CCW}} \label{eq:FDM_estimator} \\
+                  &= \w_x^{EDM} + \underbrace{\frac12\bkt{\w_x^{MDM, CW} + \w_x^{MDM, CCW}}}_{\varepsilon \to 0}.
+  \end{align}
+\end{subequations}
 
-This latter problem was the motivation for the development of the Frequency Domain method. Just like in the SW method, we propose to measure the spin precession frequency. However, as we previously mentioned, the misalignment MDM frequency is on the order of 8--16 Hz, so there's no necessity of introducing an external radial field. Instead, of using the CW/CCW method in order to measure the applied field, 
+In order to guarantee that the error term $\varepsilon$ is below the required precision, i.e., that eq~\eqref{eq:FDM_CW_CCW_MDM} is sufficiently true, a special field flipping procedure has been devised, that is described in section~\ref{sec:Field_flipping}.
 
 
 \begin{thebibliography}{99}
@@ -137,7 +148,7 @@ This latter problem was the motivation for the development of the Frequency Doma
   S. R. Mane. Spin Wheel. arXiv:150901167 [physics] [Internet]. 2015 Sep 3 [cited 2018 Sep 28]; Available from: \url{http://arxiv.org/abs/1509.01167}
 \bibitem{Koop:IPAC13}
   I. A. Koop, Proceedings of IPAC13, Shanghai (2013). Available at \url{http://accelconf.web.cern.ch/accelconf/ipac2013/papers/tupwo040.pdf}
-\bibitem{Koop:SWPresentation}
+\bibitem{Koop:SW_Presentation}
   I. A. Koop, IKP seminar. Available at \url{http://collaborations.fz-juelich.de/ikp/jedi/public_files/student_seminar/SpinWheel-2012.pdf}
 \bibitem{COSY:ElectronCooling}
   Stein HJ, Prasuhn D, Stockhorst H, Dietrich J, Fan K, Kamerdjiev V, et al. Present Performance of Electron Cooling at Cosy-J\"ulich. 2011 Jan 31 [cited 2018 Oct 23]; Available from: \url{https://arxiv.org/abs/1101.5963}
