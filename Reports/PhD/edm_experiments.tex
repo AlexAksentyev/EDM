@@ -2,9 +2,6 @@
 
 \usepackage{phdstyle}
 
-\let\oldvec\vec
-\renewcommand{\vec}{\boldsymbol}
-
 \begin{document}
 \tableofcontents
 \newpage
@@ -44,7 +41,9 @@ This greatly reduces the experiment sensitivity.
 However, by freezing the spin in the horizontal plane, the only MDM component remaining is along the EDM, and adds linearly with it. Thus the sensitivity is greatly improved.
 
 \subsection{Integer resonance}
-A particle in a Frozen Spin state has a spin tune $\nu_s = 0 \in \mathbb{N}$ in the rest frame (and $\nu_s = 1$ in the laboratory frame), i.e., it is susceptible to \emph{integer resonance}.~\cite{COSY:ImperfectionResonance} As a result of integer resonance, any magnetic field imperfection causing the appearance of a radial component will inevitably tilt the polarizatrion of the particle bunch into the horizontal plane.~\cite[p. 8]{COSY:ImperfectionResonance} Once there, due to the energy-dependence of spin tune, the beam particles' spin vectors will decohere, depolarizing the beam. %% This circumstance imposes stringent accelerator element alignment conditions on any experiment methodology making use of the Frozen Spin concept.
+The spin of a particle injected into an accelerator naturally aligns itself with the vertical guiding magnetic field. However, any EDM experiment methodology based on the Frozen Spin concept (or variation thereof) requires that the beam polarization is turned, and remains, in the horizontal plane. Fortunately, under the Frozen Spin condition, a particle's spin tune $\nu_s = 0 \in \mathbb{N}$ in the rest frame (and $\nu_s = 1$ in the laboratory frame), i.e., it is susceptible to \emph{integer resonance}.~\cite{COSY:ImperfectionResonance} As a result of integer resonance, any magnetic field imperfection causing the appearance of a radial component will inevitably tilt the polarization of the particle bunch into the horizontal plane.~\cite[p. 8]{COSY:ImperfectionResonance}
+
+This means that field imperfections are a pre-requisite of the FS method; without them, the spin precession axis of a FS lattice is undefined; the implication being that attempts at \emph{reducing} the accelerator element misalignment error, while helpful in dealing with some systematic effects, are ultimately counterproductive. This circumstance should be considered when devising a FS-type, EDM experiment methodology.
 
 We can classify EDM experiment methodologies into
 \begin{inparaenum}[1)]

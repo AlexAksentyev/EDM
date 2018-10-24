@@ -10,6 +10,9 @@
 \usepackage{paralist}
 \usepackage{cleveref}
 
+\let\oldvec\vec
+\renewcommand{\vec}{\boldsymbol}
+
 \crefname{equation}{equation}{equations}
 \Crefname{equation}{Equation}{Equations}% For beginning \Cref
 \crefrangelabelformat{equation}{(#3#1#4--#5#2#6)}
