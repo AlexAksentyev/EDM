@@ -23,7 +23,9 @@
 
 \newcommand{\W}{\Omega}
 \newcommand{\w}{\omega}
+\newcommand{\ddt}[1]{\frac{\mathrm{d} {#1}}{\mathrm{d} t}}
 
 \DeclareDocumentCommand{\bkt}{sm}{\IfBooleanTF{#1}{\left[ #2 \right]}{\left(#2\right)}}
 \DeclareDocumentCommand{\ddt}{m}{\frac{\mathrm{d} {#1}}{\mathrm{d} t}}
 \DeclareDocumentCommand{\avg}{mO{}}{\langle #1\rangle_{#2}}
+

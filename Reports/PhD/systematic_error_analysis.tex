@@ -1,0 +1,56 @@
+\documentclass{article}
+
+\usepackage{phdstyle}
+\usepackage[numbers]{natbib}
+
+\begin{document}
+\tableofcontents
+\newpage
+
+\section{Spin decoherence in a perfectly aligned ring}
+Spin decoherence is an inherent weakness of the FS method, arising from the requirement that the polarization of the beam is turned into the horizontal plane.
+
+\subsection{Spin coherence time requirements}
+
+\subsection{Origin of decoherence}
+The longitudinal dynamics of a charged particle on the reference orbit in a storage ring is described by the system of equations:
+\begin{equation*}
+  \begin{cases}
+    \ddt{\varphi} &= -\w_{RF}\eta\delta, \\
+    \ddt{\delta} &= \frac{q V_{RF}\w_{RF}}{2\pi h\beta^2E}\sin\varphi.
+  \end{cases}
+\end{equation*}
+In the equations above: $\varphi$ is the phase deviation from the reference $\varphi_0 = 0$; $\delta = \frac{\Delta p}{p_0}$ is the relative momentum deviation from the momentum $p_0$ of the reference particle; $V_{RF}$, $\w_{RF}$ are the voltage and oscilation frequency of the RF field; $\eta = \alpha_0 - \gamma^{-2}$ is the slip factor, with $\alpha_0$ being the compaction factor defined by $\sfrac{\Delta L}{L} = \alpha_0\delta$, and $L$ being the orbit length; $h$ is the harmonic number; $E$ is the total energy of the accelerated particle. $\w_{RF} = 2\pi h f_{rev}$, where $f_{rev}=T_{rev}^{-1}$ is the beam revolution frequency.
+
+The solutions of this system form a family of ellipses in the $(\varphi, \delta)$ space, centered at $(0,0)$. However, if we consider a particle involved in betatron oscillations, and use a higher-order Taylor expansion of the compaction factor $\alpha = \alpha_0 + \alpha_1\delta$, the first equation of the system transforms into:~\citep[p.~2579]{Senichev:IPAC13}
+\[
+\ddt{\varphi} = -\w_{RF} \bkt*{\bkt{\frac{\Delta L}{L}}_\beta + \bkt{\alpha_0 + \gamma^{-2}}\delta + \bkt{\alpha_1 - \alpha_0\gamma^{-2} + \gamma^{-4}}\delta^2},
+\]
+where $\bkt{\frac{\Delta L}{L}}_\beta = \frac{\pi}{2L}\bkt*{\varepsilon_xQ_x + \varepsilon_yQ_y},$ is the betatron motion-related orbit lengthening; $\varepsilon_x$ and $\varepsilon_y$ are the horizontal and vertical beam emittances, and $Q_x$ and $Q_y$ are the horizontal and vertical tunes.~\citep[p.~2580]{Senichev:IPAC13}
+
+The solutions of the modified system are no longer centered at the same point. Orbit-lengthening and momentum deviation cause an equilibrium-level momentum momentum shift~\citep[p.~2581]{Senichev:IPAC13}
+\begin{equation*}
+  \Delta\delta_{eq} = \frac{\gamma_0^2}{\gamma_0^2\alpha_0 - 1}\bkt*{\frac{\delta_m^2}{2}\bkt{\alpha_1 - \alpha_0\gamma^{-2} + \gamma_0^{-4}} + \bkt{\frac{\Delta L}{L}}_\beta},
+\end{equation*}
+where $\delta_m$ is the amplitude of synchrotron oscillations.
+
+The equilibrium energy spread, associated with this momentum shift, of the beam particles results in a spin tune spread~\citep[p.~2581]{Senichev:IPAC13}
+
+\subsection{Sextupoles for the reduction of decoherence}
+Compaction factor effect.
+Orbit length effect.
+Decoherence type classification based on the source motion (horizontal betatron, vertical betatron, synchrotron).
+Optimal sextupole placement based on the classification.
+\subsubsection{Simulation}
+Description of the sextupole strength optimization procedure.
+Unoptimized vs optimized spin tune plots.
+
+\section{Fake signal simulation}
+Analytical estimates of the MDM precession frequency about the radial axis.
+Description of how element misalignments were introduced and why so (to preserve the closed orbit).
+Plots: precession frequency vs the mean tilt angle.
+
+\bibliography{PhDRefs}
+\bibliographystyle{vancouver}
+
+\end{document}
