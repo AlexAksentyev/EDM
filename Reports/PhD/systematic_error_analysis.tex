@@ -8,9 +8,22 @@
 \newpage
 
 \section{Spin decoherence in a perfectly aligned ring}
-Spin decoherence is an inherent weakness of the FS method, arising from the requirement that the polarization of the beam is turned into the horizontal plane.
+Spin coherence refers to a measure or quality of preservation of polarization in an initially fully polarized beam.~\citep[p.~205]{Eremey:Thesis}
+
+When a polarized beam is injected into a storage ring, the spins of the beam particles start precessing around the vertical (guiding) magnetic field. The precession frequency is dependent upon the equilibrium-level energy of the particle, which differs for the particles in the beam.
+
+This does not pose a problem when the initial polarization is vertical; however, the FS storage ring method requires spin polarization along the momentum vector, i.e., in the horizontal plane. Therefore, spin decoherence is an inherent weakness of the FS method.
 
 \subsection{Spin coherence time requirements}
+The spin coherence time (SCT) for an FS method performed in a perfectly aligned storage ring is determined by the smallest detectable angle by which the beam polarization vector is tilted from the horizontal plane by EDM alone. For the sensitivity level of $10^{-29}~e\cdot cm$ it is about $5\cdot10^{-6}$.~\cite{BNL:Deuteron2008}
+
+According to the T-BMT equation,
+\[
+\W_{EDM,x} = \eta\frac{qE_x}{2mc},
+\]
+where $\eta$ is the proportionality factor between the EDM and spin, equaling $10^{-15}$ for the deuteron, for the given EDM sensitivity limit.~\citep[p.~206]{Eremey:Thesis}
+
+For the deuteron BNL FS storage ring, $E_x = 12$ MV/m,~\citep[p.~19]{BNL:Deuteron2008} and so $\W_{EDM,x}\approx 10^{-9}$ rad/sec. This gives an SCT of approximately 1000 seconds in order that the vertical polarization reaches a detectable level of 1$\mu$rad.~\citep[p.~207]{Eremey:Thesis}
 
 \subsection{Origin of decoherence}
 The longitudinal dynamics of a charged particle on the reference orbit in a storage ring is described by the system of equations:
@@ -36,14 +49,66 @@ where $\delta_m$ is the amplitude of synchrotron oscillations.
 
 The equilibrium energy spread, associated with this momentum shift, of the beam particles results in a spin tune spread~\citep[p.~2581]{Senichev:IPAC13}
 
-\subsection{Sextupoles for the reduction of decoherence}
-Compaction factor effect.
-Orbit length effect.
-Decoherence type classification based on the source motion (horizontal betatron, vertical betatron, synchrotron).
-Optimal sextupole placement based on the classification.
+\subsection{Sextupoles for the reduction of decoherence}\label{sec:Sextupole_decoherence_suppression}
+To minimize the spin decoherence dur to betatron motion and momentum deviation, sextupoles (or octupoles) may be used~\citep[p.~212]{Eremey:Thesis}
+
+A sextupole of strength
+\[
+S_{sext} = \frac{1}{B\rho} \pddx{B_y}[x][2],
+\]
+where $B\rho$ is the magnetic rigidity, affects the first-order compaction factor as~\citep[p.~2581]{Senichev:IPAC13}
+\begin{align}
+  \Delta \alpha_{1,sext} &= -\frac{S_{sext}D_0^3}{L}, \label{eq:Sext_compaction_effect}
+  \intertext{and simultaneously the orbit length as}
+  \bkt{\frac{\Delta L}{L}}_{sext} &= \mp \frac{S_{sext}D_0\beta_{x,y}W_{x,y}}{L}, \label{eq:Sext_OL_effect}
+\end{align}
+where $D(s,\delta) = D_0(s) + D_1(s)\delta$ is the dispersion.
+
+In the following sections, we will call the decoherence accociated with horizontal/vertical betatron, and synchrotron oscillations, respectively X-/Y-, and D-decoherence. 
+
+It can be observed from eqs~\cref{eq:Sext_compaction_effect,eq:Sext_OL_effect}, that three sextupole families are required for the reduction of decoherence, placed in the maxima of: $\beta_x$, $beta_y$ for the reduction of X-,Y-decoherence, and $D_0$ for D-decoherence.
+
 \subsubsection{Simulation}
-Description of the sextupole strength optimization procedure.
-Unoptimized vs optimized spin tune plots.
+In order to check the effectiveness of the sextupole method for the suppression of decoherence, a simulation was carried out using the COSY INFINITY code.
+
+We took a perfectly aligned FS lattice, with three families of sextupoles (SX, SY, SD) placed as was explained at the end of section~\ref{sec:Sextupole_decoherence_suppression}. Then we varied the strengths of each sextupole family (GSX, GSY, GSD) individually, and computed the spin tunes of particles offset at injection from the reference particle in:
+\begin{inparaenum}[\itshape a\upshape)]
+\item the $x$-coordinate for the SX-family,
+\item $y$-coordinate for the SY-family, and
+\item $d=\Delta K/K_0$ for the SD-family.
+\end{inparaenum}
+
+The spin tune depends parabolically for each direction of offset:
+\[
+\mu(x,y,d) = \mu_0 + \mu_{xx}x^2 + \mu_{yy}y^2 + \mu_{dd}d^2 + O(x^3) + O(y^3) + O(d^3).
+\]
+
+The search for the optimal sextupole strengths was done in two iterations:
+\begin{enumerate}
+\item first, we manually varied the strengths in a wide range, and observed the flattening of the spin tune curve;
+\item when the global minima were found approximately, we continued the optimization automatically (for each family independently), using the second-order Taylor expansion coefficient before the corresponding coordinate.
+\end{enumerate}
+
+The simulation results at 300 MeV (30 MeV above the FS energy) are presented in Figure~\ref{fig:OptSext}. After the optimization of the sextupole strengths, spin tune shows almost no dependence on the variable offsets.\footnote{We were unable to suppress all three types simultaneously in this lattice. Specifically, when the SD-type sextupoles are turned on, the D-decoherence is suppressed as before, but the X- and Y-types degrade even further.}
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{\textwidth}\centering
+    \includegraphics[width=\textwidth]{img/SPINTUNE_X_GSX_optim}
+    \caption{GSX optimized for the X bunch}
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}\centering
+    \includegraphics[width=\textwidth]{img/SPINTUNE_Y_GSY_optim}
+    \caption{GSY optimized for the Y bunch}
+  \end{subfigure}
+\end{figure}
+\begin{figure}\ContinuedFloat
+  \begin{subfigure}[b]{\textwidth}\centering
+    \includegraphics[width=\textwidth]{img/SPINTUNE_D_GSD_optim}
+    \caption{GSD optimized for the D bunch}
+  \end{subfigure}
+  \caption{Spin tunes of offset particles vs the offsets, at 300 MeV, with/out the corresponding sextupole.\label{fig:OptSext}}
+\end{figure}
+
 
 \section{Fake signal simulation}
 Analytical estimates of the MDM precession frequency about the radial axis.
