@@ -118,14 +118,14 @@ Analytical estimates of the MDM precession frequency about the radial axis were 
 \begin{equation}
   \SD{\W_x^{MDM}} = \frac{q}{m\gamma}\frac{G+1}{\gamma}\frac{\SD{B_x}}{\sqrt{n}},
 \end{equation}
-where $n$ is the number of tilted elements (32 in the FS lattice), and $\SD{B_x} = B_y \SD{\delta h}/L$, $\SD{\delta h}$  being the alignment error standard deviation. At alignment error $\SD{\delta h} = 100 \mu$m, and deflector length $L=1$m, $\SD{\W_x^{MDM}} \approx 100$ rad/sec.~\cite{Senichev:FDM}
+where $n$ is the number of tilted spin rotators, and $\SD{B_x} = B_y \SD{\delta h}/L$, $\SD{\delta h}$  being the alignment error standard deviation. At alignment error $\SD{\delta h} = 100 \mu$m, and deflector length $L=1$m, $\SD{\W_x^{MDM}} \approx 100$ rad/sec.~\cite{Senichev:FDM}
 
 We studied spin dynamics in the FS and QFS lattices in the presence of rotational magnet misalignments using the COSY INFINITY code. Our simulations appear to confirm the above analysis.
 
 \subsection{Error field implementation}
 In implementing field imperfections we followed the recommendations given in~\citep[p.~235]{Eremey:Thesis}. A small perturbation of the magnetic field acts with a first-order perturbation correction as a small proportional rotation on the spin vector. Therefore, we implemented rotational magnet misalignments as an augmentation of the rotated elements with small, normally-distributed spin kicks.
 
-The MDM precession frequency change associated with the introduced error field $(B_x, 0, B_z)$ is
+According to eq~\eqref{eq:TMBT_MDM}, the MDM precession frequency change associated with an introduced error field $(B_x, 0, B_z)$ is
 \begin{align*}
   \Delta\W_{MDM} &= \frac qm (B_x, 0, B_z),
   \intertext{so the spin kick angle is}
@@ -133,7 +133,18 @@ The MDM precession frequency change associated with the introduced error field $
 \end{align*}
 where $t_0 = L/v_0$ is the time-of-flight of the reference particle through the element.
 
-Plots: precession frequency vs the mean tilt angle.
+\subsection{Simulation}
+We randomly assigned tilt angles $\Theta_{tilt}$ to E+B elements in the FS lattice. The experiment was performed 11 times; each time the angles were selected from a normal distribution $N(\mu_0\cdot(i-5), \sigma_0)$, where $\mu_0 = 10\cdot \sigma_0 = 10^{-4}$ rad, $i\in\lbrace0,\dots, 10\rbrace$. After the construction of the 3rd order transfer map for the imperfect lattice, the spin tune and spin precession axis (SPA) Taylor expansions were computed. We then took the zero-order terms of the maps, representing the spin tune and SPA of the reference particle. The results are presented in Figure~\ref{fig:Linearity_test_shifting_gauss}. In Figure~\ref{fig:Linearity_test_compensated} are shown the results when three pairs of E+B elements are rotated by opposite angles, and one element is rotated by an angle $\mu_i = (i-5)\cdot 10^{-6}$ rad, $i\in\lbrace0,\dots,10\rbrace$. The simulations were done at 270.0092 MeV.\footnote{At this energy the spin precession axis and spin tune are undefined in the beamline coordinate system used by COSY INFINITY in the perfect lattice. This corresponds to the simuation when spin does npt precess in any plane (horizontal or vertical), which is the FS condition in a perfect lattice.}
+
+\begin{figure}[h]
+  \includegraphics[width=\textwidth]{img/linearity_test_shifting_gauss}
+  \caption{Spin precession axis and precession frequencies for the imperfect FS lattice, under the rotation of E+B elements.\label{fig:Linearity_test_shifting_gauss}}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\textwidth]{img/linearity_test_compensated+microrad}
+  \caption{Three pairs of oppositely rotated E+B elements, plus an uncompensated element.\label{fig:Linearity_test_compensated}}
+\end{figure}
+
 
 \bibliography{PhDRefs}
 \bibliographystyle{vancouver}
