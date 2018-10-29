@@ -111,8 +111,28 @@ The simulation results at 300 MeV (30 MeV above the FS energy) are presented in 
 
 
 \section{Fake signal simulation}
-Analytical estimates of the MDM precession frequency about the radial axis.
-Description of how element misalignments were introduced and why so (to preserve the closed orbit).
+
+Systematic errors due to imperfections in the physical lattice, including optical element misalignments, are causative to a fake EDM signal.~\citep[p.~230]{Eremey:Thesis} Rotational misalignments are particularly problematic, since they induce the horizontal magnetic error field components $B_x$ and $B_z$ both of which rotate spin in the vertical plane, thus causing a fake EDM signal.
+
+Analytical estimates of the MDM precession frequency about the radial axis were made by Senichev.~\cite{Senichev:MDM} From the T-BMT equation, and the expression for the Lorentz force, the MDM precession rate about the radial axis is
+\begin{equation}
+  \SD{\W_x^{MDM}} = \frac{q}{m\gamma}\frac{G+1}{\gamma}\frac{\SD{B_x}}{\sqrt{n}},
+\end{equation}
+where $n$ is the number of tilted elements (32 in the FS lattice), and $\SD{B_x} = B_y \SD{\delta h}/L$, $\SD{\delta h}$  being the alignment error standard deviation. At alignment error $\SD{\delta h} = 100 \mu$m, and deflector length $L=1$m, $\SD{\W_x^{MDM}} \approx 100$ rad/sec.~\cite{Senichev:FDM}
+
+We studied spin dynamics in the FS and QFS lattices in the presence of rotational magnet misalignments using the COSY INFINITY code. Our simulations appear to confirm the above analysis.
+
+\subsection{Error field implementation}
+In implementing field imperfections we followed the recommendations given in~\citep[p.~235]{Eremey:Thesis}. A small perturbation of the magnetic field acts with a first-order perturbation correction as a small proportional rotation on the spin vector. Therefore, we implemented rotational magnet misalignments as an augmentation of the rotated elements with small, normally-distributed spin kicks.
+
+The MDM precession frequency change associated with the introduced error field $(B_x, 0, B_z)$ is
+\begin{align*}
+  \Delta\W_{MDM} &= \frac qm (B_x, 0, B_z),
+  \intertext{so the spin kick angle is}
+  \Theta_{kick} &= t_0\Delta\W_{MDM},
+\end{align*}
+where $t_0 = L/v_0$ is the time-of-flight of the reference particle through the element.
+
 Plots: precession frequency vs the mean tilt angle.
 
 \bibliography{PhDRefs}
