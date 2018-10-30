@@ -1,6 +1,7 @@
 \documentclass{article}
 
 \usepackage{phdstyle}
+\usepackage[numbers]{natbib}
 
 \begin{document}
 \tableofcontents
@@ -19,7 +20,7 @@ The Thomas-BMT equation describes the dynamics of spin vector $\vec s$ in magnet
 In the equations above, $m,~q,~G$ are the particle mass, electric charge, and anomalous MDM respectively; $\beta = \sfrac{v_0}{c}$, is the ratio of the particle velocity to the speed of light; $\gamma$ is the Lorentz factor. The EDM factor $\eta$ is defined by $d = \eta\frac{q}{2mc}s$, where $d$ is the particle EDM and $s$ is its spin.
 
 \section{Spin tune}
-In the standard spinor formalism, the spin transfer matrix per turn in a ring R equals~[p. 4]\cite{COSY:SpinTuneMapping}
+In the standard spinor formalism, the spin transfer matrix per turn in a ring R equals~\citep[p.~4]{COSY:SpinTuneMapping}
 \begin{equation*}
   \boldsymbol t_R = \exp\bkt{-i\pi\nu_s\vec\sigma\cdot\vec c} = \cos\pi\nu_s - i(\vec\sigma\cdot\vec c)\sin\pi\nu_s,
 \end{equation*}
@@ -32,7 +33,7 @@ where $f_R$ is the beam revolution frequency, and $\nu_s$ is the \emph{spin tune
 \section{The Frozen Spin concept}
 It can be observed in eq~\eqref{eq:TBMT_MDM} that, in the absence of an EDM, the spin of a beam particle can be frozen along its momentum direction: $\vec\W_{MDM}=\vec 0$, i.e., the so-called Frozen Spin (FS) condition can be realized.
 
-The advantage of imposing the FS condition on the beam in a storage ring is as follows: according to equations~\cref{eq:TBMT_main,eq:TBMT_MDM,eq:TBMT_EDM}, the MDM and EDM angular velocity vectors are orthogonal, and hence add ap in squares in the total spin precession frequency, thus resulting in a second-order EDM-related shift:~\cite[p. 5]{Mane:SpinWheel}
+The advantage of imposing the FS condition on the beam in a storage ring is as follows: according to equations~\cref{eq:TBMT_main,eq:TBMT_MDM,eq:TBMT_EDM}, the MDM and EDM angular velocity vectors are orthogonal, and hence add ap in squares in the total spin precession frequency, thus resulting in a second-order EDM-related shift:~\citep[p.~5]{Mane:SpinWheel}
 \[
 \w \propto \sqrt{\W_{MDM}^2 + \W_{EDM}^2} \approx \W_{MDM} + \frac{\W_{EDM}^2}{2\W_{MDM}}.
 \]
@@ -41,7 +42,7 @@ This greatly reduces the experiment sensitivity.
 However, by freezing the spin in the horizontal plane, the only MDM component remaining is along the EDM, and adds linearly with it. Thus the sensitivity is greatly improved.
 
 \subsection{Integer resonance}
-Under the Frozen Spin condition, a particle's spin tune $\nu_s = 0 \in \mathbb{N}$ in the rest frame (and $\nu_s = 1$ in the laboratory frame), i.e., it is susceptible to \emph{integer resonance}.~\cite{COSY:ImperfectionResonance} As a result of integer resonance, any magnetic field imperfection causing the appearance of a radial component will inevitably tilt the polarization of the particle bunch into the horizontal plane.~\cite[p. 8]{COSY:ImperfectionResonance} Once there, due to the energy-dependence of spin tune, the beam particles' spin vectors will decohere, depolarizing the beam.
+Under the Frozen Spin condition, a particle's spin tune $\nu_s = 0 \in \mathbb{N}$ in the rest frame (and $\nu_s = 1$ in the laboratory frame), i.e., it is susceptible to \emph{integer resonance}.~\cite{COSY:ImperfectionResonance} As a result of integer resonance, any magnetic field imperfection causing the appearance of a radial component will inevitably tilt the polarization of the particle bunch into the horizontal plane.~\citep[p.~8]{COSY:ImperfectionResonance} Once there, due to the energy-dependence of spin tune, the beam particles' spin vectors will decohere, depolarizing the beam.
 
 We can classify EDM experiment methodologies into
 \begin{inparaenum}[1)]
@@ -76,7 +77,7 @@ This method has been devised by the J\"ulich Electric Dipole Moments Investigati
 \section{Resonance methods}
 
 \subsection{BNL Frozen Spin Method}
-The BNL FS method, proposed by BNL's Storage Ring EDM collaboration in 2008,~\cite{BNL:Deuteron2008} is a resonance method in a combined ring. A beam of longitudinally-polarized deuterons is injected into a storage ring; the spin precession in both the vertical and horizontal planes  is probed by polarimetry; the EDM signal is the change in the vertical polarization over time, given by:~\cite[p. 8]{BNL:Deuteron2008}
+The BNL FS method, proposed by BNL's Storage Ring EDM collaboration in 2008,~\cite{BNL:Deuteron2008} is a resonance method in a combined ring. A beam of longitudinally-polarized deuterons is injected into a storage ring; the spin precession in both the vertical and horizontal planes  is probed by polarimetry; the EDM signal is the change in the vertical polarization over time, given by:~\citep[p.~8]{BNL:Deuteron2008}
 \begin{equation}
   \Delta P_V = P\frac{\w_{edm}}{\W}\sin\bkt{\W t + \Theta_0},
 \end{equation}
@@ -84,9 +85,9 @@ where $\W = \sqrt{\w_{edm}^2 + \w_a^2}$, $\w_a,~\w_{edm}$ are the angular veloci
 
 By applying a radial electric field $E_r$~\eqref{eq:FS_Er}, the $\w_a$ component is expected to be reduced by at least a factor of $10^9$; in view of the small value of the hypothesized $\w_{edm}$, $\Delta P_V \approx P \w_{edm} t$, and the maximum value of $\Delta P_V$ is amplified by $10^9$.
 
-The expected one-sigma measurement sensitivity is $10^{-29}~e\cdot cm$ per $10^7$ seconds (6 months) of total run time. At this sensitivity level, the left-right cross-section asymmetry $\varepsilon_{LR} \approx 5\cdot 10^{-6}$ for the smallest practical values of $\w_a$.~\cite[p. 18]{BNL:Deuteron2008} This is a challenging task for polarimetry.~\cite{Mane:SpinWheel} One way to deal with this challenge is to apply an external radial magnetic field and measure the combined MDM + EDM spin precession frequency. This is the basis of the so-called Spin Wheel method, which will be outlined below.
+The expected one-sigma measurement sensitivity is $10^{-29}~e\cdot cm$ per $10^7$ seconds (6 months) of total run time. At this sensitivity level, the left-right cross-section asymmetry $\varepsilon_{LR} \approx 5\cdot 10^{-6}$ for the smallest practical values of $\w_a$.~\citep[p.~18]{BNL:Deuteron2008} This is a challenging task for polarimetry.~\cite{Mane:SpinWheel} One way to deal with this challenge is to apply an external radial magnetic field and measure the combined MDM + EDM spin precession frequency. This is the basis of the so-called Spin Wheel method, which will be outlined below.
 
-The only known first-order spin dynamics systematic effect is the presence of a non-zero average vertical component of the electric field $\avg{E_V}$. In that case, the spin will precess about the radial direction with a frequency~\cite[p. 11]{BNL:Deuteron2008}
+The only known first-order spin dynamics systematic effect is the presence of a non-zero average vertical component of the electric field $\avg{E_V}$. In that case, the spin will precess about the radial direction with a frequency~\citep[p.~11]{BNL:Deuteron2008}
 \[
 \w_{syst} \approx \frac{\mu\avg{E_V}}{\beta c\gamma^2}.
 \]
@@ -103,16 +104,16 @@ The latter is the reason for the clockwise/counter-clockwise (CW/CCW) beam injec
 
 The abovementioned problems with polarimetry and high spin precession rate are solved in the Spin Wheel (SW) modification, proposed by Ivan Koop of BINP, Novosibirsk, Russia. The outline of the idea is as follows: first, the FS condition is imposed; then, a radial magnetic field of magnitude $B_x$, strong enough to cause a spin precession on the order of 1 Hz, is introduced into the system. Since the field is radial, the MDM precession it induces is aligned with the EDM, which means they add linearly: $\w \propto \W_{MDM} + \W_{EDM}$.
 
-The EDM contribution is then extracted by comparing the runs with reversed sign $B_x$:~\cite[p. 1963]{Koop:IPAC13}
+The EDM contribution is then extracted by comparing the runs with reversed sign $B_x$:~\citep[p.~1963]{Koop:IPAC13}
 \[
 \W_{EDM} = \frac{\W_x(+B_x) + \W_x(-B_x)}{2}.
 \]
 
-The applied field will also result in vertical orbit splitting for the CW and CCW beams.~\cite[p. 8]{Koop:SW_Presentation} This splitting can be measured at the picometer level by SQUIDs, and is proposed as a means for calibrating the radial magnetic field.
+The applied field will also result in vertical orbit splitting.~\citep[p.~1963]{Koop:IPAC13} This splitting can be measured at the picometer level by SQUIDs, and is proposed as a means for calibrating the radial magnetic field.
 
-Since due to the applied field, the radial precession is ten orders of magnitude higher than in the original method, the task for polarimetry is muchgreatly simplified. However, there have been voiced doubts\footnote{CITATION NEEDED} that the field calibration via orbit splitting is a viable option, since it is likely to be too small for detection even by SQUIDs.
+Since due to the applied field, the radial precession is ten orders of magnitude higher than in the original method, the task for polarimetry is greatly simplified. However, there have been voiced doubts\footnote{CITATION NEEDED} that the field calibration via orbit splitting is a viable option, since it is likely to be too small for detection even by SQUIDs.
 
-Also, the reversal of the beam revolution direction poses a problem. In order to do that, the magnitude of the guiding field must be reproduced in the following run with an opposite sign. It follows that the vertical orbit split measurement is not limited by the SQUID precision, but by the precision of the guiding field flipping system.
+%% Also, the reversal of the beam revolution direction poses a problem. In order to do that, the magnitude of the guiding field must be reproduced in the following run with an opposite sign. It follows that the vertical orbit split measurement is not limited by the SQUID precision, but by the precision of the guiding field flipping system.
 
 Another remaining problem is the radial magnetic field caused by element misalignment. It reverses sign when the beam is injected in the reversed direction, and there has not been proposed a method for separating the MDM contribution arising from that field.
 
@@ -132,30 +133,32 @@ Frequency Domain is a Frozen Spin-type methodology. It was specifically designed
 In order to guarantee that the error term $\varepsilon$ is below the required precision, i.e., that eq~\eqref{eq:FDM_CW_CCW_MDM} is sufficiently true, a special field flipping procedure has been devised, that is described in section~\ref{sec:Field_flipping}.
 
 
-\begin{thebibliography}{99}
-\bibitem{Eremey:Thesis}
-  Eremey Valetov. FIELD MODELING, SYMPLECTIC TRACKING, AND SPIN DECOHERENCE FOR EDM AND MUON G-2 LATTICES [Internet]. [Michigan, USA]: Michigan State University; Available from: \url{http://collaborations.fz-juelich.de/ikp/jedi/public_files/theses/valetovphd.pdf}
-\bibitem{COSY:SpinTuneMapping}
-  Saleev A, Nikolaev NN, Rathmann F, Augustyniak W, Bagdasarian Z, Bai M, et al. Spin tune mapping as a novel tool to probe the spin dynamics in storage rings. Physical Review Accelerators and Beams [Internet]. 2017 Jul 7 [cited 2018 Oct 8];20(7). Available from: \url{http://arxiv.org/abs/1703.01295}
-\bibitem{BNL:Deuteron2008}
-  D. Anastassopoulos, V. Anastassopoulos, D. Babusci. AGS Proposal: Search for a permanent electric dipole moment of the deuteron nucleus at the $10^{−29}~e\cdot cm$ level. [Internet]. BNL; 2008 [cited 2016 Nov 25]. Available from: \url{https://www.bnl.gov/edm/files/pdf/deuteron_proposal_080423_final.pdf}
-\bibitem{COSY:ImperfectionResonance}
-  Stockhorst H. Polarized Proton and Deuteron Beams at COSY. arXiv:physics/0411148 [Internet]. 2004 Nov 16 [cited 2018 Oct 22]; Available from: \url{http://arxiv.org/abs/physics/0411148}
-\bibitem{Mane:SpinWheel}
-  S. R. Mane. Spin Wheel. arXiv:150901167 [physics] [Internet]. 2015 Sep 3 [cited 2018 Sep 28]; Available from: \url{http://arxiv.org/abs/1509.01167}
-\bibitem{Koop:IPAC13}
-  I. A. Koop, Proceedings of IPAC13, Shanghai (2013). Available at \url{http://accelconf.web.cern.ch/accelconf/ipac2013/papers/tupwo040.pdf}
-\bibitem{Koop:SW_Presentation}
-  I. A. Koop, IKP seminar. Available at \url{http://collaborations.fz-juelich.de/ikp/jedi/public_files/student_seminar/SpinWheel-2012.pdf}
-\bibitem{COSY:ElectronCooling}
-  Stein HJ, Prasuhn D, Stockhorst H, Dietrich J, Fan K, Kamerdjiev V, et al. Present Performance of Electron Cooling at Cosy-J\"ulich. 2011 Jan 31 [cited 2018 Oct 23]; Available from: \url{https://arxiv.org/abs/1101.5963}
-\bibitem{Senichev:FDM}
-  Senichev Y, Aksentev A, Ivanov A, Valetov E. Frequency domain method of the search for the deuteron electric dipole moment in a storage ring with imperfections. arXiv:171106512 [physics] [Internet]. 2017 Nov 17 [cited 2018 Oct 23]; Available from: \url{http://arxiv.org/abs/1711.06512}
+\bibliography{PhDRefs}
+\bibliographystyle{vancouver}
 
-\bibitem{Senichev:IPAC2013}
-  Senichev Y, Zyuzin D. SPIN TUNE DECOHERENCE EFFECTS IN ELECTRO- AND  MAGNETOSTATIC STRUCTURES. In: Beam Dynamics and Electromagnetic Fields [Internet]. Changhai, China: JACoW; 2013 [cited 2017 Jul 31]. p. 2579--2581. Available from: \url{https://accelconf.web.cern.ch/accelconf/IPAC2013/papers/wepea036.pdf}
+%% \begin{thebibliography}{99}
+%% \bibitem{Eremey:Thesis}
+%%   Eremey Valetov. FIELD MODELING, SYMPLECTIC TRACKING, AND SPIN DECOHERENCE FOR EDM AND MUON G-2 LATTICES [Internet]. [Michigan, USA]: Michigan State University; Available from: \url{http://collaborations.fz-juelich.de/ikp/jedi/public_files/theses/valetovphd.pdf}
+%% \bibitem{COSY:SpinTuneMapping}
+%%   Saleev A, Nikolaev NN, Rathmann F, Augustyniak W, Bagdasarian Z, Bai M, et al. Spin tune mapping as a novel tool to probe the spin dynamics in storage rings. Physical Review Accelerators and Beams [Internet]. 2017 Jul 7 [cited 2018 Oct 8];20(7). Available from: \url{http://arxiv.org/abs/1703.01295}
+%% \bibitem{BNL:Deuteron2008}
+%%   D. Anastassopoulos, V. Anastassopoulos, D. Babusci. AGS Proposal: Search for a permanent electric dipole moment of the deuteron nucleus at the $10^{−29}~e\cdot cm$ level. [Internet]. BNL; 2008 [cited 2016 Nov 25]. Available from: \url{https://www.bnl.gov/edm/files/pdf/deuteron_proposal_080423_final.pdf}
+%% \bibitem{COSY:ImperfectionResonance}
+%%   Stockhorst H. Polarized Proton and Deuteron Beams at COSY. arXiv:physics/0411148 [Internet]. 2004 Nov 16 [cited 2018 Oct 22]; Available from: \url{http://arxiv.org/abs/physics/0411148}
+%% \bibitem{Mane:SpinWheel}
+%%   S. R. Mane. Spin Wheel. arXiv:150901167 [physics] [Internet]. 2015 Sep 3 [cited 2018 Sep 28]; Available from: \url{http://arxiv.org/abs/1509.01167}
+%% \bibitem{Koop:IPAC13}
+%%   I. A. Koop, Proceedings of IPAC13, Shanghai (2013). Available at \url{http://accelconf.web.cern.ch/accelconf/ipac2013/papers/tupwo040.pdf}
+%% \bibitem{Koop:SW_Presentation}
+%%   I. A. Koop, IKP seminar. Available at \url{http://collaborations.fz-juelich.de/ikp/jedi/public_files/student_seminar/SpinWheel-2012.pdf}
+%% \bibitem{COSY:ElectronCooling}
+%%   Stein HJ, Prasuhn D, Stockhorst H, Dietrich J, Fan K, Kamerdjiev V, et al. Present Performance of Electron Cooling at Cosy-J\"ulich. 2011 Jan 31 [cited 2018 Oct 23]; Available from: \url{https://arxiv.org/abs/1101.5963}
+%% \bibitem{Senichev:FDM}
+%%   Senichev Y, Aksentev A, Ivanov A, Valetov E. Frequency domain method of the search for the deuteron electric dipole moment in a storage ring with imperfections. arXiv:171106512 [physics] [Internet]. 2017 Nov 17 [cited 2018 Oct 23]; Available from: \url{http://arxiv.org/abs/1711.06512}
 
+%% \bibitem{Senichev:IPAC2013}
+%%   Senichev Y, Zyuzin D. SPIN TUNE DECOHERENCE EFFECTS IN ELECTRO- AND  MAGNETOSTATIC STRUCTURES. In: Beam Dynamics and Electromagnetic Fields [Internet]. Changhai, China: JACoW; 2013 [cited 2017 Jul 31]. p. 2579--2581. Available from: \url{https://accelconf.web.cern.ch/accelconf/IPAC2013/papers/wepea036.pdf}
 
+%% \end{thebibliography}
 
-\end{thebibliography}
 \end{document}
