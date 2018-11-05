@@ -26,6 +26,19 @@ where $\eta$ is the proportionality factor between the EDM and spin, equaling $1
 For the deuteron BNL FS storage ring, $E_x = 12$ MV/m,~\citep[p.~19]{BNL:Deuteron2008} and so $\W_{EDM,x}\approx 10^{-9}$ rad/sec. This gives an SCT of approximately 1000 seconds in order that the vertical polarization reaches a detectable level of 1$\mu$rad.~\citep[p.~207]{Eremey:Thesis}
 
 \subsection{Origin of decoherence}
+Spin decoherence in a particle bunch is caused by the difference in the spin precession angular velocities, which in turn is due to the difference in the particles' orbit lengths and momentum values. This can be seen from the following considerations.
+
+When a particle with spin enters a magnetic field area, the spin vector starts turning about the magnetic field vector with an angular velocity defined by the T-BMT equation~\eqref{eq:TBMT_MDM}:
+\begin{equation*}
+  \vec\W_{MDM} = \frac qm G\vec B.
+\end{equation*}
+Upon exiting the field area, the spin has turned by an angle
+\begin{equation*}
+  \theta = \Delta t\cdot\W_{MDM} = \frac Lv \frac qm GB = \frac{LGB}{B\rho} = \frac L\rho G,
+\end{equation*}
+where $L$ is the path length inside the B-field, and $B\rho = p/q$ is the magnetic rigidity. Consequently, the longer a particle spends in magnetic fields during revolution, the greater its spin rotation angle, and hence its spin tune, defined as the number of spin rotations per revolution. Next, we will further define the link between the spin and orbital dynamics of a particle.
+
+\subsubsection{Equilibrium momentum shift}
 The longitudinal dynamics of a charged particle on the reference orbit in a storage ring is described by the system of equations:
 \begin{equation*}
   \begin{cases}
@@ -42,12 +55,19 @@ The solutions of this system form a family of ellipses in the $(\varphi, \delta)
 where $\bkt{\frac{\Delta L}{L}}_\beta = \frac{\pi}{2L}\bkt*{\varepsilon_xQ_x + \varepsilon_yQ_y},$ is the betatron motion-related orbit lengthening; $\varepsilon_x$ and $\varepsilon_y$ are the horizontal and vertical beam emittances, and $Q_x$ and $Q_y$ are the horizontal and vertical tunes.~\citep[p.~2580]{Senichev:IPAC13}
 
 The solutions of the modified system are no longer centered at the same point. Orbit-lengthening and momentum deviation cause an equilibrium-level momentum momentum shift~\citep[p.~2581]{Senichev:IPAC13}
-\begin{equation*}
+\begin{equation}\label{eq:EquLevMom_shift}
   \Delta\delta_{eq} = \frac{\gamma_0^2}{\gamma_0^2\alpha_0 - 1}\bkt*{\frac{\delta_m^2}{2}\bkt{\alpha_1 - \alpha_0\gamma^{-2} + \gamma_0^{-4}} + \bkt{\frac{\Delta L}{L}}_\beta},
-\end{equation*}
+\end{equation}
 where $\delta_m$ is the amplitude of synchrotron oscillations.
 
-The equilibrium energy spread, associated with this momentum shift, of the beam particles results in a spin tune spread~\citep[p.~2581]{Senichev:IPAC13}
+%% The equilibrium energy spread, associated with this momentum shift, of the beam particles results in a spin tune spread~\citep[p.~2581]{Senichev:IPAC13}
+
+\subsubsection{Effective Lorentz factor}
+The equilibrium energy associated with the momentum shift~\eqref{eq:EquLevMom_shift}, termed the \emph{effective Lorentz factor}, is~\cite{Senichev:FDM}
+\begin{equation}\label{eq:EffectiveGamma}
+  \gamma_{eff} = \gamma_0 + \beta_0^2\gamma_0\cdot\Delta\delta_{eq},
+\end{equation}
+where $\gamma_0$, $\beta_0$ are the reference particle's Lorentz factor and normalized speed. Equations~\eqref{eq:EquLevMom_shift} and~\eqref{eq:EffectiveGamma} define the link between the particle spin and orbital dynamics.
 
 \subsection{Sextupoles for the reduction of decoherence}\label{sec:Sextupole_decoherence_suppression}
 To minimize the spin decoherence dur to betatron motion and momentum deviation, sextupoles (or octupoles) may be used~\citep[p.~212]{Eremey:Thesis}

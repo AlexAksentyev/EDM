@@ -22,6 +22,8 @@ Abstracts/*
 
 *.bbl
 *.blg
+*.fls
+*.fdb_latexmk
 
 .~lock.*
 .DS_Store
