@@ -7,6 +7,47 @@
 \tableofcontents
 \newpage
 
+\section{Perturbation of the spin motion}
+Blah-blah about the ``Spin field'' of the spin precession axes of beam particles.
+
+Consequently, it is a source of systematic error for the FD method, in which we observe the polarization vector's precession frequency, since it varies during measurement due to this effect. Two points:
+\begin{itemize}
+\item the variation is stable; i.e., the variation occurs about a constant value, and there's no frequency creep.
+\item the frequency variation translates into a polarization measurement error, but that error is small compared to other polarimetry errors, and since it doesn't introduce a growth trend, it can be neglected.
+\end{itemize}
+
+Due to these reasons, we will neglect this effect in further considerations, assuming that all beam particles' spins precess about the closed orbit spin precession axis.
+
+\subsection{Simulation}
+We analized the effects of the spin precession axis motion on measurement data. In order to do so, we tracked an ensemble of particles offset from the reference orbit in the $x$ and $y$ cooridnates (but not in $\delta = \Delta p/p_0$), i.e. doing betatron oscillations alone. We collected the following data:
+\begin{itemize}
+  \item spin tune $\nu_s(Z)$ and the spin precession axis components $n_x(Z),~n_y(Z),~ n_z(Z)$, where $Z = (x,a,y,b,t,d)$ is the particle coordinate in phase space.~\citep[p.~9]{Eremey:Thesis}
+\item the spin coordinates $S_x,~S_y,~S_z$,
+\end{itemize}
+The simulation was done with an FS lattice, at 270.0092 MeV, with an added spin kick $10^{-2}$ about the radial axis. The value for the kick was picked so as to reduce tracking time.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=\linewidth]{img/spin_axis_motion/spin_tune_three}
+  \caption{These plots show the actual spin tune and precession axis oscillation, as well as the resulting radial frequency variation over measurement points.\label{fig:SpinTuneData}}
+\end{figure}
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=\linewidth]{img/spin_axis_motion/Sy_and_residual}
+  \caption{The residual data were computed as the difference between the vertical spin component of the betatron-oscillating particle and that of the reference particle.\label{fig:ResidualPlot}}
+\end{figure}
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=\linewidth]{img/spin_axis_motion/heteroskedasticity}
+  \caption{Heteroskedasticity of the residuals was computed by splitting the residual vector into groups of 100 measurements and estimating the group standard deviation\label{fig:Heteroskedasticity}}
+\end{figure}
+
+One can observe in Figure~\ref{fig:SpinTuneData} that in the considered case (FS energy, precession occurs about the radial direction), the spin tune variation over measurement times is rather negligible; frequency variation comes mostly from the precession of the spin precession axis. (In a non-FS case, it is the opposite: spin tune varies a lot more than the axis.)
+
+From Figure~\ref{fig:ResidualPlot}, one can see that the model error resulting from neglecting the small rapid oscillations of the $S_y$ component about the reference value caused by the frequency oscillations results in a heteroskedastic, autocorrelated residual pattern. The effect it will have on the frequency estimate needs further analysis.
+
+The heteroskedasticity model is presented in Figure~\ref{fig:Heteroskedasticity}.
+
 \section{Spin decoherence in a perfectly aligned ring}
 Spin coherence refers to a measure or quality of preservation of polarization in an initially fully polarized beam.~\citep[p.~205]{Eremey:Thesis}
 
