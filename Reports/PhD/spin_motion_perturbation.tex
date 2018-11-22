@@ -8,12 +8,12 @@
 \section{Perturbation of the spin motion}
 The spin precession axis of a particle involved in betatron motion precesses about the stable invariant spin axis defined on the closed orbit (CO).
 
-This precession can be observed in polarization data as a rapid, small-amplitude oscillation (see Figure~\ref{fig:Py_fit_residual_cut}) on top of the \emph{major effect} oscillation caused by the precession of spin about the CO axis. The frequency of this latter oscillation is used in the FD methodology as the EDM observable. It is estimated by fitting polarimetry data by a sine function. The rapid oscillations, therefore, constitute a model error.\footnote{A more sophisticated, for example autoregressive, model would solve this problem; however at a cost to precision.}
+This precession can be observed in polarization data as a rapid, small-amplitude oscillation (example in Figure~\ref{fig:Py_fit_residual_cut}) on top of the \emph{major effect} oscillation caused by the precession of spin about the CO axis. The frequency of this latter oscillation is used in the FD methodology as the EDM observable. It is estimated by fitting polarimetry data by a sine function. The rapid oscillations, therefore, constitute a model error.\footnote{A more sophisticated, for example autoregressive, model would solve this problem; however at a cost to precision.}
 
 This model error will introduce a bias into the frequency estimate (the amplitude growth of the blue line oscillation in Figure~\ref{fig:Py_fit_residual_full} is due to the bias). In the following we investigate how this bias changes depending on the beam revolution direction, its stability over time, and the EDM estimate error introduced by it.
 
 \subsection{Simulation: Uniform beam}
-For simulation, we used an imperfect FS lattice, with E+B elements randomly tilted about the optical axis by angles picked from the normal distribution $N(8\cdot 10^{-2}~\text{[rad]}, 10^{-2}~\text{[rad]})$. The systematic $\avg{\Theta_{tilt}} = 8\cdot 10^{-2}$ radians was selected to ensure a high radial precession rate and reduce tracking time requirements. Tilts are simulated by applying a spin rotation axis as discussed in Section~\ref{sec:FakeSignalSimulation}. By doing it this way, we do not affect the orbital transfer map; that is, the closed orbit remains unchanged.
+For simulation, we used an imperfect FS lattice, with E+B elements randomly tilted about the optical axis by angles picked from the normal distribution $N(4\cdot 10^{-3}, 5\cdot10^{-4})$ [rad]. The systematic $\avg{\Theta_{tilt}} = 4\cdot 10^{-3}$ radians was selected to ensure a sufficiently high radial precession rate, and hence reduce tracking time requirements. Tilts are simulated by applying a rotation matrix to the spin transfer map of the lattice as discussed in Section~\ref{sec:FakeSignalSimulation}. By doing it this way, we do not affect the orbital transfer map; that is, the closed orbit remains unchanged.
 
 The beam was represented by an ensemble $E$ of 4,000 rays, split into four groups of 1,000 rays:
 \begin{inparaenum}[1)]
@@ -22,7 +22,7 @@ The beam was represented by an ensemble $E$ of 4,000 rays, split into four group
 \item in both $x$ and $y$,
 \item in $d := \sfrac{\Delta K}{K_0}$.
 \end{inparaenum}
-The $x$ and $y$ coordunates were uniformly sampled in the range $\pm 5$ mm, $d$ in the range $\pm 5\cdot 10^{-4}$. The reference energy $K_0 = 270.0092$ MeV (Frozen Spin energy for this lattice).
+The $x$ and $y$ coordunates were uniformly sampled in the range $\pm 1$ mm, $d$ in the range $\pm 10^{-4}$. The reference energy $K_0 = 270.0092$ MeV (Frozen Spin energy for this lattice).
 
 The beam polarization was computed from spin tracking data as
 \[
@@ -33,12 +33,12 @@ Then the vertical polarization component was fitted with the fit function $f = \
 
 \begin{figure}[!h]
   \centering
-  \includegraphics[width=\linewidth]{img/spin_axis_motion/CW_polarization_residual_full}
+  \includegraphics[width=\linewidth]{img/spin_axis_motion/long/CW_LONG_double_res_full}
   \caption{Vertical polarization residuals, computed as the difference between $P_y$ (data) and: (red) $\hat P_y$ (model prediction), (blue) $S_y^{co}$ (reference particle vertical spin component). The oscillations of the residuals are due to the rapid oscillations caused by the precession axis instability.\label{fig:Py_fit_residual_full}}
 \end{figure}
 \begin{figure}[!h]
   \centering
-  \includegraphics[width=\linewidth]{img/spin_axis_motion/CW_polarization_residual_cut}
+  \includegraphics[width=\linewidth]{img/spin_axis_motion/long/CW_LONG_double_res_cut}
   \caption{A zoom of Figure~\ref{fig:Py_fit_residual_full}.\label{fig:Py_fit_residual_cut}}
 \end{figure}
 
@@ -51,50 +51,37 @@ Then the vertical polarization component was fitted with the fit function $f = \
     \hline
       Frequency & Offset & CW  & CCW & CW & CCW \\
     \hline
-    Estimate & 360.1103 & $3.986\cdot 10^{-5}$ & $3.985\cdot 10^{-5}$ & $9.88274\cdot 10^{-5}$ & $9.88274\cdot 10^{-5}$ \\
-    SE & -- & $3\cdot 10^{-8}$& $3\cdot 10^{-8}$ & $5\cdot 10^{-10}$ & $5\cdot 10^{-10}$\\
+    Estimate & 360.90365 & $1.58\cdot 10^{-7}$ & $1.57\cdot 10^{-7}$ & $3.42902\cdot 10^{-6}$ & $3.42902\cdot 10^{-6}$ \\
+    SE & -- & $1\cdot 10^{-9}$& $2\cdot 10^{-9}$ & $5\cdot 10^{-10}$ & $5\cdot 10^{-10}$\\
     \hline
   \end{tabular}
 \end{table}
 
 As a last step, we conducted a moving frame fit of polarization data, in order to assess whether the model error might cause the frequency estimate to vary over time. The results are presented in Figure~\ref{fig:MovingFrameEstimates}.
 
-%% \begin{figure}[!h]
-%%   \centering
-%%   \begin{subfigure}[b]{\textwidth}
-%%     \includegraphics[width=\linewidth]{img/spin_axis_motion/CW_moving_fit_frames}
-%%     \caption{CW case}
-%%   \end{subfigure}
-%%   \begin{subfigure}[b]{\textwidth}
-%%     \includegraphics[width=\linewidth]{img/spin_axis_motion/CCW_moving_fit_frames}
-%%     \caption{CCW case}
-%%   \end{subfigure}
-%%   \caption{Moving fit frames; each frame is marked by a different color.}
-%% \end{figure}
-
-\begin{figure}[!h]
+\begin{figure}[!h] %% THIS PLOT NEEDS CHANGE OR REMOVAL !!!
   \centering
-  \includegraphics[width=\linewidth]{img/spin_axis_motion/moving_frame_freqs}
+  \includegraphics[width=\linewidth]{img/spin_axis_motion/long/moving_frame_freqs}
   \caption{Moving frame frequency estimates.\label{fig:MovingFrameEstimates}}
 \end{figure}
 
 \subsection{Simulation: Gaussian distribution beam}
-For this test we injected a beam of the same size, with $x$, $y$ and $d$ coordinates distributed normally (with standard deviations 1 mm, 1 mm, and $10^{-4}$ respectively). The coordinate distributions of the CW \& CCW beams are presented in Figures~\ref{fig:Gauss_hists_XY} and~\ref{fig:Gauss_hists_D}. As one can see, the beam's centroids are split by $0.02$ mm in the horizontal direction, and $0.003$ mm in the vertical direction. This split will have an effect on the resultant frequency estimate bias difference.
+For this test we injected a beam of the same size, with $x$, $y$ and $d$ coordinates distributed normally (with standard deviations 1 mm, 1 mm, and $10^{-4}$ respectively). The coordinate distributions of the CW \& CCW beams are presented in Figures~\ref{fig:Gauss_hists_XY} and~\ref{fig:Gauss_hists_D}. As one can see, the beam's centroids are split by $0.004$ mm in the horizontal direction, and $0.014$ mm in the vertical direction. This split will have an effect on the resultant frequency estimate bias difference.
 
 \begin{figure}[!h]
   \centering
-  \includegraphics[width=\linewidth]{img/spin_axis_motion/gaussian_beam_histograms_XY}
+  \includegraphics[width=\linewidth]{img/spin_axis_motion/presentation/beam_histograms_XY}
   \caption{The $x$ and $y$ initial beam distributions.\label{fig:Gauss_hists_XY}}
 \end{figure}
 \begin{figure}[!h]
   \centering
-  \includegraphics[width=\linewidth]{img/spin_axis_motion/gaussian_beam_histograms_D}
+  \includegraphics[width=\linewidth]{img/spin_axis_motion/presentation/beam_histograms_D}
   \caption{The $d$ initial beam distributions.\label{fig:Gauss_hists_D}}
 \end{figure}
 
 The fit results are summarized in Table~\ref{tbl:GaussBeamFreqFit}.
 
-\begin{table}[!h]
+\begin{table}[!h] %% THIS TABLE NEEDS UPDATING
   \centering
   \caption{Frequency estimates for the Gaussian CW \& CCW beams, reference ray and full beam, in Hz\label{tbl:GaussBeamFreqFit}}
   \begin{tabular}{lc|rr|rr}
@@ -103,15 +90,15 @@ The fit results are summarized in Table~\ref{tbl:GaussBeamFreqFit}.
     \hline
       Frequency & Offset & CW  & CCW & CW & CCW \\
     \hline
-    Estimate & 3900.353 & $3.81688\cdot 10^{-4}$ & $3.87826\cdot 10^{-4}$ & $7.613845\cdot 10^{-4}$ & $7.613845\cdot 10^{-4}$ \\
-    SE & -- & $2\cdot 10^{-9}$& $6\cdot 10^{-9}$ & $5\cdot 10^{-12}$ & $4\cdot 10^{-11}$\\
+    Estimate & 352.99403 & $9.0405\cdot 10^{-6}$ & $7.792\cdot 10^{-6}$ & $4.149017\cdot 10^{-5}$ & $4.149017\cdot 10^{-5}$ \\
+    SE & -- & $7\cdot 10^{-10}$& $9\cdot 10^{-9}$ & $2\cdot 10^{-11}$ & $2\cdot 10^{-11}$\\
     \hline
   \end{tabular}
 \end{table}
 
-The polarization frequency estimate difference
+The polarization frequency estimate difference %% UPDATE NEEDED HERE
 \[
-\varepsilon := \hat f_{CW} - \hat f_{CCW} = 6\cdot 10^{-6} \pm 6\cdot 10^{-9}~\text{[Hz]}.
+\varepsilon := \hat f_{CW} - \hat f_{CCW} = 1.249\cdot 10^{-6} \pm 9\cdot 10^{-9}~\text{[Hz]}.
 \]
 One can see that the difference cannot be explained by statistical uncertainty.
 
@@ -133,30 +120,30 @@ This time we repeated the test from the previous section for multiple (30) trial
 
 \begin{figure}[!h]
   \centering
-  \includegraphics[width=\linewidth]{img/spin_axis_motion/smp30_Py_oscillations_vs_time}
+  \includegraphics[width=\linewidth]{img/spin_axis_motion/multiple/CW3_polarization}
   \caption{Example of polarization oscillations in the used lattice.\label{fig:OscEx}}
 \end{figure}
 
 
-For each beam, we computed its centroid, defined as $\vec c = (\avg{x_0}, \avg{y_0}, \avg{d_0})$, and took the difference $\Delta\vec c := \vec c^{CW}_i - \vec c^{CCW}_i$ ($i$ the trial number). We then regressed (non-weighted linear regression) $\varepsilon_i$ on the components of $\Delta\vec c_i$. The results are plotted in Figure~\ref{fig:BiasVsCentroid}. We found a statistically significant dependence on the vertical centroid difference component (p-value $2.8\cdot 10^{-2}$\%).~\footnote{Weighted linear regression gives even more statistically significant results; for example, for the $y$ case, the p-value drops to $10^{-2}\%$, and for $x$, it drops from 12\% to 8\%}
+For each beam, we computed its centroid, defined as $\vec c = (\avg{x_0}, \avg{y_0}, \avg{d_0})$, and took the difference $\Delta\vec c := \vec c^{CW}_i - \vec c^{CCW}_i$ ($i$ the trial number). We then regressed (non-weighted linear regression) $\varepsilon_i$ on the components of $\Delta\vec c_i$. The results are plotted in Figure~\ref{fig:BiasVsCentroid}. We found a statistically significant dependence on the vertical centroid difference component (p-value $\approx 0$\%). %2.8\cdot 10^{-2}$\%).%% ~\footnote{Weighted linear regression gives even more statistically significant results; for example, for the $y$ case, the p-value drops to $10^{-2}\%$, and for $x$, it drops from 12\% to 8\%}
 
 In order to make sure that the bias difference is not related to the change of the beam revolution direction, we checked the centroid difference dependence of the bias on the same direction beams. The dependence remains.
 
 \begin{figure}[!h]
   \centering
   \begin{subfigure}[b]{\linewidth}
-    \includegraphics[width=\linewidth]{img/spin_axis_motion/freq_estimates_vs_centroid_diff_X}
+    \includegraphics[width=\linewidth]{img/spin_axis_motion/multiple/freq_estimates_vs_centroid_diff_X}
     \caption{The $x$ coordinate.}
   \end{subfigure}
   \begin{subfigure}[b]{\linewidth}
-    \includegraphics[width=\linewidth]{img/spin_axis_motion/freq_estimates_vs_centroid_diff_Y}
+    \includegraphics[width=\linewidth]{img/spin_axis_motion/multiple/freq_estimates_vs_centroid_diff_Y}
     \caption{The $y$ coordinate.}
   \end{subfigure}
 \end{figure}
 \begin{figure}[!h]\ContinuedFloat
   \centering
   \begin{subfigure}[b]{\linewidth}
-    \includegraphics[width=\linewidth]{img/spin_axis_motion/freq_estimates_vs_centroid_diff_D}
+    \includegraphics[width=\linewidth]{img/spin_axis_motion/multiple/freq_estimates_vs_centroid_diff_D}
     \caption{The $d$ coordinate.}
   \end{subfigure}
   \caption{Frequency estimate difference vs a beam centroid split coordinate.\label{fig:BiasVsCentroid}}

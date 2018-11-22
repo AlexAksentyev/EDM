@@ -6,9 +6,11 @@
 \date{\today}
 
 \begin{document}
+
 \begin{frame}
   \titlepage
 \end{frame}
+
 \begin{frame}
   \frametitle{Problem statement}
   \begin{columns}
@@ -30,8 +32,8 @@
 \begin{frame}
   \frametitle{Single particle $\nu_s$, $\bar n$, and $\W_x$}
   \textbf{Implicit assumption} (sic!): All spin vectors in the beam precess about the same $\bar n_{CO}$. (More carefuly: $\bar n_i - \bar n_{CO} \ll 1$.)\\
-  \textbf{Below}: 270 MeV (FS@270.0092 MeV), FS lattice w/E+B elements tilted about the optic axis by $\theta\sim N(8\cdot10^{-2}, 10^{-2})$ rad. Observe a significant $\sigma[\W_x]$.\\
-  \textbf{Hypothesis}: averaging out in the polarization vector.
+  \textbf{Below}: 270 MeV (FS@270.0092 MeV), FS lattice w/E+B elements tilted about the optic axis by $\theta\sim N(4\cdot10^{-3}, 5\cdot10^{-4})$ rad. Observe a significant $\sigma[\W_x]$.\\
+  \textbf{Question}: How does this affect the net beam polarization?
   \vspace*{-.5cm}
   \begin{columns}
     \begin{column}{.5\textwidth}
@@ -46,30 +48,43 @@
     \end{column}
   \end{columns}
 \end{frame}
+
 \begin{frame}
   \frametitle{Simulation: Uniform beam}
   \begin{itemize}
-    \item Same lattice; beam represented by 4,000 rays; $x_0,~y_0\in [-1mm, +1mm]$, $d_0:=\Delta K/K_{ref} \in [-10^{-4}, +10^{-4}]$.
+    \item Same lattice; beam represented by 4,000 rays; $x_0,~y_0\in [-1mm, +1mm]$, $d_0:=\Delta K/K_{ref} \in [-1\cdot10^{-4}, +1\cdot10^{-4}]$.
     \item $\vec P = \frac{\sum_{i\in E} \vec s_i}{||\sum_{i\in E} \vec s_i||}.$
     \item Fit $P_y$ by model $g(t) = \sin(2\pi f\cdot t)$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+      \begin{center}
+        \includegraphics[height=.5\paperheight]{img/spin_axis_motion/long/CW_LONG_residual_vs_fit}
+      \end{center}
+    \end{column}
+    \begin{column}{.5\textwidth}
+      \begin{center}
+        \includegraphics[height=.5\paperheight]{img/spin_axis_motion/long/CW_LONG_residual_vs_time}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \begin{center}
+    \includegraphics[height=.25\paperheight]{img/spin_axis_motion/presentation/uni_beam_table}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
     \item Residuals exhibit a systematic pattern (model error); also $\hat f_{P_y} < \hat f_{s_y}^{CO}$.
     \item However, $\hat f_{P_y}^{CW} - \hat f_{P_y}^{CCW}$ is below statistical precision.
     %% \item Also, moving frame estimates don't exhibit a trend.
     \item But what if the CW \& CCW beams are \textbf{not} identical?
   \end{itemize}
-  \vspace*{-.3cm}
-  \begin{center}
-    \includegraphics[height=.5\paperheight]{img/spin_axis_motion/CW_polarization_residual_full}
-  \end{center}
 \end{frame}
-\begin{frame}
-  \begin{center}
-    \includegraphics[height=.5\paperheight]{img/spin_axis_motion/CW_polarization_residual_cut}
-  \end{center}
-  \begin{center}
-    \includegraphics[height=.25\paperheight]{img/spin_axis_motion/presentation/uni_beam_table}
-  \end{center}
-\end{frame}
+
 
 \begin{frame}
   \frametitle{Simulation: Gaussian beams}
@@ -77,12 +92,12 @@
   \begin{columns}
     \begin{column}{.5\textwidth}
       \begin{center}
-        \includegraphics[height=.5\paperheight]{img/spin_axis_motion/gaussian_beam_histograms_XY}
+        \includegraphics[height=.5\paperheight]{img/spin_axis_motion/presentation/gaussian_beam_histograms_XY}
       \end{center}
     \end{column}
     \begin{column}{.5\textwidth}
       \begin{center}
-        \includegraphics[height=.5\paperheight]{img/spin_axis_motion/gaussian_beam_histograms_D}
+        \includegraphics[height=.5\paperheight]{img/spin_axis_motion/presentation/gaussian_beam_histograms_D}
       \end{center}
     \end{column}
   \end{columns}
@@ -91,19 +106,19 @@
     \includegraphics[height=.25\paperheight]{img/spin_axis_motion/presentation/gauss_beam_table}
   \end{center}
   \vspace*{-.3cm}
-    Error: $\varepsilon := \hat f^{CW} - \hat f^{CCW} = 6\cdot 10^{-6}~\text{(model)} \pm 6\cdot 10^{-9}~\text{(fit)}$ Hz.
+    Error: $\varepsilon := \hat f^{CW} - \hat f^{CCW} = 1.249\cdot 10^{-6}~\text{(model)} \pm 9\cdot 10^{-9}~\text{(fit)}$ Hz.
 \end{frame}
 \begin{frame}
   \frametitle{Multiple runs}
   \textbf{Hypothesis}: the systematic error component likely depends on the beam centroid difference. Define the centroid by $\vec c = (\avg{x_0}, \avg{y_0}, \avg{d_0})$. Then do linear regression of $\hat f^{CW} - \hat f^{CCW}$ on $\vec c^{CW} - \vec c^{CCW}$.
   \begin{center}
-    \includegraphics[height=.5\paperheight]{img/spin_axis_motion/freq_estimates_vs_centroid_diff_X}
+    \includegraphics[height=.5\paperheight]{img/spin_axis_motion/multiple/freq_estimates_vs_centroid_diff_X}
   \end{center}
 \end{frame}
 \begin{frame}
-  \includegraphics[height=.5\paperheight]{img/spin_axis_motion/freq_estimates_vs_centroid_diff_D}\\
+  \includegraphics[height=.5\paperheight]{img/spin_axis_motion/multiple/freq_estimates_vs_centroid_diff_D}\\
   \vspace*{-.2cm}
-  \includegraphics[height=.5\paperheight]{img/spin_axis_motion/freq_estimates_vs_centroid_diff_Y}
+  \includegraphics[height=.5\paperheight]{img/spin_axis_motion/multiple/freq_estimates_vs_centroid_diff_Y}
 \end{frame}
 \begin{frame}
   \frametitle{Effect size dependence on the beam size}
