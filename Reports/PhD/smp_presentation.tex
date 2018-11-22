@@ -108,6 +108,7 @@
   \vspace*{-.3cm}
     Error: $\varepsilon := \hat f^{CW} - \hat f^{CCW} = 1.249\cdot 10^{-6}~\text{(model)} \pm 9\cdot 10^{-9}~\text{(fit)}$ Hz.
 \end{frame}
+
 \begin{frame}
   \frametitle{Multiple runs}
   \textbf{Hypothesis}: the systematic error component likely depends on the beam centroid difference. Define the centroid by $\vec c = (\avg{x_0}, \avg{y_0}, \avg{d_0})$. Then do linear regression of $\hat f^{CW} - \hat f^{CCW}$ on $\vec c^{CW} - \vec c^{CCW}$.
@@ -115,11 +116,16 @@
     \includegraphics[height=.5\paperheight]{img/spin_axis_motion/multiple/freq_estimates_vs_centroid_diff_X}
   \end{center}
 \end{frame}
+
 \begin{frame}
+  \vspace*{-.1cm}
   \includegraphics[height=.5\paperheight]{img/spin_axis_motion/multiple/freq_estimates_vs_centroid_diff_D}\\
-  \vspace*{-.2cm}
-  \includegraphics[height=.5\paperheight]{img/spin_axis_motion/multiple/freq_estimates_vs_centroid_diff_Y}
+  \vspace*{-.3cm}
+  \begin{flushright}
+    \includegraphics[height=.5\paperheight]{img/spin_axis_motion/multiple/freq_estimates_vs_centroid_diff_Y}
+  \end{flushright}
 \end{frame}
+
 \begin{frame}
   \frametitle{Effect size dependence on the beam size}
   \begin{itemize}
@@ -129,11 +135,6 @@
   \item then the model part of $\varepsilon$ would also drop 3 orders of magnitude, and would be comparable with fit error.
   \end{itemize}
 \end{frame}
-\begin{frame}\frametitle{Extra}
-  \begin{center}
-    \includegraphics[height=.7\paperheight]{img/spin_axis_motion/moving_frame_freqs}
-    %% \caption{Moving frame fit estimates.}
-  \end{center}
-\end{frame}
+
 \end{document}
 

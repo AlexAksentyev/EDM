@@ -29,7 +29,7 @@ The beam polarization was computed from spin tracking data as
 \vec P = \frac{\sum_{i\in E} \vec s_i}{||\sum_{i\in E} \vec s_i||}.
 \]
 
-Then the vertical polarization component was fitted with the fit function $f = \sin(2\pi\cdot f \cdot t)$, with $f$ the only fitted parameter. This procedure was carried out for the (identical at injection) CW and CCW revolving beams. We also estimated the reference rays' (CW \& CCW) precession frequencies in the same way, by fitting the vertical spin component $S_y^0$ of the reference particle. The fit results are presented in Table~\ref{tbl:FreqFit}. From this table, one can see that the polarization estimate is clearly biased toward the reference ray's estimate; however, the CW vs CCW estimates of either the reference ray or the polarization are statistically indistinguishable (assuming a normal distribution of the estimates, the hypothesis test for equality gives p-values of 30\% and higher). 
+Then the vertical polarization component was fitted with the fit function $f = \sin(2\pi\cdot f \cdot t)$, with $f$ the only fitted parameter. This procedure was carried out for the (identical at injection) CW and CCW revolving beams. We also estimated the reference rays' (CW \& CCW) precession frequencies in the same way, by fitting the vertical spin component $S_y^{CO}$ of the reference particle. The fit results are presented in Table~\ref{tbl:FreqFit}. From this table, one can see that the polarization estimate is clearly biased toward the reference ray's estimate; however, the CW vs CCW estimates of either the reference ray or the polarization are statistically indistinguishable (assuming a normal distribution of the estimates, the hypothesis test for equality gives p-values of 30\% and higher). 
 
 \begin{figure}[!h]
   \centering
@@ -57,13 +57,13 @@ Then the vertical polarization component was fitted with the fit function $f = \
   \end{tabular}
 \end{table}
 
-As a last step, we conducted a moving frame fit of polarization data, in order to assess whether the model error might cause the frequency estimate to vary over time. The results are presented in Figure~\ref{fig:MovingFrameEstimates}.
+%% As a last step, we conducted a moving frame fit of polarization data, in order to assess whether the model error might cause the frequency estimate to vary over time. The results are presented in Figure~\ref{fig:MovingFrameEstimates}.
 
-\begin{figure}[!h] %% THIS PLOT NEEDS CHANGE OR REMOVAL !!!
-  \centering
-  \includegraphics[width=\linewidth]{img/spin_axis_motion/long/moving_frame_freqs}
-  \caption{Moving frame frequency estimates.\label{fig:MovingFrameEstimates}}
-\end{figure}
+%% \begin{figure}[!h] %% THIS PLOT NEEDS CHANGE OR REMOVAL !!!
+%%   \centering
+%%   \includegraphics[width=\linewidth]{img/spin_axis_motion/long/moving_frame_freqs}
+%%   \caption{Moving frame frequency estimates.\label{fig:MovingFrameEstimates}}
+%% \end{figure}
 
 \subsection{Simulation: Gaussian distribution beam}
 For this test we injected a beam of the same size, with $x$, $y$ and $d$ coordinates distributed normally (with standard deviations 1 mm, 1 mm, and $10^{-4}$ respectively). The coordinate distributions of the CW \& CCW beams are presented in Figures~\ref{fig:Gauss_hists_XY} and~\ref{fig:Gauss_hists_D}. As one can see, the beam's centroids are split by $0.004$ mm in the horizontal direction, and $0.014$ mm in the vertical direction. This split will have an effect on the resultant frequency estimate bias difference.
@@ -81,7 +81,7 @@ For this test we injected a beam of the same size, with $x$, $y$ and $d$ coordin
 
 The fit results are summarized in Table~\ref{tbl:GaussBeamFreqFit}.
 
-\begin{table}[!h] %% THIS TABLE NEEDS UPDATING
+\begin{table}[!h]
   \centering
   \caption{Frequency estimates for the Gaussian CW \& CCW beams, reference ray and full beam, in Hz\label{tbl:GaussBeamFreqFit}}
   \begin{tabular}{lc|rr|rr}
@@ -96,7 +96,7 @@ The fit results are summarized in Table~\ref{tbl:GaussBeamFreqFit}.
   \end{tabular}
 \end{table}
 
-The polarization frequency estimate difference %% UPDATE NEEDED HERE
+The polarization frequency estimate difference 
 \[
 \varepsilon := \hat f_{CW} - \hat f_{CCW} = 1.249\cdot 10^{-6} \pm 9\cdot 10^{-9}~\text{[Hz]}.
 \]
@@ -125,7 +125,7 @@ This time we repeated the test from the previous section for multiple (30) trial
 \end{figure}
 
 
-For each beam, we computed its centroid, defined as $\vec c = (\avg{x_0}, \avg{y_0}, \avg{d_0})$, and took the difference $\Delta\vec c := \vec c^{CW}_i - \vec c^{CCW}_i$ ($i$ the trial number). We then regressed (non-weighted linear regression) $\varepsilon_i$ on the components of $\Delta\vec c_i$. The results are plotted in Figure~\ref{fig:BiasVsCentroid}. We found a statistically significant dependence on the vertical centroid difference component (p-value $\approx 0$\%). %2.8\cdot 10^{-2}$\%).%% ~\footnote{Weighted linear regression gives even more statistically significant results; for example, for the $y$ case, the p-value drops to $10^{-2}\%$, and for $x$, it drops from 12\% to 8\%}
+For each beam, we computed its centroid, defined as $\vec c = (\avg{x_0}, \avg{y_0}, \avg{d_0})$, and took the difference $\Delta\vec c := \vec c^{CW}_i - \vec c^{CCW}_i$ ($i$ the trial number). We then regressed (non-weighted linear regression) $\varepsilon_i$ on the components of $\Delta\vec c_i$. The results are plotted in Figure~\ref{fig:BiasVsCentroid}. We found a statistically significant dependence on the vertical centroid difference component (p-value $\approx 0$\%).
 
 In order to make sure that the bias difference is not related to the change of the beam revolution direction, we checked the centroid difference dependence of the bias on the same direction beams. The dependence remains.
 
@@ -149,11 +149,6 @@ In order to make sure that the bias difference is not related to the change of t
   \caption{Frequency estimate difference vs a beam centroid split coordinate.\label{fig:BiasVsCentroid}}
 \end{figure}
  
-
-
-
-
-
 \bibliography{PhDRefs}
 \bibliographystyle{vancouver}
 
