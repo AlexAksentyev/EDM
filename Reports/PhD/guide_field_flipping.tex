@@ -1,0 +1,37 @@
+\documentclass{article}
+
+\usepackage{phdstyle}
+\usepackage[numbers]{natbib}
+
+
+
+\begin{document}
+
+Problem statement. Effective gamma concept. Calibration of the magnetic field by the horizontal precession frequency. Simulation results.
+\newpage
+
+
+In the FD method, the misalignment-caused MDM precession is dealt with by adding up spin precession frequencies, one of which is measured when the beam is revolving in the storage ring clockwise, the other counter-clockwise (eq~\eqref{eq:FDM_estimator}). This is problematic for two reasons:
+\begin{enumerate}
+\item In order to change the beam revolution direction, the guiding magnetic field needs to be flipped. The problem is to reproduce the field strength; currently, no direct magnetic field measurement methods provide sufficient precision.
+\item The two beam orbits will most certainly not coincide, potentially being a source of error.
+\end{enumerate}
+
+The second point was addressed in section~\ref{sec:Decoh_origin}, when we introduced the concept of the effective Lorentz factor. The spin tunes of particles characterized by the same $\gamma_{eff}$ are equal, even if their orbital dynamics are completely different. Since frequencies alone are involved in the determination of the EDM effect, the FD methodology is insensitive to variation in the beam dynamics.
+
+
+We note that the FS condition for the deuteron is realized by a combination of the electric and magnetic field strengths, and the beam energy. Also, the electric field configuration need not be changed when changing the beam revolution direction. Therefore, for any beam injection energy there exists one, and only one, guide field strength, at which the FS condition is realized (in the horizontal plane).
+
+This fact is used in the FD methodology. The argument runs as follows:
+\begin{itemize}
+\item assuming the EDM precession about the y-axis is negligible;
+  \item $\W_y^{MDM}\propto B_y$, $W_x^{MDM}\propto B_x$, and $\frac{B_x}{B_y} = \tan\theta$, where $\theta$ is the rotation angle of the element about the optic axis $s$ (tilt), caused by magnet misalignment;
+\item when we reverse the direction of the field, the relationship between $B_y$ and $B_x$ is preserved;
+\item therefore, if $\W_y^{MDM, CCW} = -\W_y^{MDM, CW}$, then $B_y^{CCW} = -B_y^{CW}$, then $B_x^{CCW} = -B_x^{CW}$, and therefore, $\W_x^{MDM, CCW} = -\W_x^{MDM, CW}$.
+\end{itemize}
+That is, once 
+
+We gain the following advantages: 
+
+
+\end{document}

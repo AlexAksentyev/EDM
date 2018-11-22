@@ -3,6 +3,7 @@
 .Rhistory
 .RData
 .Ruserdata
+*~
 # Languages
 Python/*
 !Python/*.py
@@ -18,6 +19,11 @@ Abstracts/*
 !Abstracts/*.tex
 !Abstracts/*.sty
 !Abstracts/*.doc
+
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
 
 .~lock.*
 .DS_Store
