@@ -3,35 +3,23 @@
 \usepackage{phdstyle}
 \usepackage[numbers]{natbib}
 
-
+\newcommand{\SUPPRESSOR}{WIEN FILTER}
 
 \begin{document}
 
-Problem statement. Effective gamma concept. Calibration of the magnetic field by the horizontal precession frequency. Simulation results.
+Problem statement. Calibration of the magnetic field by the horizontal precession frequency. Simulation results.
 \newpage
 
+Rotational magnet misalignments cause a faking MDM precession in the vertical plane (see section~\ref{sec:SystErr:FakeSignalSim}), which, in the method considered in this work, is dealt with by injecting the beam consecutively in opposite directions and constructing the EDM effect estimator as a sum of the CW and CCW vertical plane precession frequencies (see section~\ref{sec:EDMExp:FDM}, eq~\eqref{eq:FDM_estimator}).
 
-In the FD method, the misalignment-caused MDM precession is dealt with by adding up spin precession frequencies, one of which is measured when the beam is revolving in the storage ring clockwise, the other counter-clockwise (eq~\eqref{eq:FDM_estimator}). This is problematic for two reasons:
-\begin{enumerate}
-\item In order to change the beam revolution direction, the guiding magnetic field needs to be flipped. The problem is to reproduce the field strength; currently, no direct magnetic field measurement methods provide sufficient precision.
-\item The two beam orbits will most certainly not coincide, potentially being a source of error.
-\end{enumerate}
+Since the precession frequencies are determined by spin tune and the invariant spin axis via $(\W_x, \W_y, \W_z) = 2\pi\cdot f_{rev} \cdot \nu_s \cdot \bar n$, it is sufficient to equalize the $\gamma_{eff}$ of the CW and CCW beams in order to ensure the same faking MDM magnitude. This is because:
+\begin{inparaenum}[\itshape a\upshape)]
+\item the reference orbit spin precession axis preserves orientation and changes sign from $\bar n \mapsto -\bar n$ when $\vec B \mapsto -\vec B$;
+\item spin tune $\nu_s$ is completely determined by $\gamma_{eff}$ (see section~\ref{sec:EffectiveGamma}).
+\end{inparaenum}
 
-The second point was addressed in section~\ref{sec:Decoh_origin}, when we introduced the concept of the effective Lorentz factor. The spin tunes of particles characterized by the same $\gamma_{eff}$ are equal, even if their orbital dynamics are completely different. Since frequencies alone are involved in the determination of the EDM effect, the FD methodology is insensitive to variation in the beam dynamics.
+The calibration of $\gamma_{eff}$ is done directly via the equalization of the horizontal spin precession frequencies. In the initial state the beam is revolving clockwise, $\W_x \gg \W_y, \W_z$, and $\bar n \approx \hat x$. By means of a \SUPPRESSOR, the radial precession is first suppressed. Horizontal precession then becomes dominant, i.e., $\bar n \approx \hat y$. After the reversion of the guide field polarity, the FS condition is again fulfilled. Since the element tilts remain constant during this time, when the \SUPPRESSOR~is turned off again, $\bar n \approx -\hat x$.
 
-
-We note that the FS condition for the deuteron is realized by a combination of the electric and magnetic field strengths, and the beam energy. Also, the electric field configuration need not be changed when changing the beam revolution direction. Therefore, for any beam injection energy there exists one, and only one, guide field strength, at which the FS condition is realized (in the horizontal plane).
-
-This fact is used in the FD methodology. The argument runs as follows:
-\begin{itemize}
-\item assuming the EDM precession about the y-axis is negligible;
-  \item $\W_y^{MDM}\propto B_y$, $W_x^{MDM}\propto B_x$, and $\frac{B_x}{B_y} = \tan\theta$, where $\theta$ is the rotation angle of the element about the optic axis $s$ (tilt), caused by magnet misalignment;
-\item when we reverse the direction of the field, the relationship between $B_y$ and $B_x$ is preserved;
-\item therefore, if $\W_y^{MDM, CCW} = -\W_y^{MDM, CW}$, then $B_y^{CCW} = -B_y^{CW}$, then $B_x^{CCW} = -B_x^{CW}$, and therefore, $\W_x^{MDM, CCW} = -\W_x^{MDM, CW}$.
-\end{itemize}
-That is, once 
-
-We gain the following advantages: 
 
 
 \end{document}
