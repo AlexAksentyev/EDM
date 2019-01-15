@@ -1,4 +1,4 @@
-OBJECTS = Presentation
+OBJECTS = Poster
 TARGETS = $(addsuffix .pdf, $(OBJECTS))
 SOURCES = $(addsuffix .tex, $(OBJECTS))
 
