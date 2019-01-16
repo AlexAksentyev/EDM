@@ -11,14 +11,15 @@
 
 \title{Spin decoherence in a Frozen Spin lattice, its suppression and effect on the Frequency Domain EDM statistic}
 \author{Alexander Aksentev}
-\date{\today}
+\institute{IKP, Forschungszentrum J\"ulich \and NRNU ``MEPhI'' }
+\date{21 January 2019}
 
 \begin{document}
 \begin{frame}
   \titlepage
 \end{frame}
 
-\begin{frame}\frametitle{Basic info}\framesubtitle{T-BMT equation}
+\begin{frame}\frametitle{Brief reminder}\framesubtitle{T-BMT equation}
   A spin vector placed into a magnetic field is subject to precession described by the T-BMT equation (rest frame):
   \begin{subequations}
     \begin{align}
@@ -30,9 +31,9 @@
   \end{subequations}
 \end{frame}
 
-\begin{frame}\frametitle{Basic info}\framesubtitle{Frozen Spin condition}
+\begin{frame}\frametitle{Brief reminder}\framesubtitle{Frozen Spin condition}
   From eq.~\eqref{eq:TBMT_MDM} one can observe that the direction of the spin vector can be fixed relative to the momentum vector, i.e., $\vec\W_{MDM}=\vec 0$. This is called the Frozen Spin condition.
-
+  
   Why is it important?
   \begin{itemize}
   \item In a storage ring, of necessity, $\vec\W_{MDM}\perp \vec\W_{EDM}$
@@ -42,7 +43,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{Basic info}\framesubtitle{Spin tune and Invariant spin axis}
+\begin{frame}\frametitle{Brief reminder}\framesubtitle{Spin tune and Invariant spin axis}
   The standard formalism operates with spin tune $\nu_s$ and invariant spin axis $\bar n$, determining the one-turn spin transfer matrix
   \begin{equation*}
     \boldsymbol t_R = \exp\bkt{-i\pi\nu_s\vec\sigma\cdot\bar n} = \cos\pi\nu_s - i(\vec\sigma\cdot\bar n)\sin\pi\nu_s.
@@ -56,7 +57,16 @@
   The invariant spin axis (a.k.a. the spin precession axis) is called such because this is the only direction in which the polarization of a beam survives.
 \end{frame}
 
-\begin{frame}\frametitle{Decoherence origins} \framesubtitle{Phase stability principle}
+\begin{frame}\frametitle{Teaser}
+  \begin{itemize}
+  \item Vertical plane flat bunch
+  \item Perfect FS lattice, only Y-family sextupoles optimized.
+  \end{itemize}
+  \centering
+  \includegraphics[width=\linewidth]{spin_tune_decoh_plot}
+\end{frame}
+
+\begin{frame}\frametitle{Origins of decoherence} \framesubtitle{Phase stability principle}
   \begin{columns}
     \begin{column}{.5\textwidth}
       \begin{itemize}
@@ -90,16 +100,12 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{Spin tune decoherence}
-  \begin{itemize}
-  \item Y-plane flat bunch
-  \item Perfect FS lattice, only Y-family sextupoles optimized.
-  \end{itemize}
+\begin{frame}{Unoptimized imperfect lattice}
   \centering
-  \includegraphics[width=\linewidth]{spin_tune_decoh_plot}
+  \includegraphics[width=\linewidth, trim=85 25 120 55, clip]{SXSY_10pcls_1sec}
 \end{frame}
 
-\begin{frame}\frametitle{Unoptimized imperfect lattice}
+\begin{frame}\frametitle{Decoherence measure}
   \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{\textwidth}\centering
@@ -150,7 +156,7 @@
 
 \begin{frame}\frametitle{Simulation setup: the beam}
   \begin{itemize}
-  \item Y-plane flat, normally-distributed beam of 30 particles: $y\sim N(y_0, 0.1)$ mm
+  \item Vertical plane flat, normally-distributed beam of 30 particles: $y\sim N(y_0, 0.1)$ mm
   \item $y_0 \in [-1, +1]$ mm (10 beams)
   \item Initial spin vector $\vec S(t=0) = (0,0,1)$
   \item Kinetic energy 270.0092 MeV (strict FS)
