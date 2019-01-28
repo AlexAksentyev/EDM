@@ -255,25 +255,25 @@
   \caption{SPA component $\bar n_y$ for \textbf{particles} with offsets:
     [1.02749, 1.02937, 1.02840] mm. We observe small-amplitude rapid oscillations about
     an average level. This average level changes parabolically with the vertical
-    offset (Figure~\ref{fig:mean_tune_axis} below). The rapid oscillations are
-    due to betatron motion (Figures~\ref{fig:tune_on_traj},
-    and~\ref{fig:axis_on_traj}).\label{fig:ny_vs_turn}}
+    offset (Figures~\ref{fig:mean_tune_offset} and~\ref{fig:mean_tune_axis} below). The rapid oscillations are
+    due to betatron motion (Figures~\ref{fig:axis_on_traj_unopt},
+    and~\ref{fig:axis_on_traj_opt}).\label{fig:ny_vs_turn}}
 \end{figure}
 \end{frame}
 
-\begin{frame}\frametitle{Spin tune}
+\begin{frame}\frametitle{Invariant spin axis}\framesubtitle{Unoptimized lattice}
   \begin{figure}[H]
     \centering
-    \includegraphics[width=\linewidth]{../img/SEMINAR/SPIN_TUNE_VS_YB_DATA_TRAJ}
-    \caption{Spin tune on the particle trajectory\label{fig:tune_on_traj}}
+    \includegraphics[width=\linewidth]{../img/SEMINAR/NY_VS_YB_DATA_TRAJ_UNOPTIM}
+    \caption{Sextupole fields are turned off\label{fig:axis_on_traj_unopt}}
   \end{figure}
 \end{frame}
 
-\begin{frame}\frametitle{Invariant spin axis}
+\begin{frame}\frametitle{Invariant spin axis}\framesubtitle{Optimized lattice}
   \begin{figure}[H]
     \centering
-    \includegraphics[width=\linewidth]{../img/SEMINAR/NY_VS_YB_DATA_TRAJ}
-    \caption{Invariant spin axis on the particle trajectory\label{fig:axis_on_traj}}
+    \includegraphics[width=\linewidth]{../img/SEMINAR/NY_VS_YB_DATA_TRAJ_OPTIM}
+    \caption{Sextupole fields are turned on\label{fig:axis_on_traj_opt}}
   \end{figure}
 \end{frame}
 
@@ -281,7 +281,7 @@
   \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth, trim=85 25 120 60, clip]{\decoh/mean_spin_tune_vs_offset}
-    \caption{Mean level of spin tune as a function of beam offset}
+    \caption{Mean level of spin tune as a function of beam offset\label{fig:mean_tune_offset}}
   \end{figure}
 \end{frame}
 
