@@ -1,4 +1,4 @@
-OBJECTS = edm_experiments systematic_error_analysis
+OBJECTS = edm_experiments systematic_error_analysis fs_and_qfs_lattices
 TARGETS = $(addsuffix .pdf, $(OBJECTS))
 SOURCES = $(addsuffix .tex, $(OBJECTS))
 

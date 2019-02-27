@@ -24,6 +24,9 @@ Abstracts/*
 *.blg
 *.fls
 *.fdb_latexmk
+*.bcf
+*.run.xml
+*.synctex.gz
 
 .~lock.*
 .DS_Store
