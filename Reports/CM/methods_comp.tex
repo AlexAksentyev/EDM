@@ -1,0 +1,109 @@
+\documentclass{beamer}
+\usepackage[backend=biber,style=authortitle-ibid]{biblatex}
+\addbibresource{refs.bib}
+\usepackage{url}
+\usepackage[makeroom]{cancel}
+
+\newcommand{\w}{\omega}
+\newcommand{\avg}[1]{\langle{#1}\rangle}
+
+\title{Comparison of Frozen Spin type EDM search methods}
+\author[shortname]{Yury Senichev \inst{1} \and \underline{Alexander Aksentev} \inst{2,3}}
+\institute[shortinst]{\inst{1} Institute for Nuclear Research of RAS \and%
+  \inst{2} Forschungszentrum J\"ulich \and%
+  \inst{3} NRNU ``MEPhI''
+}
+\date{19 February 2019}
+
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}\frametitle{Considered methods}
+  \begin{itemize}
+  \item BNL Frozen Spin
+  \item I.Koop's Spin Wheel
+  \item Frequency Domain Method
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{BNL FS}
+  \begin{itemize}
+  \item Observation of the vertical polarization component~\footcite[p.~9]{BNL:Deuteron2008}
+    $\Delta P_V \approx P\cdot\w_{EDM}\cdot t$
+  %% \item Expected precision $10^{-29}~e\cdot cm$ in half a year of measurement~\footcite[p.~18]{BNL:Deuteron2008}
+  \item Cross section asymmetry $\varepsilon_{LR}\approx 5\cdot 10^{-6}$ for
+    smallest practical values of (horizontal plane) $\w_{MDM}$~\footcite[p.~18]{BNL:Deuteron2008}
+  \item Challenging task for polarimetry~\footcite[p.~6]{Mane:SpinWheel}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{BNL FS}\framesubtitle{Systematics}
+  \begin{itemize}
+  \item Only known first-order systematic effect pertaining to the spin dynamics is the existence of
+    $\avg{E_V}\neq 0$~\footcite[p.~10]{BNL:Deuteron2008}
+  \item Error frequency $\w_{syst} \approx \frac{\mu\avg{E_V}}{\beta c\gamma^2}$ changes sign when reversing
+    the beam circulation direction (CW/CCW)~\footcite[p.~11]{BNL:Deuteron2008}
+  \item However, at practical values of element alignment error, $\w_{syst} \gg \w_{EDM}$, hence
+    $P_V$ growth occurs mostly due to the MDM
+  \item[*] Since it's a Phase Domain method, it's vulnerable to the geometric phase error~\footcite[p.~6]{BNL:Proton}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Geometric phase error}
+  \begin{itemize}
+  \item Caused by the non-commutativity of rotations
+  \item In ``Frequency Domain Logic'' it means the absence of a definite orientation of
+    the spin precession axis (SPA)
+  \item[*] Call that the \emph{3D Frozen Spin} state
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{FS-type methodology}\framesubtitle{Conditions of success}
+  \begin{itemize}
+  \item One must always have a definite direction of the SPA
+  \item Frequency (not phase) must be measured
+  \end{itemize}
+  These conditions are satisfied by two methods:
+  \begin{itemize}
+  \item Spin Wheel
+  \item Frequency Domain
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Spin Wheel}
+  The Spin Wheel is great; it satisfies both success conditions.
+  \begin{itemize}
+  \item Apply a radial magnetic field of strength $B_x$ sufficient to turn the spin vector about
+    the $\hat x$-axis with a frequency of 1 Hz
+  \item $\w_{B_X} \parallel \w_{EDM}$ hence $\w_{net} \propto \w_{EDM} + \w_{B_X}$~\footcite[p.~6]{Mane:SpinWheel}
+  \item EDM effect $\hat\w_{EDM} = \frac12\left[\w_{net}(+B_X) + \w_{net}(-B_X)\right]$
+  \item Value of $B_X$ is calibrated by measuring the vertical orbit splitting
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Spin Wheel}\framesubtitle{The good, the bad, the ugly}
+  \begin{itemize}
+  \item Higher polarization growth rate greatly simplifies the task for polarimetry
+  \item Magnetic field calibration by means of orbit split measurements seems unfeasible
+  \item Element misalignment-induced error is not accounted for:
+    \begin{align*}
+      \hat\w_{EDM} &= \frac12\left(\w_{EDM} + \cancel{\w_{B_X}} + \w_{mis} + \w_{EDM} - \cancel{\w_{B_X}} + \w_{mis} \right) \\
+      &= \w_{EDM} + \w_{mis}
+    \end{align*}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Frequency domain method}
+  This methodology has been developed specifically to deal with misalignment error.
+  \begin{itemize}
+  \item No reason to apply an external B-field; misalignment $B_X$-field provides a sufficiently fast wheel
+  \item The FS condition ensures that $\w_{net} \propto \w_{EDM} + \w_{mis}$
+  \item The same EDM estimator $\hat\w_{EDM} = \frac{\w_{net}(+B_X) + \w_{net}(-B_X)}{2}$
+  \item To flip the sign of $B_X$ one must reverse the guide field polarity (CW/CCW comeback)
+  \item The value of $B_X$ is calibrated via horizontal plane precession frequency
+  \end{itemize}
+\end{frame}
+
+\end{document}
