@@ -6,6 +6,7 @@
 
 \newcommand{\w}{\omega}
 \newcommand{\avg}[1]{\langle{#1}\rangle}
+\newcommand{\nbar}{\bar n}
 
 \title{Comparison of Frozen Spin-type EDM search methods}
 \author[shortname]{Yury Senichev \inst{1} \and \underline{Alexander Aksentev} \inst{2,3}}
@@ -31,11 +32,10 @@
 \begin{frame}\frametitle{BNL FS}
   \begin{itemize}
   \item Observation of the vertical polarization component~\footcite[p.~9]{BNL:Deuteron2008}
-    $\Delta P_V \approx P\cdot\w_{EDM}\cdot t$
-  %% \item Expected precision $10^{-29}~e\cdot cm$ in half a year of measurement~\footcite[p.~18]{BNL:Deuteron2008}
+    $\Delta P_V \approx P\cdot\w_{EDM}\cdot t$ (making it a Space Domain method)
   \item Cross section asymmetry $\varepsilon_{LR}\approx 5\cdot 10^{-6}$ for
     smallest practical values of (horizontal plane) $\w_{MDM}$~\footcite[p.~18]{BNL:Deuteron2008}
-  \item Challenging task for polarimetry~\footcite[p.~6]{Mane:SpinWheel}
+  \item[*] Challenging task for polarimetry~\footcite[p.~6]{Mane:SpinWheel}
   \end{itemize}
 \end{frame}
 
@@ -47,23 +47,24 @@
     the beam circulation direction (CW/CCW)~\footcite[p.~11]{BNL:Deuteron2008}
   \item However, at practical values of element alignment error, $\w_{syst} \gg \w_{EDM}$, hence
     $P_V = P\frac{\w_{EDM}}{\w}\sin(\w t + \Theta_0) \cancel{\approx}P\w_{EDM} t$
-  \item[*] Since it's a Phase Domain method, it's vulnerable to the geometric phase error~\footcite[p.~6]{BNL:Proton}
+  \item[*] Since it's a Space Domain method, it's vulnerable to the geometric phase error~\footcite[p.~6]{BNL:Proton}
   \end{itemize}
 \end{frame}
 
 \begin{frame}\frametitle{Geometric phase error}
   \begin{itemize}
   \item Caused by the non-commutativity of rotations
-  \item In ``Frequency Domain Logic'' it means the absence of a definite orientation of
-    the spin precession axis (SPA)
+  \item Formulated in the angular momentum language, it means the \emph{absence of a definite orientation} of
+    the spin precession axis (SPA): $\nbar \rightarrow 0$
   \item[*] Call that the \emph{3D Frozen Spin} state
+    \item In 3D FS, any stray magnetic field can tilt the precession plane
   \end{itemize}
 \end{frame}
 
 \begin{frame}\frametitle{FS-type methodology}\framesubtitle{Conditions of success}
   \begin{itemize}
   \item One must always have a definite direction of the SPA
-  \item Frequency (not phase) must be measured
+  \item Measurements must be done in the frequency domain
   \end{itemize}
   These conditions are satisfied by two methods:
   \begin{itemize}
