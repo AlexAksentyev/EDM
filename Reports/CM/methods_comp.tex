@@ -46,8 +46,10 @@
   \item Error frequency $\w_{syst} \approx \frac{\mu\avg{E_V}}{\beta c\gamma^2}$ changes sign when reversing
     the beam circulation direction (CW/CCW)~\footcite[p.~11]{BNL:Deuteron2008}
   \item However, at practical values of element alignment error, $\w_{syst} \gg \w_{EDM}$, hence
-    $P_V = P\frac{\w_{EDM}}{\w}\sin(\w t + \Theta_0) \cancel{\approx}P\w_{EDM} t$
-  \item[*] Since it's a Space Domain method, it's vulnerable to the geometric phase error~\footcite[p.~6]{BNL:Proton}
+    $P_V = P\frac{\w_{EDM}}{\w}\sin(\w t + \Theta_0) \cancel{\approx}P\w_{EDM} t$;
+    a Space Domain method is inapplicable under such conditions
+  \item[*] At $\avg{E_V}\rightarrow 0$, Space Domain methods are vulnerable to
+    the geometric phase error~\footcite[p.~6]{BNL:Proton}
   \end{itemize}
 \end{frame}
 
@@ -57,7 +59,7 @@
   \item Formulated in the angular momentum language, it means the \emph{absence of a definite orientation} of
     the spin precession axis (SPA): $\nbar \rightarrow 0$
   \item[*] Call that the \emph{3D Frozen Spin} state
-    \item In 3D FS, any stray magnetic field can tilt the precession plane
+    \item 3D FS is unstable: any stray magnetic field can tilt the precession plane
   \end{itemize}
 \end{frame}
 
@@ -68,9 +70,10 @@
   \end{itemize}
   These conditions are satisfied by two methods:
   \begin{itemize}
-  \item Spin Wheel
-  \item Frequency Domain
+  \item I.Koop's ``Spin Wheel''
+  \item Y.Senichev's ``Frequency Domain''
   \end{itemize}
+  (Both of which belong to the Frequency Domain category.)
 \end{frame}
 
 \begin{frame}\frametitle{Spin Wheel}
@@ -96,7 +99,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{Frequency domain method}
+\begin{frame}\frametitle{Frequency Domain Method}
   This methodology has been developed specifically to deal with misalignment error.
   \begin{itemize}
   \item No reason to apply an external B-field; misalignment $B_X$-field provides a sufficiently fast wheel
@@ -105,6 +108,69 @@
   \item To flip the sign of $B_X$ one must reverse the guide field polarity (CW/CCW comeback)
   \item The value of $B_X$ is calibrated via horizontal plane precession frequency
   \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{center}
+    Thank you!
+  \end{center}
+\end{frame}
+
+\begin{frame}\frametitle{Doubly-magic ring}\framesubtitle{Fundamental assumptions}
+  \begin{enumerate}
+  \item Both beams are at Frozen Spin: $\w = \w_X = \w_{EDM} + \w_{\avg{B_r}}$
+  \item EDM of the secondary beam $\ll$ EDM of the primary beam:
+    $\w_{EDM}^{PRI} \gg \w_{EDM}^{SEC}\rightarrow 0 \Rightarrow \w_X^{SEC} \approx \w_{\avg{B_r}}^{SEC}$;
+    \label{itm:small_EDM}
+  \item Beams on the same design orbit $\Leftrightarrow$ experience same fields:
+    $\avg{B_r}^{PRI} = \avg{B_r}^{SEC}$\label{itm:same_orbit}
+  \item[*] MDM's of both beams are known to high precision (what for?)
+  \end{enumerate}
+\end{frame}
+\begin{frame}\frametitle{D-M Ring}\framesubtitle{Addressing initial objections}
+  \begin{itemize}
+  \item Precession frequency difference (given~\ref{itm:small_EDM}):
+    $\w_X^{PRI} - \w_X^{SEC} \approx \w_{EDM}^{PRI} + \w_{\avg{B_r}}^{PRI} - \w_{\avg{B_r}}^{SEC}$
+  \item[Objection] (to assumption~\ref{itm:same_orbit}): The beams have different mass $\Leftrightarrow$
+    $\avg{B_r}^{PRI} = \avg{B_r}^{SEC} \cancel{\Rightarrow}\w_{\avg{B_r}}^{PRI} = \w_{\avg{B_r}}^{SEC}$
+  \item Using the Koop Wheel, $\w_X^{SEC} = 0 = \w_{\avg{B_r}}^{SEC} \Rightarrow \avg{B_r}^{SEC} = 0$
+    (again require~\ref{itm:small_EDM})
+  \item Given the design orbit is shared by both beams, $\w_{\avg{B_r}}^{PRI}$ is also 0, b/c
+    $\forall m,\gamma,G\left[\w_{\avg{B_r}}=\frac qm\gamma G\avg{B_r} = 0\Leftrightarrow \avg{B_r}=0\right]$
+  \item Sameness of the design orbits is guaranteed by the equation:
+    $p^4 - 2\mathcal B p^3 + (\mathcal B^2-\mathcal E^2)p^2 - \mathcal E^2m^2 = 0$,\\ where
+    $\mathcal B=qcB_0r_0$, $\mathcal E=qE_0r_0$, $(E_0, B_0, r_0)$ are defined by the primary beam FS condition
+  \end{itemize}
+\end{frame}
+\begin{frame}\frametitle{D-M Ring}\framesubtitle{Main objection}
+  \begin{itemize}
+  \item But by nulling $\w_{\avg{B_r}}^{PRI/SEC}$ we go to the unstable 3D FS state
+  \item Which also forces us back to the Space Domain, since $\w_X^{PRI} \approx \w_{EDM}^{PRI} \ll 1$
+  \item Thus, both the FS success conditions are violated
+  \item[Concl'n] D-MR solves the machine imperfection fields problem, but, other than that,
+    inherits all of the original BNL FS weaknesses
+  \end{itemize}
+\end{frame}
+\begin{frame}\frametitle{Universal SR EDM measurement problems}\framesubtitle{And their canonical solutions}
+    \begin{minipage}[t]{.5\linewidth}
+    \underline{\textbf{Solved by Spin Wheel}}
+    \begin{itemize}
+    \item Stray fields
+    \item Betatron motion
+      \item[*] Both cause variation of $\nbar$
+    \end{itemize}
+  \end{minipage}~%
+  \begin{minipage}[t]{.5\linewidth}
+    \underline{\textbf{Solved elsewise}}
+    \begin{itemize}
+    \item Spin decoherence
+      %% \item Variation of the injection point (?)
+    \item[Sol'n]: Sextupole fields
+    \item Machine imperfections 
+    \item[Sol'n]: CW/CCW injection
+    \end{itemize}
+  \end{minipage}
+  %% Of course, problems requiring the Spin Wheel solution automatically force us to the Frequency Domain.
 \end{frame}
 
 \end{document}
