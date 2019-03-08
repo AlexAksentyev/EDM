@@ -3,6 +3,8 @@
 \addbibresource{refs.bib}
 \usepackage{url}
 \usepackage[makeroom]{cancel}
+\usepackage{tcolorbox}
+\usepackage{amsmath}
 
 \newcommand{\w}{\omega}
 \newcommand{\avg}[1]{\langle{#1}\rangle}
@@ -25,7 +27,7 @@
   \begin{itemize}
   \item BNL Frozen Spin
   \item I.Koop's Spin Wheel
-  \item Frequency Domain Method
+  \item Y.Senichev's Frequency Domain Method
   \end{itemize}
 \end{frame}
 
@@ -77,7 +79,9 @@
 \end{frame}
 
 \begin{frame}\frametitle{Spin Wheel}
-  The Spin Wheel is great; it satisfies both success conditions.
+  \begin{block}{}
+    The Spin Wheel is great; it satisfies both success conditions.
+  \end{block}
   \begin{itemize}
   \item Apply a radial magnetic field of strength $B_x$ sufficient to turn the spin vector about
     the $\hat x$-axis with a frequency of 1 Hz
@@ -100,7 +104,10 @@
 \end{frame}
 
 \begin{frame}\frametitle{Frequency Domain Method}
-  This methodology has been developed specifically to deal with misalignment error.
+  \begin{block}{}
+    This methodology has been developed specifically to deal with
+    misalignment error.
+  \end{block}
   \begin{itemize}
   \item No reason to apply an external B-field; misalignment $B_X$-field provides a sufficiently fast wheel
   \item The FS condition ensures that $\w_{net} \propto \w_{EDM} + \w_{mis}$
@@ -116,63 +123,91 @@
   \end{center}
 \end{frame}
 
-\begin{frame}\frametitle{Doubly-magic ring}\framesubtitle{Fundamental assumptions}
-  \begin{enumerate}
-  \item Both beams are at Frozen Spin: $\w = \w_X = \w_{EDM} + \w_{\avg{B_r}}$\label{itm:FS}
-  \item EDM of the secondary beam $\ll$ EDM of the primary beam:
-    $\w_{EDM}^{PRI} \gg \w_{EDM}^{SEC}\rightarrow 0 \Rightarrow \w_X^{SEC} \approx \w_{\avg{B_r}}^{SEC}$;
-    \label{itm:small_EDM}
-  \item Beams on the same design orbit $\Leftrightarrow$ experience same fields:
-    $\avg{B_r}^{PRI} = \avg{B_r}^{SEC}$\label{itm:same_orbit}
-  \item[*] MDM's of both beams are known to high precision (what for?)
-  \item[**] Assumption~\ref{itm:FS} is formulated in the simplest form
-    (we'll address that).
-  \end{enumerate}
+\begin{frame}\frametitle{Doubly-magic ring}% \framesubtitle{Fundamental
+    % assumptions}
+  \begin{block}{Fundamental assumptions}
+    \begin{enumerate}
+    \item Both beams are at Frozen Spin: $\w = \w_X = \w_{EDM} + \w_{\avg{B_r}}$\label{itm:FS}
+    \item EDM of the secondary beam $\ll$ EDM of the primary beam:
+      $\w_{EDM}^{PRI} \gg \w_{EDM}^{SEC}\rightarrow 0 \Rightarrow \w_X^{SEC} \approx \w_{\avg{B_r}}^{SEC}$;
+      \label{itm:small_EDM}
+    \item Beams on the same design orbit $\Leftrightarrow$ experience same fields:
+      $\avg{B_r}^{PRI} = \avg{B_r}^{SEC}$\label{itm:same_orbit}
+    \end{enumerate}
+  \end{block}
+  \begin{block}{Comments}
+    \begin{itemize}
+    \item[*] MDM's of both beams are known to high precision (what for?)
+    \item[**] Assumption~\ref{itm:FS} is formulated in the simplest form
+      (we'll address that later).
+    \end{itemize}
+  \end{block}
 \end{frame}
-\begin{frame}\frametitle{D-M Ring}\framesubtitle{Addressing initial objections}
-  \begin{itemize}
-  \item Precession frequency difference (given~\ref{itm:small_EDM}):
+\begin{frame}\frametitle{D-M Ring}\framesubtitle{Addressing the mass
+    objection}
+  \begin{block}{Precession frequency difference
+      (given~\ref{itm:small_EDM})}
     $\w_X^{PRI} - \w_X^{SEC} \approx \w_{EDM}^{PRI} + \w_{\avg{B_r}}^{PRI} - \w_{\avg{B_r}}^{SEC}$
-  \item[Objection] (to assumption~\ref{itm:same_orbit}): The beams have different mass $\Leftrightarrow$
-    $\avg{B_r}^{PRI} = \avg{B_r}^{SEC} \cancel{\Rightarrow}\w_{\avg{B_r}}^{PRI} = \w_{\avg{B_r}}^{SEC}$
+  \end{block}
+  \begin{block}{The mass objection (to assumption~\ref{itm:same_orbit})}
+    The particles have different mass $\Leftrightarrow$ $\avg{B_r}^{PRI} =
+    \avg{B_r}^{SEC} \cancel{\Rightarrow}\w_{\avg{B_r}}^{PRI} = \w_{\avg{B_r}}^{SEC}$
+  \end{block}
+% \begin{block}{}
+  \begin{itemize}
+  % \item Precession frequency difference (given~\ref{itm:small_EDM}):
+  %   $\w_X^{PRI} - \w_X^{SEC} \approx \w_{EDM}^{PRI} + \w_{\avg{B_r}}^{PRI} - \w_{\avg{B_r}}^{SEC}$
+  % \item[Objection] (to assumption~\ref{itm:same_orbit}): The beams have different mass $\Leftrightarrow$
+  %   $\avg{B_r}^{PRI} = \avg{B_r}^{SEC} \cancel{\Rightarrow}\w_{\avg{B_r}}^{PRI} = \w_{\avg{B_r}}^{SEC}$
   \item Using the Koop Wheel, $\w_X^{SEC} = 0 = \w_{\avg{B_r}}^{SEC} \Rightarrow \avg{B_r}^{SEC} = 0$
     (again require~\ref{itm:small_EDM})
   \item Given the design orbit is shared by both beams, $\w_{\avg{B_r}}^{PRI}$ is also 0, b/c
     $\forall m,\gamma,G\left[\w_{\avg{B_r}}=\frac qm G\avg{B_r} = 0\Leftrightarrow \avg{B_r}=0\right]$
-  \item Sameness of the design orbits is guaranteed by the equation:
+  \item Sameness of the design orbits is guaranteed by equation
     $p^4 - 2\mathcal B p^3 + (\mathcal B^2-\mathcal E^2)p^2 - \mathcal E^2m^2 = 0$,\\ where
     $\mathcal B=qcB_0r_0$, $\mathcal E=qE_0r_0$, $(E_0, B_0, r_0)$ are defined by the primary beam FS condition
   \end{itemize}
+% \end{block}
 \end{frame}
 \begin{frame}\frametitle{D-M Ring}\framesubtitle{Fundamental flaw}
   \begin{itemize}
   \item But by nulling $\w_{\avg{B_r}}^{PRI/SEC}$ we go to the unstable 3D FS state
   \item Which also forces us back to the Space Domain, since $\w_X^{PRI} \approx \w_{EDM}^{PRI} \ll 1$
   \item Thus, both the FS success conditions are violated
-  \item[Concl'n] D-MR solves the machine imperfection fields problem, but, other than that,
-    inherits all of the original BNL FS weaknesses
   \end{itemize}
+  \begin{block}{Conclusion}
+    D-MR solves the machine imperfection fields problem, but, other than that,
+    inherits all of the original BNL FS weaknesses
+  \end{block}
+  \begin{flushright}
+    \begin{tcolorbox}[hbox]
+      \begin{minipage}[b]{.4\linewidth}
+        But does it really solve \\the imperfection fields \\problem?
+      \end{minipage}
+    \end{tcolorbox}
+  \end{flushright}
 \end{frame}
 \begin{frame}\frametitle{D-M Ring}\framesubtitle{Let's go back to
     Assumption~\ref{itm:FS}}
-\begin{itemize}
-\item Our formulation of Assumption~\ref{itm:FS} as 
-$\w_X =  \w_{EDM} + \w_{\avg{B_r}}$ is unrealistic: the existence of
-  $\avg{B_r}$ must cause $\avg{E_v}$, since we have a closed orbit
-\item So really, it should be 
-\begin{align*}
-\w_X &= \w_{EDM} + \w_{MDM}(\avg{B_r} + \avg{E_v}),\\
-\w_{MDM} &= \frac qm\left[G\avg{B_r} + a(\gamma,G)\beta\avg{E_v}\right]
-\end{align*}
-\item Still, we have the system
-\begin{equation*}
-  \begin{cases}
-    c\beta\avg{B_r}  + \avg{E_v} &= 0, \\
-    G\avg{B_r} + a\beta\avg{E_v} &= 0 
-  \end{cases}
-\end{equation*}
-w/solution $(\avg{B_r}, \avg{E_v}) = (0,0)$, and the defense argument holds up
-\end{itemize}
+  \begin{itemize}
+  \item Our formulation of Assumption~\ref{itm:FS} as 
+    $\w_X =  \w_{EDM} + \w_{\avg{B_r}}$ is unrealistic: the existence of
+    $\avg{B_r}$ must cause $\avg{E_v}$, since we have a closed orbit
+  \item So really, it should be 
+    \begin{align*}
+      \w_X &= \w_{EDM} + \w_{MDM}(\avg{B_r} + \avg{E_v}),\\
+      \w_{MDM} &= \frac qm\left[G\avg{B_r} + a(\gamma,G)\beta\avg{E_v}\right]
+    \end{align*}
+  \item Still, we have the system
+    \begin{equation*} \left\{
+      \begin{alignedat}{2}
+        c\beta\avg{B_r}  &+ \avg{E_v} &&= 0, \\
+        G\avg{B_r} &+ a\beta\avg{E_v} &&= 0 
+      \end{alignedat} \right.
+    \end{equation*}
+    w/solution $(\avg{B_r}, \avg{E_v}) = (0,0)$, and the argument against
+    the mass objection holds up, with $\avg{B_r} \mapsto (\avg{B_r}, \avg{E_v})$
+  \end{itemize}
 \end{frame}
 \begin{frame}\frametitle{Universal SR EDM measurement problems}\framesubtitle{And their canonical solutions}
     \begin{minipage}[t]{.5\linewidth}
