@@ -5,6 +5,7 @@
 \usepackage[makeroom]{cancel}
 \usepackage{tcolorbox}
 \usepackage{amsmath}
+\usepackage{forest}
 
 \newcommand{\w}{\omega}
 \newcommand{\avg}[1]{\langle{#1}\rangle}
@@ -65,11 +66,13 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{FS-type methodology}\framesubtitle{Conditions of success}
-  \begin{itemize}
-  \item One must always have a definite direction of the SPA
-  \item Measurements must be done in the frequency domain
-  \end{itemize}
+\begin{frame}\frametitle{FS-type methodology}
+  \begin{block}{Conditions of success}
+    \begin{itemize}
+    \item One must always have a definite direction of the SPA
+    \item Measurements must be done in the frequency domain
+    \end{itemize}
+  \end{block}
   These conditions are satisfied by two methods:
   \begin{itemize}
   \item I.Koop's ``Spin Wheel''
@@ -229,6 +232,25 @@
     \end{itemize}
   \end{minipage}
   %% Of course, problems requiring the Spin Wheel solution automatically force us to the Frequency Domain.
+\end{frame}
+\begin{frame}\frametitle{Method classification}
+  \begin{forest}
+    [SR EDM Methods 
+      [Frozen Spin
+        [Space Domain
+          [BNL FS]
+          [D-M Ring]
+        ]
+        [Frequency Domain
+          [Koop SW]
+          [Senichev FDM]
+        ]
+      ]
+      [Non-Frozen Spin
+        [RF WF Method]
+      ]
+    ]
+  \end{forest}
 \end{frame}
 
 \end{document}
