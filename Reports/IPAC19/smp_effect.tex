@@ -104,9 +104,11 @@ The simulation setup was as follows: an array of particles, offset from the desi
 direction, is injected into an imperfect Frozen Spin lattice~\cite{Senichev:Lattices} utilizing sextupoles for
 the reduction of spin decoherence caused by vertical plane betatron oscillations~\cite{Aksentev:DecohIPAC19}.
 Lattice imperfections are simulated by rotations of the E+B spin rotator elements, randomly generated from the
-normal distribution $\alpha\sim N(0, 5\cdot 10^{-4})$ rad. The value of the standard deviation approximates
-the practically-achievable element installation error.~\cite{Senichev:FDM} Imperfections introduced this way do
-not perturb the design orbit.
+normal distribution $\alpha\sim N(\mu_i, 5\cdot 10^{-4})$ rad, $i\in\{1,\dots,11\}$, where
+$\mu_i$ varies in the range $[-5\cdot10^{-4}, +5\cdot10^{-4}]$. The value of the standard deviation approximates
+the practical element installation error.~\cite{Senichev:FDM} The expectation value $\mu_i$ simulates the
+application of a Koop Spin Wheel.~\ref{Koop:SW} Imperfections
+introduced this way (as rotations of E+B spin rotators) do not perturb the design orbit.
 
 Tracking was done in COSY Infinity~\cite{COSYINF:Website}, for $1.2\cdot10^6$ turns; each 800 turns
 $\nu_s$ and $\nbar$ are computed (by means of procedure TSS~\cite[p.~41]{COSYINF:BeamPhysMan}) at
