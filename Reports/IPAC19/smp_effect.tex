@@ -100,29 +100,29 @@ as described in~\cite{Aksentev:DecohIPAC19}. In this paper we will, therefore, b
 variation.
 
 \section{Simulation}
-The simulation setup was as follows: an array of particles, offset from the design orbit in the vertical
-direction, is injected into an imperfect Frozen Spin lattice~\cite{Senichev:Lattices} utilizing sextupoles for
-the reduction of spin decoherence caused by vertical plane betatron oscillations~\cite{Aksentev:DecohIPAC19}.
-Lattice imperfections are simulated by rotations of the E+B spin rotator elements, randomly generated from the
+The simulation setup was as follows: a particle, offset from the design orbit in the vertical
+direction by 0.3 mm, is injected multiple times into an imperfect
+Frozen Spin lattice~\cite{Senichev:Lattices} utilizing sextupoles for
+the reduction of spin decoherence caused by vertical plane betatron
+oscillations~\cite{Aksentev:DecohIPAC19}.
+Lattice imperfections are simulated by rotations of the E+B spin
+rotator elements. Imperfections introduced this way do not perturb the design orbit.
+
+Each injection, the rotation angles are randomly generated from the
 normal distribution $\alpha\sim N(\mu_i, 5\cdot 10^{-4})$ rad, $i\in\{1,\dots,11\}$, where
-$\mu_i$ varies in the range $[-5\cdot10^{-4}, +5\cdot10^{-4}]$. The value of the standard deviation approximates
-the practical element installation error.~\cite{Senichev:FDM} The expectation value $\mu_i$ simulates the
-application of a Koop Spin Wheel.~\ref{Koop:SW} Imperfections
-introduced this way (as rotations of E+B spin rotators) do not perturb the design orbit.
+$\mu_i$ varies in the range $[-5\cdot10^{-3}, +5\cdot10^{-3}]$. The value of the standard deviation approximates
+the practical value of element installation error,~\cite{Senichev:FDM} the expectation value $\mu_i$ simulates the
+application of a Koop Spin Wheel.~\ref{Koop:SW} 
 
-Tracking was done in COSY Infinity~\cite{COSYINF:Website}, for $1.2\cdot10^6$ turns; each 800 turns
+Spin tracking is done in COSY Infinity~\cite{COSYINF:Website}, for $1.2\cdot10^6$ turns; each 800 turns
 $\nu_s$ and $\nbar$ are computed (by means of procedure TSS~\cite[p.~41]{COSYINF:BeamPhysMan}) at
-the phase space point occupied by the particle at the time, giving us a series $(\nu_s(n), \nbar(n))$.
-The corresponding spin vector components $(S_X(n), S_Y(n), S_Z(n))$, computed by the COSY Infinity tracker
-(procedure TR~\cite[p.~41]{COSYINF:BeamPhysMan}), constitute the second series used in the analysis.
+the phase space point occupied by the particle at the time, giving us the series $(\nu_s(n), \nbar(n))$.
+The corresponding spin vector components $(s_x^{trk}(n), s_y^{trk}(n), s_z^{trk}(n))$,
+computed by the tracker (procedure
+TR~\cite[p.~41]{COSYINF:BeamPhysMan}), 
+constitute the second series used in the analysis.
 
-Using the first series data, we generated the expected $s_y^{gen}(t)$ ``generator'' series according to
-equation~\eqref{eq:main}, and compared it with the tracker series $S_Y^{trk}$ via residual
-$\epsilon = S_Y^{trk} - s_y^{gen}$. We also fitted model~\eqref{eq:fit_model} to both data sets,
-and compared its goodness-of-fit. As a last step, we generated the ``ideal'' series $s_y^{idl}$, in which
-we assumed constant values of $\nu_s = \nu_s(0)$ and $\nbar = \nbar(0)$. 
-
-\section{Simulation results}
+\section{Analysis}
 %% In Figure~\ref{fig:3d_plots} the spin tune and invariant spin axis, computed on the particle phase space
 %% trajectories, in the lattice optimizing vertical plane decoherence, are shown. Note that since all computations
 %% in COSY Infinity are made in the rest frame coordinate system, any rotation of the spin-vector is accompanied by
@@ -142,7 +142,40 @@ we assumed constant values of $\nu_s = \nu_s(0)$ and $\nbar = \nbar(0)$.
 %%   optimizing spin decoherence caused by vertical plane betatron oscillations.\label{fig:3d_plots}}
 %% \end{figure}
 
+Using the first series data, we generated the expected $s_y^{gen}(t)$ ``generator'' series according to
+equation~\eqref{eq:main}, as well as the ``ideal'' series $s_y^{idl}$, in which
+we assumed constant values of $\nu_s = \avg{\nu_s(t)}$ and $\nbar
+=\avg{\nbar}(t)$. 
 
+Our hypothesis is that the particle's betatron
+motion should introduce a mismatch between the sinusoidal
+model~\eqref{eq:fit_model} and tracker data, by varying the direction
+of the spin precession axis $\nbar$, and hence the amplitude of the
+fitted signal. The ``ideal'' series serves as the baseline of our
+analysis, as it's a perfect match to the model; the ``generator''
+series incorporates $\nbar$ variation, still remaining within the confines of
+the model. The ``tracker'' series is the closest approximation to
+real measurement data.
+
+To compare these series with one another, we
+\begin{inparaenum}[\itshape a\upshape)]
+\item computed and analyzed the residuals $\epsilon_1(t) = s_y^{gen}(t) -
+s_y^{idl}(t)$ and $\epsilon_2(t) = s_y^{trk}(t) - s_y^{idl}(t)$;
+\item fitted model~\eqref{eq:fit_model} to the three time series and
+  compared its goodness-of-fit;
+\item computed the standard deviations of $\nbar$ components at each
+  spin wheel strength.
+\end{inparaenum}
+
+What we observe is that the ``generator'' series is nearly identical
+to the ``ideal'' series ($\epsilon_1 \le 2\cdot10^{-7}$ during run time),
+while the ``tracker'' series deviates from it at the level
+$\epsilon_2 \le 2\cdot 10^{-5}$. This discrepancy of two
+orders of magnitude between $\epsilon_1$ and $\epsilon_2$, together
+with the fact that the standard deviation of
+$\epsilon_2$ is insensitive to the spin wheel strength, unlike that of
+$\nbar$ is an indication that the ``tracker'' data deviation from its ``ideal'' is
+not caused by the variation of $\nbar$.
 
 \section{Conclusions}
 The question of the influence of betatron motion on the EDM statistic in the FD method should be considered
