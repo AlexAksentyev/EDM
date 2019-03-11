@@ -140,7 +140,7 @@ constitute the second series used in the analysis.
 Using the first series data, we generated the expected $s_y^{gen}(t)$ ``generator'' series according to
 equation~\eqref{eq:main}, as well as the ``ideal'' series $s_y^{idl}$, in which
 we assumed constant values of $\nu_s = \avg{\nu_s(t)}$ and $\nbar
-=\avg{\nbar}(t)$. 
+=\avg{\nbar(t)}$. 
 
 Our hypothesis is that the particle's betatron
 motion should introduce a mismatch between the sinusoidal
@@ -164,22 +164,33 @@ s_y^{idl}(t)$ and $\epsilon_2(t) = s_y^{trk}(t) - s_y^{idl}(t)$;
 
 \begin{figure}[h]
   \centering
+  %% \begin{subfigure}{\linewidth}
+  %%   \centering
+    \includegraphics[width=\linewidth]{../img/IPAC19/residual_amplitude_vs_SW(both)}
+  %%   \caption{$\epsilon_1 = s_y^{gen} - s_y^{idl}$ residual\label{fig:res:gens}}
+  %% \end{subfigure}
+  %% \begin{subfigure}{\linewidth}
+  %%   \centering
+  %%   \includegraphics[width=\linewidth]{../img/IPAC19/residual_amplitude_vs_SW(both)}
+  %%   \caption{$\epsilon_2 = s_y^{trk} - s_y^{idl}$ residual\label{fig:res:trkr}}
+  %% \end{subfigure}
+  \caption{Amplitudes of the time series' comparator residuals as a function of
+    the relative Spin Wheel strength\label{fig:residuals}}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
   \begin{subfigure}{\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{../img/IPAC19/GEN-IDL_RESIDUAL}
-    \caption{$\epsilon_1 = s_y^{gen} - s_y^{idl}$ residual\label{fig:res:gens}}
+    \includegraphics[width=\linewidth]{../img/IPAC19/NBAR_variation_sd_vs_SW}
+    \caption{Of the $\nbar$ components\label{fig:sd:nbar}}
   \end{subfigure}
   \begin{subfigure}{\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{../img/IPAC19/TRK-IDL_RESIDUAL}
-    \caption{$\epsilon_2 = s_y^{trk} - s_y^{idl}$ residual\label{fig:res:trkr}}
+    \includegraphics[width=\linewidth]{../img/IPAC19/residual_SD_vs_SW(both)}
+    \caption{Of the comparator residuals\label{fig:sd:res}}
   \end{subfigure}
-  \begin{subfigure}{\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{../img/IPAC19/TRK-IDL_RESIDUAL_section}
-    \caption{Section of Figure~\ref{fig:res:trkr}\label{fig:tres:trkr_sec}}
-  \end{subfigure}
-    \caption{Time series' comparator residuals\label{fig:residuals}}
+  \caption{Standard deviations versus relative Spin Wheel strength\label{fig:sd}}
 \end{figure}
 
 \begin{table}[h]
@@ -203,15 +214,15 @@ s_y^{idl}(t)$ and $\epsilon_2(t) = s_y^{trk}(t) - s_y^{idl}(t)$;
   \end{tabular}
 \end{table}
 
-What we observe is that the ``generator'' series is nearly identical
-to the ``ideal'' series ($\epsilon_1 \le 2\cdot10^{-7}$ during run time),
+What we observe in Figure~\ref{fig:residuals} is that the ``generator'' series is nearly identical
+to the ``ideal'' series, with $\epsilon_1 \le 1\cdot10^{-5}$ during run time,
 while the ``tracker'' series deviates from it at the level
-$\epsilon_2 \le 2\cdot 10^{-5}$. This discrepancy of two
-orders of magnitude between $\epsilon_1$ and $\epsilon_2$, together
-with the fact that the standard deviation of
-$\epsilon_2$ is insensitive to the spin wheel strength, unlike that of
-$\nbar$ is an indication that the ``tracker'' data deviation from its ``ideal'' is
-not caused by the variation of $\nbar$.
+$\epsilon_2 \le 2\cdot 10^{-4}$. This discrepancy (which gets as high as
+four order of magnitude at higher SW strengths) between $\epsilon_1$ and $\epsilon_2$ is troubling.
+
+The fact that both residual standard deviations (Figure~\ref{fig:sd:res}) exhibit the same pattern as
+the standard deiviation of the $\nbar$ components (Figure~\ref{fig:sd:nbar}) is an indication that the
+``tracker'' and series' deviation from its ``ideal'' is due to the betatron motion.
 
 \section{Conclusions}
 The question of the influence of betatron motion on the EDM statistic in the FD method should be considered
