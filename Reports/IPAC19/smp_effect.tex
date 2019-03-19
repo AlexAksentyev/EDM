@@ -43,11 +43,11 @@ Electric Dipole Moment (EDM) of a fundamental particle.~\cite{BNL:SREDM}
 It belongs to the Frozen Spin~\cite{BNL:Deuteron2008} category
 of such methods, i.e., the Magnetic Dipole Moment (MDM) component of spin precession is minimized. However,
 the original Frozen Spin method proposed in~\cite{BNL:Deuteron2008} is a Space Domain
-method~\cite[p.~4]{Talman:ElectricRings}: the EDM is estimated from the value $P_y$ of
-the vertical component of the beam polarization vector at the end of the measurement cycle. This approach has
-two obvious weaknesses:
+method~\cite[p.~4]{Talman:ElectricRings}: inferences about the EDM are drawn from the change of orientation
+of the polarization vector, as measured by the angle between its initial and final orientations. This approach
+has the following problems:
 \begin{inparaenum}[\itshape a\upshape)]
-\item it puts very stringent constraints on the precision of the accelerator optical elements alignment, and
+\item it puts very stringent constraints on the precision of the accelerator optical element alignment, and
 \item it poses a challenging task for polarimetry.~\cite[p.~6]{Mane:SpinWheel}
 \end{inparaenum}
 
@@ -60,14 +60,17 @@ induced by field imperfections. The latter is due to the requirement of detectin
 $5\cdot 10^{-6}$ to the cross section $\varepsilon_{LR}$ in order to get to the EDM sensitivity level
 of $10^{-29}~e\cdot cm$.~\cite[p.~18]{BNL:Deuteron2008}
 
-EDM search methods in the Frequency Domain circumvent the above problems: the polarization vector is made to
-rotate about a nearly-constant, definite direction vector $\nbar$, with a frequency that is large enough so that
-the beam polarization is easily measureable at all times. This ``Spin Wheel'' may be
-externally applied~\cite{Koop:SW}, or it may use the
-field imperfection frequency~\eqref{eq:BNL_syst_err}~\cite{Senichev:FDM}. The latter is made possible by the fact
-that $\w_{syst}$ changes sign when the beam revolution direction is reversed.~\cite[p.~11]{BNL:Deuteron2008}
+EDM search methods in the Frequency Domain circumvent the above problems: EDM inferences are based
+on the rate of change of the aforementioned polarization orientation angle. The polarization vector is made to
+roll about a nearly-constant, definite direction vector $\nbar$, with an angular velocity
+that is large enough for the beam polarization to be easily measureable at all times. This ``Spin Wheel'' may be
+externally applied~\cite{Koop:SW}, or otherwise the machine imperfection fields
+may be utilized for the same purpose~\eqref{eq:BNL_syst_err}~\cite{Senichev:FDM}. The latter is made possible
+by the fact that $\w_{syst}$ changes sign when the beam revolution direction
+is reversed.~\cite[p.~11]{BNL:Deuteron2008}
 
-The frequency of oscillation of $P_y$ is estimated via a fit of the polarimetry data to the model
+The frequency of oscillation of the vertical polarization component $P_y$ is estimated
+via a fit of the polarimetry data to the model
 \begin{equation}\label{eq:fit_model}
   f(t) = a\cdot\sin(\w\cdot t + \delta).
 \end{equation}
@@ -104,10 +107,10 @@ Lattice imperfections are simulated by rotations of the E+B spin
 rotator elements. Imperfections introduced this way do not perturb the design orbit.
 
 Each injection, the rotation angles are randomly generated from the
-normal distribution $\alpha\sim N(\mu_i, 5\cdot 10^{-4})$ rad, $i\in\{1,\dots,11\}$, where
-$\mu_i$ varies in the range $[-5\cdot10^{-3}, +5\cdot10^{-3}]$. The value of the standard deviation approximates
-the practical value of element installation error,~\cite{Senichev:FDM} the expectation value $\mu_i$ simulates the
-application of a Koop Spin Wheel.~\ref{Koop:SW} 
+normal distribution $\alpha\sim N(\mu_i, 5\cdot 10^{-6})$ rad, $i\in\{1,\dots,11\}$, where
+$\mu_i$ varies in the range $[-5\cdot10^{-5}, +5\cdot10^{-5}]$. The non-zero expectation values $\mu_i$
+simulate the application of a Koop Spin Wheel.~\cite{Koop:SW} The magnitudes of $\mu_i$ and $\sigma_{\alpha}$
+are chosen for effect detalization purposes.
 
 Spin tracking is done in COSY Infinity~\cite{COSYINF:Website}, for $1.2\cdot10^6$ turns; each 800 turns
 $\nu_s$ and $\nbar$ are computed (by means of procedure TSS~\cite[p.~41]{COSYINF:BeamPhysMan}) at
@@ -118,25 +121,6 @@ TR~\cite[p.~41]{COSYINF:BeamPhysMan}),
 constitute the second series used in the analysis.
 
 \section{Analysis}
-%% In Figure~\ref{fig:3d_plots} the spin tune and invariant spin axis, computed on the particle phase space
-%% trajectories, in the lattice optimizing vertical plane decoherence, are shown. Note that since all computations
-%% in COSY Infinity are made in the rest frame coordinate system, any rotation of the spin-vector is accompanied by
-%% a momentum-vector rotation.
-
-%% \begin{figure}[h]
-%%   \centering
-%%   \begin{subfigure}{\linewidth}\centering
-%%     \includegraphics[width=\linewidth]{../img/IPAC19/ST_VS_YB_IMPERFECT_OPTIM}
-%%     \caption{Spin tune.}
-%%   \end{subfigure}
-%%   \begin{subfigure}{\linewidth}\centering
-%%     \includegraphics[width=\linewidth]{../img/IPAC19/NY_VS_YB_IMPERFECT_OPTIM}
-%%     \caption{Vertical component of the invariant spin axis.}
-%%   \end{subfigure}
-%%   \caption{Spin tune and invariant spin axis computed on the particle phase space trajectories in a lattice
-%%   optimizing spin decoherence caused by vertical plane betatron oscillations.\label{fig:3d_plots}}
-%% \end{figure}
-
 Using the first series data, we generated the expected $s_y^{gen}(t)$ ``generator'' series according to
 equation~\eqref{eq:main}, as well as the ``ideal'' series $s_y^{idl}$, in which
 we assumed constant values of $\nu_s = \avg{\nu_s(t)}$ and $\nbar
@@ -164,18 +148,10 @@ s_y^{idl}(t)$ and $\epsilon_2(t) = s_y^{trk}(t) - s_y^{idl}(t)$;
 
 \begin{figure}[h]
   \centering
-  %% \begin{subfigure}{\linewidth}
-  %%   \centering
     \includegraphics[width=\linewidth]{../img/IPAC19/residual_amplitude_vs_SW(both)}
-  %%   \caption{$\epsilon_1 = s_y^{gen} - s_y^{idl}$ residual\label{fig:res:gens}}
-  %% \end{subfigure}
-  %% \begin{subfigure}{\linewidth}
-  %%   \centering
-  %%   \includegraphics[width=\linewidth]{../img/IPAC19/residual_amplitude_vs_SW(both)}
-  %%   \caption{$\epsilon_2 = s_y^{trk} - s_y^{idl}$ residual\label{fig:res:trkr}}
-  %% \end{subfigure}
   \caption{Amplitudes of the time series' comparator residuals as a function of
-    the relative Spin Wheel strength\label{fig:residuals}}
+    the relative Spin Wheel strength.
+    Top panel: residual $\epsilon_1$; bottom panel: residual $\epsilon_2$\label{fig:residuals}}
 \end{figure}
 
 \begin{figure}[h]
@@ -188,7 +164,8 @@ s_y^{idl}(t)$ and $\epsilon_2(t) = s_y^{trk}(t) - s_y^{idl}(t)$;
   \begin{subfigure}{\linewidth}
     \centering
     \includegraphics[width=\linewidth]{../img/IPAC19/residual_SD_vs_SW(both)}
-    \caption{Of the comparator residuals\label{fig:sd:res}}
+    \caption{Of the comparator residuals.
+      Top panel: residual $\epsilon_1$; bottom panel: residual $\epsilon_2$\label{fig:sd:res}}
   \end{subfigure}
   \caption{Standard deviations versus relative Spin Wheel strength\label{fig:sd}}
 \end{figure}
@@ -207,7 +184,7 @@ s_y^{idl}(t)$ and $\epsilon_2(t) = s_y^{trk}(t) - s_y^{idl}(t)$;
     & $\hat a$ & 0.998417300 & $2\cdot 10^{-9}$ & \\
     & $\hat\delta$ & 3.1415926564 & $4\cdot 10^{-9}$ &\\
     \hline
-    \multirow{3}{*}{$s_y^{trk}$} & $\hat f$ & 74.4524675 & $6\cdot 10^{-7}$ & \multirow{3}{*}{-30665} \\
+    \multirow{3}{*}{$s_y^{trk}$} & $\hat f$ & 4.3276781 & $6\cdot 10^{-7}$ & \multirow{3}{*}{-30665} \\
     & $\hat a$ & 0.998418 & $1\cdot10^{-6}$ & \\
     & $\hat\delta$ & 3.141589 & $3\cdot 10^{-6}$ &\\
     \bottomrule
@@ -215,21 +192,27 @@ s_y^{idl}(t)$ and $\epsilon_2(t) = s_y^{trk}(t) - s_y^{idl}(t)$;
 \end{table}
 
 What we observe in Figure~\ref{fig:residuals} is that the ``generator'' series is nearly identical
-to the ``ideal'' series, with $\epsilon_1 \le 1\cdot10^{-5}$ during run time,
+to the ``ideal'' series, with $\epsilon_1 \le 6\cdot10^{-6}$ during run time,
 while the ``tracker'' series deviates from it at the level
-$\epsilon_2 \le 2\cdot 10^{-4}$. This discrepancy (which gets as high as
-four order of magnitude at higher SW strengths) between $\epsilon_1$ and $\epsilon_2$ is troubling.
+$\epsilon_2 \le 3.5\cdot 10^{-5}$. This discrepancy, which can get as high as four order of magnitude at
+higher SW strengths (not shown here), between $\epsilon_1$ and $\epsilon_2$ has no explanation as of yet.
 
-The fact that both residual standard deviations (Figure~\ref{fig:sd:res}) exhibit the same pattern as
-the standard deiviation of the $\nbar$ components (Figure~\ref{fig:sd:nbar}) is an indication that the
-``tracker'' and series' deviation from its ``ideal'' is due to the betatron motion.
+In Figure~\ref{fig:sd:res} we see that both residual standard deviations exhibit the same pattern as
+the standard deiviation of $\nu_s$ (Figure~\ref{fig:sd:nbar}, bottom panel), but not the $\nbar$ components.
+This is an indication that frequency variation is a much more significant factor in the mismatch between
+model~\eqref{eq:fit_model} and tracker data, than is the presumed amplitude variation due to
+the change of orientation of $\nbar$.
+
+Table~\ref{tbl:param_estimates} characterizes the fit model's goodness-of-fit with respect to the time series.
+
 
 \section{Conclusions}
 The question of the influence of betatron motion on the EDM statistic in the FD method should be considered
 in view of three circumstances:
 \begin{enumerate}
-\item The signal amplitude oscillations are small. They occur at the $10^{-4}$ level, whereas the expected
-  polarization measurement error is on the order of percents. This means the superposition of this systematic
+\item The signal amplitude oscillations are small. They occur at the $10^{-4}$ level (when
+  $\sigma_{\alpha}=5\cdot 10^{-4}$), whereas the expected polarization measurement error is
+  on the order of percents. This means the superposition of this systematic
   error with the random measurement error will exhibit no statistically-significant systematicity.
 \item The correllation coefficient between the amplitude and frequency estimates is not significant. The amplitude
   oscillations affect the $\hat a$-estimate foremost; their effect on the $\hat\w$-estimate is secondary, and is

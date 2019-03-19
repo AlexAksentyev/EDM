@@ -18,11 +18,12 @@
 
 \begin{document}
 \title{Spin decoherence in the Frequency Domain Method for the search of a particle EDM}
-\author{A. E. Aksentyev$^1$\footnotemark[2], Institut f\"ur Kernphysik, Forschungszentrum J\"ulich, J\"ulich, Germany \\$^1$ also at National Research Nuclear University ``MEPhI,'' Moscow, Russia}
-%\author{$^1$ also at National Research Nuclear University ``MEPhI,'' Moscow, Russia}
-%\ead{a.aksentev@fz-juelich.de}
+\author{A. E. Aksentyev\textsuperscript{1}\thanks{alexaksentyev@gmail.com},
+  Institut f\"ur Kernphysik, Forschungszentrum J\"ulich, J\"ulich, Germany \\
+  Y. V. Senichev, Institute for Nuclear Research of RAS \\
+  \textsuperscript{1}also at National Research Nuclear University ``MEPhI,'' Moscow, Russia}
+
 \maketitle
-\footnotetext[2]{a.aksentev@fz-juelich.de}
 \begin{abstract}
   Spin coherence refers to a measure of preservation of polarization in an initially polarized beam. The spin vector of a particle injected into a storage ring starts to precess about the vertical magnetic field vector in accordance with the Thomas-BMT equation. The precession frequency is dependent on the equilibrium-level energy, which differs across the beam particles. This does not pose a problem when the initial polarization is vertical; however, the Frozen Spin Storage Ring EDM search method requires beam polarization along the momentum vector, i.e., in the horizontal plane. 
   
@@ -96,7 +97,7 @@ In the following simulation we used a Frozen Spin-type lattice represented in Fi
   \includegraphics[width=\linewidth]{../img/Lattice/BNL}
   \caption{Frozen spin-type lattice used in simulations.\label{fig:FSBNL_lattice}}
 \end{figure}
-\begin{figure}
+\begin{figure}[h]
   \centering
   \begin{subfigure}{\linewidth}
     \centering
@@ -148,7 +149,8 @@ Figure~\ref{fig:decoh_rms_sx} shows the standard deviation of the radial spin-ve
     \includegraphics[width=\linewidth]{../img/IPAC19/SY_decoh_20sec_opt}
     \caption{Sextupoles turned on\label{fig:decoh_rms_sy_opt}}
   \end{subfigure}
-  \caption{Standard deviation of the vertical spin vector components in a particle bunch prior and after turning on correcting sextupoles\label{fig:decoh_rms_sy}}
+  \caption{Standard deviation of the vertical spin vector components in a particle bunch
+    prior and after turning on correcting sextupoles\label{fig:decoh_rms_sy}}
 \end{figure}
 
 Figure~\ref{fig:decoh_rms_sy} shows the same statistic for the vertical components. One observes a presence of a long-term trend (slope estimate $(4.5 \pm 0.6)\cdot 10^{-7}$ 1/sec) prior to turning on correcting sextupoles (Figure~\ref{fig:decoh_rms_sy_unopt}). Sextupole correction does not reduce the amplitude of the $\sigma_{S_y}$-oscillations, but it does remove the long-term trend (Figure~\ref{fig:decoh_rms_sy_opt}, slope estimate $(5 \pm 6) \cdot 10^{-8}$ 1/sec).
