@@ -22,7 +22,10 @@
 
 \begin{document}
 \title{Spin Motion Perturbation Effect on the EDM Statistic in the Frequency Domain Method}
-\author{A. E. Aksentyev$^1$\footnotemark[2], Institut f\"ur Kernphysik, Forschungszentrum J\"ulich, J\"ulich, Germany \\$^1$ also at National Research Nuclear University ``MEPhI,'' Moscow, Russia}
+\author{A. E. Aksentyev\textsuperscript{1}\thanks{alexaksentyev@gmail.com},
+  Institut f\"ur Kernphysik, Forschungszentrum J\"ulich, J\"ulich, Germany \\
+  Y. V. Senichev, Institute for Nuclear Research of RAS \\
+  \textsuperscript{1}also at National Research Nuclear University ``MEPhI,'' Moscow, Russia}
 \maketitle
 \footnotetext[2]{a.aksentev@fz-juelich.de}
 \begin{abstract}
@@ -107,8 +110,8 @@ Lattice imperfections are simulated by rotations of the E+B spin
 rotator elements. Imperfections introduced this way do not perturb the design orbit.
 
 Each injection, the rotation angles are randomly generated from the
-normal distribution $\alpha\sim N(\mu_i, 5\cdot 10^{-6})$ rad, $i\in\{1,\dots,11\}$, where
-$\mu_i$ varies in the range $[-5\cdot10^{-5}, +5\cdot10^{-5}]$. The non-zero expectation values $\mu_i$
+normal distribution $\alpha\sim N(\mu_i, 5\cdot 10^{-6})$ rad, $i\in\{1,\dots,41\}$, where
+$\mu_i$ varies in the range $[-1.5\cdot10^{-4}, +2.5\cdot10^{-4}]$. The non-zero expectation values $\mu_i$
 simulate the application of a Koop Spin Wheel.~\cite{Koop:SW} The magnitudes of $\mu_i$ and $\sigma_{\alpha}$
 are chosen for effect detalization purposes.
 
@@ -138,8 +141,9 @@ real measurement data.
 
 To compare these series with one another, we
 \begin{inparaenum}[\itshape a\upshape)]
-\item computed and analyzed the residuals $\epsilon_1(t) = s_y^{gen}(t) -
-s_y^{idl}(t)$ and $\epsilon_2(t) = s_y^{trk}(t) - s_y^{idl}(t)$;
+\item computed and analyzed the residuals
+  $\epsilon_1(t) = s_y^{gen}(t) - s_y^{idl}(t)$, and
+  $\epsilon_2(t) = s_y^{trk}(t) - s_y^{idl}(t)$;
 \item fitted model~\eqref{eq:fit_model} to the three time series and
   compared its goodness-of-fit;
 \item computed the standard deviations of $\nbar$ components at each
@@ -148,9 +152,8 @@ s_y^{idl}(t)$ and $\epsilon_2(t) = s_y^{trk}(t) - s_y^{idl}(t)$;
 
 \begin{figure}[h]
   \centering
-    \includegraphics[width=\linewidth]{../img/IPAC19/residual_amplitude_vs_SW(both)}
-  \caption{Amplitudes of the time series' comparator residuals as a function of
-    the relative Spin Wheel strength.
+    \includegraphics[width=\linewidth]{../img/IPAC19/residual_vs_time(both)}
+  \caption{Time series' comparator residual as a function of time.
     Top panel: residual $\epsilon_1$; bottom panel: residual $\epsilon_2$\label{fig:residuals}}
 \end{figure}
 
@@ -192,28 +195,28 @@ s_y^{idl}(t)$ and $\epsilon_2(t) = s_y^{trk}(t) - s_y^{idl}(t)$;
 \end{table}
 
 What we observe in Figure~\ref{fig:residuals} is that the ``generator'' series is nearly identical
-to the ``ideal'' series, with $\epsilon_1 \le 6\cdot10^{-6}$ during run time,
+to the ``ideal'' series, with $\epsilon_1 \le 1\cdot10^{-6}$ during run time,
 while the ``tracker'' series deviates from it at the level
-$\epsilon_2 \le 3.5\cdot 10^{-5}$. This discrepancy, which can get as high as four order of magnitude at
-higher SW strengths (not shown here), between $\epsilon_1$ and $\epsilon_2$ has no explanation as of yet.
+$\epsilon_2 \le 2\cdot 10^{-5}$. This discrepancy between $\epsilon_1$ and $\epsilon_2$ is observed
+systematically across all spin wheel strengths (cf. Figure~\ref{fig:sd:res}), and has no explanation as of yet.
 
-In Figure~\ref{fig:sd:res} we see that both residual standard deviations exhibit the same pattern as
-the standard deiviation of $\nu_s$ (Figure~\ref{fig:sd:nbar}, bottom panel), but not the $\nbar$ components.
-This is an indication that frequency variation is a much more significant factor in the mismatch between
-model~\eqref{eq:fit_model} and tracker data, than is the presumed amplitude variation due to
-the change of orientation of $\nbar$.
+In Figure~\ref{fig:sd:res} we see that the standard deviations of both residuals exhibit the same pattern as
+the standard deiviation of $\nu_s$ (Figure~\ref{fig:sd:nbar}, bottom panel), but not as that of
+the $\nbar$ components. This is an indication that frequency variation is a much more significant factor
+in the mismatch between model~\eqref{eq:fit_model} and tracker data, than is the presumed amplitude variation
+due to the change of orientation of $\nbar$.
 
 Table~\ref{tbl:param_estimates} characterizes the fit model's goodness-of-fit with respect to the time series.
-
 
 \section{Conclusions}
 The question of the influence of betatron motion on the EDM statistic in the FD method should be considered
 in view of three circumstances:
 \begin{enumerate}
-\item The signal amplitude oscillations are small. They occur at the $10^{-4}$ level (when
-  $\sigma_{\alpha}=5\cdot 10^{-4}$), whereas the expected polarization measurement error is
-  on the order of percents. This means the superposition of this systematic
-  error with the random measurement error will exhibit no statistically-significant systematicity.
+\item The signal amplitude oscillations (as estimated by $\epsilon_2$) are small.
+  They occur at the $10^{-4}$ level (when $\sigma_{\alpha}=5\cdot 10^{-4}$), whereas
+  the expected polarization measurement error is on the order of percents.
+  This means the superposition of this systematic error with the random measurement error
+  will exhibit no statistically-significant systematicity.
 \item The correllation coefficient between the amplitude and frequency estimates is not significant. The amplitude
   oscillations affect the $\hat a$-estimate foremost; their effect on the $\hat\w$-estimate is secondary, and is
   described by the correlation coefficient. Since it is less than 10\%, even if the oscillations happen to be
