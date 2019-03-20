@@ -8,6 +8,7 @@
 \usepackage{url}
 \usepackage{paralist}
 \usepackage{multirow}
+\usepackage{siunitx}
 
 \let\oldvec\vec
 \renewcommand{\vec}{\boldsymbol}
@@ -105,15 +106,20 @@ The simulation setup was as follows: a particle, offset from the design orbit in
 direction by 0.3 mm, is injected multiple times into an imperfect
 Frozen Spin lattice~\cite{Senichev:Lattices} utilizing sextupoles for
 the reduction of spin decoherence caused by vertical plane betatron
-oscillations~\cite{Aksentev:DecohIPAC19}.
-Lattice imperfections are simulated by rotations of the E+B spin
+oscillations~\cite{Aksentev:DecohIPAC19}. Lattice imperfections are simulated by rotations of the E+B spin
 rotator elements. Imperfections introduced this way do not perturb the design orbit.
 
 Each injection, the rotation angles are randomly generated from the
 normal distribution $\alpha\sim N(\mu_i, 5\cdot 10^{-6})$ rad, $i\in\{1,\dots,41\}$, where
 $\mu_i$ varies in the range $[-1.5\cdot10^{-4}, +2.5\cdot10^{-4}]$. The non-zero expectation values $\mu_i$
-simulate the application of a Koop Spin Wheel.~\cite{Koop:SW} The magnitudes of $\mu_i$ and $\sigma_{\alpha}$
+simulate the application of a Koop Spin Wheel (SW).~\cite{Koop:SW} The magnitudes of $\mu_i$ and $\sigma_{\alpha}$
 are chosen for effect detalization purposes.
+
+Another aspect of the simulation worth noting, is that injection occurs at 270 MeV, while the FS condition
+is fullfilled exactly at 270.0092 MeV. Because of that the invariant spin axis $\nbar$
+points mainly in the vertical direction (deviating from it by no more than \ang{51} at higher SW roll speeds);
+its radial component (the one determining the oscillation amplitude of the vertical spin-vector component)
+is relatively small, and all the more susceptible to variation caused by vertical plane betatron motion for that. 
 
 Spin tracking is done in COSY Infinity~\cite{COSYINF:Website}, for $1.2\cdot10^6$ turns; each 800 turns
 $\nu_s$ and $\nbar$ are computed (by means of procedure TSS~\cite[p.~41]{COSYINF:BeamPhysMan}) at
@@ -195,7 +201,8 @@ To compare these series with one another, we
 \end{table}
 
 What we observe in Figure~\ref{fig:residuals} is that the ``generator'' series is nearly identical
-to the ``ideal'' series, with $\epsilon_1 \le 1\cdot10^{-6}$ during run time,
+to the ``ideal'' series (even if its frequency is slightly different), with $\epsilon_1 \le 1\cdot10^{-6}$
+during run time,
 while the ``tracker'' series deviates from it at the level
 $\epsilon_2 \le 2\cdot 10^{-5}$. This discrepancy between $\epsilon_1$ and $\epsilon_2$ is observed
 systematically across all spin wheel strengths (cf. Figure~\ref{fig:sd:res}), and has no explanation as of yet.
@@ -206,7 +213,12 @@ the $\nbar$ components. This is an indication that frequency variation is a much
 in the mismatch between model~\eqref{eq:fit_model} and tracker data, than is the presumed amplitude variation
 due to the change of orientation of $\nbar$.
 
-Table~\ref{tbl:param_estimates} characterizes the fit model's goodness-of-fit with respect to the time series.
+Table~\ref{tbl:param_estimates} characterizes the fit model's goodness-of-fit with respect to the time series,
+in the case of the slowest-rolling Koop Wheel.
+One observes that the parameter estimates of all three series coincide within their respective
+standard errors. Even though variation of the spin precession angular velocity vector worsened
+the fit quality of model~\eqref{eq:fit_model},
+it didn't introduce a statistically-significant bias into the estimates.
 
 \section{Conclusions}
 The question of the influence of betatron motion on the EDM statistic in the FD method should be considered
@@ -230,41 +242,47 @@ in view of three circumstances:
 \begin{thebibliography}{9}
 
 \bibitem{Senichev:FDM}
-  Y. Senichev, A. Aksentev, A. Ivanov, E. Valetov, ``Frequency domain method of the search for the deuteron electric dipole moment in a storage ring with imperfections.'' In review.
+  Y. Senichev, A. Aksentev, A. Ivanov, E. Valetov, ``Frequency domain method of the search for
+  the deuteron electric dipole moment in a storage ring with imperfections,'' arxiv:1711.06512 [physics.acc-ph]
+  \url{https://arxiv.org/abs/1711.06512}.
 
 \bibitem{BNL:SREDM}
-  M Bai et al., SREDM Collaboration website: \url{https://www.bnl.gov/edm/}
+  M. Bai et al., SREDM Collaboration website: \url{https://www.bnl.gov/edm/}.
 
 \bibitem{BNL:Deuteron2008}
-  D. Anastassopoulos et at., (srEDM Collaboration), ``Search for a permanent electric dipole moment of the deuteron nucleus at the $10^{-29}~e\cdot cm$ level,'' proposal as submitted to the BNL PAC, April 2008.
+  D. Anastassopoulos et at., (srEDM Collaboration), ``Search for a permanent electric dipole moment of
+  the deuteron nucleus at the $10^{-29}~e\cdot cm$ level,'' proposal as submitted to the BNL PAC, April 2008.
 
 \bibitem{Talman:ElectricRings}
-  R. Talman, ``Prospects for Electric Dipole Moment Measurement Using Electrostatic Accelerators.'' August 2018.
+  R. Talman, ``Prospects for Electric Dipole Moment Measurement Using Electrostatic Accelerators,''
+  Reviews of Accelerator Science and Technology, A. Chao and W. Chou, editors, Volume 10, 2018, not yet in print.
 
 \bibitem{Mane:SpinWheel}
-  S Mane, ``A distillation of Koop's idea of the Spin Wheel.'' arXiv:1509.01167 [physics] \url{http://arxiv.org/abs/1509.01167}
+  S. Mane, ``A distillation of Koop's idea of the Spin Wheel,'' arXiv:1509.01167 [physics]
+  \url{http://arxiv.org/abs/1509.01167}.
 
 \bibitem{Koop:SW}
-  I. A. Koop. ``Asymmetric energy colliding ion beams in the EDM storage ring.'' Proc. of IPAC13 (2013). \url{http://accelconf.web.cern.ch/accelconf/ipac2013/papers/tupwo040.pdf}
+  I. Koop. ``Asymmetric energy colliding ion beams in the EDM storage ring,'' Proc. of IPAC13 (2013).
+  \url{http://accelconf.web.cern.ch/accelconf/ipac2013/papers/tupwo040.pdf}.
 
 \bibitem{COSY:SpinTuneMapping}
-  A. Saleev et al., (JEDI Collaboration), ``Spin tune mapping as a novel tool to probe the spin dynamics in storage rings.'' Phys.Rev.Accel.Beams 20 (2017) no.7, 072801
+  A. Saleev et al., (JEDI Collaboration), ``Spin tune mapping as a novel tool to probe
+  the spin dynamics in storage rings.'' Phys. Rev. Accel. Beams 20 (2017) no.7, 072801.
 
 \bibitem{Aksentev:DecohIPAC19}
-  A Aksentev, Y Senichev, ``Spin decoherence in the Frequency Domain Method for the search of a particle EDM.'' Proc. of IPAC19 (2019).
+  A. Aksentev, Y. Senichev, ``Spin decoherence in the Frequency Domain Method for the search of a particle EDM,''
+  presented at the 10th International Particle Accelerator Conf. (IPAC’19), Melbourne, Australia,
+  May. 2019, paper 2738, this conference.
 
 \bibitem{Senichev:Lattices}
-  Y. Senichev, S. Andrianov, S. Chekmenev, M. Berz, E.Valetov. ``Investigation of Lattice for Deuteron EDM Ring.''
-  Proc. of ICAP15 (2015). \url{http://accelconf.web.cern.ch/AccelConf/ICAP2015/papers/modbc4.pdf}
+  Y. Senichev, S. Andrianov, S. Chekmenev, M. Berz, E.Valetov. ``Investigation of Lattice for Deuteron EDM Ring,''
+  Proc. of ICAP15 (2015). \url{http://accelconf.web.cern.ch/AccelConf/ICAP2015/papers/modbc4.pdf}.
 
 \bibitem{COSYINF:Website}
-  M. Berz, K. Makino, COSY Infinity website: \url{cosyinfinity.org}
+  M. Berz, K. Makino, COSY Infinity website: \url{cosyinfinity.org}.
 
 \bibitem{COSYINF:BeamPhysMan}
   M. Berz, K. Makino. COSY INFINITY 10.0 Beam Physics Manual.
-  
-%% \bibitem{Senichev:IPAC13}
-%%   Y. Senichev, R. Maier, D. Zyuzin, N. Kulabukhova, (JEDI Collaboration), ``Spin tune decoherence effects in electro- and magnetostatic structures.'' Proc. of IPAC13 (2013).
 
 \end{thebibliography} 
 \end{document}
