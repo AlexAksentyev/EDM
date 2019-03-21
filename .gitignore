@@ -27,6 +27,8 @@ Abstracts/*
 *.bcf
 *.run.xml
 *.synctex.gz
+*.aux
+*.log
 
 .~lock.*
 .DS_Store
