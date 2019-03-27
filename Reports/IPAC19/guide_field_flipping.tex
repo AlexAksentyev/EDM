@@ -44,12 +44,6 @@ The dynamics of a spin-vector $\vec s$ in a magnetic field $\vec B$ and an elect
 \end{subequations}
 In the above equations, $m,~q,~G=(g-2)/2$ are, respectively, the mass, charge, and magnetic anomaly of the particle; $\beta = \sfrac{v_0}{c}$ is its normalized speed; $\gamma$ its Lorentz-factor. The EDM factor $\eta$ is defined by the equation $d = \eta\frac{q}{2mc}$, in which $d$ is the particle EDM, $s$ its spin.
 
-%% In the standard formalizm one operates with the spin transfer matrix~\cite[p.~4]{COSY:SpinTuneMapping}
-%% \[
-%% \boldsymbol{t}_R = \exp\bkt{-i\pi\nu_s\vec\sigma\cdot\bar n} = \cos\pi\nu_s - i (\vec\sigma\cdot\bar n)\sin\pi\nu_s,
-%% \]
-%% where $\nu_s = \sfrac{\W_s}{\W_{cyc}}$, the ratio of the particle's spin precession frequency to its cyclotron frequency, is termed \emph{spin tune}, and $\bar n$, termed the \emph{invariant spin axis}, defines the spin precession axis. They relate to the spin precession angular velocity as in $\vec\W_s = \w_{cyc}\cdot \nu_s\bar n$.
-
 \section{BNL Frozen Spin method}
 The original method for the measurement of the electric dipole moment of an elementary particle was first proposed by the Storage Ring EDM Collaboration~\cite{BNL:SREDM} of the Brookhaven National Laboratory. In the proposed method,~\cite{BNL:Deuteron2008} a longitudinally-polarized beam is injected into a storage ring designed on the basis of the Frozen Spin (FS) concept: by applying a radial electric field $E_r = \frac{GB_yc\beta\gamma^2}{1-G\beta^2\gamma^2}$,~\cite[p.~10]{BNL:Deuteron2008} the MDM component in~\eqref{eq:TBMT_main} is set to zero: $\vec\W_{MDM} = \vec 0$. Then, any tilting of the beam polarization vector out of the horizontal plane is attributed to the presence of an EDM; specifically, the vertical component $P_y$ grows as
 \[
@@ -82,7 +76,8 @@ The Frequency Domain Methodology (FDM)~\cite{Senichev:FDM} was designed specific
 In order to guarantee that $\varepsilon$ is less than the required EDM measurement precision, i.e. that the equation~\eqref{eq:FDM_CW_CCW_MDM} holds with sufficient accuracy, a guide field flipping algorithm has been devised, that uses the horizontal plane precession frequency as a means to calibrating the guide field. 
 
 \section{Calibration algorithm}
-The main concern in flipping the direction of the guide field is to accurately reproduce the radial component of teh MDM spin precession frequency due to element misalignment.
+The main concern in flipping the direction of the guide field is to accurately reproduce the radial component
+of the MDM spin precession frequency due to element misalignment.
 
 The spin precession frequency components are defined by the following equation:~\cite[p.~4]{COSY:SpinTuneMapping}
 \[
