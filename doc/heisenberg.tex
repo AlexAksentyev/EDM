@@ -1,0 +1,131 @@
+\documentclass[a4paper,14pt]{article}
+\usepackage[left=2cm, bottom=1.5cm, right=1.5cm, top=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{hyperref}
+
+\newcommand{\avg}[1]{\langle {#1} \rangle}
+\newcommand{\xp}[1]{\mathrm{E}\left[{#1}\right]}
+\newcommand{\const}{\mathrm{const}}
+
+\begin{document}
+
+\title{Quantum variability of polarization}
+\maketitle{}
+
+In this note I wil be concerned with the effect of the quantum nature of spin on the EDM measurement.
+
+Spin is a quantum quantity, subject to probabilistic fluctuation. However, the expectation value of spin
+\[
+\xp{\vec S} = \langle\phi|(\sigma_x, \sigma_y, \sigma_z)|\phi\rangle,
+\]
+behaves like a classical vector. (Ehrenfest's theorem.~\cite{Ehrenfest})
+
+The polarization vector $\vec P = {\sum_{i\inE} \vec s_i}/{||\sum_{i\inE} \vec s_i||} = \avg{\vec S}$ is a
+finite-sample (beam number of particles) approximation of $\xp{\vec S}$; it is an \emph{average} statistic.
+As such, it naturally has an uncertainty $\sigma[\vec P]$ (standard deviation of the mean).
+
+This uncertainty is due to the statistical/quantum nature of spin.
+It is not an epistemic uncertainty of our not knowing the value of $\vec P$;
+if we could measure $\vec P$ with an infinitely small error,
+we'd still observe that the value of $\vec P$ varies. And it's not due to the variation of the
+experimental conditions. But it is due to the finite beam size; if we had an infinitely large number
+of beam particles, then $\vec P \equiv \avg{\vec S} \to \xp{\vec S}$.
+
+\section{What this means for our EDM measurement}
+In the experiment, we measure the signal
+\[
+P_y(t) = a\cdot \sin(\omega\cdot t + \phi_0).
+\]
+
+Quantum statistical variation occurs at the level of a single $P_y(t_i)$ measurement.
+We can formulate it as follows:
+\[
+P_y(\theta) = a\cdot \sin\theta,
+\]
+and for all $\theta_i$, $\theta_j = \theta_i + 2\pi n$, due to quantum variability,
+\begin{equation}\label{eq:main}
+P_y(\theta_i) \neq P_y(\theta_j).
+\end{equation}
+
+Suppose we have exactly non-destructive polarimetry. Not a single beam particle is lost. Suppose also that
+the spin coherence time is infinite; that all particles are on the closed orbit, there are no stray fields,
+experimental conditions are as perfect as we want, and unchanging.
+
+We measure the vertical component of polarization with negligible uncertainty for a year. Then we split all that
+data into frames of 10,000 seconds, fit $f(t) = a\cdot\sin(\omega\cdot t + \phi_0)$, and get an
+$\hat\omega$-estmiate.
+
+By hypothesis, the fit standard error $\sigma[\hat\omega]$ is negligibly small (but \textbf{finite},
+b/c polarization measurements are based on a finite number of detector counts), say $10^{-20}$ [rad/sec].
+
+If we plot a histogram of $\hat\omega$, its standard deviation will (very likely) exceed $10^{-20}$
+by orders of magnitude (if not, then assume en even smaller $\sigma[\hat\omega]$).
+This is b/c every time a cycle is started, $P_y$ follows a slightly different sinusoid,
+all b/c of equation~\eqref{eq:main}.
+
+\section{How to deal with that}
+So long as the quantum standard deviation does not change the shape of the $\hat\omega$ distribution,
+the law of large numbers numbers holds, and you deal with is just as you would with any other
+statistical uncertainty.
+
+If it does change the shape of the distribution, then you have a fundamental problem of interpretation. 
+But that aside, you may have to change the EDM-estimator statistic.
+
+\section{A big BUT}
+Apparently, this is not exactly true; according to this~\cite[p.~193]{QM_notes}, there's a fundamental
+certainty limit $\sigma[\hat A] = \xp{\hat A^2} - \xp{\hat A}^2 = \const$ for observable $\hat A$.
+
+Therefore, when we take a difference between $\hat\omega_1$ and $\hat\omega_2$, and that difference is greater
+than statistical uncertainty, classically, we'd say the difference is proportional to the EDM
+(assuming systematic uncertainty is negligibly small). But since $\hat\omega$ is a quantum-mechanical operator,
+it varies naturally due to the Heisenberg uncertainty principle. Then, the difference could be greater than
+statistical uncertainty even if the EDM is 0.
+
+\section{In summary}
+
+An estimate of the EDM $\hat d = \avg{d} \pm \sigma_{stat} \pm \sigma_{syst} \pm \sigma_{quant}$,
+where $\sigma_{stat}$ is the statistical uncertainty (epistemic), $\sigma_{syst}$ is the systematic
+(due to variation in experimental conditions, say) uncertainty (ontic), and $\sigma_{quant}$ is the
+quantum-effect uncertaincy (also ontic), due to the ``Heisenberg principle.'' To the best of my knowledge,
+it is interpreted as ontic, i.e. relating to the uncertainty in the actual physical state of the system
+under consideration.
+
+The only situation in which that last uncertainty might be of concern, is when we managed to reduce
+(and prove that it is so)
+\begin{equation}\label{eq:condition}
+  \sqrt{\sigma_{stat}^2 + \sigma_{syst}^2}\ll \sigma_{quant}.
+\end{equation}
+
+\subsection{What does that mean?}
+If we managed to fulfill condition~\eqref{eq:condition}, then we would observe a normal (maybe not normal)
+distribution $d\sim N(\xp{d}, \sigma_{quant})$. And we could not in principle give an estimate of $d$ more precise
+than $\sigma_{quant}$. If $\sigma_{quant} < 10^{-29} ~e\cdot cm$, we don't care; if it is greater, say $10^{-28}$,
+then it's impossibe to achieve the desired accuracy.
+
+But really, what does it mean?
+
+It just means that at the achieved level of experimental precision the EDM no longer belongs to the set of real
+numbers. It belongs to the set of probability distributions on real numbers:
+\[
+d\notin \mathbb{R},~ d\in\mathcal P(\mathbb{R}).
+\]
+
+Take natural numbers for example: in set theory, a natural number is a set.
+$\emptyset = 0$, $\{0\} = 1$, $\{0, 1\} = 2$, etc. However, when doing arithmetics, we don't think of numbers
+as sets. Up until the point where~\eqref{eq:condition} is true, we can think of the electric dipole moment as
+a real number, but once there, this mathematical description is no longer valid, and its quantum mechanical
+nature manifests itself.
+
+I don't think it is a problem. If our goal as experimentalists is to describe natural phenomena as accurately
+as possible, what could be more accurate than exposing the probabilistic nature of the quantity?
+
+\begin{thebibliography}{9}
+\bibitem{Ehrenfest}
+  \url{http://www.niser.ac.in/~sbasak/p303_2010/17_18.08.pdf}
+\bibitem{QM_notes}
+  \url{http://physics.mq.edu.au/~jcresser/Phys301/Chapters/Chapter14.pdf}
+\end{thebibliography}
+
+\end{document}

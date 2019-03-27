@@ -29,6 +29,7 @@ Abstracts/*
 *.synctex.gz
 *.aux
 *.log
+*.out
 
 .~lock.*
 .DS_Store

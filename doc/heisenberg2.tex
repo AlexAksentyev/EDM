@@ -1,0 +1,63 @@
+\documentclass[a4paper,14pt]{article}
+\usepackage[left=2cm, bottom=1.5cm, right=1.5cm, top=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{hyperref}
+
+\newcommand{\avg}[1]{\langle {#1} \rangle}
+\newcommand{\xp}[1]{\mathrm{E}\left[{#1}\right]}
+\newcommand{\const}{\mathrm{const}}
+
+
+\begin{document}
+\title{Heisenberg principle in relation to a frequency measurement}
+\maketitle{}
+
+\section{The Heisenberg relationship}
+The Heisenberg principle basically says that, for some observables (called canonically-conjugate),
+it is impossible to measure both of them simultaneously with infinite precision.
+Examples of such variables are: position and momentum, energy and time, etc.
+
+Let's consider polarization as a function of time $P_y(t) = P_0\sin(\omega\cdot t + \phi)$. A measurement
+$P_y(t_i)$ takes a finite amount of time $\Delta t$ to make. If you try to $\Delta t\to 0$, then the error
+on $\sigma[P_y(t_i)]\to 1$. The longer you make $\Delta t$, the more precise is the measurement of
+polarization. But if it takes $\Delta t$ to make a measurement $P_y(t_i)$, $t_i$ is known to
+the precision $\Delta t$. That means time and polarization are related by a Heisenberg-like relationship
+\[
+\sigma[P]\Delta t \ge \const.
+\]
+
+\paragraph{Notes}
+\begin{itemize}
+\item Actually, in the relationship above $\const = 1\cdot 0 = 0$. (W/o making a measurement,
+  you a priori know $P_y$ cannot be less than -1, or greater than 1.)
+\item The relationship lacks $\hbar$; but then, the general expression for the Heisenberg relationship
+  between operators $A$ and $B$ is $\sigma_A\cdot\sigma_B \ge |\avg{[A,B]}|$, and who says the commutator
+  \emph{must} involve $\hbar$? It \emph{could} be zero even.
+\end{itemize}
+\section{How to account for it}
+
+Our formulas for the standard deviation $\sigma[\hat\omega]$ of the polarization precession frequency estimate
+were based on the assumption that the predictor variable (time) is known to infinite precision, and hence
+only the dependent variable (polarization) is known with an uncertainty. Realistically it is not,
+and the error is actually quite large. Suppose we want to have a 3\% error on the polarization value; it takes
+about 2,000 detector counts to register; polarimeter sampling rate is 1 MHz, hence
+\[
+\Delta t = 2\cdot 10^3/10^6 = 2\cdot 10^{-3} sec.
+\]
+
+Take linear regression for example. If we use simple ordinary linear regression on a data set in which
+both the dependent and the independent variables are known with an uncertainty,
+we'll get biased slope estimates.~\cite[p.~55]{EIP} (Generally, the slope will be underestimated.)
+
+The usual way to deal with this bias is to use an errors-in-variables model.~\cite{EIV-models}
+
+\begin{thebibliography}{9}
+\bibitem{EIP}
+  \url{http://www.biostat.jhsph.edu/~iruczins/teaching/jf/ch4.pdf}
+\bibitem{EIV-models}
+  \url{https://en.wikipedia.org/wiki/Errors-in-variables_models}
+\end{thebibliography}
+\end{document}
+  
