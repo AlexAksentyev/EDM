@@ -15,6 +15,7 @@
 \DeclareDocumentCommand{\pddx}{mO{t}O{}}{\frac{\partial^{#3} {#1}}{\partial {#2}^{#3}}}
 \newcommand{\w}{\omega}
 \newcommand{\W}{\Omega}
+\newcommand{\subwidth}{.9\linewidth}
 
 \begin{document}
 \title{Spin decoherence in the Frequency Domain Method for the search of a particle EDM}
@@ -97,19 +98,19 @@ In the following simulation we used a Frozen Spin-type lattice represented in Fi
   \includegraphics[width=\linewidth]{../img/Lattice/BNL}
   \caption{Frozen spin-type lattice used in simulations.\label{fig:FSBNL_lattice}}
 \end{figure}
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
-  \begin{subfigure}{\linewidth}
+  \begin{subfigure}{\subwidth}
     \centering
     \includegraphics[width=\linewidth]{../img/IPAC19/spin_tune_decoh_x_offset}
     \caption{For particles involved in horizontal betatron oscillation only\label{fig:st_decoh_horizontal}}
   \end{subfigure}
-  \begin{subfigure}{\linewidth}
+  \begin{subfigure}{\subwidth}
     \centering
     \includegraphics[width=\linewidth]{../img/IPAC19/spin_tune_decoh_y_offset}
     \caption{For particles involved in vertical betatron oscillation only}
   \end{subfigure}
-  \begin{subfigure}{\linewidth}
+  \begin{subfigure}{\subwidth}
     \centering
     \includegraphics[width=\linewidth]{../img/IPAC19/spin_tune_decoh_d_offset}
     \caption{For particles involved in synchrotron oscillation only\label{fig:st_decoh_synchrotron}}
@@ -120,40 +121,24 @@ In the following simulation we used a Frozen Spin-type lattice represented in Fi
 \section{Simulation of decohrence in an imperfect lattice}
 In this simulation we rotated the E+B elements about the optic axis by angles generated from the normal distribution $\alpha \sim N(0, 5\cdot 10^{-4})$ rad. The value $\sigma_\alpha = 5\cdot 10^{-4}$ is a realistic~\cite{Senichev:FDM} element alignment error standard deviation. A rotation of an E+B element does not cause a perturbation of the closed orbit, since the net Lorentz force is kept constant.
 
-\begin{figure}[h!]
+\begin{figure}[ht]
   \centering
-  \begin{subfigure}{\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{../img/IPAC19/SX_decoh_20sec_unopt}
-    \caption{Sextupoles turned off}
-  \end{subfigure}
-  \begin{subfigure}{\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{../img/IPAC19/SX_decoh_20sec_opt}
-    \caption{Sextupoles turned on}
-  \end{subfigure}
-  \caption{Standard deviation of the radial spin vector components in a particle bunch prior and after turning on correcting sextupoles\label{fig:decoh_rms_sx}}
+  \includegraphics[width=\linewidth]{../img/IPAC19/SX_decoh_20sec_both}
+  \caption{Standard deviation of the radial spin vector components in a particle bunch.
+    Top panel: sextupoles are turned off; bottom panel: sextupoles are turned on\label{fig:decoh_rms_sx}}
 \end{figure}
 
 Figure~\ref{fig:decoh_rms_sx} shows the standard deviation of the radial spin-vector components in a particle bunch before and after turning on correcting sextupoles. Because an imperfect lattice was used, the particles' spin-vectors precess in the vertical plane at a rapid pace, and hence the RMS-value of $S_x$ is an oscillating function that does not show a long-term growth trend (slope estimate $(2 \pm 2)\cdot 10^{-8}$ 1/sec); there's no decoherence in the horizontal plane. Use of correcting sextupoles further reduces the amplitude of the $\sigma_{S_x}$-oscillations.
 
-\begin{figure}[h!]
+\begin{figure}[ht]
   \centering
-  \begin{subfigure}{\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{../img/IPAC19/SY_decoh_20sec_unopt}
-    \caption{Sextupoles turned off\label{fig:decoh_rms_sy_unopt}}
-  \end{subfigure}
-  \begin{subfigure}{\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{../img/IPAC19/SY_decoh_20sec_opt}
-    \caption{Sextupoles turned on\label{fig:decoh_rms_sy_opt}}
-  \end{subfigure}
-  \caption{Standard deviation of the vertical spin vector components in a particle bunch
-    prior and after turning on correcting sextupoles\label{fig:decoh_rms_sy}}
+  \includegraphics[width=\linewidth]{../img/IPAC19/SY_decoh_20sec_both}
+  \caption{Standard deviation of the vertical spin vector components in a particle bunch.
+    Top panel: sextupoles are turned off; bottom panel: sextupoles are turned on\label{fig:decoh_rms_sy}}
 \end{figure}
 
-Figure~\ref{fig:decoh_rms_sy} shows the same statistic for the vertical components. One observes a presence of a long-term trend (slope estimate $(4.5 \pm 0.6)\cdot 10^{-7}$ 1/sec) prior to turning on correcting sextupoles (Figure~\ref{fig:decoh_rms_sy_unopt}). Sextupole correction does not reduce the amplitude of the $\sigma_{S_y}$-oscillations, but it does remove the long-term trend (Figure~\ref{fig:decoh_rms_sy_opt}, slope estimate $(5 \pm 6) \cdot 10^{-8}$ 1/sec).
+Figure~\ref{fig:decoh_rms_sy} shows the same statistic for the vertical components. One observes a presence of a long-term trend (slope estimate $(4.5 \pm 0.6)\cdot 10^{-7}$ 1/sec) prior to turning on correcting sextupoles (Figure~\ref{fig:decoh_rms_sy}, top panel). Sextupole correction does not reduce the amplitude of the $\sigma_{S_y}$-oscillations, but it does remove the long-term trend (Figure~\ref{fig:decoh_rms_sy}, bottom panel,
+slope estimate $(5 \pm 6) \cdot 10^{-8}$ 1/sec).
 
 \section{Conclusions}
 Spin decoherence is a major problem for any experiment aiming to measure the EDM of an elementary particle using the storage ring method,~\cite{BNL:Deuteron2008} as it drastically reduces the possible measurement cycle time. In the present work we have described the mechanism by which it arises, and a method by which it can be suppressed. We have shown that by means of this method the parabolic dependence of spin tune on the particle coordinate can be removed. The remaining linear decoherence effect observed in Figures~\ref{fig:st_decoh_horizontal} and~\ref{fig:st_decoh_synchrotron} is suppressed by use of an RF-cavity.
