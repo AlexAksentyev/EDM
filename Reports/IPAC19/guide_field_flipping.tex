@@ -17,6 +17,13 @@
 \newcommand{\w}{\omega}
 \newcommand{\W}{\Omega}
 \newcommand{\avg}[1]{\langle {#1} \rangle}
+\newcommand{\Traj}{\mathcal T}
+\DeclareDocumentCommand{\Stab}{s}{\mathcal{S}\IfBooleanT{#1}{\vert_{\W_y=0}}}
+\newcommand{\Fail}{\mathcal F}
+\newcommand{\D}{\mathcal D}
+\DeclareDocumentCommand{\g}{s}{\gamma\IfBooleanT{#1}{_{eff}}}
+\newcommand{\CO}{\mathrm{CO}}
+\newcommand{\nbar}{\bar n}
 
 \begin{document}
 \title{Simulation of the Guide Field Flipping Procedure for the Frequency Domain Method}
@@ -76,48 +83,164 @@ The Frequency Domain Methodology (FDM)~\cite{Senichev:FDM} was designed specific
 In order to guarantee that $\varepsilon$ is less than the required EDM measurement precision, i.e. that the equation~\eqref{eq:FDM_CW_CCW_MDM} holds with sufficient accuracy, a guide field flipping algorithm has been devised, that uses the horizontal plane precession frequency as a means to calibrating the guide field. 
 
 \section{Calibration algorithm}
-The main concern in flipping the direction of the guide field is to accurately reproduce the radial component
+The goal of flipping the direction of the guide field is to accurately reproduce the radial component
 of the MDM spin precession frequency due to element misalignment.
 
-The spin precession frequency components are defined by the following equation:~\cite[p.~4]{COSY:SpinTuneMapping}
+Let $\Traj$ denote the set of all trajectories that a particle might follow in the accelerator.
+$\Traj = \Stab \bigcup \Fail$, where $\Stab$ is the set of all stable trajectories, $\Fail$ are all trajectories
+such that if a particle gets on one, it will be lost from the bunch.
+
+Calibration is done in two phases:
+\begin{enumerate}
+\item In the first phase, the guide field value is set so that the beam particles are injected onto trajectories
+  $t\in\Stab$.
+\item In the second phase, it is fine-tuned further, so as to fulfill the FS condition in the horizontal plane:
+  by doing this, we select the subset $\Stab*\subset\Stab$ of trajectories for which $\W_y = 0$.
+\end{enumerate}
+
+Spin tune (and hence precession frequency) is an injective function of the
+effective Lorentz-factor $\g*$~\cite{Aksentev:DecohIPAC19}, which means
+$\W_y(\g*^1) = \W_y(\g*^2) \rightarrow \g*^1 = \g*^2$. The trajectory space $\Traj$ is partitioned into equivalence
+classes according to the value of $\g*$: trajectories characterized by the same $\g*$ are equivalent
+in terms of their spin dynamics (possess the same spin tune and invariant spin axis direction),
+and hence belong to the same equivalence class.
+Since $\W_y(\g*)$ is injective, there exists a unique $\g*^0$ at which $\W_y(\g*^0)=0$:
 \[
-(\W_x, \W_y, \W_z) = 2\pi\cdot f_{rev} \cdot \nu_s \cdot \bar n,
+[\W_y=0] = [\g*^0] \equiv \Stab*.
 \]
-where $f_{rev}$ is the particle cyclotron frequency, $\nu_s$ and $\bar n$ are its spin tune and invariant spin axis respectively.
 
-We consider the case of a lattice utilizing sextupole elements in order to reduce spin tune dispersion.~\cite{Aksentev:DecohIPAC19} In such a lattice, both $\nu_s$ and $\bar n$ are uniform over a large area of the transverse cross-section of the vacuum tube (and also momentum deviation), and therefore we will assume that all the beam particles share the spin tune and precession axis defined on the reference (closed) orbit.
+If the lattice didn't use sextupole fields for the suppression of decoherence,
+$\Stab*$ would be a singleton set. We have shown in~\cite{Aksentev:DecohIPAC19} that if sextupoles are
+utilized, then $\exists\D\subset\Stab$ such that $\forall t_1,t_2\in\D$:
+$\nu_s(t_1) = \nu_s(t_2)$, $\nbar(t_1) = \nbar(t_2)$. By adjusting the guide field strength we equate
+$\D=\Stab*$, and hence $\Stab*$ contains multiple trajectories.~\footnote{Strictly speaking,
+  even if sextupoles are used there remains some negligible dependence of spin tune
+  on the particle orbit length (linear decoherence effects, cf.~\cite{Aksentev:DecohIPAC19}).
+  Because of that, the equalities for spin tune and $\nbar$ are approximate, and the set $\Stab*$
+  should be viewed as fuzzy:
+  we will consider trajectories for which $|\W_y|<\delta$ for some small $\delta$ as belonging to $[W_y=0]$.}
 
-The reference orbit $\nu_s^{CO}$ is determined by the orbit length, and $\bar n^{CO}$ is determined by both the orbit length and electromagnetic field orientation. When flipping the guide field, the field orientation is preserved, and so the problem of reproducing the MDM angular velocity component comes down to reproducing $\nu_s^{CO}$. This is done directly via reproducing $\W_y^{MDM}$:
-in the initial state, $\W_x\gg \W_y, \W_z$ and $\bar n^{CO}\approx \hat x$. Using a spin-rotator (Wien filter), we 
-suppress precession about $\hat x$; simultaneously we offset the beam energy from the ``frozen'' value (this is done so as to avoid the unstable ``3D Frozen Spin'' state).  When changing the beam energy, we also adjust the guide field strength accordingly, so as to preserve the reference orbit. Horizontal precession becomes dominant, and $\bar n^{CO}\approx \hat y$. After reversing the guide field polarity, we adjust its strength once again to fulfill the FS condition. Then, after turning off the spin-rotator, and brining the beam energy back to its original level, we get $\bar n^{CO}\approx -\hat x$, $\nu_s^{CCW} = \nu_s^{CW}$, i.e., MDM precession occurs at the same rate as before, but in the opposite direction.
-
-One known systematic error in this procedure is the vertical component $\W_y^{EDM} \propto \vec\beta\times\vec B_x$, where $B_x$ is the misalignment error field, but this error is by default less than the estimated radial EDM frequency component, and can be neglected.
+Therefore, once we ensured that the beam polarization does not precess in the horizontal plane,
+all of the beam particles are have $\g*^0$, equal for the CW and CCW beams.
 
 \section{Simulation}
+In order to confirm that the proposed calibration procedure works, we need to show that:
+\begin{enumerate}
+\item $\Stab*^{CW} = \Stab*^{CCW}$, that is $\W_y=0$ for the same set of trajectories (equivalently,
+  the same $\g*$) in the CW and CCW cases.
+\item $\forall t_1,t_2\in\Stab*^{CCW}$: $\nu_s(t_1) = \nu_s(t_2)$, $\nbar(t_1) = \nbar(t_2)$, i.e., the same
+  sextupole fields reduce decohrerence in the CW and CCW beams.
+\end{enumerate}
 
-\section{Conclusions}
+We do this by first computing the function $\nu_s(z)$ (where $z$ is the particle's horizontal, vertical, or
+momentum offset from the reference particle's) for the CW and CCW beams; and then compute their discrepancy
+$\epsilon(z) = \nu_s^{CW}(z) - \nu_s^{CCW}(z)$. If the discrepancy is small in a wide range of $z$, then
+\begin{enumerate}
+\item sextupole decoherence suppression works for both beams without gradient value change;
+\item spin tune (respectively $\g*$) is equal for both beams, and hence their Spin Wheels roll at the
+  same rate.
+\end{enumerate}
 
+In the simulation, we use an imperfect FS lattice~\cite{Senichev:Lattices}, in which the E+B
+spin rotator elements are tilted about the optic axis by angles $\alpha\sim N(0, 5\cdot 10^{-4})$ radians.
+The simulation is repeated three times; each time only one sextupole family is turned on.
+
+The beam's kinetic energy is 270.00 MeV. We compute third-order Taylor expansions of the
+spin and orbital transfer maps.
+
+The main body of the simulation consists in the following: using the TSS~\cite[p.~41]{COSYINF:BeamPhysMan}
+procedure
+of COSY Infinity we compute the $\nu_s$ and $\nbar$ third-order Taylor expansions for the lattice traversed
+in the forward direction.
+Then, using the combinations of procedures MR and SMR~\cite[p.~233]{Eremey:Thesis}, we reverse
+the lattice's orbital and spin transfer maps, and compute $\nu_s$ and $\nbar$
+for the reversed lattice (as it is seen by the counter-circulating beam).
+
+\section{Results}
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}{\linewidth}\centering
+    \includegraphics[width=\linewidth]{../img/IPAC19/GFF_stune_range_Y}
+    \caption{Spin tune and invariant spin axis dependencies on the particle vertical offset
+      from the reference orbit\label{fig:Y:calib_plot:stune}}
+  \end{subfigure}
+  \begin{subfigure}{\linewidth}\centering
+    \includegraphics[width=\linewidth]{../img/IPAC19/GFF_omegas_range_Y}
+    \caption{Difference between the CW and CCW radial plane precession frequencies
+      vs the corresponding horizontal plane frequencies (calibration plot)\label{fig:Y:calib_plot:omegas}}
+  \end{subfigure}
+  \caption{Simulation results for the decoherence caused by
+    vertical plane betatron motion\label{fig:Y:calib_plot}}
+\end{figure}
+
+In Figure~\ref{fig:Y:calib_plot} are shown the $\nu_s$ and $\nbar_y$ dependencies on the particle's
+vertical offset from the reference orbit, when the corresponding sextupoles are operational. Specifically, in
+Figure~\ref{fig:Y:calib_plot:stune} one can observe that there's a difference between the CW and CCW beams
+in the values of spin tune and invariant spin axis vertical component for trajectories
+deviating from the reference orbit. Figure~\ref{fig:Y:calib_plot:omegas} indicates that if one can make the
+difference between the CW and CCW particle's horizontal plane precession frequencies
+smaller than $10^{-7}$ rad/sec,
+the difference between their vertical plane precession frequencies will be smaller than $10^{-8}$ rad/sec.
+This confirmes that the equalization of the vertical plane MDM precession frequencies of counter-circulating
+beams by means of equalizing their horizontal plane precession frequencies is a viable technique.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}{\linewidth}
+    \includegraphics[width=\linewidth]{../img/IPAC19/GFF_omegas_range_X}
+    \caption{Horizontal betatron motion case\label{fig:X:calib_plot:omegas}}
+  \end{subfigure}
+  \begin{subfigure}{\linewidth}
+    \includegraphics[width=\linewidth]{../img/IPAC19/GFF_omegas_range_D}
+    \caption{Synchrotron motion case\label{fig:D:calib_plot:omegas}}
+  \end{subfigure}
+  \caption{Calibration plots in the cases of decoherence caused by horizontal betatron motion
+    and synchtorton oscillations\label{fig:calib_plot:omegas}}
+\end{figure}
+
+In Figure~\ref{fig:calib_plot:omegas} you see the calibration plots when we varied the horizontal 
+offset, and the momentum offset.
 
 \begin{thebibliography}{9}
 
 \bibitem{BNL:SREDM}
-  M Bai et al., SREDM Collaboration website: \url{https://www.bnl.gov/edm/}
+  M. Bai et al., SREDM Collaboration website: \url{https://www.bnl.gov/edm/}.
 
 \bibitem{BNL:Deuteron2008}
-  D. Anastassopoulos et at., (srEDM Collaboration), ``Search for a permanent electric dipole moment of the deuteron nucleus at the $10^{-29}~e\cdot cm$ level,'' proposal as submitted to the BNL PAC, April 2008.
+  D. Anastassopoulos et at., (srEDM Collaboration), ``Search for a permanent electric dipole moment of
+  the deuteron nucleus at the $10^{-29}~e\cdot cm$ level,'' proposal as submitted to the BNL PAC, April 2008.
 
 \bibitem{Mane:SpinWheel}
-  S Mane, ``A distillation of Koop's idea of the Spin Wheel.'' arXiv:1509.01167 [physics] \url{http://arxiv.org/abs/1509.01167}
+  S. Mane, ``A distillation of Koop's idea of the Spin Wheel,'' arXiv:1509.01167 [physics]
+  \url{http://arxiv.org/abs/1509.01167}.
   
 \bibitem{Senichev:FDM}
-  Y. Senichev, A. Aksentev, A. Ivanov, E. Valetov, ``Frequency domain method of the search for the deuteron electric dipole moment in a storage ring with imperfections.'' In review.
+  Y. Senichev, A. Aksentev, A. Ivanov, E. Valetov, ``Frequency domain method of the search for
+  the deuteron electric dipole moment in a storage ring with imperfections,'' arxiv:1711.06512 [physics.acc-ph]
+  \url{https://arxiv.org/abs/1711.06512}.
 
 \bibitem{COSY:SpinTuneMapping}
-  A. Saleev et al., (JEDI Collaboration), ``Spin tune mapping as a novel tool to probe the spin dynamics in storage rings.'' Phys.Rev.Accel.Beams 20 (2017) no.7, 072801
+  A. Saleev et al., (JEDI Collaboration), ``Spin tune mapping as a novel tool to probe
+  the spin dynamics in storage rings.'' Phys. Rev. Accel. Beams 20 (2017) no.7, 072801.
 
 \bibitem{Aksentev:DecohIPAC19}
-  A Aksentev, Y Senichev, ``Spin decoherence in the Frequency Domain Method for the search of a particle EDM.'' Proc. of IPAC19 (2019).
-  
+  A. Aksentev, Y. Senichev, ``Spin decoherence in the Frequency Domain Method for the search of a particle EDM,''
+  presented at the 10th International Particle Accelerator Conf. (IPAC’19), Melbourne, Australia,
+  May. 2019, paper 2738, this conference.
+
+\bibitem{Senichev:Lattices}
+  Y. Senichev, S. Andrianov, S. Chekmenev, M. Berz, E.Valetov. ``Investigation of Lattice for Deuteron EDM Ring,''
+  Proc. of ICAP15 (2015). \url{http://accelconf.web.cern.ch/AccelConf/ICAP2015/papers/modbc4.pdf}.
+
+\bibitem{COSYINF:BeamPhysMan}
+  M. Berz, K. Makino. COSY INFINITY 10.0 Beam Physics Manual.
+
+\bibitem{Eremey:Thesis}
+  E. Valetov, ``Field modeling, symplectic tracking, and spin decoherence for the EDM and muon g-2 lattices.''
+  PhD tehsis, Michigan State University, Michigan, USA.
+  \url{http://collaborations.fz-juelich.de/ikp/jedi/public_files/theses/valetovphd.pdf}
+
 %% \bibitem{Senichev:IPAC13}
 %%   Y. Senichev, R. Maier, D. Zyuzin, N. Kulabukhova, (JEDI Collaboration), ``Spin tune decoherence effects in electro- and magnetostatic structures.'' Proc. of IPAC13 (2013).
 
