@@ -4,10 +4,15 @@
 \usepackage{amsmath}
 \usepackage{xfrac}
 \usepackage{paralist}
+\usepackage{xparse}
 
 %% DEFINITIONS %%
 
 \newcommand{\w}{\omega}
+\newcommand{\nbar}{\bar n}
+\DeclareDocumentCommand{\ddt}{m}{\frac{\mathrm{d} {#1}}{\mathrm{d} t}}
+\DeclareDocumentCommand{\bkt}{sm}{\IfBooleanTF{#1}{\left[ #2 \right]}{\left(#2\right)}}
+\newcommand{\D}{\Delta}
 
 \newcommand{\td}{\mathrm{d}}
 \newcommand{\Wmdm}{\Omega_{\mathrm{mdm}}}
@@ -18,8 +23,7 @@
 \begin{document}
 
 
-\title{Frequency domain method of search for the deuteron electric dipole moment
-  in a storage ring with imperfections}
+\title{Frequency domain method of search for the deuteron electric dipole moment}
 
 \author{Yu. Senichev\textsuperscript{1}\thanks{y.senichev@inr.ru},
   A. Aksentev\textsuperscript{2,}\textsuperscript{3},
@@ -29,29 +33,25 @@
   \textsuperscript{3} National Research Nuclear University ``MEPhI,'' Moscow, Russia\\
   \textsuperscript{4} Department of Physics and Astronomy, Michigan State University, East Lansing, Michigan, USA}
 
-%% \begin{abstract}
-%% The method is based on four fundamental features. The total spin precession frequency in the vertical plane due to the electric and magnetic dipole moments in an imperfect ring is measured. The position of the ring elements is unchanged from clockwise to counter-clockwise operation.The calibration of the effective Lorentz factor using the polarization precession frequency measurement in the horizontal plane is carried out by going back and forth between CW and CCW. The approximate relationship between the frequencies of the polarization precession in different planes is set to exclude them from mixing to the vertical frequency of the expected EDM signal at a sensitivity level approaching  $10^{-29}$ $e\cdot cm$. 
-%% \end{abstract}
-
 \maketitle
 
-\section{Motivation for the Frequency Domain methodology}
+\section{Motivation}
 
 Storage ring-based methods of search for the electric dipole moments (EDMs) of fundamental particles
 can be classified into two major categories, which we will call
 \begin{inparaenum}[\itshape a\upshape)]
-\item Space Domain, and
-\item Frequency Domain
+\item Space Domain, and % integral, cumulative methods: observe an integral characteristic --- accumulated angle
+\item Frequency Domain % differential methods: observe an instantaneous characteristic --- angular velocity
 \end{inparaenum}
 methods.
 
-In the Space Domain paradigm, one observes the change to the beam polarization vector orientation
-directly affected by the EDM.
+In the Space Domain paradigm, one observes the change of the spatial orientation of the beam polarization vector 
+affected directly by the EDM.
 
-The original storage ring frozen spin-type method, proposed in~\cite{BNL:Deuteron2008}, is a canonical example of
-a Space Domain method: an initially longitudinally-polarized beam is injected into the storage ring; its vertical
-polarization component $P_v$ is measured once in the beginning of the measurement cycle,
-and once at the end of the 1,000 second-long cycle.
+The original storage ring, frozen spin-type method, proposed in~\cite{BNL:Deuteron2008}, is a canonical example of
+a methodology in the Space Domain: an initially longitudinally-polarized beam is injected into the storage ring;
+the vertical component of its polarization vector is observed. Under ideal conditions, any tilting of
+the beam polarization vector from the horizontal plane is attributed to the action of the EDM.
 
 Two technical difficulties are readily apparent with this approach:
 \begin{enumerate}
@@ -68,39 +68,147 @@ MDM precession frequency:~\cite[p.~11]{BNL:Deuteron2008}
 \begin{equation}\label{eq:BNL_syst_err}
 \w_{syst} \approx \frac{\mu\avg{E_v}}{\beta c\gamma^2},
 \end{equation}
-induced by field imperfections. If it is to be fulfilled, the accelerator elements geodetic installation
-precision must reach $10^{-14}$ m. Today's technology allows only about $10^{-4}$ m.
+induced by machine imperfection fields. If it is to be fulfilled, the geodetic installation precision
+of accelerator elements must reach $10^{-14}$ m. Today's technology allows only for about $10^{-4}$ m.
 
 At the practically-achievable level of element alignment uncertainty, $\w_{syst} \gg \w_{edm}$,
 which precludes any attempts at measuring a change in orientation of the polarization vector.
 
-By contrast, the Frequency Domain methodology consists in observing the effect of the EDM on the total
+Another crucial problem one faces in the space domain is geometric phase error.~\cite[p.~6]{BNL:Proton}
+The problem here lies in the fact that, even if one can somehow make machine imperfection fileds zero
+\emph{on average}, since spin rotations are non-cummutative, the polarization rotation angle due to them
+will not be zero.
+
+By contrast, the Frequency Domain methodology is founded on observing the effect of the EDM on the total
 (MDM and EDM together) spin precession angular velocity.
 
-One expample of a Frequency Domain method is the Koop Wheel~\cite{Koop:SW}. 
+The polarization vector is made to roll about a nearly-constant, definite direction vector $\nbar$,
+with an angular velocity that is high enough for the beam polarization to be easily measureable at all times.
+Apart from easier polarimetry, the definiteness of the angular velocity vector is a safeguard against geometric
+phase error.
+
+This ``Spin Wheel'' may be externally applied~\cite{Koop:SW}, or otherwise the machine imperfection fields
+may be utilized for the same purpose (wheel roll rate determined by equation~\eqref{eq:BNL_syst_err}).
+The latter is made possible by the fact that $\w_{syst}$ changes sign when the beam revolution direction
+is reversed.~\cite[p.~11]{BNL:Deuteron2008}
 
 \section{Basic principles}
 
-\section{Solution of the MDM precession reproduction problem}
+The method we propose has four fundamental features:
+\begin{enumerate}
+\item It is a Frequency Domain method;
+\item The non-zero average radial magnetic field induced by machine imperfections, instead of being suppressed,
+  is used as a Koop Wheel;
+\item The MDM contribution to the spin wheel roll rate is cancelled in the EDM estimator statistic
+  by flipping the direction of the guide field, and hence the sign of the radial component of the MDM
+  angular velocity vector $\w_x^{MDM}$;
+\item The MDM angular velocity magnitude is controlled through observation of the horizontal plane
+  polarization precession frequency.
+\end{enumerate}
+
+We have already mentioned the advantages of the frequency domain:
+\begin{inparaenum}[\itshape a\upshape)]
+\item easier polarimetry, and
+\item immunity to geometric phase error.
+\end{inparaenum}
+Let us expand on the latter point.
+
+\subsection{Frequency domain protection against geometric phase error}
+
+\section{EDM estimator statistic}
+In order to separate the EDM contribution to the spin precession angular velocity vector from that of the MDM,
+two measurement cycles are required: in the first, the beam circulates in the clockwise direction; in the other,
+counter-clockwise. That means we must flip the direction of the guide field going between the cycles.
+When we do this: 
+$\vec B \mapsto -\vec B$, $\vec\beta \mapsto -\vec\beta$, and $\vec E \mapsto \vec E$;
+the precession frequency components change like:
+\begin{subequations}
+  \begin{align}
+    \w_x^{CW} &= \w_x^{MDM, CW}   + \w_x^{EDM}, \notag\\
+    \w_x^{CCW} &= \w_x^{MDM, CCW} + \w_x^{EDM}, \notag\\
+    \w_x^{MDM, CW} &= -\w_x^{MDM, CCW}, \label{eq:FDM_CW_CCW_MDM}\\
+    \intertext{and the EDM estimator}
+    \hat\w_x^{EDM} &:= \frac12\bkt{\w_x^{CW} + \w_x^{CCW}} \label{eq:FDM_estimator} \\
+                   &=  \w_x^{EDM} +
+                       \underbrace{\frac12\bkt{\w_x^{MDM, CW} + \w_x^{MDM, CCW}}}_{\varepsilon \to 0}.
+  \end{align}
+\end{subequations}
+
+In order to guarantee that $\varepsilon$ is less than the required EDM measurement precision, i.e.
+that the equation~\eqref{eq:FDM_CW_CCW_MDM} holds with sufficient accuracy, a guide field flipping algorithm
+has been devised, that uses the horizontal plane precession frequency as a means to calibrating the guide field. 
+
+To explain how it works, we need to introduce the concept of the effective Lorentz factor.
+
+\section{Effective Lorentz factor}
+Spin dynamics is described by the concepts of \emph{spin tune} and the \emph{invariant spin axis}.
+Spin tune depends on the the particle's  equilibrium-level energy, expressed by the Lorentz factor:
+\begin{equation}
+  \begin{cases}
+    \nu_s^B &= \gamma G, \\
+    \nu_s^E &= \beta^2\gamma\bkt{\frac{1}{\gamma^2-1} - G} \\
+            &= \frac{G+1}{\gamma} - G\gamma.
+  \end{cases}
+\end{equation}
+
+Unfortunately, the regular definition of the Lorentz factor as $\gamma = 1 + K/W$, where $K$ is the kinetic, $W$
+is the rest energy, is only true for the reference particle. A particle involved in betatron
+motion will have a longer orbit, and as a direct consequence of the phase stability principle,
+in an accelerating structure utilizing an RF cavity, its equilibrium energy level (and hence the Lorentz factor)
+must increase. Otherwise it cannot remain the bunch. In this section we analyze how the particle Lorentz factor
+is modified when betatron motion, as well as non-linearities in the momentum compaction factor are
+accounted for.
+
+The longitudinal dynamics of a particle on the reference orbit of a storage ring is described
+by the system of equations:
+\begin{equation}
+  \begin{cases}
+    \ddt{\D\varphi} &= -\w_{RF}\eta\delta, \\
+    \ddt{\delta} &= \frac{q V_{RF}\w_{RF}}{2\pi h\beta^2E}\bkt{\sin\varphi - \sin\varphi_0}.
+  \end{cases}
+\end{equation}
+In the equations above, $\D\varphi = \varphi - \varphi_0$ and
+$\delta = \bkt{p-p_0}/{p_0}$ are the deviations of the particle's phase and
+normalized momentum from those of the reference particle; all other symbols have their usual meanings.
+%% $V_{RF}$, $\w_{RF}$ are, respectively,
+%% the RF voltage and frequency; $\eta = \alpha_0 - \gamma^{-2}$ is the slip-factor,
+%% where $\alpha_0$ is the momentum compaction factor defined by $\sfrac{\Delta L}{L} = \alpha_0\delta$,
+%% $L$ being the orbit length; $h$ is the harmonic number; $E$ the total energy of the particle.
+
+The solutions of this system form a family of ellipses in the $(\varphi, \delta)$-plane, all centered at the
+point $(\varphi_0,\delta_0)$. However, if one considers a particle involved in betatron oscillations, and
+uses a higher-order Taylor expansion of the momentum compaction factor
+$\alpha = \alpha_0 + \alpha_1\delta$, the first equation of the system
+transforms into:~\cite[p.~2579]{Senichev:IPAC13}
+\begin{align*}
+  \ddt{\D\varphi} = -\w_{RF} \Bigg[\bkt{\frac{\Delta L}{L}}_\beta &+ \bkt{\alpha_0 + \gamma^{-2}}\delta \right.\\
+    &+ \left.\bkt{\alpha_1 - \alpha_0\gamma^{-2} + \gamma^{-4}}\delta^2\Bigg],
+\end{align*}
+where $\bkt{\frac{\Delta L}{L}}_\beta = \frac{\pi}{2L}\bkt*{\varepsilon_xQ_x + \varepsilon_yQ_y}$, is
+the betatron motion-related orbit lengthening; $\varepsilon_x$ and $\varepsilon_y$ are
+the horizontal and vertical beam emittances, and $Q_x$, $Q_y$ are the horizontal and vertical tunes.
+
+The solutions of the transformed system are no longer centered at the same single point. Orbit lengthening
+and momentum deviation cause an equilibrium-level momentum shift~\cite[p.~2581]{Senichev:IPAC13}
+\begin{equation}\label{eq:EquLevMom_shift}
+\Delta\delta_{eq} = \frac{\gamma_0^2}{\gamma_0^2\alpha_0 - 1}\bkt*{\frac{\delta_m^2}{2}\bkt{\alpha_1 - \alpha_0\gamma^{-2} + \gamma_0^{-4}} + \bkt{\frac{\Delta L}{L}}_\beta},
+\end{equation}
+where $\delta_m$ is the amplitude of synchrotron oscillations.
+
+We call the equilibrium energy level associated with the momentum shift~\eqref{eq:EquLevMom_shift},
+the \emph{effective Lorentz factor}:
+\begin{equation}\label{eq:EffectiveGamma}
+\gamma_{eff} = \gamma_0 + \beta_0^2\gamma_0\cdot\Delta\delta_{eq},
+\end{equation}
+where $\gamma_0$, $\beta_0$ are the Lorentz factor and normalized speed of the reference particle.
+
+Observe, that the effective Lorentz factor enables us to account for variation in the value of spin tune
+due to variation in the particle orbit length. It is crucial in the analysis of
+spin decoherence~\cite{Aksentev:IPAC19:Decoh} and its suppression by means of sextupole fields.
+
+\section{Reproduction of the MDM precession angular velocity}
 
 \section{Conclusions}
-
-In order to separate
-the EDM signal from the sum signal, an additional condition is required, namely the total spin frequency
-in the experiment is measured with a clockwise direction of the beam 
-\begin{equation}\label{eq:Omega CW}
-\Omega_{r}^{\mathrm{CW}}=\Omega_{r,\mathrm{mdm}}^{\mathrm{CW}}+\Omega_{\mathrm{edm}}
-\end{equation}  
-and compared with  counter-clockwise measurements 
-\begin{equation}\label{eq:Omega CCW}
-\Omega_{r}^{\mathrm{CCW}}=-\Omega_{r,\mathrm{mdm}}^{\mathrm{CCW}}+\Omega_{\mathrm{edm}}
-\end{equation}
-The sum of the frequencies of these two signals 
-\begin{equation}\label{eq:Omega CW_CCW}
-\Omega_{\mathrm{edm}}=0.5\left(\Omega_{r}^{\mathrm{CCW}}+\Omega_{r}^{\mathrm{CW}}\right)+0.5\left(\Omega_{r,\mathrm{mdm}}^{\mathrm{CCW}}-\Omega_{r,\mathrm{mdm}}^{\mathrm{CW}}\right)
-\end{equation}
-allows us to identify the frequency of the EDM signal, which in turn provides us with the EDM value.
-However, there are four problems here, all of which require special consideration.
  
 First, we see in~\eqref{eq:Omega CW_CCW} that the accuracy of the frequency measurements
 of $\Omega_{r}^{\mathrm{CW}}$ and $\Omega_{r}^{\mathrm{CCW}}$   determines the precision of the EDM measurement.
@@ -164,16 +272,19 @@ In this Letter, we described the frequency domain method of the search for the d
 A significant part of the work was done when the authors worked in FZJ, and they would like to thank the JEDI collaboration and especially H. Stroeher E. J. Stephenson, V. Hejny, J. Pretz, F. Rathmann, A. Kacharava, K. Nikolaev,  A.Saleev and R. M. Talman for their scientific critical remarks, helping to make this work successful.
 
 \begin{thebibliography}{9}
-\bibitem{Canetti}
-  Canetti L., Drewes M., Shaposhnikov M. (2012). ``Matter and Antimatter in the Universe,'' New Journal of Physics, 14, 095012.
-\bibitem{Aguilar}
-  Aguilar M., Alberti G., Alpat B. et al., (2013) ``First Result from the Alpha Magnetic Spectrometer on the International Space Station: Precision Measurement of the Positron Fraction in Primary Cosmic Rays of 0.5 - 350 GeV,'' Phys. Rev. Lett., 110, 141102.
-\bibitem{Sakharov}
-  Sakharov A. (1967). ``Violation of CP Invariance, C Asymmetry, and Baryon Asymmetry of the Universe,'' Letters to Jounal of Experimental and Theoretical Physics, 5, 24- 26.
-\bibitem{Farley}
-  F. J. M. Farley, K. Jungmann, J. P. Miller, W.M. Morse, Y. F. Orlov, B. L. Roberts, Y. K. Semertzidis, A. Silenko  and E. J. Stephenson, ``New Method of Measuring Electric Dipole Moments in Storage Rings,'' Phys. Rev. Lett. 93, 052001 (2004).
+%% \bibitem{Canetti}
+%%   Canetti L., Drewes M., Shaposhnikov M. (2012). ``Matter and Antimatter in the Universe,'' New Journal of Physics, 14, 095012.
+%% \bibitem{Aguilar}
+%%   Aguilar M., Alberti G., Alpat B. et al., (2013) ``First Result from the Alpha Magnetic Spectrometer on the International Space Station: Precision Measurement of the Positron Fraction in Primary Cosmic Rays of 0.5 - 350 GeV,'' Phys. Rev. Lett., 110, 141102.
+%% \bibitem{Sakharov}
+%%   Sakharov A. (1967). ``Violation of CP Invariance, C Asymmetry, and Baryon Asymmetry of the Universe,'' Letters to Jounal of Experimental and Theoretical Physics, 5, 24- 26.
+%% \bibitem{Farley}
+  %%   F. J. M. Farley, K. Jungmann, J. P. Miller, W.M. Morse, Y. F. Orlov, B. L. Roberts, Y. K. Semertzidis, A. Silenko  and E. J. Stephenson, ``New Method of Measuring Electric Dipole Moments in Storage Rings,'' Phys. Rev. Lett. 93, 052001 (2004).
+  
 \bibitem{BNL:Deuteron2008}
-  D. Anastassopoulos et al., ``AGS Proposal: Search for a permanent electric dipole moment of the deuteron nucleus at the $10^{-29}$ e$\cdot$cm level,'' BNL, 2008.
+  D. Anastassopoulos et al., ``AGS Proposal: Search for a permanent electric dipole moment of
+  the deuteron nucleus at the $10^{-29}$ e$\cdot$cm level,'' BNL, 2008.
+
 \bibitem{Mane:SpinWheel}
   S. Mane, ``A distillation of Koop's idea of the Spin Wheel,'' arXiv:1509.01167 [physics]
   \url{http://arxiv.org/abs/1509.01167}.
@@ -182,20 +293,33 @@ A significant part of the work was done when the authors worked in FZJ, and they
   I. Koop. ``Asymmetric energy colliding ion beams in the EDM storage ring,'' Proc. of IPAC13 (2013).
   \url{http://accelconf.web.cern.ch/accelconf/ipac2013/papers/tupwo040.pdf}.
 
+\bibitem{BNL:Proton}
+  V. Anastassopoulos et al., ``A Storage Ring Experiment to Detect a Proton Electric Dipole Moment.''
+  Rev. Sci. Instrum., 87(11), 2016.
+  \url{http://arxiv.org/abs/1502.04317}
+
+\bibitem{Senichev:IPAC13}
+  Y. Senichev et al., ``Spin tune decoherence effects in Electro- and Magnetostatic Structures.''
+  Proceedings of IPAC 2013, Shanghai, China, pp. 2579-2581
+
+\bibitem{Aksentev:IPAC19:Decoh}
+  A. Aksentev, Y. Senichev, ``Spin decoherence in the Frequency Domain Method for the search of a particle EDM,''
+  presented at the 10th International Particle Accelerator Conf. (IPAC’19), Melbourne, Australia,
+  May. 2019, paper 2738, this conference.
   
-\bibitem{ICAP2015}
-  Yu.Senichev et al., ``Investigation of Lattice for Deuteron EDM Ring,'' Proceedings of ICAP2015, Shanghai, China
-\bibitem{Berz}
-  M. Berz, ``Computational Aspects of Design and Simulation: COSY INFINITY,'' NIM A298, (1990).
-\bibitem{Eversmann}
-  D. Eversmann et al., ``New method for a continuous determination of the spin tune in storage rings and implications for precision experiments,'' Phys. Rev. Lett. 115, 094801 (2015)
-\bibitem{Aksentyev}
-  A. Aksentyev and Y. Senichev, ``Statistical precision in charged particle EDM search
-  in storage rings,'' Proceedings IPAC 2017.
-\bibitem{IPAC2013}
-  Y. Senichev et al., ``Spin tune decoherence effects in Electro- and Magnetostatic Structures,'' Proceedings of IPAC 2013, Shanghai, China, pp. 2579-2581
-\bibitem{decoherence}
-  G. Guidoboni et al. (JEDI Collaboration), ``How to Reach a Thousand-Second in-Plane Polarization Lifetime with 0.97−GeV/c Deuterons in a Storage Ring,'' Phys. Rev. Lett. 117, 054801 (2016)
+%% \bibitem{ICAP2015}
+%%   Yu.Senichev et al., ``Investigation of Lattice for Deuteron EDM Ring,'' Proceedings of ICAP2015, Shanghai, China
+
+%% \bibitem{Berz}
+%%   M. Berz, ``Computational Aspects of Design and Simulation: COSY INFINITY,'' NIM A298, (1990).
+%% \bibitem{Eversmann}
+%%   D. Eversmann et al., ``New method for a continuous determination of the spin tune in storage rings and implications for precision experiments,'' Phys. Rev. Lett. 115, 094801 (2015)
+%% \bibitem{Aksentyev}
+%%   A. Aksentyev and Y. Senichev, ``Statistical precision in charged particle EDM search
+%%   in storage rings,'' Proceedings IPAC 2017.
+
+%% \bibitem{decoherence}
+%%   G. Guidoboni et al. (JEDI Collaboration), ``How to Reach a Thousand-Second in-Plane Polarization Lifetime with 0.97−GeV/c Deuterons in a Storage Ring,'' Phys. Rev. Lett. 117, 054801 (2016)
 \end{thebibliography}
 
 %REFERENCES	 
