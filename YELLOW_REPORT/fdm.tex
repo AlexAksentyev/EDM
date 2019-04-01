@@ -18,6 +18,7 @@
 \newcommand{\avg}[1]{\langle{#1}\rangle}
 \newcommand{\wedm}{\w_{edm}}
 \newcommand{\wimp}{\w_{\avg{E_v}}}
+\newcommand{\wsw}{\w_{SW}}
 
 % Senichev
 \newcommand{\Wmdm}{\Omega_{\mathrm{mdm}}}
@@ -53,8 +54,8 @@ can be classified into two major categories, which we will call
 \end{inparaenum}
 methods.
 
-In the Space Domain paradigm, one measures a \emph{change in the spatial orientation} of the beam polarization vector 
-\emph{caused by the EDM}.
+In the Space Domain paradigm, one measures a \emph{change in the spatial orientation} of the beam polarization
+vector \emph{caused by the EDM}.
 
 The original storage ring, frozen spin-type method, proposed in~\cite{BNL:Deuteron2008}, is a canonical example of
 a methodology in the space domain: an initially longitudinally-polarized beam is injected into the storage ring;
@@ -76,7 +77,9 @@ MDM precession frequency:~\cite[p.~11]{BNL:Deuteron2008}
 \begin{equation}\label{eq:BNL_syst_err}
 \w_{syst} \approx \frac{\mu\avg{E_v}}{\beta c\gamma^2},
 \end{equation}
-induced by machine imperfection fields. According to estimates done by Y. Senichev, if it is to be fulfilled, the geodetic installation precision of accelerator elements must reach $10^{-14}$ m. Today's technology allows only for about $10^{-4}$ m.
+induced by machine imperfection fields. According to estimates done by Y. Senichev, if it is to be fulfilled,
+the geodetic installation precision of accelerator elements must reach $10^{-14}$ m. Today's technology
+allows only for about $10^{-4}$ m.
 
 At the practically-achievable level of element alignment uncertainty, $\w_{syst} \gg \wedm}$,
 and changes in the orientation of the polarization vector are no longer EDM-driven.
@@ -100,9 +103,108 @@ may be utilized for the same purpose (wheel roll rate determined by equation~\eq
 The latter is made possible by the fact that $\w_{syst}$ changes sign when the beam revolution direction
 is reversed.~\cite[p.~11]{BNL:Deuteron2008}
 
-\section{Basic principles}
+\section{Universal SR EDM measurement problems}
 
-The method we propose has four fundamental features:
+By way of introduction to the proposed measurement methodology, let us briefly summarize some measurement problems
+encountered by any EDM experiment performed in a storage ring; they can be grouped into two big categories:
+\begin{itemize}
+\item Problems solved by a Spin Wheel:
+  \begin{itemize}
+  \item spurious electro-magnetic fields;
+  \item betatron motion.
+  \end{itemize}
+\item Problems having specific solutions:
+  \begin{itemize}
+  \item spin decoherence;
+  \item machine imperfections.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Spin Wheel-solvable problems}
+Problems from the first category are ones introducing geometric phase error. Indeed, both the spurious 
+and the focusing fields, when acting on a betatron-oscillating particle, perturb the direction and
+magnitude of its spin precession angular velocity vector. The effect is a spin kick in the direction defined
+by the perturbation.
+
+Assume that the EDM provides a spin kick about the radial ($\hat x$) axis. The magnitude of the angular
+velocity vector has a general form
+\[
+\w = \sqrt{\w_x^2 + \w_y^2 + \w_z^2},
+\]
+where $\w_y$ is minimized by fulfilling the frozen spin condition; $\w_z$ (the constant part of which is
+due to machine imperfections) can be minimized via the installation
+of a longitudinal solenoid on the optic axis.\footnote{1 m long, magnetic field approximately $10^{-6}$ T.} In the
+space domain, one also tries to minimize the $\wimp$ contribution to $\w_x = \wedm + \wimp$. Consequently,
+spin kicks must be minimized to (significantly) less than $\wedm$, to reduce geometric phase to
+less than the accumulated EDM phase.
+
+The benefit of having a Spin Wheel aligned with the EDM angular velocity is that orthogonal MDM contributions
+to the angular velocity vector add up in squares, and hence their effect is greatly diminished:
+\begin{align*}
+  \w &= \sqrt{(\wedm + \wsw)^2 + \w_y^2 + \w_z^2} \\
+  &\approx(\wedm + \wsw)\cdot \bkt*{1 + \frac{\w_y^2 + \w_z^2}{\wsw^2}}^{\sfrac12} \\
+  &\approx (\wedm + \wsw)\cdot \bkt{1 + \frac{\w_y^2 + \w_z^2}{2\wsw^2}} \\
+  &\approx \wsw + \wedm + \underbrace{\frac12\frac{\w_y^2 + \w_z^2}{\wsw}}_{\epsilon}.
+\end{align*}
+
+Since our goal is to observe the EDM-related value shift in $\w$, we need to minimize random variable
+$\epsilon$:
+\[
+\frac12\frac{\w_y^2 + \w_z^2}{\wsw} < \wedm.
+\]
+
+Let's make some preliminary estimates. Suppose $\wsw\approx 50$ rad/sec (the reason for choosing this
+value will be explained shortly), $\wedm\approx10^{-9}$ rad/sec (corresponding to the EDM value
+$10^{-29}~e\cdot$ cm). Then, $\w_y^2 + \w_z^2$ must be reduced to less than $10^{-7}$ rad/sec, or equivalently,
+either angular velocity to less than $3\cdot 10^{-4}$ rad/sec. This is several orders of magnitude greater than
+the expected standard error on the angular velocity estimate,~\cite{Aksentev:Stats} and hence
+should not be a problem to achieve.
+
+One case left to be considered is MDM spin kicks about the $\hat x$ axis. These are not attenuated, and cause the
+most trouble. They come in three varieties:
+\begin{inparaenum}[\itshape a\upshape)]
+\item permanent, not caused by optical element misalignments;
+\item semi-permanent, caused by element tilts about the optic axis;
+\item spurious.
+\end{inparaenum}
+
+Semi-permanent spin kicks (be they caused by magnetic or electric fields) change sign when
+the beam revolution direction is reversed from clockwise (CW) to counter-clockwise(CCW).
+Spurious kicks can be dealt with by statistical averaging.
+Permanent insensitive to either the guide field or the beam circulation direction cannot be controlled.
+On the bright side, their sources should not be present under normal circumstances.
+
+\subsection{Expected machine imperfection SW roll rate}
+In the estimates above, we used a roll rate $\wsw\approx 50$ rad/sec for the spin wheel. This value comes
+from the following considerations.
+
+CONSIDERATIONS.....
+
+\subsection{Spin decoherence}
+Spin coherence is a measure or quality of preservation of polarization in an initially fully-polarized
+beam.~\cite{Eremey:Thesis} Spin decoherence refers to the depolarization caused by the difference in the
+beam particles' spin precession frequencies. 
+
+The difference in spin tunes is due to the difference of the particles' orbit lengths, and hence their
+equilibrium energy levels, on which spin tune depends. One way spin decoherence can be suppressed is by
+utilization of sextupole fields. We consider how this can be accomplished in~\ref{Aksentev:IPAC19:Decoh}.
+
+\subsection{Machine imperfections}
+
+As we have seen, the problem with machine imperfections is twofold:
+\begin{inparaenum}[\itshape a\upshape)]
+\item they are prcatically impossible to remove at the present level of technology, but what's even worse 
+\item their removal leaves one in the space domain, and opens the measurement up to geometric phase error.
+\end{inparaenum}
+
+Fortunately for us, the imperfection spin kicks they induce change sign when the beam circulation direction
+is reversed. Their magnitude is also sufficient for their use as a Koop Wheel. The one remaining difficulty
+is the accuracy of the Koop wheel roll direction flipping. Hopefully, we can make a persuasive
+enough argument as to how this can accomplished.
+
+\section{Measurement methodology main features}
+
+The method we propose is characterized by two main features:
 \begin{enumerate}
 \item It is a frequency domain method;
 \item The fields induced by machine imperfections, instead of being suppressed,
@@ -114,34 +216,21 @@ The method we propose has four fundamental features:
   \end{itemize}
 \end{enumerate}
 
-We have already mentioned the advantages of the frequency domain, such as
+The advantages of the frequency domain, such as
 \begin{inparaenum}[\itshape a\upshape)]
 \item ease of polarimetry, and
-\item immunity to geometric phase error.
+\item immunity to geometric phase error,
 \end{inparaenum}
-Let us expand on the latter point.
-
-\subsection{Frequency domain protection against geometric phase error}
-
-The magnitude of the spin precession angular velocity vector has a general form $\w = \sqrt{\w_x^2 + \w_y^2 + \w_z^2}$.
-
-In the space domain, one tries to reduce $\w$ to just $\wedm$; by reducing machine imperfections, for example, or otherwise.
-
-
-\begin{align*}
-  \w &= \sqrt{\w_x^2 + \w_y^2 + \w_z^2}\\
-       &= \sqrt{(\wedm + \wimp)^2 + \w_y^2 + \w_z^2}\\
-     &\approx (\wedm + \wimp)\bkt*{1 + \frac{\w_y^2 + \w_z^2}{\wimp^2}}^{1/2}
-\end{align*}
-
-\subsection{Machine imperfection fields as a Koop Wheel}
-
-Two properties of $\w_{syst}$ enable its use as a Koop Wheel: its magnitude of 50 (at 67\% confidence level) to 100 (at 95\% confidence level) rad/sec, and its 
+have been highlighted in prevous sections. Now we will turn to the description of how machine imperfection fields
+can be used as a Koop Wheel.
 
 \section{EDM estimator statistic}
-The EDM estimator statistic requires two cycles to compose: one in which the Koop Wheel rolls forward, the other backward.
+Since the angular velocity measured in the frequency domain methodology includes contributions due to both the
+magnetic and electric dipole moments, the EDM estimator statistic requires two cycles to compose:
+one in which the Koop Wheel rolls forward, the other backward.
 
-The change in the Koop Wheel roll direction is affected by flipping the direction of the guide field. When this is done:
+The change in the Koop Wheel roll direction is affected by flipping the direction of the guide field.
+When this is done:
 $\vec B \mapsto -\vec B$, the beam circulation direction changes from clockwise (CW) to counter-clockwise (CCW): 
 $\vec\beta \mapsto -\vec\beta$, while the electrostatic field remains constant: $\vec E \mapsto \vec E$.
 According to the T-BMT equation, spin precession frequency components change like:
@@ -152,8 +241,8 @@ According to the T-BMT equation, spin precession frequency components change lik
     \w_x^{MDM, CW} &= -\w_x^{MDM, CCW}, \label{eq:CW_CCW_MDM}\\
     \intertext{and the EDM estimator}
     \hat\w_x^{EDM} &:= \frac12\bkt{\w_x^{CW} + \w_x^{CCW}} \label{eq:FDM_estimator} \\
-                   &=  \w_x^{EDM} +
-                       \underbrace{\frac12\bkt{\w_x^{MDM, CW} + \w_x^{MDM, CCW}}}_{\varepsilon \to 0}.
+                  &=  \w_x^{EDM} +
+          \underbrace{\frac12\bkt{\w_x^{MDM, CW} + \w_x^{MDM, CCW}}}_{\varepsilon \to 0}.
   \end{align}
 \end{subequations}
 
@@ -393,14 +482,33 @@ measurement, $10^{-10}$ to $10^{-11}$,   is achievable even when the frequency o
   Y. Senichev et al., ``Spin tune decoherence effects in Electro- and Magnetostatic Structures.''
   Proceedings of IPAC 2013, Shanghai, China, pp. 2579-2581
 
+\bibitem{Senichev:FDM}
+  Y. Senichev, A. Aksentev, A. Ivanov, E. Valetov, ``Frequency domain method of the search for
+  the deuteron electric dipole moment in a storage ring with imperfections,'' arxiv:1711.06512 [physics.acc-ph]
+  \url{https://arxiv.org/abs/1711.06512}.
+
+\bibitem{Aksentev:Stats}
+  A. Aksentev, Y. Senichev 2017 J. Phys.: Conf. Ser. 941 012083
+
+\bibitem{Aksentev:IPAC19:SMP}
+  A. Aksentev, Y. Senichev, ``Spin Motion Perturbation Effect on the EDM Statistic
+  in the Frequency Domain Method,'' presented at the 10th International Particle Accelerator Conf. (IPAC'19),
+  Melbourne, Australia, May. 2019, paper 2743.
+
 \bibitem{Aksentev:IPAC19:Decoh}
   A. Aksentev, Y. Senichev, ``Spin decoherence in the Frequency Domain Method for the search of a particle EDM,''
   presented at the 10th International Particle Accelerator Conf. (IPAC'19), Melbourne, Australia,
   May. 2019, paper 2738.
 
 \bibitem{Aksentev:IPAC19:GFF}
-A. Aksentev, Y. Senichev, ``Simulation of the Guide Field Flipping Procedure for the Frequency Domain Method,'' 
-presented at the 10th International Particle Accelerator Conf. (IPAC'19), Melbourne, Australia, May 2019.
+  A. Aksentev, Y. Senichev, ``Simulation of the Guide Field Flipping Procedure for the Frequency Domain Method,'' 
+  presented at the 10th International Particle Accelerator Conf. (IPAC'19), Melbourne, Australia,
+  May 2019, paper 2750.
+
+\bibitem{Eremey:Thesis}
+  E. Valetov, ``Field modeling, symplectic tracking, and spin decoherence for the EDM and muon g-2 lattices.''
+  PhD tehsis, Michigan State University, Michigan, USA.
+  \url{http://collaborations.fz-juelich.de/ikp/jedi/public_files/theses/valetovphd.pdf}
   
 %% \bibitem{ICAP2015}
 %%   Yu.Senichev et al., ``Investigation of Lattice for Deuteron EDM Ring,'' Proceedings of ICAP2015, Shanghai, China
