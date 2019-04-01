@@ -16,6 +16,7 @@
 \newcommand{\w}{\omega}
 \newcommand{\W}{\Omega}
 \newcommand{\subwidth}{.9\linewidth}
+\newcommand{\D}{\Delta}
 
 \begin{document}
 \title{Spin decoherence in the Frequency Domain Method for the search of a particle EDM}
@@ -55,13 +56,19 @@ Spin decoherence in a particle beam is a result of the difference of the particl
 The longitudinal dynamics of a particle on the reference orbit in a storage ring is described by the system of equations:
 \begin{equation}
   \begin{cases}
-    \ddt{\varphi} &= -\w_{RF}\eta\delta, \\
-    \ddt{\delta} &= \frac{q V_{RF}\w_{RF}}{2\pi h\beta^2E}\sin\varphi.
+    \ddt{\D\varphi} &= -\w_{RF}\eta\delta, \\
+    \ddt{\delta} &= \frac{q V_{RF}\w_{RF}}{2\pi h\beta^2E}\bkt{\sin\varphi - \sin\varphi_0}.
   \end{cases}
 \end{equation}
-In the equations above, $\varphi$ and  $\delta = \sfrac{\Delta p}{p_0}$ are the particle's phase and normalized momentum deviations from those of the reference particle; $V_{RF}$, $\w_{RF}$ are the amplitude and frequency of the RF field; $\eta = \alpha_0 - \gamma^{-2}$ is the slip-factor, where $\alpha_0$ is the momentum compaction factor defined by $\sfrac{\Delta L}{L} = \alpha_0\delta$, $L$ being the orbit length; $h$ is the harmonic number; $E$ the total energy of the particle.
+In the equations above, $\D\varphi = \varphi-\varphi_0$ and  $\delta = (p-p_0)/p_0$ are the deviations
+of the particle's phase and normalized momentum from those of the reference particle;
+$V_{RF}$, $\w_{RF}$ are the amplitude and frequency of the RF field;
+$\eta = \alpha_0 - \gamma^{-2}$ is the slip-factor, where $\alpha_0$ is
+the momentum compaction factor defined by $\sfrac{\Delta L}{L} = \alpha_0\delta$, $L$ being the orbit length;
+$h$ is the harmonic number; $E$ the total energy of the particle.
 
-The solutions of this system form a family of ellipses in the $(\varphi, \delta)$ plane, all centered at point $(0,0)$. However, if one considers a particle involved in betatron oscillations, and uses a higher-order Taylor expansion of the momentum compaction factor $\alpha = \alpha_0 + \alpha_1\delta$, the first equation of the system transforms into:~\cite[p.~2579]{Senichev:IPAC13}
+The solutions of this system form a family of ellipses in the $(\varphi, \delta)$-plane, all centered at the point
+$(\varphi_0,\delta_0)$. However, if one considers a particle involved in betatron oscillations, and uses a higher-order Taylor expansion of the momentum compaction factor $\alpha = \alpha_0 + \alpha_1\delta$, the first equation of the system transforms into:~\cite[p.~2579]{Senichev:IPAC13}
 \[
 \ddt{\varphi} = -\w_{RF} \bkt*{\bkt{\frac{\Delta L}{L}}_\beta + \bkt{\alpha_0 + \gamma^{-2}}\delta + \bkt{\alpha_1 - \alpha_0\gamma^{-2} + \gamma^{-4}}\delta^2},
 \]
