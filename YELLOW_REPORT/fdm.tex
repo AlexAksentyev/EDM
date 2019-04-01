@@ -74,8 +74,8 @@ The former is due to the requirement of detecting a change of about $5\cdot 10^{
 cross section asymmetry $\varepsilon_{LR}$ in order to get to the EDM sensitivity level
 of $10^{-29}~e\cdot cm$.~\cite[p.~18]{BNL:Deuteron2008}
 
-The latter is to minimize the magnitude of the vertical plane
-MDM precession frequency:~\cite[p.~11]{BNL:Deuteron2008}
+The latter is to minimize the magnitude of the vertical plane magnetic dipole 
+moment (MDM) precession frequency:~\cite[p.~11]{BNL:Deuteron2008}
 \begin{equation}\label{eq:BNL_syst_err}
 \w_{syst} \approx \frac{\mu\avg{E_v}}{\beta c\gamma^2},
 \end{equation}
@@ -180,10 +180,38 @@ For more details on spin motion perturbation effects on the measurement of the E
 please refer to~\cite{Aksentev:IPAC19:SMP}.
 
 \subsection{Expected machine imperfection SW roll rate}
-In the estimates above, we used a roll rate $\wsw\approx 50$ rad/sec for the spin wheel. This value comes
-from the following considerations.
+In the estimates above, we used a roll rate $\wsw\approx 50$ rad/sec for the spin wheel. This is
+our expected $\w_{syst}$ caused by machine imperfections. The presence of a non-zero average
+radial magnetic field $\avg{B_x}$ induced by accelerator optical element misalignments should 
+generate an MDM spin precession frequency~\cite{Senichev:FDM}
+\[
+\avg{\w_x^{MDM}} = \frac{e}{m\gamma}\frac{G+1}{\gamma}\frac{\avg{B_x}}{\sqrt{n}},
+\]
+where $n$ is the number of misaligned elements, $G=(g-2)/2$ is the anomalous magnetic dipole moment.
 
-CONSIDERATIONS.....
+For deuterons in lattices~\cite{Senichev:Lattices} of $n$ on the order of 100 elements, rotated about the
+optic axis by angles $\alpha\sim N(0, 10^{-4})$ rad, Y. Senichev estimates~\cite{Senichev:FDM}
+$\avg{\w_x^{MDM}}$ between 50 and 100 rad/sec. 
+
+Our simulations done in COSY INFINITY seem to confirm this result. In 
+Figure~\ref{fig:imperfections:SW_roll_rate} you see the results of the simulation 
+in which we rotated the 32 E+B spin rotator elements used in the frozen spin 
+(codename BNL) lattice~\cite{Senichev:Lattices} by angles randomly picked from
+the distribution $N(\mu_0\cdot(i-5), \sigma_0)$, where $\mu_0 = 10\cdot\sigma_0 = 10^{-4}$ rad,
+$i\in\lbrace0,\dots, 10\rbrace$.
+
+At $\avg{\alpha} = 10^{-4}$ we observe a roll rate of 500 rad/sec. We should keep in mind,  however, that 
+Senichev assumes $\sigma_{\alpha} = 10^{-4}$ rad, which means, for a lattice with $n=100$ tilted elements,
+a standard deviation of the mean $\sigma_{\avg{\alpha}} = \sfrac{\sigma_{\alpha}}{\sqrt{100}} = 10^{-5}$. The dependence of $\w_x^{MDM}$ on $\avg{\alpha}$
+is linear, which means in an actual lattice we would observe an $\w_{syst} \le 50$ rad/sec with 68\% probability,
+and $\w_{syst} \le 100$ rad/sec with 95\% probability, and with 27\% probability $50 \le\w_{syst}\le 100$.
+
+\begin{figure}[h!]\centering
+\includegraphics[width=\linewidth]{Figures/linearity_test_shifting_gauss_freq}
+\caption{Spin precession frequency (radial and vertical components) versus
+the mean E+B element tilt angle\label{fig:imperfections:SW_roll_rate}}
+\end{figure}
+
 
 \subsection{Spin decoherence}
 Spin coherence is a measure or quality of preservation of polarization in an initially fully-polarized
@@ -395,6 +423,29 @@ Guide field flipping procedure simulation results can be found in~\cite{Aksentev
 
 \section{Statistical precision}
 
+Members of the JEDI Collaboration have studied the statistical precision of spin precession angular velocity 
+estimation from sparse (one detector event per 100 spin revolutions)~\cite{Pretz:Stats:Sparse} and 
+dense~\cite{Aksentev:Stats} polarization data.
+
+According to~\cite{Pretz:Stats:Sparse}, the maximum likelihood estimator for the spin precession frequency
+estimate has a standard error 
+\[
+\sigma_{\hat\w} = \frac{1}{PT}\sqrt{\frac{24}{N}},
+\]
+where $N$ is the total number of recorded detector events, $P$ is the beam polarization, $T$ is the 
+measurement time. 
+
+Assuming $N=7.5\cdot 10^8$ events, polarization $P=0.4$, and cycle duration
+$T=1,000$ seconds (same parameters as in the simulation done in~\cite{Aksentev:Stats}),
+we have $\sigma_{\hat\w} \approx 4.5\cdot 10^{-7}$ rad/sec at the cycle level. 
+Estimates made in~\cite{Aksentev:Stats} agree with this result. 
+
+This precision is sufficient to obtain a mean estimate with statistical uncertainty
+ $\sigma_{\avg{\hat\w}} \approx 3\cdot 10^{-9}$ rad/sec in one year of measurement, with
+the accelerator operational 70\% of the time. An EDM of $10^{-29}~e\cdot$cm should 
+induce an $\wedm$ on the level of $10^{-9}$ rad/sec in storage rings proposed 
+in~\cite{Senichev:Lattices}. Thus, we expect to be able to measure the deuteron EDM
+at the $10^{-29}~e\cdot$cm level in one year of measurement time.
 
 \begin{thebibliography}{9}
   
@@ -423,6 +474,15 @@ Guide field flipping procedure simulation results can be found in~\cite{Aksentev
   in the Frequency Domain Method,'' presented at the 10th International Particle Accelerator Conf. (IPAC'19),
   Melbourne, Australia, May. 2019, paper 2743.
 
+\bibitem{Senichev:FDM}
+  Y. Senichev, A. Aksentev, A. Ivanov, E. Valetov, ``Frequency domain method of the search for
+  the deuteron electric dipole moment in a storage ring with imperfections,'' arxiv:1711.06512 [physics.acc-ph]
+  \url{https://arxiv.org/abs/1711.06512}.
+
+\bibitem{Senichev:Lattices}
+  Y. Senichev, S. Andrianov, S. Chekmenev, M. Berz, E.Valetov. ``Investigation of Lattice for Deuteron EDM Ring,''
+  Proc. of ICAP15 (2015). \url{http://accelconf.web.cern.ch/AccelConf/ICAP2015/papers/modbc4.pdf}.
+
 \bibitem{Eremey:Thesis}
   E. Valetov, ``Field modeling, symplectic tracking, and spin decoherence for the EDM and muon g-2 lattices.''
   PhD tehsis, Michigan State University, Michigan, USA.
@@ -433,11 +493,6 @@ Guide field flipping procedure simulation results can be found in~\cite{Aksentev
   presented at the 10th International Particle Accelerator Conf. (IPAC'19), Melbourne, Australia,
   May. 2019, paper 2738.
 
-\bibitem{Senichev:FDM}
-  Y. Senichev, A. Aksentev, A. Ivanov, E. Valetov, ``Frequency domain method of the search for
-  the deuteron electric dipole moment in a storage ring with imperfections,'' arxiv:1711.06512 [physics.acc-ph]
-  \url{https://arxiv.org/abs/1711.06512}.
-
 \bibitem{Senichev:IPAC13}
   Y. Senichev et al., ``Spin tune decoherence effects in Electro- and Magnetostatic Structures.''
   Proceedings of IPAC 2013, Shanghai, China, pp. 2579-2581.
@@ -446,6 +501,10 @@ Guide field flipping procedure simulation results can be found in~\cite{Aksentev
   A. Aksentev, Y. Senichev, ``Simulation of the Guide Field Flipping Procedure for the Frequency Domain Method,'' 
   presented at the 10th International Particle Accelerator Conf. (IPAC'19), Melbourne, Australia,
   May 2019, paper 2750.
+
+\bibitem{Pretz:Stats:Sparse}
+  J. Pretz, ``Determination of polarization and frequency parameters on sparse data,'' JEDI internal note #2013/04,
+  Sept. 23, 2013.
   
 \end{thebibliography}
 
