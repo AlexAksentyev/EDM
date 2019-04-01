@@ -13,8 +13,13 @@
 \DeclareDocumentCommand{\ddt}{m}{\frac{\mathrm{d} {#1}}{\mathrm{d} t}}
 \DeclareDocumentCommand{\bkt}{sm}{\IfBooleanTF{#1}{\left[ #2 \right]}{\left(#2\right)}}
 \newcommand{\D}{\Delta}
-
+\DeclareDocumentCommand{\g}{s}{\gamma\IfBooleanT{#1}{_{eff}}}
 \newcommand{\td}{\mathrm{d}}
+\newcommand{\avg}[1]{\langle{#1}\rangle}
+\newcommand{\wedm}{\w_{edm}}
+\newcommand{\wimp}{\w_{\avg{E_v}}}
+
+% Senichev
 \newcommand{\Wmdm}{\Omega_{\mathrm{mdm}}}
 \newcommand{\Wedm}{\Omega_{\mathrm{edm}}}
 \newcommand{\vWedm}{\vec{\Omega}_{\mathrm{edm}}}
@@ -35,6 +40,9 @@
 
 \maketitle
 
+\tableofcontents
+
+
 \section{Motivation}
 
 Storage ring-based methods of search for the electric dipole moments (EDMs) of fundamental particles
@@ -45,11 +53,11 @@ can be classified into two major categories, which we will call
 \end{inparaenum}
 methods.
 
-In the Space Domain paradigm, one observes the change of the spatial orientation of the beam polarization vector 
-affected directly by the EDM.
+In the Space Domain paradigm, one measures a \emph{change in the spatial orientation} of the beam polarization vector 
+\emph{caused by the EDM}.
 
 The original storage ring, frozen spin-type method, proposed in~\cite{BNL:Deuteron2008}, is a canonical example of
-a methodology in the Space Domain: an initially longitudinally-polarized beam is injected into the storage ring;
+a methodology in the space domain: an initially longitudinally-polarized beam is injected into the storage ring;
 the vertical component of its polarization vector is observed. Under ideal conditions, any tilting of
 the beam polarization vector from the horizontal plane is attributed to the action of the EDM.
 
@@ -68,22 +76,22 @@ MDM precession frequency:~\cite[p.~11]{BNL:Deuteron2008}
 \begin{equation}\label{eq:BNL_syst_err}
 \w_{syst} \approx \frac{\mu\avg{E_v}}{\beta c\gamma^2},
 \end{equation}
-induced by machine imperfection fields. If it is to be fulfilled, the geodetic installation precision
-of accelerator elements must reach $10^{-14}$ m. Today's technology allows only for about $10^{-4}$ m.
+induced by machine imperfection fields. According to estimates done by Y. Senichev, if it is to be fulfilled, the geodetic installation precision of accelerator elements must reach $10^{-14}$ m. Today's technology allows only for about $10^{-4}$ m.
 
-At the practically-achievable level of element alignment uncertainty, $\w_{syst} \gg \w_{edm}$,
-which precludes any attempts at measuring a change in orientation of the polarization vector.
+At the practically-achievable level of element alignment uncertainty, $\w_{syst} \gg \wedm}$,
+and changes in the orientation of the polarization vector are no longer EDM-driven.
 
 Another crucial problem one faces in the space domain is geometric phase error.~\cite[p.~6]{BNL:Proton}
-The problem here lies in the fact that, even if one can somehow make machine imperfection fileds zero
-\emph{on average}, since spin rotations are non-cummutative, the polarization rotation angle due to them
+The problem here lies in the fact that, even if one can somehow make field imperfections (either due to
+optical element misalignment or spurious electro-magnetic fields) zero
+\emph{on average}, since spin rotations are non-commutative, the polarization rotation angle due to them
 will not be zero.
 
-By contrast, the Frequency Domain methodology is founded on observing the effect of the EDM on the total
-(MDM and EDM together) spin precession angular velocity.
+By contrast, the Frequency Domain methodology is founded on measuring the EDM \emph{contribution} to the total
+(MDM and EDM together) spin precession \emph{angular velocity}.
 
 The polarization vector is made to roll about a nearly-constant, definite direction vector $\nbar$,
-with an angular velocity that is high enough for the beam polarization to be easily measureable at all times.
+with an angular velocity that is high enough for its magnitude to be easily measureable at all times.
 Apart from easier polarimetry, the definiteness of the angular velocity vector is a safeguard against geometric
 phase error.
 
@@ -96,37 +104,52 @@ is reversed.~\cite[p.~11]{BNL:Deuteron2008}
 
 The method we propose has four fundamental features:
 \begin{enumerate}
-\item It is a Frequency Domain method;
-\item The non-zero average radial magnetic field induced by machine imperfections, instead of being suppressed,
-  is used as a Koop Wheel;
-\item The MDM contribution to the spin wheel roll rate is cancelled in the EDM estimator statistic
-  by flipping the direction of the guide field, and hence the sign of the radial component of the MDM
-  angular velocity vector $\w_x^{MDM}$;
-\item The MDM angular velocity magnitude is controlled through observation of the horizontal plane
-  polarization precession frequency.
+\item It is a frequency domain method;
+\item The fields induced by machine imperfections, instead of being suppressed,
+  are used as a Koop Wheel;
+  \begin{itemize}
+  \item The Koop Wheel roll direction is reversed by flipping the direction of the guide field;
+  \item its roll rate is controlled through observation of the horizontal plane
+    polarization precession frequency.
+  \end{itemize}
 \end{enumerate}
 
-We have already mentioned the advantages of the frequency domain:
+We have already mentioned the advantages of the frequency domain, such as
 \begin{inparaenum}[\itshape a\upshape)]
-\item easier polarimetry, and
+\item ease of polarimetry, and
 \item immunity to geometric phase error.
 \end{inparaenum}
 Let us expand on the latter point.
 
 \subsection{Frequency domain protection against geometric phase error}
 
+The magnitude of the spin precession angular velocity vector has a general form $\w = \sqrt{\w_x^2 + \w_y^2 + \w_z^2}$.
+
+In the space domain, one tries to reduce $\w$ to just $\wedm$; by reducing machine imperfections, for example, or otherwise.
+
+
+\begin{align*}
+  \w &= \sqrt{\w_x^2 + \w_y^2 + \w_z^2}\\
+       &= \sqrt{(\wedm + \wimp)^2 + \w_y^2 + \w_z^2}\\
+     &\approx (\wedm + \wimp)\bkt*{1 + \frac{\w_y^2 + \w_z^2}{\wimp^2}}^{1/2}
+\end{align*}
+
+\subsection{Machine imperfection fields as a Koop Wheel}
+
+Two properties of $\w_{syst}$ enable its use as a Koop Wheel: its magnitude of 50 (at 67\% confidence level) to 100 (at 95\% confidence level) rad/sec, and its 
+
 \section{EDM estimator statistic}
-In order to separate the EDM contribution to the spin precession angular velocity vector from that of the MDM,
-two measurement cycles are required: in the first, the beam circulates in the clockwise direction; in the other,
-counter-clockwise. That means we must flip the direction of the guide field going between the cycles.
-When we do this: 
-$\vec B \mapsto -\vec B$, $\vec\beta \mapsto -\vec\beta$, and $\vec E \mapsto \vec E$;
-the precession frequency components change like:
+The EDM estimator statistic requires two cycles to compose: one in which the Koop Wheel rolls forward, the other backward.
+
+The change in the Koop Wheel roll direction is affected by flipping the direction of the guide field. When this is done:
+$\vec B \mapsto -\vec B$, the beam circulation direction changes from clockwise (CW) to counter-clockwise (CCW): 
+$\vec\beta \mapsto -\vec\beta$, while the electrostatic field remains constant: $\vec E \mapsto \vec E$.
+According to the T-BMT equation, spin precession frequency components change like:
 \begin{subequations}
   \begin{align}
     \w_x^{CW} &= \w_x^{MDM, CW}   + \w_x^{EDM}, \notag\\
     \w_x^{CCW} &= \w_x^{MDM, CCW} + \w_x^{EDM}, \notag\\
-    \w_x^{MDM, CW} &= -\w_x^{MDM, CCW}, \label{eq:FDM_CW_CCW_MDM}\\
+    \w_x^{MDM, CW} &= -\w_x^{MDM, CCW}, \label{eq:CW_CCW_MDM}\\
     \intertext{and the EDM estimator}
     \hat\w_x^{EDM} &:= \frac12\bkt{\w_x^{CW} + \w_x^{CCW}} \label{eq:FDM_estimator} \\
                    &=  \w_x^{EDM} +
@@ -134,16 +157,16 @@ the precession frequency components change like:
   \end{align}
 \end{subequations}
 
-In order to guarantee that $\varepsilon$ is less than the required EDM measurement precision, i.e.
-that the equation~\eqref{eq:FDM_CW_CCW_MDM} holds with sufficient accuracy, a guide field flipping algorithm
-has been devised, that uses the horizontal plane precession frequency as a means to calibrating the guide field. 
+To keep the systematic error term $\varepsilon$ below required precision, i.e. ensure
+that equation~\eqref{eq:CW_CCW_MDM} holds with sufficient accuracy, we devised a guide field flipping procedure
+based on observation of the horizontal plane spin precession frequency.
 
 To explain how it works, we need to introduce the concept of the effective Lorentz factor.
 
 \section{Effective Lorentz factor}
-Spin dynamics is described by the concepts of \emph{spin tune} and the \emph{invariant spin axis}.
+Spin dynamics is described by the concepts of \emph{spin tune} $\nu_s$ and \emph{invariant spin axis} $\nbar$.
 Spin tune depends on the the particle's  equilibrium-level energy, expressed by the Lorentz factor:
-\begin{equation}
+\begin{equation}\label{eq:spin_tune_vs_gamma}
   \begin{cases}
     \nu_s^B &= \gamma G, \\
     \nu_s^E &= \beta^2\gamma\bkt{\frac{1}{\gamma^2-1} - G} \\
@@ -151,20 +174,19 @@ Spin tune depends on the the particle's  equilibrium-level energy, expressed by 
   \end{cases}
 \end{equation}
 
-Unfortunately, the regular definition of the Lorentz factor as $\gamma = 1 + K/W$, where $K$ is the kinetic, $W$
-is the rest energy, is only true for the reference particle. A particle involved in betatron
+Unfortunately, not all beam particles share the same Lorentz factor. A particle involved in betatron
 motion will have a longer orbit, and as a direct consequence of the phase stability principle,
-in an accelerating structure utilizing an RF cavity, its equilibrium energy level (and hence the Lorentz factor)
+in an accelerating structure utilizing an RF cavity, its equilibrium energy level 
 must increase. Otherwise it cannot remain the bunch. In this section we analyze how the particle Lorentz factor
-is modified when betatron motion, as well as non-linearities in the momentum compaction factor are
+should be modified when betatron motion, as well as non-linearities in the momentum compaction factor are
 accounted for.
 
 The longitudinal dynamics of a particle on the reference orbit of a storage ring is described
 by the system of equations:
 \begin{equation}
   \begin{cases}
-    \ddt{\D\varphi} &= -\w_{RF}\eta\delta, \\
-    \ddt{\delta} &= \frac{q V_{RF}\w_{RF}}{2\pi h\beta^2E}\bkt{\sin\varphi - \sin\varphi_0}.
+    \ddt{}\D\varphi &= -\w_{RF}\eta\delta, \\
+    \ddt{}\delta &= \frac{q V_{RF}\w_{RF}}{2\pi h\beta^2E}\bkt{\sin\varphi - \sin\varphi_0}.
   \end{cases}
 \end{equation}
 In the equations above, $\D\varphi = \varphi - \varphi_0$ and
@@ -198,78 +220,147 @@ where $\delta_m$ is the amplitude of synchrotron oscillations.
 We call the equilibrium energy level associated with the momentum shift~\eqref{eq:EquLevMom_shift},
 the \emph{effective Lorentz factor}:
 \begin{equation}\label{eq:EffectiveGamma}
-\gamma_{eff} = \gamma_0 + \beta_0^2\gamma_0\cdot\Delta\delta_{eq},
+\g*= \gamma_0 + \beta_0^2\gamma_0\cdot\Delta\delta_{eq},
 \end{equation}
-where $\gamma_0$, $\beta_0$ are the Lorentz factor and normalized speed of the reference particle.
+where $\gamma_0$, $\beta_0$ are the Lorentz factor and relative velocity factor of the reference particle.
 
 Observe, that the effective Lorentz factor enables us to account for variation in the value of spin tune
 due to variation in the particle orbit length. It is crucial in the analysis of
 spin decoherence~\cite{Aksentev:IPAC19:Decoh} and its suppression by means of sextupole fields.
 
-\section{Reproduction of the MDM precession angular velocity}
+It plays a big role, as well, in the successfull reproduction of the MDM component to the total spin precession
+angular velocity.
 
-\section{Conclusions}
+\section{Guide field flipping}
+\newcommand{\Traj}{\mathcal T}
+\DeclareDocumentCommand{\Stab}{s}{\mathcal{S}\IfBooleanT{#1}{\vert_{\w_y=0}}}
+\newcommand{\Fail}{\mathcal F}
+\renewcommand{\D}{\mathcal D}
+
+Two aspects of the problem need to be paid attention to:
+\begin{enumerate}
+\item What needs to be kept constant from one measurement cycle to the next;
+\item How it can be observed.
+\end{enumerate}
+
+The goal of flipping the direction of the guide field is to accurately reproduce the radial component
+of the MDM spin precession frequency induced by machine imperfection fields. This point should not be overlooked:
+a mere reproduction of the \emph{magnetic field strength} would not suffice, since the injection point of the beam's centroid,
+and hence its orbit length --- and, via equations~\eqref{eq:EffectiveGamma} and~\eqref{eq:spin_tune_vs_gamma}, spin tune, --- is subject to variation. (Apart from that, the accelerating structure might not be symmetrical, in terms of spin dynamics, with regard to reversal of the beam circulation direction.)
+
+What needs to be reproduced, therefore, is not the field strength, but the effective Lorentz factor of the centroid.
+
+Regarding the second question, we mentioned earlier that the Koop Wheel roll rate
+is controlled through measurement of the horizontal plane spin precession frequency. 
+This plane was chosen because the EDM angular velocity vector points
+(mainly) in the radial direction; its vertical component is due to machine imperfection fields, and is small compared to
+the measured EDM effect. Therefore, in first approximation, when we manipulate the vertical component of the 
+combined spin precession angular velocity, we manipulate the vertical component of the MDM angular velocity vector.
+
+Moving on to the effective Lorentz factor calibration procedure.
+Let $\Traj$ denote the set of all trajectories that a particle might follow in the accelerator.
+$\Traj = \Stab \bigcup \Fail$, where $\Stab$ is the set of all stable trajectories, $\Fail$ are all trajectories
+such that if a particle gets on one, it will be lost from the bunch.
+
+Calibration is done in two phases:
+\begin{enumerate}
+\item In the first phase, the guide field value is set so that the beam particles are injected onto trajectories
+  $t\in\Stab$.
+\item In the second phase, it is fine-tuned further, so as to fulfill the FS condition in the horizontal plane.
+  By doing this, we physically move the beam trajectories into the subset $\Stab*\subset\Stab$ of trajectories 
+  for which $\w_y = 0$.
+\end{enumerate}
+
+Spin tune (and hence precession frequency) is an injective function of the
+effective Lorentz-factor $\g*$, which means
+$\w_y(\g*^1) = \w_y(\g*^2) \rightarrow \g*^1 = \g*^2$. The trajectory space $\Traj$ is partitioned into equivalence
+classes according to the value of $\g*$: trajectories characterized by the same $\g*$ are equivalent
+in terms of their spin dynamics (possess the same spin tune and invariant spin axis direction),
+and hence belong to the same equivalence class.
+Since $\w_y(\g*)$ is injective, there exists a unique $\g*^0$ at which $\w_y(\g*^0)=0$:
+\[
+[\w_y=0] = [\g*^0] \equiv \Stab*.
+\]
+
+If the lattice didn't use sextupole fields for the suppression of decoherence,
+$\Stab*$ would be a singleton set. We have shown in~\cite{Aksentev:IPAC19:Decoh} that if sextupoles are
+utilized, then $\exists\D\subset\Stab$ such that $\forall t_1,t_2\in\D$:
+$\nu_s(t_1) = \nu_s(t_2)$, $\nbar(t_1) = \nbar(t_2)$. By adjusting the guide field strength we equate
+$\D=\Stab*$, and hence $\Stab*$ contains multiple trajectories.~\footnote{Strictly speaking,
+  even if sextupoles are used there remains some negligible dependence of spin tune
+  on the particle orbit length (linear decoherence effects, cf.~\cite{Aksentev:IPAC19:Decoh}).
+  Because of that, the equalities for $\nu_s$ and $\nbar$ are approximate, and the set $\Stab*$
+  should be viewed as fuzzy:
+  we will consider trajectories for which $|\w_y|<\delta$ for some small $\delta$ as belonging to $[\w_y=0]$.}
+
+Therefore, once we ensured that the beam polarization does not precess in the horizontal plane,
+all of the beam particles have $\g*^0$, equal for the CW and CCW beams.
+
+Guide field flipping procedure simulation results can be found in~\ref{Aksentev:IPAC19:GFF}.
+
+
+\section{Statistical precision}
  
 First, we see in~\eqref{eq:Omega CW_CCW} that the accuracy of the frequency measurements
 of $\Omega_{r}^{\mathrm{CW}}$ and $\Omega_{r}^{\mathrm{CCW}}$   determines the precision of the EDM measurement.
 In~\cite{Eversmann}, it is shown that the relative accuracy of the polarization precession frequency
 measurement, $10^{-10}$ to $10^{-11}$,   is achievable even when the frequency of polarization measurements (a detector rate) is much less than the polarization precession frequency. In our case, we have an inverse relationship between the polarimeter rate and the measured spin frequency, which extends the range of frequencies where statistical estimates are legitimate. As shown in ~\cite{Aksentyev}, for an absolute statistical error of measuring a frequency of the spin oscillation, we can use $\sigma_{\Omega}=\delta\epsilon_{A}\sqrt{24/N}/T$, where $N$  is the total number of recorded events, $\delta\epsilon_{A}$   is the relative error in measuring the asymmetry, and $T\approx 1000$  sec is the measurement duration. If we assume a beam of $10^{11}$  particles per fill and a polarimeter efficiency of one percent, this leads to an absolute error of frequency measurement of  $\sigma_{\Omega}=2\cdot10^{-7}$ rad/sec. With a nominal accelerator beam time of 6,000 hours per year, we can reach $\sigma_{\Omega}=2\cdot10^{-9}$ rad/sec during one year. If we take into account that formula~\eqref{eq:Wedm} with the EDM $d_d\approx 10^{-30} e\cdot cm$  gives a value of the spin precession frequency of $\Omega_{\mathrm{edm}}\approx 10^{-8}$, we can state that the accuracy for the frequency of $\sigma_{\Omega}=1.4\cdot10^{-9}$   is satisfactory and sufficient for reaching a sensitivity of $d_d\approx 10^{-30}e\cdot cm$ (where $\eta\approx2\cdot10^{-15}$).
 
-Second, the main idea behind using CW and CCW procedures is that the contribution of the MDM spin rotation is the same for both CW and CCW directions. In an ideal scenario, the difference $\Omega_{r,\mathrm{mdm}}^{\mathrm{CCW}}-\Omega_{r,\mathrm{mdm}}^{\mathrm{CW}}$   is zero. However, this is not exactly the case. In reality, we do not know how accurately the field is recovered after a change of polarity, that is to say whether the energy of the beam is the same or not. Furthermore, the CW and CCW beam trajectories may  have different orbit lengths, which in turn contribute to the MDM spin precession frequency. We must therefore reformulate the global problem regarding how to restore the conditions for the equal contribution of the two MDM spin rotations after a change in the polarity of magnetic field (no change for electrical field) in the plane where we will measure the EDM. We expect to achieve a difference $\Omega_{r,\mathrm{mdm}}^{\mathrm{CCW}}-\Omega_{r,\mathrm{mdm}}^{\mathrm{CW}}$ that is smaller than the expected EDM precession frequency   $\Omega_{\mathrm{edm}}$ (see eq. 7). In this regard, we will undertake two procedures. The first follows from the study of the suppression of the spin decoherence~\cite{IPAC2013,decoherence}, where we reached a very important conclusion, namely that two arbitrary particles will have the same spin tune, independently of initial condition if their  orbits in 3D space have the same length. We refer to this as the conditions of zero decoherence of the spin precession.
+% Second, the main idea behind using CW and CCW procedures is that the contribution of the MDM spin rotation is the same for both CW and CCW directions. In an ideal scenario, the difference $\Omega_{r,\mathrm{mdm}}^{\mathrm{CCW}}-\Omega_{r,\mathrm{mdm}}^{\mathrm{CW}}$   is zero. However, this is not exactly the case. In reality, we do not know how accurately the field is recovered after a change of polarity, that is to say whether the energy of the beam is the same or not. Furthermore, the CW and CCW beam trajectories may  have different orbit lengths, which in turn contribute to the MDM spin precession frequency. We must therefore reformulate the global problem regarding how to restore the conditions for the equal contribution of the two MDM spin rotations after a change in the polarity of magnetic field (no change for electrical field) in the plane where we will measure the EDM. We expect to achieve a difference $\Omega_{r,\mathrm{mdm}}^{\mathrm{CCW}}-\Omega_{r,\mathrm{mdm}}^{\mathrm{CW}}$ that is smaller than the expected EDM precession frequency   $\Omega_{\mathrm{edm}}$ (see eq. 7). In this regard, we will undertake two procedures. The first follows from the study of the suppression of the spin decoherence~\cite{IPAC2013,decoherence}, where we reached a very important conclusion, namely that two arbitrary particles will have the same spin tune, independently of initial condition if their  orbits in 3D space have the same length. We refer to this as the conditions of zero decoherence of the spin precession.
 
 
- Equation~\eqref{eq:Omega CW_CCW} quoted from~\cite{IPAC2013} shows this dependence:
-\begin{equation}\label{eq:delta p}
-\Delta\delta_{eq}=\frac{\gamma_{s}^{2}}{\gamma_{s}^{2}\alpha_0-1}\left[\frac{\delta_{m}^{2}}{2}\left(\alpha_{1}-\frac{\alpha_{0}}{\gamma_{s}}^{2}+\frac{1}{\gamma_{s}^{4}}\right)+\left(\frac{\Delta L}{L}\right)_{\beta}\right]	
-	\end{equation}
-where $\Delta\delta_{eq}$  is the relative deviation of the equilibrium level (average value) of the momentum due to the orbit increasing in length in the transverse plane $\left(\frac{\Delta L}{L}\right)_{\beta}$   for a synchrotron oscillation with amplitude $\delta_{m}$ of relative momentum. Values $\alpha_{0}$ and $\alpha_{1}$  are the zero and first order momentum compaction factors, while $\gamma_{s}$  is the Lorentz factor of the synchronous particle. 
+%  Equation~\eqref{eq:Omega CW_CCW} quoted from~\cite{IPAC2013} shows this dependence:
+% \begin{equation}\label{eq:delta p}
+% \Delta\delta_{eq}=\frac{\gamma_{s}^{2}}{\gamma_{s}^{2}\alpha_0-1}\left[\frac{\delta_{m}^{2}}{2}\left(\alpha_{1}-\frac{\alpha_{0}}{\gamma_{s}}^{2}+\frac{1}{\gamma_{s}^{4}}\right)+\left(\frac{\Delta L}{L}\right)_{\beta}\right]	
+% 	\end{equation}
+% where $\Delta\delta_{eq}$  is the relative deviation of the equilibrium level (average value) of the momentum due to the orbit increasing in length in the transverse plane $\left(\frac{\Delta L}{L}\right)_{\beta}$   for a synchrotron oscillation with amplitude $\delta_{m}$ of relative momentum. Values $\alpha_{0}$ and $\alpha_{1}$  are the zero and first order momentum compaction factors, while $\gamma_{s}$  is the Lorentz factor of the synchronous particle. 
 
-The new equilibrium factor Lorentz,
-\begin{equation}\label{eq:effec gamma}
-\gamma_{eff}=\gamma_{s}+\beta_s^{2} \gamma_s\cdot\Delta\delta_{eq}	
-\end{equation}
-will hereinafter be referred to as the effective Lorentz factor. This parameter is named as such because $\gamma_{eff}$ includes three spatial coordinates and completely determines the frequency of spin precession in all three planes. The orbit length of each particle is adjusted by the sextupoles, leading to a dependence of the action of the sextupole field on the amplitude of transverse oscillations and the energy deviation from the reference particle. We can now apply this important conclusion to the beams moving in opposite CW and CCW directions, namely that the beams are identical in terms of the spin behavior if they have the same effective Lorentz factor averaged over all particles in beam. This means that the problem of finding the multiparameter dependence of spin precession on fields and 3D trajectories is reduced to the search for a dependence on the effective gamma. This ensures it is no longer necessary to obtain a coincidence of trajectories, but instead only requires the condition of equality $\gamma_{eff}$   for the CW and CCW beams. This approach saves the whole idea of searching for an EDM in a storage ring.
+% The new equilibrium factor Lorentz,
+% \begin{equation}\label{eq:effec gamma}
+% \gamma_{eff}=\gamma_{s}+\beta_s^{2} \gamma_s\cdot\Delta\delta_{eq}	
+% \end{equation}
+% will hereinafter be referred to as the effective Lorentz factor. This parameter is named as such because $\gamma_{eff}$ includes three spatial coordinates and completely determines the frequency of spin precession in all three planes. The orbit length of each particle is adjusted by the sextupoles, leading to a dependence of the action of the sextupole field on the amplitude of transverse oscillations and the energy deviation from the reference particle. We can now apply this important conclusion to the beams moving in opposite CW and CCW directions, namely that the beams are identical in terms of the spin behavior if they have the same effective Lorentz factor averaged over all particles in beam. This means that the problem of finding the multiparameter dependence of spin precession on fields and 3D trajectories is reduced to the search for a dependence on the effective gamma. This ensures it is no longer necessary to obtain a coincidence of trajectories, but instead only requires the condition of equality $\gamma_{eff}$   for the CW and CCW beams. This approach saves the whole idea of searching for an EDM in a storage ring.
 
 
-Third, if we assume that there are two rings with a direct (CW) and reverse sequence of elements (CCW) with a changed polarity of the magnetic field, the similarity of these rings under the beam stability condition~\eqref{eq:Fav} is only that the position of all elements on the ring and, consequently, the relation between the values of the vertical and radial components of the field remains unchanged
-\begin{equation}\label{eq:element position}
-B_r/B_v=const\ \text {and}\ E_v/E_r=const
-\end{equation}
-Here, we should take into account the two facts mentioned above: first, we will not change the polarity of the electric field, leaving it unchanged during the transition from CW to CCW, and second, when the energy rises, the condition of equilibrium for the particles will be maintained by changing the magnetic field only. In our case this is a change in the magnetic field from 0.3 to 0.45 Tesla. Therefore, we will in the future only focus our attention on the magnetic field. Irrespective of this circumstance, it is unlikely that the reverse trajectory will coincide with the direct trajectory, which can be a reason for having a different orbit length and, hence, different Lorentz factor values   that determine the spin precession frequency in all planes. Therefore, before changing the polarity, we must calibrate the gamma $\gamma_{eff}$   close to the value $\gamma\approx\gamma_s$   using the precession frequency measurements of the spin in the horizontal plane where there is no EDM signal before restoring the same $\gamma_{eff}$   in the ring with the reverse sequence of elements.
+% Third, if we assume that there are two rings with a direct (CW) and reverse sequence of elements (CCW) with a changed polarity of the magnetic field, the similarity of these rings under the beam stability condition~\eqref{eq:Fav} is only that the position of all elements on the ring and, consequently, the relation between the values of the vertical and radial components of the field remains unchanged
+% \begin{equation}\label{eq:element position}
+% B_r/B_v=const\ \text {and}\ E_v/E_r=const
+% \end{equation}
+% Here, we should take into account the two facts mentioned above: first, we will not change the polarity of the electric field, leaving it unchanged during the transition from CW to CCW, and second, when the energy rises, the condition of equilibrium for the particles will be maintained by changing the magnetic field only. In our case this is a change in the magnetic field from 0.3 to 0.45 Tesla. Therefore, we will in the future only focus our attention on the magnetic field. Irrespective of this circumstance, it is unlikely that the reverse trajectory will coincide with the direct trajectory, which can be a reason for having a different orbit length and, hence, different Lorentz factor values   that determine the spin precession frequency in all planes. Therefore, before changing the polarity, we must calibrate the gamma $\gamma_{eff}$   close to the value $\gamma\approx\gamma_s$   using the precession frequency measurements of the spin in the horizontal plane where there is no EDM signal before restoring the same $\gamma_{eff}$   in the ring with the reverse sequence of elements.
 
-For such a calibration, we need to reduce the spin oscillation in the vertical plane to a low value by introducing the Wien filter 1 m long with orthogonal horizontal magnetic $\vec{B}$  and vertical electric
-$\vec{E}$ fields in the order of 0.1 mT and 100 V/cm respectively. The Wien filter installed in a straight section provides zero Lorentz force on axis and orientates spin in a horizontal plane. 
- The value of this field does not affect the calibration of the effective Lorentz factor. Here, we are aiming to observe how to slow down the spin rotation in the vertical plane which it mean that precise knowledge of the fields is not needed. The sole purpose of introducing the Wien filter is to ensure that the relative contribution of the vertical frequency into the horizontal frequency is less than the calibration accuracy required, namely $ 10^{-9}$. Since they add up as squares of frequencies, this can be easily achieved. The transverse spin rotator is switched on only for the time of calibration of the $\gamma_{eff}$ in the CW ring and for the time of its recovery in the CCW ring. We are able to calibrate the frequency, $\gamma_{eff}$, with the above-mentioned absolute value of errors for one beam fill of $\sigma_{\Omega}\approx10^{-7}$ rad/sec and $\sigma_{\Omega}\approx10^{-9}$ rad/sec with one year of running. Taking into account the constant relation between the vertical and the radial components of field~\eqref{eq:element position}, this means that in the case of CCW we have a ring identical to the CW ring in terms of spin behavior, and we can obtain a zero value of $\Omega_{r,\mathrm{mdm}}^{\mathrm{CCW}}-\Omega_{r,\mathrm{mdm}}^{\mathrm{CW}}$    with an accuracy of $\approx 10^{-9}$.
+% For such a calibration, we need to reduce the spin oscillation in the vertical plane to a low value by introducing the Wien filter 1 m long with orthogonal horizontal magnetic $\vec{B}$  and vertical electric
+% $\vec{E}$ fields in the order of 0.1 mT and 100 V/cm respectively. The Wien filter installed in a straight section provides zero Lorentz force on axis and orientates spin in a horizontal plane. 
+%  The value of this field does not affect the calibration of the effective Lorentz factor. Here, we are aiming to observe how to slow down the spin rotation in the vertical plane which it mean that precise knowledge of the fields is not needed. The sole purpose of introducing the Wien filter is to ensure that the relative contribution of the vertical frequency into the horizontal frequency is less than the calibration accuracy required, namely $ 10^{-9}$. Since they add up as squares of frequencies, this can be easily achieved. The transverse spin rotator is switched on only for the time of calibration of the $\gamma_{eff}$ in the CW ring and for the time of its recovery in the CCW ring. We are able to calibrate the frequency, $\gamma_{eff}$, with the above-mentioned absolute value of errors for one beam fill of $\sigma_{\Omega}\approx10^{-7}$ rad/sec and $\sigma_{\Omega}\approx10^{-9}$ rad/sec with one year of running. Taking into account the constant relation between the vertical and the radial components of field~\eqref{eq:element position}, this means that in the case of CCW we have a ring identical to the CW ring in terms of spin behavior, and we can obtain a zero value of $\Omega_{r,\mathrm{mdm}}^{\mathrm{CCW}}-\Omega_{r,\mathrm{mdm}}^{\mathrm{CW}}$    with an accuracy of $\approx 10^{-9}$.
 
-Finally, we will consider the fourth important aspect in the proposed procedure for measuring the EDM. This problem concerns the fact that the spin oscillating around an arbitrary axis always has a mixing of spin oscillation relative to other axes. The solution of equation~\eqref{eq:Wedm} under the initial conditions for horizontal, vertical ($S_x=0, S_y=0$), and longitudinal  $S_z=1$ components  can be formulated as shown here:
-\begin{align}
-S_x=\frac{\Omega_x\Omega_z}{\Omega^{2}}\left(1-\cos\Omega t\right)-\frac{\Omega_y}{\Omega}\sin\Omega t, \notag\\
-S_y=\frac{\Omega_y\Omega_z}{\Omega^{2}}\left(1-\cos\Omega t\right)+\frac{\Omega_x}{\Omega}\sin\Omega t, \notag\\
-S_z=\frac{\Omega_z^{2}}{\Omega^{2}}\left(1-\cos\Omega t\right)+\cos\Omega t,
-\end{align}
-where $\Omega_x=\Omega_{B_r}+\Omega_{edm}$   and $\Omega_z=\Omega_{B_z}$  arise due to MDM rotation in the imperfect ring and the EDM. $\Omega_{y}=\Omega_{B_{v},E_{r}}$  is the MDM spin rotation relative to the momentum in the leading magnetic and electric fields, and $\Omega=\sqrt{\Omega_x^{2}+\Omega_y^{2}+\Omega_z^{2}}$   is the modulus of the three-dimensional frequency. As mentioned above, we will measure the precession frequency of the spin in a vertical plane in order to study the behavior of the oscillating part of $\widetilde{S_y}$, the solution to which is as follows:
-\begin{align}
-\widetilde{S_y}=\sqrt{\left(\frac{\Omega_y\Omega_z}{\Omega^{2}}\right)^{2}+\left(\frac{\Omega_x}{\Omega}\right)^{2}}\sin\left(\Omega t+\phi\right), \notag\\
-\phi=\arctan\left(\frac{\Omega_y\Omega_z}{\Omega_x\Omega}\right),
-\end{align}
-Since the amplitude and the phase of the signal do not affect the measurement, we are only interested in the frequency:
-\begin{equation}\label{eq:Omega}
-\Omega=\sqrt{\left(\Omega_{edm}+\Omega_{B_r}\right)^{2}+\Omega_{B_v,E_r}^{2}+\Omega_{B_z}^{2}}	
-\end{equation}
-Assuming that, in accordance with the ``frozen'' spin concept, we maintain the spin along the momentum $\Omega_{B_v,E_r}<<\Omega_{B_r}$  and $\Omega_{B_z}<<\Omega_{B_r}$, the latter expression is realized by installing a solenoid with a longitudinal axis one meter long on a straight section with a magnetic field of about $\approx 10^{-6}$  Tesla, which can be formulated as follows:
-\begin{equation}\label{eq:Omega2}
-\Omega=\left(\Omega_{edm}+\Omega_{B_r}\right)\cdot\left[1+\frac{\Omega_{B_v,E_r}^{2}+\Omega_{B_z}^{2}}{2\left(\Omega_{edm}+\Omega_{B_r}\right)^{2}}\right]	
-\end{equation}
-According to this equation, the restriction occurs at the values of $\Omega_{B_v,E_r}$   and $\Omega_{B_z}$, which should have less of an effect on the total frequency $\Omega$   than the EDM:
-\begin{equation}\label{eq:Omega3}
-\frac{\Omega_{B_v,E_r}^{2}+\Omega_{B_z}^{2}}{2\Omega_{B_r}}<\Omega_{edm}\end{equation}
-If we evaluate these requirements numerically, we can assess how feasible it is to implement them technically. For instance, if $\Omega_{B_r}\approx$ 100 rad/sec and $\Omega_{edm}\approx10^{-8}$  rad/sec, then $\Omega_{B_v,E_r}^{2}+\Omega_{B_z}^{2}<10^{-6}$   or both must be $\Omega_{B_v,E_r}, \Omega_{B_z}\sim10^{-3}$ rad/sec. This means that at the spin coherence time $t_{SCT}\sim$ 1000 sec, the spin rotation should not exceed $\Omega_{B_v,E_r}\cdot t_{SCT}\sim$  1 rad and $\Omega_{B_z}\cdot t_{SCT}\sim$  ~1 rad, which is easily achievable both for $\Omega_{B_v,E_r}$   due to the calibration of energy and for $\Omega_{B_z}$   due to the introduction of a solenoid with a longitudinal magnetic field ${B_z}$. As in the case of a transverse spin rotator, the longitudinal field in the solenoid does not need to be known exactly, since it is only needed to satisfy equation~\eqref{eq:Omega3}, which is an approximation. We can therefore conclude that the imperfections of ring elements, which previously played a limiting role in the measurement of EDM due to the effect of so called geometrical phase \cite{AGS_proposal}, now provide a pure precession of the spin in the vertical plane, where we will measure the EDM.
+% Finally, we will consider the fourth important aspect in the proposed procedure for measuring the EDM. This problem concerns the fact that the spin oscillating around an arbitrary axis always has a mixing of spin oscillation relative to other axes. The solution of equation~\eqref{eq:Wedm} under the initial conditions for horizontal, vertical ($S_x=0, S_y=0$), and longitudinal  $S_z=1$ components  can be formulated as shown here:
+% \begin{align}
+% S_x=\frac{\Omega_x\Omega_z}{\Omega^{2}}\left(1-\cos\Omega t\right)-\frac{\Omega_y}{\Omega}\sin\Omega t, \notag\\
+% S_y=\frac{\Omega_y\Omega_z}{\Omega^{2}}\left(1-\cos\Omega t\right)+\frac{\Omega_x}{\Omega}\sin\Omega t, \notag\\
+% S_z=\frac{\Omega_z^{2}}{\Omega^{2}}\left(1-\cos\Omega t\right)+\cos\Omega t,
+% \end{align}
+% where $\Omega_x=\Omega_{B_r}+\Omega_{edm}$   and $\Omega_z=\Omega_{B_z}$  arise due to MDM rotation in the imperfect ring and the EDM. $\Omega_{y}=\Omega_{B_{v},E_{r}}$  is the MDM spin rotation relative to the momentum in the leading magnetic and electric fields, and $\Omega=\sqrt{\Omega_x^{2}+\Omega_y^{2}+\Omega_z^{2}}$   is the modulus of the three-dimensional frequency. As mentioned above, we will measure the precession frequency of the spin in a vertical plane in order to study the behavior of the oscillating part of $\widetilde{S_y}$, the solution to which is as follows:
+% \begin{align}
+% \widetilde{S_y}=\sqrt{\left(\frac{\Omega_y\Omega_z}{\Omega^{2}}\right)^{2}+\left(\frac{\Omega_x}{\Omega}\right)^{2}}\sin\left(\Omega t+\phi\right), \notag\\
+% \phi=\arctan\left(\frac{\Omega_y\Omega_z}{\Omega_x\Omega}\right),
+% \end{align}
+% Since the amplitude and the phase of the signal do not affect the measurement, we are only interested in the frequency:
+% \begin{equation}\label{eq:Omega}
+% \Omega=\sqrt{\left(\Omega_{edm}+\Omega_{B_r}\right)^{2}+\Omega_{B_v,E_r}^{2}+\Omega_{B_z}^{2}}	
+% \end{equation}
+% Assuming that, in accordance with the ``frozen'' spin concept, we maintain the spin along the momentum $\Omega_{B_v,E_r}<<\Omega_{B_r}$  and $\Omega_{B_z}<<\Omega_{B_r}$, the latter expression is realized by installing a solenoid with a longitudinal axis one meter long on a straight section with a magnetic field of about $\approx 10^{-6}$  Tesla, which can be formulated as follows:
+% \begin{equation}\label{eq:Omega2}
+% \Omega=\left(\Omega_{edm}+\Omega_{B_r}\right)\cdot\left[1+\frac{\Omega_{B_v,E_r}^{2}+\Omega_{B_z}^{2}}{2\left(\Omega_{edm}+\Omega_{B_r}\right)^{2}}\right]	
+% \end{equation}
+% According to this equation, the restriction occurs at the values of $\Omega_{B_v,E_r}$   and $\Omega_{B_z}$, which should have less of an effect on the total frequency $\Omega$   than the EDM:
+% \begin{equation}\label{eq:Omega3}
+% \frac{\Omega_{B_v,E_r}^{2}+\Omega_{B_z}^{2}}{2\Omega_{B_r}}<\Omega_{edm}\end{equation}
+% If we evaluate these requirements numerically, we can assess how feasible it is to implement them technically. For instance, if $\Omega_{B_r}\approx$ 100 rad/sec and $\Omega_{edm}\approx10^{-8}$  rad/sec, then $\Omega_{B_v,E_r}^{2}+\Omega_{B_z}^{2}<10^{-6}$   or both must be $\Omega_{B_v,E_r}, \Omega_{B_z}\sim10^{-3}$ rad/sec. This means that at the spin coherence time $t_{SCT}\sim$ 1000 sec, the spin rotation should not exceed $\Omega_{B_v,E_r}\cdot t_{SCT}\sim$  1 rad and $\Omega_{B_z}\cdot t_{SCT}\sim$  ~1 rad, which is easily achievable both for $\Omega_{B_v,E_r}$   due to the calibration of energy and for $\Omega_{B_z}$   due to the introduction of a solenoid with a longitudinal magnetic field ${B_z}$. As in the case of a transverse spin rotator, the longitudinal field in the solenoid does not need to be known exactly, since it is only needed to satisfy equation~\eqref{eq:Omega3}, which is an approximation. We can therefore conclude that the imperfections of ring elements, which previously played a limiting role in the measurement of EDM due to the effect of so called geometrical phase \cite{AGS_proposal}, now provide a pure precession of the spin in the vertical plane, where we will measure the EDM.
 
-The displacement of the magnetic quadrupoles can also lead to the appearance of a dipole field component that induces a fake signal, which requires an identity for CW and CCW. However, at least two solutions exist here. The first is to use electrostatic quadrupoles. The second is to use optics that does not require switching the polarity of the magnetic field in magnetic quadrupoles.
+% The displacement of the magnetic quadrupoles can also lead to the appearance of a dipole field component that induces a fake signal, which requires an identity for CW and CCW. However, at least two solutions exist here. The first is to use electrostatic quadrupoles. The second is to use optics that does not require switching the polarity of the magnetic field in magnetic quadrupoles.
 
-In this Letter, we described the frequency domain method of the search for the deuteron electric dipole moment in a storage ring with imperfections. The method differs from the one~\cite{Farley,AGS_proposal} that was previously proposed in that we use the measurement of the frequency of the total EDM and MDM signal, as opposed to the value of the vertical component of spin. An important part of this method is the introduction and measurement of the effective Lorentz factor. It determines the precession of the spin in 3D space, instead of controlling the three-dimensional orbital motion. This method allows to reduce the influence of systematic errors to the level at which the lower limit of detection of the assumed EDM can be as low as $\sim 10^{-29}\div 10^{-30}e\cdot cm$. 
+% In this Letter, we described the frequency domain method of the search for the deuteron electric dipole moment in a storage ring with imperfections. The method differs from the one~\cite{Farley,AGS_proposal} that was previously proposed in that we use the measurement of the frequency of the total EDM and MDM signal, as opposed to the value of the vertical component of spin. An important part of this method is the introduction and measurement of the effective Lorentz factor. It determines the precession of the spin in 3D space, instead of controlling the three-dimensional orbital motion. This method allows to reduce the influence of systematic errors to the level at which the lower limit of detection of the assumed EDM can be as low as $\sim 10^{-29}\div 10^{-30}e\cdot cm$. 
 
-A significant part of the work was done when the authors worked in FZJ, and they would like to thank the JEDI collaboration and especially H. Stroeher E. J. Stephenson, V. Hejny, J. Pretz, F. Rathmann, A. Kacharava, K. Nikolaev,  A.Saleev and R. M. Talman for their scientific critical remarks, helping to make this work successful.
+% A significant part of the work was done when the authors worked in FZJ, and they would like to thank the JEDI collaboration and especially H. Stroeher E. J. Stephenson, V. Hejny, J. Pretz, F. Rathmann, A. Kacharava, K. Nikolaev,  A.Saleev and R. M. Talman for their scientific critical remarks, helping to make this work successful.
 
 \begin{thebibliography}{9}
 %% \bibitem{Canetti}
@@ -289,14 +380,14 @@ A significant part of the work was done when the authors worked in FZJ, and they
   S. Mane, ``A distillation of Koop's idea of the Spin Wheel,'' arXiv:1509.01167 [physics]
   \url{http://arxiv.org/abs/1509.01167}.
 
-\bibitem{Koop:SW}
-  I. Koop. ``Asymmetric energy colliding ion beams in the EDM storage ring,'' Proc. of IPAC13 (2013).
-  \url{http://accelconf.web.cern.ch/accelconf/ipac2013/papers/tupwo040.pdf}.
-
 \bibitem{BNL:Proton}
   V. Anastassopoulos et al., ``A Storage Ring Experiment to Detect a Proton Electric Dipole Moment.''
   Rev. Sci. Instrum., 87(11), 2016.
   \url{http://arxiv.org/abs/1502.04317}
+
+\bibitem{Koop:SW}
+  I. Koop. ``Asymmetric energy colliding ion beams in the EDM storage ring,'' Proc. of IPAC13 (2013).
+  \url{http://accelconf.web.cern.ch/accelconf/ipac2013/papers/tupwo040.pdf}.
 
 \bibitem{Senichev:IPAC13}
   Y. Senichev et al., ``Spin tune decoherence effects in Electro- and Magnetostatic Structures.''
@@ -304,8 +395,12 @@ A significant part of the work was done when the authors worked in FZJ, and they
 
 \bibitem{Aksentev:IPAC19:Decoh}
   A. Aksentev, Y. Senichev, ``Spin decoherence in the Frequency Domain Method for the search of a particle EDM,''
-  presented at the 10th International Particle Accelerator Conf. (IPAC’19), Melbourne, Australia,
-  May. 2019, paper 2738, this conference.
+  presented at the 10th International Particle Accelerator Conf. (IPAC'19), Melbourne, Australia,
+  May. 2019, paper 2738.
+
+\bibitem{Aksentev:IPAC19:GFF}
+A. Aksentev, Y. Senichev, ``Simulation of the Guide Field Flipping Procedure for the Frequency Domain Method,'' 
+presented at the 10th International Particle Accelerator Conf. (IPAC'19), Melbourne, Australia, May 2019.
   
 %% \bibitem{ICAP2015}
 %%   Yu.Senichev et al., ``Investigation of Lattice for Deuteron EDM Ring,'' Proceedings of ICAP2015, Shanghai, China

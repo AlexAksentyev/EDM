@@ -1,0 +1,8 @@
+\contentsline {section}{Motivation}{1}
+\contentsline {section}{Basic principles}{1}
+\contentsline {subsection}{Frequency domain protection against geometric phase error}{2}
+\contentsline {subsection}{Machine imperfection fields as a Koop Wheel}{2}
+\contentsline {section}{EDM estimator statistic}{2}
+\contentsline {section}{Effective Lorentz factor}{2}
+\contentsline {section}{Guide field flipping}{3}
+\contentsline {section}{Statistical precision}{3}
