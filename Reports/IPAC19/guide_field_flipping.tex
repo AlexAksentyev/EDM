@@ -27,32 +27,56 @@
 
 \begin{document}
 \title{Simulation of the Guide Field Flipping Procedure for the Frequency Domain Method}
-\author{A. E. Aksentyev\textsuperscript{1}\thanks{alexaksentyev@gmail.com},
-  Institut f\"ur Kernphysik, Forschungszentrum J\"ulich, J\"ulich, Germany \\
-  Y. V. Senichev, Institute for Nuclear Research of RAS \\
-  \textsuperscript{1}also at National Research Nuclear University ``MEPhI,'' Moscow, Russia}
+\author{A. E. Aksentyev\textsuperscript{1,2,3}\thanks{alexaksentyev@gmail.com},
+  Y. V. Senichev\textsuperscript{3}, \\
+  \textsuperscript{1} National Research Nuclear University ``MEPhI,'' Moscow, Russia \\
+  \textsuperscript{2} Institut f\"ur Kernphysik, Forschungszentrum J\"ulich, J\"ulich, Germany\\
+  \textsuperscript{3} Institute for Nuclear Research of the Russian Academy of Sciences, Moscow, Russia}
 \maketitle
-\footnotetext[2]{a.aksentev@fz-juelich.de}
+
 \begin{abstract}
-  The spin vector of a particle injected into a perfectly aligned storage ring precesses about the vertically-orientated guide field. In the presence of an Electric Dipole Moment (EDM), the spin precession axis acquires a proportional radial component.
-  However, in an imperfect ring, rotational magnet misalignments induce a radial component to the spin precession axis, related to the Magnetic Dipole Moment (MDM). In the Frequency Domain Method, this additional precession is dealt with by consecutively injecting the beam in opposite directions, and constructing the EDM estimator as the sum of the clockwise and counter-clockwise vertical plane precession frequencies. Since the radial MDM component changes sign when the magnetic field direction is reversed, it cancels in the sum, leaving only the EDM effect. 
-  In order to reproduce the guide field magnitude with a precision sufficient for the cancellation of the MDM effect, we propose to calibrate the guide field via the horizontal plane precession frequency. In the present work we describe the algorithm of the field flipping procedure, and make a numerical simulation.
+  The spin vector of a particle injected into a perfectly aligned storage ring precesses about
+  the vertically-orientated guide field. In the presence of an Electric Dipole Moment (EDM),
+  the spin precession axis acquires a proportional radial component.
+  However, in an imperfect ring, rotational magnet misalignments induce a radial component
+  to the spin precession axis, related to the Magnetic Dipole Moment (MDM). In the Frequency Domain Method,
+  this additional precession is dealt with by consecutively injecting the beam in opposite directions,
+  and constructing the EDM estimator as the sum of the clockwise and counter-clockwise
+  vertical plane precession frequencies. Since the radial MDM component changes sign
+  when the magnetic field direction is reversed, it cancels in the sum, leaving only the EDM effect. 
+  In order to reproduce the guide field magnitude with a precision sufficient for
+  the cancellation of the MDM effect, we propose to calibrate the guide field via
+  the horizontal plane precession frequency. In the present work we describe the algorithm of
+  the field flipping procedure, and do a numerical simulation.
 \end{abstract}
 
 \section{Spin dynamics in a storage ring}
-The dynamics of a spin-vector $\vec s$ in a magnetic field $\vec B$ and an electrostatic field $\vec E$ is described by the Thomas-BMT equation. Its generalized version, accounting for the effect of the particle's electric dipole moment, can be written in the rest frame as:
+The dynamics of a spin-vector $\vec s$ in a magnetic field $\vec B$ and an electrostatic field $\vec E$
+is described by the Thomas-BMT equation. Its generalized version, accounting for the effect of
+the particle's electric dipole moment, can be written in the rest frame as:
 \begin{subequations}
   \begin{align}
     \ddt{\vec s} &= \vec s\times \bkt{\vec\W_{MDM} +\vec\W_{EDM}}, \label{eq:TBMT_main}
-    \intertext{where the magnetic (MDM) and electric (EDM) dipole moment angular velocities $\vec\W_{MDM}$ and $\vec\W_{EDM}$ }
+    \intertext{where the magnetic (MDM) and electric (EDM) dipole moment angular velocities
+      $\vec\W_{MDM}$ and $\vec\W_{EDM}$ }
     \vec\W_{MDM} &= \frac qm \bkt*{G\vec B - \bkt{G - \frac{1}{\gamma^2-1}}\frac{\vec E\times\vec\beta}{c}},\label{eq:TBMT_MDM} \\
     \vec\W_{EDM} &= \frac qm \frac\eta2 \bkt*{\frac{\vec E}c + \vec\beta\times \vec B}.\label{eq:TBMT_EDM}
   \end{align}
 \end{subequations}
-In the above equations, $m,~q,~G=(g-2)/2$ are, respectively, the mass, charge, and magnetic anomaly of the particle; $\beta = \sfrac{v_0}{c}$ is its normalized speed; $\gamma$ its Lorentz-factor. The EDM factor $\eta$ is defined by the equation $d = \eta\frac{q}{2mc}$, in which $d$ is the particle EDM, $s$ its spin.
+In the above equations, $m,~q,~G=(g-2)/2$ are, respectively, the mass, charge, and anomalous magnetic moment
+of the particle; $\beta = \sfrac{v_0}{c}$ is its normalized speed; $\gamma$ its Lorentz-factor.
+The EDM factor $\eta$ is defined by the equation $d = \eta\frac{q}{2mc}$, in which $d$ is the particle EDM,
+$s$ its spin.
 
 \section{BNL Frozen Spin method}
-The original method for the measurement of the electric dipole moment of an elementary particle was first proposed by the Storage Ring EDM Collaboration~\cite{BNL:SREDM} of the Brookhaven National Laboratory. In the proposed method,~\cite{BNL:Deuteron2008} a longitudinally-polarized beam is injected into a storage ring designed on the basis of the Frozen Spin (FS) concept: by applying a radial electric field $E_r = \frac{GB_yc\beta\gamma^2}{1-G\beta^2\gamma^2}$,~\cite[p.~10]{BNL:Deuteron2008} the MDM component in~\eqref{eq:TBMT_main} is set to zero: $\vec\W_{MDM} = \vec 0$. Then, any tilting of the beam polarization vector out of the horizontal plane is attributed to the presence of an EDM; specifically, the vertical component $P_y$ grows as
+The original method for the measurement of the electric dipole moment of an elementary particle
+was first proposed by the Storage Ring EDM Collaboration~\cite{BNL:SREDM} of Brookhaven National Laboratory.
+In the proposed method,~\cite{BNL:Deuteron2008} a longitudinally-polarized beam is injected into a storage ring
+designed on the basis of the Frozen Spin (FS) concept: by applying a radial electric field
+$E_r = \frac{GB_yc\beta\gamma^2}{1-G\beta^2\gamma^2}$,~\cite[p.~10]{BNL:Deuteron2008} the MDM component
+in~\eqref{eq:TBMT_main} is set to zero: $\vec\W_{MDM} = \vec 0$. Then, any tilting of
+the beam polarization vector out of the horizontal plane is attributed to the presence of an EDM;
+specifically, the vertical component $P_y$ grows as
 \[
 P_y =  P\frac{\W_{edm}}{\W}\sin\bkt{\W t + \Theta_0} \approx P\W_{EDM}\cdot t,
 \]
@@ -60,27 +84,41 @@ where $\W = \sqrt{\W_{EDM}^2 + \W_{MDM}^2}$.~\cite[p.~8]{BNL:Deuteron2008}
 
 This method has two inherent weaknesses, due to the smallness of the hypothesized EDM value:
 \begin{inparaenum}[\itshape a\upshape)]
-\item the expected polarization tilt angle after 1,000 seconds is on the order of microradians,~\cite[p.~18]{BNL:Deuteron2008} which is a difficult task for polarimetry~\cite[p.~6]{Mane:SpinWheel} and
-\item the main systematic effect, $\W_{syst} \approx \frac{\mu\avg{E_y}}{c\beta\gamma^2}$ ($\mu$ being the MDM of the particle)~\cite[p.~10]{BNL:Deuteron2008} must be reduced to less than $\W_{EDM}$ if one is to measure the polarization tilt angle.
+\item the expected polarization tilt angle after 1,000 seconds is on the order of
+  microradians,~\cite[p.~18]{BNL:Deuteron2008}
+  which makes for difficult polarimetry~\cite[p.~6]{Mane:SpinWheel} and
+\item the main systematic effect, $\W_{syst} \approx \frac{\mu\avg{E_y}}{c\beta\gamma^2}$
+  ($\mu$ being the MDM of the particle)~\cite[p.~10]{BNL:Deuteron2008} must be reduced to less than
+  $\W_{EDM}$ if one is to measure the polarization tilt angle.
 \end{inparaenum}
-The considered systematic error is caused by accelerator element misalignment error. For a practical value of 100$\mu$m of element installation error, this means a $\W_{syst}$ on the order of 50 rad/sec.~\cite{Senichev:FDM}
+The systematic error is caused by accelerator element alignment error. For a practical value of
+100$\mu$m of element installation uncertainty, this means a $\W_{syst}$ on the order of
+50 rad/sec.~\cite{Senichev:FDM}
 
 Both these problems can be mitigated if the net spin precession frequency is used as the EDM observable.
 
 \section{Frequency Domain Method}
-The Frequency Domain Methodology (FDM)~\cite{Senichev:FDM} was designed specifically to address the problem with element misalignment error. The FS condition condition is fulfilled as in the BNL method; however, instead of the polarization tilt angle, the combined MDM+EDM precession frequency is measured in two cases: once when the beam is injected clockwise, and once counter-clockwise. The EDM-effect is extracted by comparing the measured frequencies. When the guide field polarity is reversed $\vec B \mapsto -\vec B$, $\vec\beta \mapsto -\vec\beta$, and $\vec E \mapsto \vec E$, the precession frequency components change thus:
+The Frequency Domain Methodology (FDM)~\cite{Senichev:FDM} was designed specifically to address the problem
+of element alignment uncertainty. The FS condition condition is fulfilled as in the BNL method; however,
+instead of the polarization tilt angle, the combined MDM+EDM precession frequency is measured in two cases:
+once when the beam is injected clockwise, and once counter-clockwise. The EDM-effect is extracted by
+comparing the measured frequencies. When the guide field polarity is reversed $\vec B \mapsto -\vec B$,
+$\vec\beta \mapsto -\vec\beta$, and $\vec E \mapsto \vec E$, precession frequency components change thus:
 \begin{subequations}
   \begin{align}
-    \W_x^{CW/CCW} &= \W_x^{MDM, CW/CCW} + \W_x^{EDM, CW/CCW}, \\
-    \W_x^{MDM, CW} &= -\W_x^{MDM, CCW} \equiv \W_x^{MDM}, \label{eq:FDM_CW_CCW_MDM} \\
-    \W_x^{EDM, CW} &= \W_x^{EDM, CCW} \equiv \W_x^{EDM},
+    \W_x^{CW/CCW} &= \W_x^{MDM, CW/CCW} + \W_x^{EDM, CW/CCW}, \notag\\
+    \W_x^{MDM, CW} &= -\W_x^{MDM, CCW} \equiv \W_x^{MDM},  \notag\\
+    \W_x^{EDM, CW} &= \W_x^{EDM, CCW} \equiv \W_x^{EDM}, \label{eq:CW_CCW_MDM}
     \intertext{and the EDM estimator}
     \hat\W_x^{EDM} &:= \frac12\bkt{\W_x^{CW} + \W_x^{CCW}} \label{eq:FDM_estimator} \\
     &= \W_x^{EDM} + \underbrace{\frac12\bkt{\W_x^{MDM, CW} + \W_x^{MDM, CCW}}}_{\varepsilon \to 0}.
   \end{align}
 \end{subequations}
 
-In order to guarantee that $\varepsilon$ is less than the required EDM measurement precision, i.e. that the equation~\eqref{eq:FDM_CW_CCW_MDM} holds with sufficient accuracy, a guide field flipping algorithm has been devised, that uses the horizontal plane precession frequency as a means to calibrating the guide field. 
+In order to guarantee that $\varepsilon$ is less than the required EDM measurement precision, i.e. that
+equation~\eqref{eq:CW_CCW_MDM} holds with sufficient accuracy,
+a guide field flipping algorithm has been devised, that uses the horizontal plane precession frequency
+as a means to calibrating the guide field. 
 
 \section{Calibration algorithm}
 The goal of flipping the direction of the guide field is to accurately reproduce the radial component
@@ -133,7 +171,7 @@ In order to confirm that the proposed calibration procedure works, we need to sh
 \end{enumerate}
 
 We do this by first computing the function $\nu_s(z)$ (where $z$ is the particle's horizontal, vertical, or
-momentum offset from the reference particle's) for the CW and CCW beams; and then compute their discrepancy
+momentum offset from the reference particle) for the CW and CCW beams; and then compute their discrepancy
 $\epsilon(z) = \nu_s^{CW}(z) - \nu_s^{CCW}(z)$. If the discrepancy is small in a wide range of $z$, then
 \begin{enumerate}
 \item sextupole decoherence suppression works for both beams without gradient value change;
