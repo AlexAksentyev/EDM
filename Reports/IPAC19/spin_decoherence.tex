@@ -20,40 +20,61 @@
 
 \begin{document}
 \title{Spin decoherence in the Frequency Domain Method for the search of a particle EDM}
-\author{A. E. Aksentyev\textsuperscript{1}\thanks{alexaksentyev@gmail.com},
-  Institut f\"ur Kernphysik, Forschungszentrum J\"ulich, J\"ulich, Germany \\
-  Y. V. Senichev, Institute for Nuclear Research of RAS \\
-  \textsuperscript{1}also at National Research Nuclear University ``MEPhI,'' Moscow, Russia}
-
+\author{A. E. Aksentyev\textsuperscript{1,2,3}\thanks{alexaksentyev@gmail.com},
+  Y. V. Senichev\textsuperscript{3}, \\
+  \textsuperscript{1} National Research Nuclear University ``MEPhI,'' Moscow, Russia \\
+  \textsuperscript{2} Institut f\"ur Kernphysik, Forschungszentrum J\"ulich, J\"ulich, Germany\\
+  \textsuperscript{3} Institute for Nuclear Research of the Russian Academy of Sciences, Moscow, Russia}
 \maketitle
+
 \begin{abstract}
-  Spin coherence refers to a measure of preservation of polarization in an initially polarized beam. The spin vector of a particle injected into a storage ring starts to precess about the vertical magnetic field vector in accordance with the Thomas-BMT equation. The precession frequency is dependent on the equilibrium-level energy, which differs across the beam particles. This does not pose a problem when the initial polarization is vertical; however, the Frozen Spin Storage Ring EDM search method requires beam polarization along the momentum vector, i.e., in the horizontal plane. 
+  Spin coherence refers to a measure of preservation of polarization in an initially polarized beam.
+  The spin vector of a particle injected into a storage ring starts to precess about
+  the vertical magnetic field vector in accordance with the Thomas-BMT equation. The precession frequency
+  is dependent on the equilibrium-level energy, which differs across the beam particles.
+  This does not pose a problem when the initial polarization is vertical; however,
+  the Frozen Spin Storage Ring EDM search method requires beam polarization along the momentum vector,
+  i.e., in the horizontal plane. 
   
-  In the present work we analyze the source of decoherence, and investigate the way it can be suppressed in the horizontal plane in a perfectly aligned ring by means of sextupole fields. We also consider the case of an imperfect ring, the vertical plane decoherence introduced by field imperfections, and its effect on the EDM estimator used in the Frequency Domain method.
+  In the present work we analyze the source of decoherence, and investigate the way it can be suppressed
+  in the horizontal plane in a perfectly aligned ring by means of sextupole fields. We also consider
+  the case of an imperfect ring, the vertical plane decoherence introduced by field imperfections,
+  and its effect on the EDM estimator used in the Frequency Domain method.
 \end{abstract}
 
 \section{Spin dynamics in a storage ring}
-The dynamics of a spin-vector $\vec s$ in a magnetic field $\vec B$ and an electrostatic field $\vec E$ is described by the Thomas-BMT equation. Its generalized version, accounting for the effect of the particle's electric dipole moment, can be written in the rest frame as:
+The dynamics of a spin-vector $\vec s$ in a magnetic field $\vec B$ and an electrostatic field $\vec E$
+is described by the Thomas-BMT equation. Its generalized version, accounting for the effect of
+the particle's electric dipole moment, can be written in the rest frame as:
 \begin{subequations}
   \begin{align}
     \ddt{\vec s} &= \vec s\times \bkt{\vec\W_{MDM} +\vec\W_{EDM}}, \label{eq:TBMT_main}
-    \intertext{where the magnetic (MDM) and electric (EDM) dipole moment angular velocities $\vec\W_{MDM}$ and $\vec\W_{EDM}$ }
+    \intertext{where the magnetic (MDM) and electric (EDM) dipole moment angular velocities
+      $\vec\W_{MDM}$ and $\vec\W_{EDM}$ }
     \vec\W_{MDM} &= \frac qm \bkt*{G\vec B - \bkt{G - \frac{1}{\gamma^2-1}}\frac{\vec E\times\vec\beta}{c}},\label{eq:TBMT_MDM} \\
     \vec\W_{EDM} &= \frac qm \frac\eta2 \bkt*{\frac{\vec E}c + \vec\beta\times \vec B}.\label{eq:TBMT_EDM}
   \end{align}
 \end{subequations}
-In the above equations, $m,~q,~G=(g-2)/2$ are, respectively, the mass, charge, and magnetic anomaly of the particle; $\beta = \dfrac{v_0}{c}$ is its normalized speed; $\gamma$ its Lorentz-factor. The EDM factor $\eta$ is defined by the equation $d = \eta\frac{q}{2mc}$, in which $d$ is the particle EDM, $s$ its spin.
+In the above equations, $m,~q,~G=(g-2)/2$ are, respectively, the mass, charge, and anomalous magnetic moment
+of the particle; $\beta = \dfrac{v_0}{c}$ is its normalized speed; $\gamma$ its Lorentz factor.
+The EDM factor $\eta$ is defined by equation $d = \eta\frac{q}{2mc}$, in which $d$ is the particle EDM,
+$s$ its spin.
 
 In the standard formalizm one operates with the spin transfer matrix~\cite[p.~4]{COSY:SpinTuneMapping}
 \[
 \boldsymbol{t}_R = \exp\bkt{-i\pi\nu_s\vec\sigma\cdot\bar n} = \cos\pi\nu_s - i (\vec\sigma\cdot\bar n)\sin\pi\nu_s,
 \]
-where $\nu_s = \sfrac{\W_s}{\W_{cyc}}$, the ratio of the particle's spin precession frequency to its cyclotron frequency, is termed \emph{spin tune}, and $\bar n$, termed the \emph{invariant spin axis}, defines the spin precession axis. They relate to the spin precession angular velocity as in $\vec\W_s = \w_{cyc}\cdot \nu_s\bar n$.
+where $\nu_s = \sfrac{\W_s}{\W_{cyc}}$, the ratio of the particle's spin precession frequency to
+its cyclotron frequency, is termed \emph{spin tune}, and $\bar n$, termed the \emph{invariant spin axis},
+defines the spin precession axis. They relate to the spin precession angular velocity as in
+$\vec\W_s = \w_{cyc}\cdot \nu_s\bar n$.
 
 \section{Origin of decoherence}
-Spin decoherence in a particle beam is a result of the difference of the particles' spin precession angular velocities ($\vec\W_s$), which, in turn, is caused by the difference of their orbit lengths.
+Spin decoherence in a particle beam is a result of the difference of the particles' spin precession
+angular velocities ($\vec\W_s$), which, in turn, is caused by the difference of their orbit lengths.
 
-The longitudinal dynamics of a particle on the reference orbit in a storage ring is described by the system of equations:
+The longitudinal dynamics of a particle on the reference orbit in a storage ring is described by
+the system of equations:
 \begin{equation}
   \begin{cases}
     \ddt{\D\varphi} &= -\w_{RF}\eta\delta, \\
@@ -68,37 +89,55 @@ the momentum compaction factor defined by $\sfrac{\Delta L}{L} = \alpha_0\delta$
 $h$ is the harmonic number; $E$ the total energy of the particle.
 
 The solutions of this system form a family of ellipses in the $(\varphi, \delta)$-plane, all centered at the point
-$(\varphi_0,\delta_0)$. However, if one considers a particle involved in betatron oscillations, and uses a higher-order Taylor expansion of the momentum compaction factor $\alpha = \alpha_0 + \alpha_1\delta$, the first equation of the system transforms into:~\cite[p.~2579]{Senichev:IPAC13}
+$(\varphi_0,\delta_0)$. However, if one considers a particle involved in betatron oscillations, and uses a
+higher-order Taylor expansion of the momentum compaction factor $\alpha = \alpha_0 + \alpha_1\delta$,
+the first equation of the system transforms into:~\cite[p.~2579]{Senichev:IPAC13}
 \[
 \ddt{\varphi} = -\w_{RF} \bkt*{\bkt{\frac{\Delta L}{L}}_\beta + \bkt{\alpha_0 + \gamma^{-2}}\delta + \bkt{\alpha_1 - \alpha_0\gamma^{-2} + \gamma^{-4}}\delta^2},
 \]
-where $\bkt{\frac{\Delta L}{L}}_\beta = \frac{\pi}{2L}\bkt*{\varepsilon_xQ_x + \varepsilon_yQ_y}$, is the betatron motion-related orbit lengthening; $\varepsilon_x$ and $\varepsilon_y$ are the horizontal and vertical beam emittances, and $Q_x$, $Q_y$ are the horizontal and vertical tunes.
+where $\bkt{\frac{\Delta L}{L}}_\beta = \frac{\pi}{2L}\bkt*{\varepsilon_xQ_x + \varepsilon_yQ_y}$, is
+the betatron motion-related orbit lengthening; $\varepsilon_x$ and $\varepsilon_y$ are the
+horizontal and vertical beam emittances, and $Q_x$, $Q_y$ are the horizontal and vertical tunes.
 
-The solutions of the transformed system are no longer centered at the same single point. Orbit lengthening and momentum deviation cause an equilibrium-level momentum shift~\cite[p.~2581]{Senichev:IPAC13}
+The solutions of the transformed system are no longer centered at the same single point.
+Orbit lengthening and momentum deviation cause an equilibrium-level momentum shift~\cite[p.~2581]{Senichev:IPAC13}
 \begin{equation}\label{eq:EquLevMom_shift}
 \Delta\delta_{eq} = \frac{\gamma_0^2}{\gamma_0^2\alpha_0 - 1}\bkt*{\frac{\delta_m^2}{2}\bkt{\alpha_1 - \alpha_0\gamma^{-2} + \gamma_0^{-4}} + \bkt{\frac{\Delta L}{L}}_\beta},
 \end{equation}
 where $\delta_m$ is the amplitude of synchrotron oscillations.
 
-The equilibrium energy level, associated with the momentum shift~\eqref{eq:EquLevMom_shift}, termed the \emph{effective Lorentz-factor}, is\cite{Senichev:FDM}
+The equilibrium energy level, associated with the momentum shift~\eqref{eq:EquLevMom_shift},
+termed the \emph{effective Lorentz factor}, is\cite{Senichev:FDM}
 \begin{equation}\label{eq:EffectiveGamma}
 \gamma_{eff} = \gamma_0 + \beta_0^2\gamma_0\cdot\Delta\delta_{eq},
 \end{equation}
-where $\gamma_0$, $\beta_0$ are the Lorentz-factor and normalized speed of the reference particle.
+where $\gamma_0$, $\beta_0$ are the Lorentz factor and normalized speed of the reference particle.
 
-From the T-BMT equation~\eqref{eq:TBMT_MDM}, and the equation of cyclotron frequency in a magnetic field $\w_{cyc} = \frac qm \frac B\gamma$, spin tune $\nu_s = \gamma_{eff}G$; therefore, the variation of orbit lengths over the beam particles casues a spin tune dispersion, and consequently --- spin decoherence.
+From the T-BMT equation~\eqref{eq:TBMT_MDM}, and the equation for cyclotron frequency in a magnetic field
+$\w_{cyc} = \frac qm \frac B\gamma$, spin tune $\nu_s = \gamma_{eff}G$; therefore, the variation of
+orbit lengths over the beam particles casues spin tune dispersion, and consequently --- spin decoherence.
 
 \section{Sextupole field suppression of decoherence}
-A sextupole field with gradient $ S_{sext} = \frac{1}{B\rho} \pddx{B_y}[x][2]$, has a two-fold effect on decoherence:
+A sextupole field with gradient $ S_{sext} = \frac{1}{B\rho} \pddx{B_y}[x][2]$, has a twofold effect
+on decoherence:
 \begin{itemize}
-\item it directly affects the particles' orbit lengths: $\bkt{\frac{\Delta L}{L}}_{sext} = \mp \frac{S_{sext}D_0\beta_{x,y}\varepsilon_{x,y}}{L}$, and
+\item it directly affects the particles' orbit lengths:
+  $\bkt{\frac{\Delta L}{L}}_{sext} = \mp \frac{S_{sext}D_0\beta_{x,y}\varepsilon_{x,y}}{L}$, and
 \item it modifies the lattice's momentum compaction factor: $\Delta \alpha_{1,sext} = -\frac{S_{sext}D_0^3}{L}$.
 \end{itemize}
-Above, $\beta_{x,y}$ are the horizontal, vertical beta-functions; $D(s) = D_0(s) + D_1(s)\delta$ is the dispersion function; $B\rho$ is magnetic rigidigy.
+Above, $\beta_{x,y}$ are the horizontal, vertical beta-functions;
+$D(s) = D_0(s) + D_1(s)\delta$ is the dispersion function; $B\rho$ is the magnetic rigidigy.
 
-Consequently, in order to reduce decoherence associated with horizontal, and vertical betatron oscillations, and with synchrotron oscillations, correcting sextupoles must be placed, respectively, in the maxima of the $\beta_x$-, $\beta_y$- and $D$-functions.
+Consequently, in order to reduce decoherence associated with horizontal and vertical betatron oscillations,
+and with synchrotron oscillations, correcting sextupoles must be placed, respectively, in the maxima of
+the $\beta_x$-, $\beta_y$- and $D$-functions.
 \section{Simulation of decoherence suppression}
-In the following simulation we used a Frozen Spin-type lattice represented in Figure~\ref{fig:FSBNL_lattice}. All optical elements are perfectly aligned, i.e., there's no spin precession about the radial coordinate system axis. Particles were injected at 270 MeV kinetic energy, which is the frozen spin energy for the deuteron in this lattice. Computations were performed using the COSY Infinity code.~\cite{COSY:Website} Spin tune and invariant spin axis Taylor expansions were computed up to 5th order. Simulation results are presented in Figure~\ref{fig:decoherence_suppression_sim}.
+In this simulation we used a Frozen Spin-type lattice shown in Figure~\ref{fig:FSBNL_lattice}.
+All optical elements are perfectly aligned, i.e., there's no spin precession about the
+radial coordinate system axis. Particles were injected at 270 MeV kinetic energy, which is the
+frozen spin energy for the deuteron in this lattice. Computations were performed using the
+COSY INFINITY code.~\cite{COSY:Website} Spin tune and invariant spin axis Taylor expansions
+were computed up to 5th order. Simulation results are presented in Figure~\ref{fig:decoherence_suppression_sim}.
 
 \begin{figure}[h!]
   \centering
@@ -122,11 +161,15 @@ In the following simulation we used a Frozen Spin-type lattice represented in Fi
     \includegraphics[width=\linewidth]{../img/IPAC19/spin_tune_decoh_d_offset}
     \caption{For particles involved in synchrotron oscillation only\label{fig:st_decoh_synchrotron}}
   \end{subfigure}
-  \caption{Spin tune a as function of initial horizontal, vertical, or momentum offset of the particle, with and without correcting sextupoles\label{fig:decoherence_suppression_sim}}
+  \caption{Spin tune a as function of initial horizontal, vertical, or momentum offset of the particle,
+    with (optimized) and without (unoptimized) correcting sextupoles\label{fig:decoherence_suppression_sim}}
 \end{figure}
 
 \section{Simulation of decohrence in an imperfect lattice}
-In this simulation we rotated the E+B elements about the optic axis by angles generated from the normal distribution $\alpha \sim N(0, 5\cdot 10^{-4})$ rad. The value $\sigma_\alpha = 5\cdot 10^{-4}$ is a realistic~\cite{Senichev:FDM} element alignment error standard deviation. A rotation of an E+B element does not cause a perturbation of the closed orbit, since the net Lorentz force is kept constant.
+In this simulation we rotated the E+B elements about the optic axis by angles generated from the
+normal distribution $\alpha \sim N(0, 5\cdot 10^{-4})$ rad. The value $\sigma_\alpha = 5\cdot 10^{-4}$ is
+a realistic~\cite{Senichev:FDM} element alignment error standard deviation. A rotation of an E+B element
+does not cause a perturbation of the closed orbit, since the net Lorentz force is kept constant.
 
 \begin{figure}[ht]
   \centering
@@ -148,24 +191,40 @@ Figure~\ref{fig:decoh_rms_sy} shows the same statistic for the vertical componen
 slope estimate $(5 \pm 6) \cdot 10^{-8}$ 1/sec).
 
 \section{Conclusions}
-Spin decoherence is a major problem for any experiment aiming to measure the EDM of an elementary particle using the storage ring method,~\cite{BNL:Deuteron2008} as it drastically reduces the possible measurement cycle time. In the present work we have described the mechanism by which it arises, and a method by which it can be suppressed. We have shown that by means of this method the parabolic dependence of spin tune on the particle coordinate can be removed. The remaining linear decoherence effect observed in Figures~\ref{fig:st_decoh_horizontal} and~\ref{fig:st_decoh_synchrotron} is suppressed by use of an RF-cavity.
+Spin decoherence is a major problem for any experiment aiming to measure the EDM of an elementary particle
+using the storage ring method,~\cite{BNL:Deuteron2008} as it drastically reduces the
+possible measurement cycle time. In the present work we have described the mechanism by which it arises,
+and a method by which it can be suppressed. We have shown that by means of this method the
+parabolic dependence of spin tune on the particle coordinate can be removed. The remaining
+linear decoherence effect observed in Figures~\ref{fig:st_decoh_horizontal} and~\ref{fig:st_decoh_synchrotron}
+can likely be suppressed by use of an RF-cavity.~\cite[p.~210]{Eremey:Thesis}
 
 \begin{thebibliography}{9}
   
 \bibitem{COSY:SpinTuneMapping}
-  A. Saleev et al., (JEDI Collaboration), ``Spin tune mapping as a novel tool to probe the spin dynamics in storage rings.'' Phys.Rev.Accel.Beams 20 (2017) no.7, 072801
+  A. Saleev et al., (JEDI Collaboration), ``Spin tune mapping as a novel tool to probe
+  the spin dynamics in storage rings.'' Phys. Rev. Accel. Beams 20 (2017) no.7, 072801.
 
 \bibitem{Senichev:IPAC13}
-  Y. Senichev, R. Maier, D. Zyuzin, N. Kulabukhova, (JEDI Collaboration), ``Spin tune decoherence effects in electro- and magnetostatic structures.'' Proc. of IPAC13 (2013).
+  Y. Senichev, R. Maier, D. Zyuzin, N. Kulabukhova, (JEDI Collaboration), ``Spin tune decoherence effects
+  in electro- and magnetostatic structures.'' Proc. of IPAC13 (2013).
 
 \bibitem{Senichev:FDM}
-  Y. Senichev, A. Aksentev, A. Ivanov, E. Valetov, ``Frequency domain method of the search for the deuteron electric dipole moment in a storage ring with imperfections.'' In review.
+  Y. Senichev, A. Aksentev, A. Ivanov, E. Valetov, ``Frequency domain method of the search for
+  the deuteron electric dipole moment in a storage ring with imperfections,'' arxiv:1711.06512 [physics.acc-ph]
+  \url{https://arxiv.org/abs/1711.06512}.
 
 \bibitem{COSY:Website}
-  M. Berz, Kyoko Makino, COSY Infinity. \url{cosyinfinity.org}
+  M. Berz, Kyoko Makino, COSY Infinity website: \url{cosyinfinity.org}
 
 \bibitem{BNL:Deuteron2008}
-  D. Anastassopoulos et at., (srEDM Collaboration), ``Search for a permanent electric dipole moment of the deuteron nucleus at the $10^{-29}~e\cdot cm$ level,'' proposal as submitted to the BNL PAC, April 2008.
+  D. Anastassopoulos et at., (srEDM Collaboration), ``Search for a permanent electric dipole moment of
+  the deuteron nucleus at the $10^{-29}~e\cdot cm$ level,'' proposal as submitted to the BNL PAC, April 2008.
+
+\bibitem{Eremey:Thesis}
+  E. Valetov, ``Field modeling, symplectic tracking, and spin decoherence for the EDM and muon g-2 lattices.''
+  PhD tehsis, Michigan State University, Michigan, USA.
+  \url{http://collaborations.fz-juelich.de/ikp/jedi/public_files/theses/valetovphd.pdf}
   
 \end{thebibliography}
 \end{document}
