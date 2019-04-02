@@ -24,10 +24,11 @@
 
 \begin{document}
 \title{Spin Motion Perturbation Effect on the EDM Statistic in the Frequency Domain Method}
-\author{A. E. Aksentyev\textsuperscript{1}\thanks{alexaksentyev@gmail.com},
-  Institut f\"ur Kernphysik, Forschungszentrum J\"ulich, J\"ulich, Germany \\
-  Y. V. Senichev, Institute for Nuclear Research of RAS \\
-  \textsuperscript{1}also at National Research Nuclear University ``MEPhI,'' Moscow, Russia}
+\author{A. E. Aksentyev\textsuperscript{1,2,3}\thanks{alexaksentyev@gmail.com},
+  Y. V. Senichev\textsuperscript{3}, \\
+  \textsuperscript{1} National Research Nuclear University ``MEPhI,'' Moscow, Russia \\
+  \textsuperscript{2} Institut f\"ur Kernphysik, Forschungszentrum J\"ulich, J\"ulich, Germany\\
+  \textsuperscript{3} Institute for Nuclear Research of the Russian Academy of Sciences, Moscow, Russia}
 \maketitle
 
 \begin{abstract}
@@ -57,7 +58,7 @@ has the following problems:
 \end{inparaenum}
 
 The former is to minimize the magnitude of
-the vertical plane MDM precession frequency:~\cite[p.~11]{BNL:Deuteron2008}
+the vertical plane MDM precession frequency~\cite[p.~11]{BNL:Deuteron2008}
 \begin{equation}\label{eq:BNL_syst_err}
 \w_{syst} \approx \frac{\mu\avg{E_v}}{\beta c\gamma^2},
 \end{equation}
@@ -70,15 +71,17 @@ on measurments of the EDM contribution to the spin precession angular velocity. 
 roll about a nearly-constant, definite direction vector $\nbar$, with an angular velocity
 that is high enough for the beam polarization to be easily measureable at all times. This ``Spin Wheel'' may be
 externally applied~\cite{Koop:SW}, or otherwise the machine imperfection fields
-may be utilized for the same purpose~\eqref{eq:BNL_syst_err}~\cite{Senichev:FDM}. The latter is made possible
+may be utilized for the same purpose (wheel roll rate determined by
+equation~\eqref{eq:BNL_syst_err}).~\cite{Senichev:FDM} The latter is made possible
 by the fact that $\w_{syst}$ changes sign when the beam revolution direction
 is reversed.~\cite[p.~11]{BNL:Deuteron2008}
 
 The frequency of oscillation of the vertical polarization component $P_y$ is estimated
-via a fit of the polarimetry data to the model
+via fit of the model
 \begin{equation}\label{eq:fit_model}
-  f(t) = a\cdot\sin(\w\cdot t + \delta).
+  f(t) = a\cdot\sin(\w\cdot t + \delta),
 \end{equation}
+to polarimetry data.
 
 \section{Problem statement}
 \newcommand{\ntrn}{n_{turn}}
@@ -103,7 +106,7 @@ as described in~\cite{Aksentev:DecohIPAC19}. In this paper we will, therefore, b
 variation.
 
 \section{Simulation}
-The simulation setup was as follows: a particle, offset from the design orbit in the vertical
+The simulation was set up as follows: a particle, offset from the design orbit in the vertical
 direction by 0.3 mm, is injected multiple times into an imperfect
 Frozen Spin lattice~\cite{Senichev:Lattices} utilizing sextupoles for
 the reduction of spin decoherence caused by vertical plane betatron
@@ -118,7 +121,7 @@ are chosen for effect detalization purposes.
 
 Another aspect of the simulation worth noting, is that injection occurs at 270 MeV, while the FS condition
 is fullfilled exactly at 270.0092 MeV. Because of that the invariant spin axis $\nbar$
-points mainly in the vertical direction (deviating from it by no more than \ang{51} at higher SW roll speeds);
+points mainly in the vertical direction (deviating from it by no more than \ang{51} at higher SW roll rates);
 its radial component (the one determining the oscillation amplitude of the vertical spin-vector component)
 is relatively small, and all the more susceptible to variation caused by vertical plane betatron motion for that. 
 
@@ -148,7 +151,7 @@ real measurement data.
 
 To compare these series with one another, we
 \begin{inparaenum}[\itshape a\upshape)]
-\item computed and analyzed the residuals
+\item computed and analyzed residuals
   $\epsilon_1(t) = s_y^{gen}(t) - s_y^{idl}(t)$, and
   $\epsilon_2(t) = s_y^{trk}(t) - s_y^{idl}(t)$;
 \item fitted model~\eqref{eq:fit_model} to the three time series and
@@ -235,7 +238,7 @@ The question of the influence of betatron motion on the EDM statistic in the FD 
 in view of three circumstances:
 \begin{enumerate}
 \item The signal amplitude oscillations (as estimated by $\epsilon_2$) are small.
-  They occur at the $10^{-4}$ level (when $\sigma_{\alpha}=5\cdot 10^{-4}$), whereas
+  They occur at the $10^{-4}$ level (when $\alpha\sim N(0, 3\cdot 10^{-2})$ degrees), whereas
   the expected polarization measurement error is on the order of percents.
   This means the superposition of this systematic error with the random measurement error
   will exhibit no statistically-significant systematicity.
