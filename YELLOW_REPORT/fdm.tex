@@ -175,13 +175,10 @@ please refer to~\cite{Aksentev:IPAC19:SMP}.
 
 \subsection{Expected machine imperfection SW roll rate}
 In the estimates above, we used a roll rate $\wsw\approx 50$ rad/sec for the spin wheel. This is
-our expected $\w_{syst}$ caused by machine imperfections. The
-uncertainty in 
+our expected $\w_{syst}$ caused by machine imperfections.
 
-
-presence of a non-zero average
-radial magnetic field $\avg{B_x}$ induced by accelerator optical element misalignments should 
-generate an MDM spin precession frequency~\cite{Senichev:FDM}
+Denote the standard deviation of the imperfection radial magnetic field distribution $\sigma[B_x]$.
+For the whole ring, MDM precession will be distributed with a standard deviation~\cite{Senichev:FDM}
 \[
 \sigma[\w_x^{MDM}] = \frac{e}{m\gamma}\frac{G+1}{\gamma}\frac{\sigma[B_x]}{\sqrt{n}},
 \]
@@ -189,7 +186,7 @@ where $n$ is the number of misaligned elements, $G=(g-2)/2$ is the anomalous mag
 
 For deuterons in lattices~\cite{Senichev:Lattices} of $n$ on the order of 100 elements, rotated about the
 optic axis by angles $\Theta_{tilt}\sim N(0, 10^{-4})$ rad, Y. Senichev estimates~\cite{Senichev:FDM}
-$\avg{\w_x^{MDM}}$ between 50 and 100 rad/sec. 
+$\w_x^{MDM}$ between 50 and 100 rad/sec. 
 
 Our simulations done in COSY INFINITY seem to confirm this result. In 
 Figure~\ref{fig:imperfections:SW_roll_rate} you see the results of the simulation 
