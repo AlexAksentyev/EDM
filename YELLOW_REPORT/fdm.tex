@@ -175,11 +175,15 @@ please refer to~\cite{Aksentev:IPAC19:SMP}.
 
 \subsection{Expected machine imperfection SW roll rate}
 In the estimates above, we used a roll rate $\wsw\approx 50$ rad/sec for the spin wheel. This is
-our expected $\w_{syst}$ caused by machine imperfections. The presence of a non-zero average
+our expected $\w_{syst}$ caused by machine imperfections. The
+uncertainty in 
+
+
+presence of a non-zero average
 radial magnetic field $\avg{B_x}$ induced by accelerator optical element misalignments should 
 generate an MDM spin precession frequency~\cite{Senichev:FDM}
 \[
-\avg{\w_x^{MDM}} = \frac{e}{m\gamma}\frac{G+1}{\gamma}\frac{\avg{B_x}}{\sqrt{n}},
+\sigma[\w_x^{MDM}] = \frac{e}{m\gamma}\frac{G+1}{\gamma}\frac{\sigma[B_x]}{\sqrt{n}},
 \]
 where $n$ is the number of misaligned elements, $G=(g-2)/2$ is the anomalous magnetic dipole moment.
 
@@ -220,7 +224,7 @@ utilization of sextupole fields. We consider how this can be accomplished in~\ci
 
 As we have seen, the problem with machine imperfections is twofold:
 \begin{inparaenum}[\itshape a\upshape)]
-\item they are prcatically impossible to remove at the present level of technology; but what's even worse, 
+\item they are practically impossible to remove at the present level of technology; but what's even worse, 
 \item their removal leaves one in the space domain, and opens the measurement up to geometric phase error.
 \end{inparaenum}
 
