@@ -35,16 +35,17 @@
   The spin precession axis of a particle involved in betatron motion precesses about the invariant spin axis
   defined on the closed orbit (CO). This precession can be observed in polarization data as a rapid,
   small-amplitude oscillation on top of the major effect oscillation caused by the precession of spin
-  about the CO axis. The frequency of this latter oscillation is used in the Frequency Domain methodology
+  about the CO axis. The frequency of this latter oscillation is used in the Frequency Domain (FD) methodology
   as the EDM observable. It is estimated by fitting polarimetry data by a sine function; the rapid
   oscillations, therefore, constitute a model specification error.
-  This model error will introduce a bias into the frequency estimate. In the present work we investigate
-  how this bias changes depending on the beam revolution direction, its stability over time, and
-  the EDM estimate error introduced by it.
+  This model error might introduce a bias into the frequency estimate. In the present work we investigate
+  the effect of the spin precession axis motion on measurement data and fit quality, and conclude that it
+  is not only insignificant (with regard to data perturbation) compared to spin tune variation,
+  but is also controllable via the application of a Spin Wheel.
 \end{abstract}
 
 \section{Frequency Domain methodology}
-Frequency Domain (FD)~\cite{Senichev:FDM} is a Storage Ring method of search for the
+Frequency Domain (FD)~\cite{Senichev:2017amn} is a Storage Ring method of search for the
 Electric Dipole Moment (EDM) of a fundamental particle.~\cite{BNL:SREDM}
 It belongs to the Frozen Spin~\cite{BNL:Deuteron2008} category
 of such methods, i.e., the Magnetic Dipole Moment (MDM) component of spin precession is minimized. However,
@@ -54,7 +55,7 @@ of the polarization vector, as measured by the angle between its initial and fin
 has the following problems:
 \begin{inparaenum}[\itshape a\upshape)]
 \item it puts very stringent constraints on the precision of the accelerator optical element alignment, and
-\item it poses a challenging task for polarimetry.~\cite[p.~6]{Mane:SpinWheel}
+\item it poses a challenging task for polarimetry.~\cite[p.~6]{Mane:2015jsa}
 \end{inparaenum}
 
 The former is to minimize the magnitude of
@@ -70,9 +71,9 @@ EDM search methods in the Frequency Domain circumvent the above problems: EDM in
 on measurments of the EDM contribution to the spin precession angular velocity. The polarization vector is made to
 roll about a nearly-constant, definite direction vector $\nbar$, with an angular velocity
 that is high enough for the beam polarization to be easily measureable at all times. This ``Spin Wheel'' may be
-externally applied~\cite{Koop:SW}, or otherwise the machine imperfection fields
+externally applied~\cite{Koop:IPAC13-TUPWO040}, or otherwise the machine imperfection fields
 may be utilized for the same purpose (wheel roll rate determined by
-equation~\eqref{eq:BNL_syst_err}).~\cite{Senichev:FDM} The latter is made possible
+equation~\eqref{eq:BNL_syst_err}).~\cite{Senichev:2017amn} The latter is made possible
 by the fact that $\w_{syst}$ changes sign when the beam revolution direction
 is reversed.~\cite[p.~11]{BNL:Deuteron2008}
 
@@ -102,22 +103,22 @@ where $\nbar = \nbar(\ntrn)$ and $\nu_s = \nu_s(\ntrn)$ are functions of the tur
 Sufficiently large variation of~ $\nbar$ and/or $\nu_s$ can lead to model specification systematic error.
 Variation in $\nu_s$ is especialy problematic in this regard, as it directly affects the phase of the signal;
 however, this problem can be solved by the introduction of sextupole fields into the system,
-as described in~\cite{Aksentev:DecohIPAC19}. In this paper we will, therefore, be concerned only with the $\nbar$
+as described in~\cite{Aksentev:IPAC19:Decoh}. In this paper we will, therefore, be concerned only with the $\nbar$
 variation.
 
 \section{Simulation}
 The simulation was set up as follows: a particle, offset from the design orbit in the vertical
 direction by 0.3 mm, is injected multiple times into an imperfect
-Frozen Spin lattice~\cite{Senichev:Lattices} utilizing sextupoles for
+Frozen Spin lattice~\cite{Senichev:ICAP15-MODBC4} utilizing sextupoles for
 the reduction of spin decoherence caused by vertical plane betatron
-oscillations~\cite{Aksentev:DecohIPAC19}. Lattice imperfections are simulated by rotations of the E+B spin
+oscillations~\cite{Aksentev:IPAC19:Decoh}. Lattice imperfections are simulated by rotations of the E+B spin
 rotator elements. Imperfections introduced this way do not perturb the design orbit.
 
 Each injection, the rotation angles are randomly generated from the
 normal distribution $\alpha\sim N(\mu_i, 3\cdot 10^{-4})$ degrees, $i\in\{1,\dots,41\}$, where
 $\mu_i$ varies in the range $[-1.5\cdot10^{-4}, +2.5\cdot10^{-4}]$ degrees. The non-zero expectation values $\mu_i$
-simulate the application of a Koop Spin Wheel (SW).~\cite{Koop:SW} The magnitudes of $\mu_i$ and $\sigma_{\alpha}$
-are chosen for effect detalization purposes.
+simulate the application of a Koop Spin Wheel (SW).~\cite{Koop:IPAC13-TUPWO040} The magnitudes of
+$\mu_i$ and $\sigma_{\alpha}$ are chosen for effect detalization purposes.
 
 Another aspect of the simulation worth noting, is that injection occurs at 270 MeV, while the FS condition
 is fullfilled exactly at 270.0092 MeV. Because of that the invariant spin axis $\nbar$
@@ -254,10 +255,12 @@ in view of three circumstances:
 
 \begin{thebibliography}{9}
 
-\bibitem{Senichev:FDM}
-  Y. Senichev, A. Aksentev, A. Ivanov, E. Valetov, ``Frequency domain method of the search for
-  the deuteron electric dipole moment in a storage ring with imperfections,'' arxiv:1711.06512 [physics.acc-ph]
-  \url{https://arxiv.org/abs/1711.06512}.
+\bibitem{Senichev:2017amn} 
+  Y.~Senichev, A.~Aksentev, A.~Ivanov and E.~Valetov,
+  %``Frequency domain method of the search for the deuteron electric dipole moment in a storage ring
+  %with imperfections,''
+  arXiv:1711.06512 [physics.acc-ph].
+  %%CITATION = ARXIV:1711.06512;%%
 
 \bibitem{BNL:SREDM}
   M. Bai et al., SREDM Collaboration website: \url{https://www.bnl.gov/edm/}.
@@ -270,26 +273,32 @@ in view of three circumstances:
   R. Talman, ``Prospects for Electric Dipole Moment Measurement Using Electrostatic Accelerators,''
   Reviews of Accelerator Science and Technology, A. Chao and W. Chou, editors, Volume 10, 2018, not yet in print.
 
-\bibitem{Mane:SpinWheel}
-  S. Mane, ``A distillation of Koop's idea of the Spin Wheel,'' arXiv:1509.01167 [physics]
-  \url{http://arxiv.org/abs/1509.01167}.
+\bibitem{Mane:2015jsa} 
+  S.~R.~Mane,
+  %``Spin Wheel,''
+  arXiv:1509.01167 [physics.acc-ph].
+  %%CITATION = ARXIV:1509.01167;%%
 
-\bibitem{Koop:SW}
-  I. Koop. ``Asymmetric energy colliding ion beams in the EDM storage ring,'' Proc. of IPAC13 (2013).
-  \url{http://accelconf.web.cern.ch/accelconf/ipac2013/papers/tupwo040.pdf}.
+\bibitem{Koop:IPAC13-TUPWO040}
+   I. Koop,
+   \textquotedblleft{Asymmetric Energy Colliding Ion Beams in the EDM Storage Ring}\textquotedblright,
+   in \emph{Proc. 4th Int. Particle Accelerator Conf. (IPAC'13)}, Shanghai, China, May 2013, paper TUPWO040,
+   pp. 1961--1963.
 
 \bibitem{COSY:SpinTuneMapping}
   A. Saleev et al., (JEDI Collaboration), ``Spin tune mapping as a novel tool to probe
   the spin dynamics in storage rings.'' Phys. Rev. Accel. Beams 20 (2017) no.7, 072801.
 
-\bibitem{Aksentev:DecohIPAC19}
+\bibitem{Aksentev:IPAC19:Decoh}
   A. Aksentev, Y. Senichev, ``Spin decoherence in the Frequency Domain Method for the search of a particle EDM,''
   presented at the 10th International Particle Accelerator Conf. (IPAC’19), Melbourne, Australia,
-  May. 2019, paper 2738, this conference.
+  May. 2019, paper MOPTS012.
 
-\bibitem{Senichev:Lattices}
-  Y. Senichev, S. Andrianov, S. Chekmenev, M. Berz, E.Valetov. ``Investigation of Lattice for Deuteron EDM Ring,''
-  Proc. of ICAP15 (2015). \url{http://accelconf.web.cern.ch/AccelConf/ICAP2015/papers/modbc4.pdf}.
+\bibitem{Senichev:ICAP15-MODBC4}
+   V. Senichev, S. N. Andrianov, A. N. Ivanov, M. Berz, E. Valetov, and S. Chekmenev,
+   \textquotedblleft{Investigation of Lattice for Deuteron EDM Ring}\textquotedblright,
+   in \emph{Proc. 12th Int. Computational Accelerator Physics Conf. (ICAP'15)}, Shanghai, China, Oct. 2015,
+   pp. 17--19. \url{doi:10.18429/JACoW-ICAP2015-MODBC4}       
 
 \bibitem{COSYINF:Website}
   M. Berz, K. Makino, COSY Infinity website: \url{cosyinfinity.org}.
