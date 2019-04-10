@@ -1,7 +1,7 @@
 \documentclass[20pt, a0paper, portrait, blockverticalspace=15mm]{tikzposter}
 \usetikzlibrary{positioning}
 
-\title{Spin Motion Perturbation Effect on the EDM Statistic in the Frequency Domain Method}
+\title{\parbox{\linewidth}{\centering Spin Motion Perturbation Effect on the EDM Statistic in the Frequency Domain Method}}
 \author{A.E. Aksentyev\textsuperscript{1,2,3}, Y.V. Senichev\textsuperscript{3}}
 \institute{
   \textsuperscript{1} National Research Nuclear University ``MEPhI,'' Moscow, Russia \\
@@ -9,83 +9,105 @@
   \textsuperscript{3} Institute for Nuclear Research of the Russian Academy of Sciences, Moscow, Russia
 }
 
-\makeatletter
-\newcommand\insertlogoi[2][]{\def\@insertlogoi{\includegraphics[#1]{#2}}}
-\newcommand\insertlogoii[2][]{\def\@insertlogoii{\includegraphics[#1]{#2}}}
-\newcommand\insertlogoiii[2][]{\def\@insertlogoiii{\includegraphics[#1]{#2}}}
-\newcommand\insertlogoiv[2][]{\def\@insertlogoiv{\includegraphics[#1]{#2}}}
-\newlength\LogoHSep
-\newlength\LogoVSep
-
-\setlength\LogoHSep{60pt}
-\setlength\LogoVSep{1cm}
-
-\insertlogoi[width=10cm]{./IPAC19_logo}
-\insertlogoii[width=10cm]{../img/JEDI_logo}
-\insertlogoiii[width=8cm]{../img/MEPhI_logo}
-\insertlogoiv[width=10cm]{../img/Julich_logo}
-
-\renewcommand\maketitle[1][]{  % #1 keys
-    \normalsize
-    \setkeys{title}{#1}
-    % Title dummy to get title height
-    \node[transparent,inner sep=\TP@titleinnersep, line width=\TP@titlelinewidth,
-      anchor=north, minimum width=\TP@visibletextwidth-2\TP@titleinnersep]
-    (TP@title) at ($(0, 0.5\textheight-\TP@titletotopverticalspace)$) {\parbox{
-        \TP@titlewidth-2\TP@titleinnersep}{\TP@maketitle}};
-    \draw let \p1 = ($(TP@title.north)-(TP@title.south)$) in node {
-        \setlength{\TP@titleheight}{\y1}
-        \setlength{\titleheight}{\y1}
-        \global\TP@titleheight=\TP@titleheight
-        \global\titleheight=\titleheight
-    };
-
-    % Compute title position
-    \setlength{\titleposleft}{-0.5\titlewidth}
-    \setlength{\titleposright}{\titleposleft+\titlewidth}
-    \setlength{\titlepostop}{0.5\textheight-\TP@titletotopverticalspace}
-    \setlength{\titleposbottom}{\titlepostop-\titleheight}
-
-    % Title style (background)
-    \TP@titlestyle
-
-    % Title node
-    \node[inner sep=\TP@titleinnersep, line width=\TP@titlelinewidth,
-      anchor=north, minimum width=\TP@visibletextwidth-2\TP@titleinnersep]
-        at (0,0.5\textheight-\TP@titletotopverticalspace)
-        (title)
-        {\parbox{\TP@titlewidth-2\TP@titleinnersep}{\TP@maketitle}};
-
-    \node[inner sep=0pt,anchor=west]
-      at ([shift={(-\LogoHSep,\LogoVSep)}]title.west)
-      (logo1)
-      {\@insertlogoi};
-
-    \node[inner sep=0pt,anchor=west,bottom=of logo1] 
-      (logo2)
-      {\@insertlogoii};
-
-    \node[inner sep=0pt,anchor=east] 
-      at ([shift={(\LogoHSep,\LogoVSep)}]title.east)
-      (logo4)
-      {\@insertlogoiv};
-
-    \node[inner sep=0pt,left=of logo4] 
-      (logo3)
-      {\@insertlogoiii};
-
-    % Settings for blocks
-    \normalsize
-    \setlength{\TP@blocktop}{\titleposbottom-\TP@titletoblockverticalspace}
-}
-\makeatother
-
 
 \usetheme{Simple}
+\usecolorstyle{Russia}
+\colorlet{blocktitlefgcolor}{black}
 
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{xparse}
+\usepackage{caption}
+\captionsetup{font=large}
+
+
+\let\oldvec\vec
+\renewcommand{\vec}{\boldsymbol}
+\DeclareDocumentCommand{\bkt}{sm}{\IfBooleanTF{#1}{\left[ #2 \right]}{\left(#2\right)}}
+\DeclareDocumentCommand{\ddt}{m}{\frac{\mathrm{d} {#1}}{\mathrm{d} t}}
+\DeclareDocumentCommand{\pddx}{mO{t}O{}}{\frac{\partial^{#3} {#1}}{\partial {#2}^{#3}}}
+\newcommand{\w}{\omega}
+\newcommand{\W}{\Omega}
+\newcommand{\avg}[1]{\langle {#1} \rangle}
+\newcommand{\nbar}{\bar n}
+\newcommand{\ntrn}{n_{turn}}
 
 \begin{document}
 
 \maketitle
+
+\block{INTRODUCTION}{
+  The Frequency Domain method of search for the EDM of a particle consists in measuring the combined
+  MDM+EDM spin precession frequency in two situations: beam circulating clockwise (direct), and
+  counter-clockwise (time-reversed). When these frequencies are added up, the MDM effect cancels, leaving
+  only the EDM in the final statistic.\\
+
+  The frequency in question is estimated by fitting a sine function to polarimetry data. However, variation of
+  the spin precession angular velocity vector introduces a mismatch between the constant-parameter sinusioidal
+  model and measurement data.\\
+
+  Model specification errors are prone to introducing biases into parameter estimates.
+  The purpose of this work is to analyze the effect of spin motion perturbation on the EDM statistic.
+}
+
+\begin{columns}
+  \column{.5}
+  \block{PROBLEM STATEMENT}{
+    Solution of the T-BMT equation for the
+    vertical spin-vector component:
+    \begin{equation}\label{eq:master}
+      s_y(n_{turn}) = \sqrt{\bkt{\nbar_y\nbar_z}^2 + \nbar_x^2}\cdot\sin\bkt{2\pi\nu_s\cdot\ntrn + \delta}.
+    \end{equation}
+    Here
+    \begin{itemize}
+    \item the \emph{invariant spin axis} $\nbar$ defines the orientation of the spin precession angular
+      velocity vector;
+    \item \emph{spin tune} $\nu_s$ defines the magnitude of the vector.\\
+    \end{itemize}
+
+    Significant variation of $\nbar$ and/or $\nu_s$ can lead to model specification error.
+  }
+
+  \block{SIMULATION}{
+    \begin{tikzfigure}
+      \includegraphics[width=\linewidth]{../img/Lattice/BNL}
+    \end{tikzfigure}
+    \captionof{figure}{Imperfect Frozen Spin lattice in which sextupole spin decoherence suppression is
+      implemented}
+    \vspace*{1cm}
+
+    \begin{minipage}[t]{.5\linewidth}
+      \textbf{Machine imperfections}
+      \begin{itemize}
+      \item rotations of E+B spin rotator elements about the optic axis by
+        $\alpha \sim N(\mu_i, 3\cdot 10^{-4})$ degrees;;
+      \item $\mu_i \in [-1.5\cdot10^{-4}, +2.5\cdot10^{-4}]$ degrees
+      \item $\mu_i$ simulates the application of a Spin Wheel.
+      \end{itemize}
+    \end{minipage}
+    \begin{minipage}[t]{.5\linewidth}
+      \textbf{Particle}
+      \begin{itemize}
+      \item 0.3 mm offset from the reference orbit --- vertical plane betatron oscillations;
+      \item injection kinetic energy slightly off Frozen Spin;
+      \item small $\nbar_x$ value --- increased sensitivity to perturbations.
+      \end{itemize}
+    \end{minipage}
+  }
+
+  \column{.5}
+  \block{ANALYSIS}{
+    \begin{minipage}[t]{.5\linewidth}
+    \textbf{Three data series}
+    \begin{itemize}
+    \item[TRK] $S_y$ data generated by the COSY INFINITY TR command;
+    \item[GEN] $S_y$ data computed from equation~\eqref{eq:master} with $\nbar$, $\nu_s$ the
+      TSS command output;
+    \item[IDL] $S_y$ as in GEN, but $\nbar = \avg{\nbar(t)}$, $\nu_s = \avg{\nu_s(t)}$.
+    \end{itemize}
+    \end{minipage}
+  }
+  \block{CONCLUSIONS}{}
+\end{columns}
 
 \end{document}
