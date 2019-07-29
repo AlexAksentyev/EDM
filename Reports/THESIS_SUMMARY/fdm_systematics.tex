@@ -71,14 +71,16 @@
 
 \textbf{Keywords:} electric dipole moment; frozen spin; spin transparency; spin dynamics; spin decoherence.
 
+\tableofcontents
 
 \section{Introduction}
-One major question to be answered by current fundamental physics research is
-the baryon asymmetry of the universe.
-An answer to that question could be found in the violation of CP-symmetry, one
-of the Sakharov conditions for baryogenesis. Permanent electric dipole moments (EDMs), if they exist,
-violate both the P- and T-symmetries, and in consequence of the CPT-theorem, CP-symmetry.
-The Standard Model (SM) predicts exceedingly small values for nucleon EDMs,
+The search for the electric dipole moments of elementary particles is motivated by the question of
+the baryon asymmetry of the universe. In his seminal 1967 paper~\cite{Sakharov:Baryogenesis} A. Sakharov
+proposed CP-symmetry violation as one of the conditions for baryogenesis.
+Permanent electric dipole moments (EDMs), if they exist, violate both the P- and T-symmerties, and hence,
+via the CPT-theorem, can be linked to CP-symmetry violation.
+
+At the same time, the Standard Model (SM) predicts exceedingly small values for nucleon EDMs,
 in the range of $10^{-33}$ to $10^{-31}~e\cdot$cm,
 which is way below the current upper bound for the neuteron EDM,
 with $d_n = 2.9\cdot 10^{-26}~e\cdot$cm. This implies that particle EDMs can serve as a powerful tool
@@ -86,18 +88,29 @@ for discovering physics beyond the SM. For example, CP-violations that are endem
 supersymmetric teories (SUSY) are such as to span $d_n$ values in the range of
 $10^{-29}$ to $10^{-24}~e\cdot$cm.~\cite{JEDI}
 
-The idea of searching of a particle EDM in a storage ring (SR) environment appeared
-during the development of the g-2 experiment~\cite{BNL:g-2:2001} in Brookhaven National Laboratory.
+Up until now, all EDM-searching experiments were carried out with electrically-neutral particles, such as
+atoms or the neuteron. The idea of searching of a charged particle's EDM in a storage ring environment
+appeared during the development of the g-2 experiment~\cite{BNL:g-2:2001} in Brookhaven National Laboratory.
 
-\subsection{The Frozen Spin concept}
-TODO: introduce the invariant spin axis and spin tune concepts.\\
+The original method proposal~\cite{BNL:Deuteron2008} consisted in observing a slow and gradual
+growth of the vertical component of polarization in an initially fully longitudinally-polarized beam
+injected into a storage ring in which spin precession due to the magnetic dipole moment (MDM) is suppressed.
+Since the MDM component of spin precession is assumed to be zero, the tilting of the polarization vector
+out of the orbit plane, which causes the growth of the vertical component, is an indication of the existence
+of something else that's turing the particles' spin-vectors. This somethig is presumed to be the EDM.
 
-The dynamics of a spin-vector $\vec s$ in a magnetic field $\vec B$ and an electrostatic field $\vec E$
+In the following, we will outline the frozen spin (FS) storage ring design concept,
+on which the above methodology rests. Then, we will describe the characteristic features
+of the frequency-based approach to EDM measurements. After that, we will present the results of our
+analysis of the three major spin dynamics effects affecting the measurements.
+
+\section{The Frozen Spin concept}
+The dynamics of a spin vector $\vec s$ in a magnetic field $\vec B$ and an electrostatic field $\vec E$
 is described by the Thomas-BMT equation. Its generalized version, accounting for the effect of
 the particle's electric dipole moment, can be written in the rest frame as:
 \begin{subequations}
   \begin{align}
-    \ddt{\vec s} &= \vec s\times \bkt{\vec\W_{MDM} +\vec\W_{EDM}}, \label{eq:TBMT_main}
+    \ddt{\vec s} &= \vec s\times \underbrace{\bkt{\vec\W_{MDM} +\vec\W_{EDM}}}_{\W_s}, \label{eq:TBMT_main}
     \intertext{where the magnetic (MDM) and electric (EDM) dipole moment angular velocities
       $\vec\W_{MDM}$ and $\vec\W_{EDM}$ }
     \vec\W_{MDM} &= \frac qm \bkt*{G\vec B - \bkt{G - \frac{1}{\gamma^2-1}}\frac{\vec E\times\vec\beta}{c}},\label{eq:TBMT_MDM} \\
@@ -109,24 +122,24 @@ of the particle; $\beta = \sfrac{v_0}{c}$ is its normalized speed; $\gamma$ its 
 The EDM factor $\eta$ is defined by the equation $d = \eta\frac{q}{2mc}$, in which $d$ is the particle EDM,
 $s$ its spin.
 
-The Frozen Spin (FS) measurement concept consists in injecting a longitudinally-polarized beam
-into a storage ring having a radial electric field component
-$E_r = \frac{GB_yc\beta\gamma^2}{1-G\beta^2\gamma^2}$,~\cite[p.~10]{BNL:Deuteron2008} so that the
-magnetic dipole moment (MDM) component in~\eqref{eq:TBMT_main} is set to zero: $\vec\W_{MDM} = \vec 0$.
-Then, any tilting of the beam polarization vector out of the horizontal plane
-is attributed to the presence of an EDM. Specifically, the vertical polarization component
+If the storage ring's radial electric field component~\cite[p.~10]{BNL:Deuteron2008}
+\[
+E_r = \frac{GB_yc\beta\gamma^2}{1-G\beta^2\gamma^2},
+\]
+the
+MDM component in~\eqref{eq:TBMT_main} is set to zero: $\vec\W_{MDM} = \vec 0$, and we are said
+to be operating in the frozen spin (also called ``spin transparent'') regime.
+
+In this case, the vertical polarization vector component is expected to be a harmonic signal
 \begin{equation}\label{eq:Py_growth}
- P_y = A\cdot \sin\bkt{\underbrace{\sqrt{(\wedm + \wimp)^2 + \w_y^2 + \w_z^2}}_{\W}\cdot t + \delta}.
+ P_y = A\cdot \sin\bkt{\underbrace{\sqrt{(\wedm + \wimp)^2 + \w_y^2 + \w_z^2}}_{\W}\cdot t + \delta},
 \end{equation}
-In the above equation, $\wimp$ denotes the MDM spin precession frequency generated by fields connected
-with machine imperfections.
+where $\wimp$ denotes the MDM spin precession frequency generated by fields connected
+with machine imperfections. It is the primary source of systematic error in the storage ring
+EDM search experiment based on the classical, i.e. 3D, FS idea.
 
-\section{The frequency-based approach}
-TODO: introduce the concept of spin wheel.\\
-
-A brief summary of the approaches to the EDM measurement problem, within the FS paradigm.
-
-According to equation~\eqref{eq:Py_growth}, we can conceptualize two distinct measurement modes:
+According to equation~\eqref{eq:Py_growth}, two distinct measurement modes can be conceptualized in the FS
+measurement framework:
 \begin{enumerate*}
 \item the amplitude-, and
 \item the frequency-based methods.
@@ -136,9 +149,12 @@ In the former, all EDM-unrelated precession in the ring must first be suppressed
 polarization vector still keeps turning, it indicates to us that something else (the EDM) exists,
 that's turning it.
 
-In the frequency-based methodology, spin precession is stopped only in the beam orbit plane, and the EDM
-indicator is the change to the vertical plane spin precession frequency under time reversal (which is
-performed via reversing the beam circulation direction).
+In the frequency-based methodology, on the other hand, spin precession is stopped only in the beam orbit plane,
+and the EDM indicator is the change to the vertical plane spin precession frequency under time reversal
+(the time reversal is simulated by reversing the beam circulation direction).
+
+We call the state in which the beam particles' spins are frozen in the horiozontal,
+but precess freely in the vertical, plane the 2D FS -- or the spin wheel (SW) -- state.
 
 Three advatages follow from not freezing the spin precession in the vertical plane:
 \begin{enumerate}[(i)]
@@ -150,9 +166,25 @@ Three advatages follow from not freezing the spin precession in the vertical pla
   beam orbit plane, the polarization measurement is much easier.
 \end{enumerate}
 
-\section{Betatron oscillations}
+\paragraph{Standard terminology}
+For terminology's sake, we should note that in the standard formalizm one operates with
+the spin transfer matrix~\cite[p.~4]{COSY:SpinTuneMapping}
+\[
+\boldsymbol{t}_R = \exp\bkt{-i\pi\nu_s\vec\sigma\cdot\bar n} = \cos\pi\nu_s - i (\vec\sigma\cdot\bar n)\sin\pi\nu_s,
+\]
+where $\nu_s = \sfrac{\W_s}{\W_{cyc}}$, the ratio of the particle's spin precession frequency to
+its cyclotron frequency, is termed \emph{spin tune}, and $\bar n$, termed the \emph{invariant spin axis},
+defines the spin precession axis. They relate to the spin precession angular velocity as in
+\[
+\vec\W_s = \w_{cyc}\cdot \nu_s\bar n.
+\]
 
-\subsection{Probem statement}
+\section{The characteristic features of the frequency-based methodology}
+
+\section{Effects of spin dynamics}
+\subsection{Betatron oscillations}
+
+\subsubsection{Probem statement}
 The problem of the betatron motion is as follows:
 \begin{enumerate}
 \item the EDM statistic is composed from two estimates of the spin precession frequency;
@@ -176,7 +208,7 @@ The problem of the betatron motion is as follows:
   for a betatron-oscillating particle.
 \end{enumerate}
 
-\subsection{Simulation setup}
+\subsubsection{Simulation setup}\label{sec:betatron:simulation}
 In the simulation we used a FS lattice with bent E+B-field spin rotators
 shown in Figure~\ref{fig:BNL_lattice}.
 We used an imperfect machine; imperfections were simulated by spin-rotator tilts about the optic axis.
@@ -199,7 +231,7 @@ for this lattice, the radial component of the spin precession axis is fairly sma
 does not pose a problem for this particular simulations, since it only amplifies the effect of vertical
 betatron oscillations, which were being studied.
 
-In the analysis we used three data sets. The $s_y^{trk}$ time series was taked directly
+In the analysis we used three data sets. The $s_y^{trk}$ time series was taken directly
 from the COSY Infinity~\cite{COSYInf} tracker. The $s_y^{gen}$ were data generated using a harmonic function
 with varying amplitude and frequency; the amplitude and frequency values at time $t$ were computed based
 on the invariant spin axis and spin tune time series obtained during COSY Infinity tracking.
@@ -215,7 +247,7 @@ From the data series, two comparator statistics/residuals were computed:
 The tracker residual serves as an estimate of the amplitude oscillations
 caused by the particle's betatron motion, and hence it is the primary statistic for analysis.
 
-\subsection{Simulation results and conclusions}
+\subsubsection{Simulation results and conclusions}
 
 In Figure~\ref{fig:smp:resid_vs_time} are shown the time-dependencies of the comparator
 residuals. These are plots for the particle with the largest (3 mm) amplitude of betatron oscillations.
@@ -271,8 +303,8 @@ the particles' betatron motion, some general conclusions can be inferred from th
   the application of a SW driver in a reasonably wide strength range.
 \end{enumerate}
 
-\section{Spin decoherence}
-\subsection{Origins}
+\subsection{Spin decoherence}
+\subsubsection{Origins}
 According to equation $\nu_s = \gamma G$, a particle's spin tune depends on its energy. Because particles in
 a bunch travel different length orbits, their equilibrium energy levels also experience a dispersion. As a
 consequence, their spin vectors precess at different rates, which is the immediate cause of decoherence.
@@ -298,7 +330,7 @@ in Figure~\ref{fig:long_phase_port_1}.
   \caption{Longitudinal phase space portraits in a lattice using RF bunching.}
 \end{figure}
 
-\subsection{Theory behind the sextupole decoherence suppression technique}
+\subsubsection{Theory behind the sextupole decoherence suppression technique}
 Our hypothesis is that decoherence is a result of the dispersion in the particle equilibrium energy levels.
 If one solves the system of equations for the longitudinal particle dynamics,~\footnote{For details,
   please cf. reference~\cite{Aksentev:IPAC19:Decoh}.} assuming a non-linear mometnum compaction factor
@@ -334,8 +366,8 @@ We call equation~\eqref{eq:sext:OL_effect} the {orbit length effect},
 equation~\eqref{eq:sext:MCM_effect} the {momentum compaction factor effect}.
 In the following sections we will try to analyze the signatures of these effects in spin tune data.
 
-\subsection{Sextupole field effect signatures}
-\subsubsection{Momentum compaction factor effect}
+\subsubsection{Sextupole field effect signatures}
+\paragraph{Momentum compaction factor effect}
 
 In Figure~\ref{fig:sext:MCM_effect} is drawn the dependence of a particle's mean spin tune level
 on its mean energy level. In this simulation we injected an ensemble of particles with differing
@@ -369,7 +401,7 @@ which is attributed to the particle orbit lengths' not changing.
   \caption{Analysis of the sextupole fields' momentum compaction factor effect.}
 \end{figure}
 
-\subsubsection{Orbit length effect}
+\paragraph{Orbit length effect}
 In this simulation, particles were injected at the same initial energy, but different vertical offsets
 from the closed orbit. Because of that, they do betatron oscillations, and as a result, synchrotron oscillations.
 As a consequence of equation~\eqref{eq:equ_mom_shift}, we should anticipate both sextupole field effects
@@ -399,7 +431,7 @@ is changed. This compression corresponds to the point density change, seen in Fi
   \caption{Analysis of the sextupole fields' orbit length effect.}
 \end{figure}
 
-\subsubsection{Conclusions}
+\paragraph{Conclusions}
 The above analysis brought us to the following conclusions:
 \begin{enumerate}[(1)]
 \item The signature of the sextupole fields' momentum compaction factor effect is the change in the functional
@@ -413,11 +445,94 @@ In Figure~\ref{fig:sext:OL_effect}, for example, we see that the sextupole gradi
 minimal $\SD{\D K/K}$ is not optimal in terms of $\SD{\avg{\nu_s}}$, while ar the optimal value,
 the $\D K/K$ dispersion does not matter at all.
 
+\subsubsection{Decoherence suppression in an ideal lattice}
+In the lattice from Figure~\ref{fig:BNL_lattice} three families of sextupoles are used: one is to reduce spin
+decoherence associated with horizontal plane betatron oscillations, one with vertical, and one with synchrotron
+oscillations.
 
-\section{MDM faking signal}
+In order to test the effect of each sextupole family, we injected two planar bunches
+(with particles offset from the closed orbits in, respectively, the x- and y-coordinates), and
+a bunch, whose particles had non-zero inintial momentum offsets. Figure~\ref{fig:decoh:ideal}
+shows the simulation results.
+
+One can see that the parabolic term disappears when the corresponding sextupoles are turned on in each case,
+which is the expected effect; the remaining linear term is insensitive to the sextupole fields. Currently,
+we don't exactly know its source.
+
+\begin{figure}[h]
+  \begin{subfigure}{\linewidth}
+    \includegraphics[width=\linewidth]{img/decoh/spin_tune_decoh_x_offset}
+    \caption{Horizontal plane betatron oscillations.}
+  \end{subfigure}
+  \begin{subfigure}{\linewidth}
+    \includegraphics[width=\linewidth]{img/decoh/spin_tune_decoh_y_offset}
+    \caption{Vertical plane betatron oscillations.}
+  \end{subfigure}
+\end{figure}
+\begin{figure}[h]\ContinuedFloat
+  \begin{subfigure}{\linewidth}
+    \includegraphics[width=\linewidth]{img/decoh/spin_tune_decoh_d_offset}
+    \caption{Synchrotrin oscillations.}
+  \end{subfigure}
+  \caption{Spin tune dependence on the initial particle offset from the reference value in one of the three
+    phase space coordinates: X, Y, or D$\equiv\delta$.
+    The black line represents that dependence prior to turning on the sextupole family
+    responsible for the suppression of the corresponding decoherence type, red one after.
+    We observe that in each case the parabolic term disappears when the sextupoles are turned on.
+    The remaining linear term is insensitive to the sextupole fields.
+    \label{fig:decoh:ideal}}
+\end{figure}
+
+\subsubsection{Decoherence in an imperfect lattice}
+There exists another idea about how spin decoherence could be suppressed:
+the spin wheel measurement method.~\cite{Mane:SpinWheel}
+The basic idea there is to insert a solenoid generating a radial magnetic field into the
+(ideal) beamline. The beam particles' spin vectors precess incoherently in the horizontal plane -- the
+cause of horizontal plane decoherence.
+A sufficiently high solenoid field will precess them coherently in the vertical plane. The coherent precession
+is then assumed to be the dominant one, hence the conclusion that decoherence is suppressed.
+
+The purpose of the following simulation is to show two things:
+\begin{enumerate*}
+\item that the spin wheel technique does not suppress decoherence,
+\item that the sextupole fields technique still does even in an imperfect lattice.
+\end{enumerate*}
+
+In the simulation we used an imperfect lattice, with imperfections introduced in the same way as
+in section~\ref{sec:betatron:simulation}. Because of imperfections, a radial magnetic field exists, that
+simulates the introduction of a SW-driving solenoid into the beam line.
+
+\begin{figure}[h]\centering
+  \begin{subfigure}{\linewidth}
+    \includegraphics[width=\linewidth]{img/decoh/SX_decoh_20sec_unopt}
+  \end{subfigure}
+  \begin{subfigure}{\linewidth}
+    \includegraphics[width=\linewidth]{img/decoh/SY_decoh_20sec_unopt}
+  \end{subfigure}
+  \caption{Sextupoles are turned off}
+\end{figure}
+
+\begin{figure}[h]\centering
+  \begin{subfigure}{\linewidth}
+    \includegraphics[width=\linewidth]{img/decoh/SX_decoh_20sec_opt}};
+  \end{subfigure}
+  \begin{subfigure}{\linewidth}
+    \includegraphics[width=\linewidth]{img/decoh/SY_decoh_20sec_opt}
+  \end{subfigure}
+  \caption{Sextupoles are turned on}
+\end{figure}
+
+\subsection{MDM faking signal}
+\subsubsection{Problem statement}
+\subsubsection{Results and conclusions}
+
+\section{Conclusions}
 
 
 \begin{thebibliography}{9}
+
+\bibitem{Sakharov:Baryogenesis}
+  A. D. Sakharov, JETP Lett.5(1967) 24.
 
 \bibitem{JEDI}
   JEDI Collaboration. \url{http://collaborations.fz-juelich.de/ikp/jedi/about/introduction.shtml}
@@ -430,6 +545,10 @@ the $\D K/K$ dispersion does not matter at all.
 \bibitem{BNL:Deuteron2008}
   D. Anastassopoulos et al., ``AGS Proposal: Search for a permanent electric dipole moment of
   the deuteron nucleus at the $10^{-29}$ e$\cdot$cm level,'' BNL, 2008.
+
+\bibitem{COSY:SpinTuneMapping}
+  A. Saleev et al., (JEDI Collaboration), ``Spin tune mapping as a novel tool to probe
+  the spin dynamics in storage rings.'' Phys. Rev. Accel. Beams 20 (2017) no.7, 072801.
 
 \bibitem{COSYInf}
   M. Berz, K. Makino, COSY INFINITY 10.0 Beam Physics Manual.
