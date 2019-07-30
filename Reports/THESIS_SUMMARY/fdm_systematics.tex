@@ -451,7 +451,7 @@ decoherence associated with horizontal plane betatron oscillations, one with ver
 oscillations.
 
 In order to test the effect of each sextupole family, we injected two planar bunches
-(with particles offset from the closed orbits in, respectively, the x- and y-coordinates), and
+(with particles offset from the closed orbit in, respectively, the x- and y-coordinates), and
 a bunch, whose particles had non-zero inintial momentum offsets. Figure~\ref{fig:decoh:ideal}
 shows the simulation results.
 
@@ -461,17 +461,17 @@ we don't exactly know its source.
 
 \begin{figure}[h]
   \begin{subfigure}{\linewidth}
-    \includegraphics[width=\linewidth]{img/decoh/spin_tune_decoh_x_offset}
+    \includegraphics[width=\linewidth]{img/decoh/spin_tune_decoh_x_offset.eps}
     \caption{Horizontal plane betatron oscillations.}
   \end{subfigure}
   \begin{subfigure}{\linewidth}
-    \includegraphics[width=\linewidth]{img/decoh/spin_tune_decoh_y_offset}
+    \includegraphics[width=\linewidth]{img/decoh/spin_tune_decoh_y_offset.eps}
     \caption{Vertical plane betatron oscillations.}
   \end{subfigure}
 \end{figure}
 \begin{figure}[h]\ContinuedFloat
   \begin{subfigure}{\linewidth}
-    \includegraphics[width=\linewidth]{img/decoh/spin_tune_decoh_d_offset}
+    \includegraphics[width=\linewidth]{img/decoh/spin_tune_decoh_d_offset.eps}
     \caption{Synchrotrin oscillations.}
   \end{subfigure}
   \caption{Spin tune dependence on the initial particle offset from the reference value in one of the three
@@ -484,7 +484,7 @@ we don't exactly know its source.
 \end{figure}
 
 \subsubsection{Decoherence in an imperfect lattice}
-There exists another idea about how spin decoherence could be suppressed:
+There exists another approach to suppressing spin decoherence:
 the spin wheel measurement method.~\cite{Mane:SpinWheel}
 The basic idea there is to insert a solenoid generating a radial magnetic field into the
 (ideal) beamline. The beam particles' spin vectors precess incoherently in the horizontal plane -- the
@@ -502,29 +502,159 @@ In the simulation we used an imperfect lattice, with imperfections introduced in
 in section~\ref{sec:betatron:simulation}. Because of imperfections, a radial magnetic field exists, that
 simulates the introduction of a SW-driving solenoid into the beam line.
 
-\begin{figure}[h]\centering
-  \begin{subfigure}{\linewidth}
-    \includegraphics[width=\linewidth]{img/decoh/SX_decoh_20sec_unopt}
-  \end{subfigure}
-  \begin{subfigure}{\linewidth}
-    \includegraphics[width=\linewidth]{img/decoh/SY_decoh_20sec_unopt}
-  \end{subfigure}
-  \caption{Sextupoles are turned off}
-\end{figure}
+Thirty particles were distributed uniformly in the vertical plane at injection. We tracked this beam through
+the lattice for $20\cdot 10^6$ turns (20 seconds). Every $2\cdot10^4$ turns particles'
+spin vector components were recorded, and their dispersion (estimated as the standard deviation) was used
+as a decoherence measure. In Figure~\ref{fig:decoh:imperfect:off} are shown the dispersions for the
+radial and vertical spin vector components, when the sextupoles are turned off.
+Figure~\ref{fig:decoh:imperfect:off:hor} shows the dispersion for the radial component, and we see that it
+goes up and down within bounds but does not accummulate (which is indicated by
+a statistically insignificant slope of the trend line labeled ``slp'').
+This means that there is no spin decoherence in the horizontal plane when particle spin vectors precess
+in the vertical plane. However, if one turns to Figure~\ref{fig:decoh:imperfect:off:vert}, one will
+observe the accummulation, as evidenced by the slope of the trend line being
+seven standard deviations removed from zero; meaning that decoherence just transferred from the horizontal,
+into the vertical plane.
 
 \begin{figure}[h]\centering
   \begin{subfigure}{\linewidth}
-    \includegraphics[width=\linewidth]{img/decoh/SX_decoh_20sec_opt}};
+    \includegraphics[width=\linewidth]{img/decoh/SX_decoh_20sec_unopt.eps}
+    \caption{Radial component distribution standard deviation.\label{fig:decoh:imperfect:off:hor}}
   \end{subfigure}
   \begin{subfigure}{\linewidth}
-    \includegraphics[width=\linewidth]{img/decoh/SY_decoh_20sec_opt}
+    \includegraphics[width=\linewidth]{img/decoh/SY_decoh_20sec_unopt.eps}
+    \caption{Vertical component distribution standard deviation.\label{fig:decoh:imperfect:off:vert}}
   \end{subfigure}
-  \caption{Sextupoles are turned on}
+  \caption{Standard deviation of the ensemble spin vector component distribution plotted against time.
+    The standard deviation is used as a (local) decoherence measure. The red trend line is used to
+    characterize the global decoherence behavior.
+    We observe that the slope of the trend line is statistically insignificant in the case of the radial
+    spin vector component, but is sevet standard deviations removed from zero in for the vertical component.
+    This means that there's no horizontal plane decoherence, but particle spin vectors disperse in the
+    vertical plane.
+    Sextupoles are turned off in this simulation.\label{fig:decoh:imperfect:off}}
+\end{figure}
+
+As the next step we turned on the sextupole fields.
+The results are presented in Figure~\ref{fig:decoh:imperfect:on}.
+We see that qualitatively nothing changed for the horizontal plane (except the dispersion bounds are
+a factor of 10 less), while in the vertical plane the accummulation trend vanished. Hence we conclude
+that the decoherence-suppressing effect of sextupole fields is plane-independent.
+\begin{figure}[h]\centering
+  \begin{subfigure}{\linewidth}
+    \includegraphics[width=\linewidth]{img/decoh/SX_decoh_20sec_opt.eps}
+      \caption{Radial component distribution standard deviation.\label{fig:decoh:imperfect:on:hor}}
+  \end{subfigure}
+  \begin{subfigure}{\linewidth}
+    \includegraphics[width=\linewidth]{img/decoh/SY_decoh_20sec_opt.eps}
+    \caption{Vertical component distribution standard deviation.\label{fig:decoh:imperfect:on:vert}}
+  \end{subfigure}
+  \caption{The same plots as in Figure~\ref{fig:decoh:imperfect:off}, but in this case the
+    sextupoles are turned on.\label{fig:decoh:imperfect:on}}
 \end{figure}
 
 \subsection{MDM faking signal}
 \subsubsection{Problem statement}
+For this investigation, the primary cause for concern were machine imperfections resulting from
+accelerator element tilts about the optic axis, because they induce a radial MDM angular velocity component,
+which precesses particle spin vectors in the same plane as the EDM, thus resulting in a faking signal.
+
+The standard deviation of the distribution of the erroneous spin precession angular velocity component
+\begin{equation}\label{eq:MDM_freq_SD}
+  \SD{\W_x^{MDM}} = \frac{q}{m\gamma} \frac{G+1}{\gamma}\frac{\SD{B_x}}{\sqrt{n}},
+\end{equation}
+where $n$ is the number of imperfections contributing the radial magnetic field component $B_x$
+(or its equivalent $E_y$).
+
+
+
+For the assessment of the capabilities of the frequency-based methodology, we need to answer two questions:
+\begin{enumerate}[(1)]
+\item Is the erroneous component independent of the particular element tilt angle distribution, i.e. is it
+  a linear function $\W_x^{MDM} = L(\avg{\theta_{tilt}})$ of the \emph{mean} tilt angle?
+  \item Is it (anti-)symmetric relative to time-reversal, i.e., $|\W_x^{MDM,CW}| = |\W_x^{MDM,CCW}|$?
+\end{enumerate}
+What these questions add up to is: will the faking signal change sign, if we inject the beam in the opposite
+direction? If it does, since the EDM angular velocity will not, we can eliminate the faking signal
+from the final statistic.
+
+We analyzed the same lattice, with the same way of introducing machine imperfections, as in the previous cases.
+In total, 11 simulations were done, in each of which we varied the tilt angle distribution's expectation value.
+Spin and orbital transfer maps were computed up to the third order Taylor expansion; in view of
+our spin decoherence suppression simulation results\footnote{Meaning, when the sextupole fields are turned on,
+  spin tune becomes independent of the particle trajectory, be it the closed or any of the betatron orbits.}
+we were only looking at the behavior of the closed orbit particle.
+The injection energy is 270.0092 MeV (the precise FS energy for this lattice; i.e.
+the invariant spin axis is radially-orientated).
+
 \subsubsection{Results and conclusions}
+\paragraph{Results}
+In Figure~\ref{fig:MDM:linearity} is drawn the dependence of the spin precession angular velocity vector's
+radial and vertical components on the mean E+B element tilt angle distribution. We observe that
+regardless of the particular distribution, all data points lie perfectly on the same straight line,
+which indicates a lack of dependence on anything but the mean angle.
+
+\begin{figure}[h]\centering
+  \includegraphics[width=\linewidth]{img/fake_signal/linearity_test_shifting_gauss_freq.eps}
+  \caption{Components of the spin precession angular velocity vector for the reference particle
+      plotted against the mean spin-rotator tilt angle.
+      Each data point corresponds to a different tilt angle distribution; however,
+      the vector components do not exhibit any pattern other than the linear
+      dependence on the mean angle.\label{fig:MDM:linearity}}
+\end{figure}
+
+In Figure~\ref{fig:MDM:reldiff} are presented the relative differences between the clockwise (CW) and
+counter-clockwise (CCW) beams' radial invariant spin axis component and spin precession frequency at different
+mean E+B tilt angles. As before, the non-zero average tilt angle is equivalent to the presence of
+a spin wheel driver in the lattice. We varied the strength of the SW driver in two ranges: first in
+a bigger one, then smaller. What we observed is that in both ranges the compared variables have similar
+values for the CW vs CCW beams; in the case of frequency, though, the similarity is the better, the higher is
+the SW driver's strength (i.e. the faster the spin wheel is rolling).
+
+\begin{figure}[h]\centering
+  \begin{subfigure}{\linewidth}
+    \includegraphics[width=\linewidth]{img/fake_signal/linearity_test_shifting_gauss_rel_diff.eps}
+    \caption{Bigger SW driver strength range.\label{fig:MDM:reldiff:SW_big}}
+  \end{subfigure}
+  \begin{subfigure}{\linewidth}
+    \includegraphics[width=\linewidth]{img/fake_signal/linearity_test_compensated+microrad_rel_diff.eps}
+    \caption{Smaller SW driver strength range.\label{fig:MDM:reldiff:SW_small}}
+  \end{subfigure}
+  \caption{Relative difference between the clockwise and counter-clockwise beams'
+    radial invariant spin axis component and precession frequency at different SW driver strengths.
+    The compared variables are fairly similar; in the frequency case the similarity is the better, the
+    greater the strength of the SW driver.\label{fig:MDM:reldiff}
+  }
+\end{figure}
+
+We used Figure~\ref{fig:MDM:linearity} to estimate what vertical spin precession frequency could be expected
+as a result of misalignments. Assuming the number of misaligned elements $n=100$, and
+$\SD{\theta_{tilt}} = 10^{-4}$ rad, we computed $\SD{\avg{\theta_{tilt}}} = 10^{-5}$. This gives us a confidence
+interval estimate, presented as Table~\ref{tbl:MDM_CI}. There's a 28\% chance to encounter a
+$\W_x^{MDM}\in[50, 100]$ rad/sec.
+
+\begin{table}[h]\centering
+  \caption{Probability to encounter an MDM-related EDM-faking singal less than $\W^{max}$\label{tbl:MDM_CI}}
+  \begin{tabular}{rr}
+    \hline
+    $\W^{max}$ [rad/sec] & $P(\W_x^{MDM} < \W^{max})$ \\
+    \hline
+    50 & 67\% \\
+    100 & 95\% \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\paragraph{Conclusions}
+\begin{enumerate}[(1)]
+\item We confirmed that the MDM component of the spin precession angular velocity vector depdends only on the
+  expectation value, but not the form, of the lattice's imperfection distribution,\footnote{This has been
+    confirmed only for the speficic lattice we used, whose imperfections do not preturb the closed orbit.}
+  i.e. its \emph{linearity}.
+\item We've observed some \emph{asymmetry}, likely due to the difference between the
+  CW and CCW beams' closed orbits.
+\item The asymmetry is less prononuced at higher spin wheel roll rates.
+\end{enumerate}
 
 \section{Conclusions}
 
