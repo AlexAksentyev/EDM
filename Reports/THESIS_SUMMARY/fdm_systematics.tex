@@ -100,9 +100,9 @@ out of the orbit plane, which causes the growth of the vertical component, is an
 of something else that's turing the particles' spin-vectors. This somethig is presumed to be the EDM.
 
 In the following, we will outline the frozen spin (FS) storage ring design concept,
-on which the above methodology rests. Then, we will describe the characteristic features
-of the frequency-based approach to EDM measurements. After that, we will present the results of our
-analysis of the three major spin dynamics effects affecting the measurements.
+on which the methodology in reference~\cite{BNL:Deuteron2008} rests. Then, we will describe the characteristic
+features of the frequency-based approach to EDM measurements. After that, we will present the results
+of our analysis of the three major spin dynamics effects affecting the measurements.
 
 \section{The Frozen Spin concept}
 The dynamics of a spin vector $\vec s$ in a magnetic field $\vec B$ and an electrostatic field $\vec E$
@@ -112,7 +112,7 @@ the particle's electric dipole moment, can be written in the rest frame as:
   \begin{align}
     \ddt{\vec s} &= \vec s\times \underbrace{\bkt{\vec\W_{MDM} +\vec\W_{EDM}}}_{\W_s}, \label{eq:TBMT_main}
     \intertext{where the magnetic (MDM) and electric (EDM) dipole moment angular velocities
-      $\vec\W_{MDM}$ and $\vec\W_{EDM}$ }
+      $\vec\W_{MDM}$ and $\vec\W_{EDM}$}
     \vec\W_{MDM} &= \frac qm \bkt*{G\vec B - \bkt{G - \frac{1}{\gamma^2-1}}\frac{\vec E\times\vec\beta}{c}},\label{eq:TBMT_MDM} \\
     \vec\W_{EDM} &= \frac qm \frac\eta2 \bkt*{\frac{\vec E}c + \vec\beta\times \vec B}.\label{eq:TBMT_EDM}
   \end{align}
@@ -145,16 +145,18 @@ measurement framework:
 \item the frequency-based methods.
 \end{enumerate*}
 
-In the former, all EDM-unrelated precession in the ring must first be suppressed; then, if the beam's
-polarization vector still keeps turning, it indicates to us that something else (the EDM) exists,
-that's turning it.
+The former is the classical 3D FS measurement methodology: all EDM-unrelated precession in the ring
+must first be suppressed; then, if the beam's polarization vector doesn't hold still,
+it indicates to us that something else (the EDM) exists that's turning it.
 
-In the frequency-based methodology, on the other hand, spin precession is stopped only in the beam orbit plane,
+In the frequency-based methodology~\cite{Senichev:FDM}, on the other hand, spin precession
+is stopped only in the beam orbit plane,
 and the EDM indicator is the change to the vertical plane spin precession frequency under time reversal
 (the time reversal is simulated by reversing the beam circulation direction).
 
 We call the state in which the beam particles' spins are frozen in the horiozontal,
-but precess freely in the vertical, plane the 2D FS -- or the spin wheel (SW) -- state.
+but precess freely in the vertical, plane the 2D FS -- or the spin wheel (SW)~\cite{Mane:SpinWheel} -- state.
+In view of this, the frequency-based methodology will also be referred to as the 2D Frozen Spin method.
 
 Three advatages follow from not freezing the spin precession in the vertical plane:
 \begin{enumerate}[(i)]
@@ -166,8 +168,22 @@ Three advatages follow from not freezing the spin precession in the vertical pla
   beam orbit plane, the polarization measurement is much easier.
 \end{enumerate}
 
-\paragraph{Standard terminology}
-For terminology's sake, we should note that in the standard formalizm one operates with
+\paragraph{The frequency-based methodology's characteristic features}
+
+The frequency-based approach is characterized by two main features:
+\begin{enumerate}
+\item The existence of the EDM is inferred not from the change in the beam polarization vector's
+  spatial orientation \emph{itself}, but from the shift in the spatial orientation's \emph{rate of change};
+\item The fields induced by machine imperfections, instead of being suppressed,
+  are used as a spin wheel driver.
+  \begin{itemize}
+  \item The spin wheel's roll direction is reversed by flipping the direction of the guide field;
+  \item its roll rate is controlled through observation of spin precession in the horizontal plane.
+  \end{itemize}
+\end{enumerate}
+
+\paragraph{Used terminology}
+For terminology's sake, we should note that in the standard formalism one operates with
 the spin transfer matrix~\cite[p.~4]{COSY:SpinTuneMapping}
 \[
 \boldsymbol{t}_R = \exp\bkt{-i\pi\nu_s\vec\sigma\cdot\bar n} = \cos\pi\nu_s - i (\vec\sigma\cdot\bar n)\sin\pi\nu_s,
@@ -178,8 +194,6 @@ defines the spin precession axis. They relate to the spin precession angular vel
 \[
 \vec\W_s = \w_{cyc}\cdot \nu_s\bar n.
 \]
-
-\section{The characteristic features of the frequency-based methodology}
 
 \section{Effects of spin dynamics}
 \subsection{Betatron oscillations}
@@ -197,12 +211,13 @@ The problem of the betatron motion is as follows:
   \end{equation*}
 \item Those frequencies are estimated via fitting a harmonic function with constant parameters to
   polarimety data:
-  \begin{equation*}
-    \begin{cases}
-      f(t) &= a\cdot\sin(\w_x\cdot t + \delta)\mapsto \hat\w_x,\\
-      (a,\w_x,\delta) &= \const.
-    \end{cases}
-  \end{equation*}
+\[
+f(t) = a\cdot\sin(\w_x\cdot t + \delta) \mapsto \hat\w_x,
+\]
+\[
+(a,\w_x,\delta) = \const.
+\]
+
 \item At the same time, the solution of the T-BMT equation for the vertical spin vector component
   has a non-constant amplitude $a = \sqrt{\nbar_x^2 + (\nbar_y\cdot\nbar_z)^2}$
   for a betatron-oscillating particle.
@@ -307,7 +322,8 @@ the particles' betatron motion, some general conclusions can be inferred from th
 \subsubsection{Origins}
 According to equation $\nu_s = \gamma G$, a particle's spin tune depends on its energy. Because particles in
 a bunch travel different length orbits, their equilibrium energy levels also experience a dispersion. As a
-consequence, their spin vectors precess at different rates, which is the immediate cause of decoherence.
+consequence, their spin vectors precess at different rates,
+which is the immediate cause of decoherence.~\cite{Senichev:IPAC13}
 
 In Figure~\ref{fig:long_phase_port_3} one can see the longitudinal phase space portraits of particles
 doing betatron oscillations in the verticel plane. The centers of the ellipses indicate the particles'
@@ -330,7 +346,7 @@ in Figure~\ref{fig:long_phase_port_1}.
   \caption{Longitudinal phase space portraits in a lattice using RF bunching.}
 \end{figure}
 
-\subsubsection{Theory behind the sextupole decoherence suppression technique}
+\subsubsection{Theory behind the sextupole decoherence suppression}
 Our hypothesis is that decoherence is a result of the dispersion in the particle equilibrium energy levels.
 If one solves the system of equations for the longitudinal particle dynamics,~\footnote{For details,
   please cf. reference~\cite{Aksentev:IPAC19:Decoh}.} assuming a non-linear mometnum compaction factor
@@ -459,7 +475,7 @@ One can see that the parabolic term disappears when the corresponding sextupoles
 which is the expected effect; the remaining linear term is insensitive to the sextupole fields. Currently,
 we don't exactly know its source.
 
-\begin{figure}[h]
+\begin{figure}[h]\centering
   \begin{subfigure}{\linewidth}
     \includegraphics[width=\linewidth]{img/decoh/spin_tune_decoh_x_offset.eps}
     \caption{Horizontal plane betatron oscillations.}
@@ -469,7 +485,7 @@ we don't exactly know its source.
     \caption{Vertical plane betatron oscillations.}
   \end{subfigure}
 \end{figure}
-\begin{figure}[h]\ContinuedFloat
+\begin{figure}[h]\ContinuedFloat\centering
   \begin{subfigure}{\linewidth}
     \includegraphics[width=\linewidth]{img/decoh/spin_tune_decoh_d_offset.eps}
     \caption{Synchrotrin oscillations.}
@@ -629,9 +645,9 @@ the SW driver's strength (i.e. the faster the spin wheel is rolling).
 
 We used Figure~\ref{fig:MDM:linearity} to estimate what vertical spin precession frequency could be expected
 as a result of misalignments. Assuming the number of misaligned elements $n=100$, and
-$\SD{\theta_{tilt}} = 10^{-4}$ rad, we computed $\SD{\avg{\theta_{tilt}}} = 10^{-5}$. This gives us a confidence
-interval estimate, presented as Table~\ref{tbl:MDM_CI}. There's a 28\% chance to encounter a
-$\W_x^{MDM}\in[50, 100]$ rad/sec.
+$\SD{\theta_{tilt}} = 10^{-4}$ rad,\footnote{We assume $10^{-4}$ to be the realistic element alignment precision.}
+we computed $\SD{\avg{\theta_{tilt}}} = 10^{-5}$. This gives us a confidence interval estimate,
+presented as Table~\ref{tbl:MDM_CI}. There's a 28\% chance to encounter a $\W_x^{MDM}\in[50, 100]$ rad/sec.
 
 \begin{table}[h]\centering
   \caption{Probability to encounter an MDM-related EDM-faking singal less than $\W^{max}$\label{tbl:MDM_CI}}
@@ -657,6 +673,19 @@ $\W_x^{MDM}\in[50, 100]$ rad/sec.
 \end{enumerate}
 
 \section{Conclusions}
+With regard to systematic errors originating with the particle spin dynamics in a storage ring,
+we came to the following conclusions:
+\begin{itemize}
+\item The 2D Frozen Spin method's EDM statistic is robust with regard to perturbations from the particles'
+  betatron motion.
+\item Sextupole field spin decoherence suppression effect is independent of the spin vectors'
+  precession plane.
+\item The properties of the EDM-faking MDM signal are such as to
+  \begin{itemize}
+  \item necessitate the use of a frequency-based methodology;
+  \item allow the exclusion of this signal from the final statistic.
+  \end{itemize}
+\end{itemize}
 
 
 \begin{thebibliography}{9}
@@ -676,6 +705,15 @@ $\W_x^{MDM}\in[50, 100]$ rad/sec.
   D. Anastassopoulos et al., ``AGS Proposal: Search for a permanent electric dipole moment of
   the deuteron nucleus at the $10^{-29}$ e$\cdot$cm level,'' BNL, 2008.
 
+\bibitem{Senichev:FDM}
+  Y. Senichev, A. Aksentev, A. Ivanov, E. Valetov, ``Frequency domain method of the search for
+  the deuteron electric dipole moment in a storage ring with imperfections,'' arxiv:1711.06512 [physics.acc-ph]
+  \url{https://arxiv.org/abs/1711.06512}.
+
+\bibitem{Mane:SpinWheel}
+  S. Mane, ``A distillation of Koop's idea of the Spin Wheel,'' arXiv:1509.01167 [physics]
+  \url{http://arxiv.org/abs/1509.01167}.
+
 \bibitem{COSY:SpinTuneMapping}
   A. Saleev et al., (JEDI Collaboration), ``Spin tune mapping as a novel tool to probe
   the spin dynamics in storage rings.'' Phys. Rev. Accel. Beams 20 (2017) no.7, 072801.
@@ -683,62 +721,54 @@ $\W_x^{MDM}\in[50, 100]$ rad/sec.
 \bibitem{COSYInf}
   M. Berz, K. Makino, COSY INFINITY 10.0 Beam Physics Manual.
 
-\bibitem{Mane:SpinWheel}
-  S. Mane, ``A distillation of Koop's idea of the Spin Wheel,'' arXiv:1509.01167 [physics]
-  \url{http://arxiv.org/abs/1509.01167}.
-
-\bibitem{BNL:Proton}
-  V. Anastassopoulos et al., ``A Storage Ring Experiment to Detect a Proton Electric Dipole Moment.''
-  Rev. Sci. Instrum., 87(11), 2016.
-  \url{http://arxiv.org/abs/1502.04317}.
-
-\bibitem{Koop:SW}
-  I. Koop. ``Asymmetric energy colliding ion beams in the EDM storage ring,'' Proc. of IPAC13 (2013).
-  \url{http://accelconf.web.cern.ch/accelconf/ipac2013/papers/tupwo040.pdf}.
-
-\bibitem{Aksentev:Stats}
-  A. Aksentev, Y. Senichev. ``Statistical precision in charged particle EDM search in storage rings.''
-  2017 J. Phys.: Conf. Ser. 941 012083.
-
-\bibitem{Aksentev:IPAC19:SMP}
-  A. Aksentev, Y. Senichev, ``Spin Motion Perturbation Effect on the EDM Statistic
-  in the Frequency Domain Method,'' presented at the 10th International Particle Accelerator Conf. (IPAC'19),
-  Melbourne, Australia, May. 2019, paper MOPTS011.
-
-\bibitem{Senichev:FDM}
-  Y. Senichev, A. Aksentev, A. Ivanov, E. Valetov, ``Frequency domain method of the search for
-  the deuteron electric dipole moment in a storage ring with imperfections,'' arxiv:1711.06512 [physics.acc-ph]
-  \url{https://arxiv.org/abs/1711.06512}.
-
 \bibitem{Senichev:Lattices}
   Y. Senichev, S. Andrianov, S. Chekmenev, M. Berz, E.Valetov. ``Investigation of Lattice for Deuteron EDM Ring,''
   Proc. of ICAP15 (2015). \url{http://accelconf.web.cern.ch/AccelConf/ICAP2015/papers/modbc4.pdf}.
 
-\bibitem{Eremey:Thesis}
-  E. Valetov, ``Field modeling, symplectic tracking, and spin decoherence for the EDM and muon g-2 lattices.''
-  PhD tehsis, Michigan State University, Michigan, USA.
-  \url{http://collaborations.fz-juelich.de/ikp/jedi/public_files/theses/valetovphd.pdf}.
+  
+\bibitem{Senichev:IPAC13}
+  Y. Senichev et al., ``Spin tune decoherence effects in Electro- and Magnetostatic Structures.''
+  Proceedings of IPAC 2013, Shanghai, China, pp. 2579-2581.
 
 \bibitem{Aksentev:IPAC19:Decoh}
   A. Aksentev, Y. Senichev, ``Spin decoherence in the Frequency Domain Method for the search of a particle EDM,''
   presented at the 10th International Particle Accelerator Conf. (IPAC'19), Melbourne, Australia,
   May. 2019, paper MOPTS012.
 
-\bibitem{Senichev:IPAC13}
-  Y. Senichev et al., ``Spin tune decoherence effects in Electro- and Magnetostatic Structures.''
-  Proceedings of IPAC 2013, Shanghai, China, pp. 2579-2581.
+%% \bibitem{BNL:Proton}
+%%   V. Anastassopoulos et al., ``A Storage Ring Experiment to Detect a Proton Electric Dipole Moment.''
+%%   Rev. Sci. Instrum., 87(11), 2016.
+%%   \url{http://arxiv.org/abs/1502.04317}.
 
-\bibitem{Aksentev:IPAC19:GFF}
-  A. Aksentev, Y. Senichev, ``Simulation of the Guide Field Flipping Procedure for the Frequency Domain Method,'' 
-  presented at the 10th International Particle Accelerator Conf. (IPAC'19), Melbourne, Australia,
-  May 2019, paper MOPTS010.
+%% \bibitem{Koop:SW}
+%%   I. Koop. ``Asymmetric energy colliding ion beams in the EDM storage ring,'' Proc. of IPAC13 (2013).
+%%   \url{http://accelconf.web.cern.ch/accelconf/ipac2013/papers/tupwo040.pdf}.
 
-\bibitem{Pretz:Stats:Sparse}
-  J. Pretz, ``Determination of polarization and frequency parameters on sparse data,'' JEDI internal
-  note \#2013/04, Sept. 23, 2013.
+%% \bibitem{Aksentev:Stats}
+%%   A. Aksentev, Y. Senichev. ``Statistical precision in charged particle EDM search in storage rings.''
+%%   2017 J. Phys.: Conf. Ser. 941 012083.
+
+%% \bibitem{Aksentev:IPAC19:SMP}
+%%   A. Aksentev, Y. Senichev, ``Spin Motion Perturbation Effect on the EDM Statistic
+%%   in the Frequency Domain Method,'' presented at the 10th International Particle Accelerator Conf. (IPAC'19),
+%%   Melbourne, Australia, May. 2019, paper MOPTS011.
+
+%% \bibitem{Eremey:Thesis}
+%%   E. Valetov, ``Field modeling, symplectic tracking, and spin decoherence for the EDM and muon g-2 lattices.''
+%%   PhD tehsis, Michigan State University, Michigan, USA.
+%%   \url{http://collaborations.fz-juelich.de/ikp/jedi/public_files/theses/valetovphd.pdf}.
+
+%% \bibitem{Aksentev:IPAC19:GFF}
+%%   A. Aksentev, Y. Senichev, ``Simulation of the Guide Field Flipping Procedure for the Frequency Domain Method,'' 
+%%   presented at the 10th International Particle Accelerator Conf. (IPAC'19), Melbourne, Australia,
+%%   May 2019, paper MOPTS010.
+
+%% \bibitem{Pretz:Stats:Sparse}
+%%   J. Pretz, ``Determination of polarization and frequency parameters on sparse data,'' JEDI internal
+%%   note \#2013/04, Sept. 23, 2013.
   
-\bibitem{Aksentev:FDM}
-  A. Aksentev, Y. Senichev, E. Valetov, JEDI internal note \#4/2019.
+%% \bibitem{Aksentev:FDM}
+%%   A. Aksentev, Y. Senichev, E. Valetov, JEDI internal note \#4/2019.
   
 \end{thebibliography}
 
