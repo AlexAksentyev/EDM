@@ -36,17 +36,25 @@
 
 На серии рисунков~\ref{fig:April2019:Polarization} представлены измерения асимметрии частоты событий на верхнем и нижнем детекторах (так называемая асимметрия верх-низ), которая пропорциональна горизонтальной компоненте поляризации пучка. На первых двух рисунках можно наблюдать, что на начальном этапе (в промежутке от 100 до 150 секунд) деполяризация происходит со значительной скоростью, но во второй половине цикла скорость деполяризации падает. На Рисунке~\ref{fig:Polariation:recovery-from-halo-to-core} особенно, мы видим, что в промежутке времени приблизительно от 130 до 150 секунд поляризация начинает возрастать, прежде чем снова спадает со значительно меньшей скоростью.
 \begin{figure}[h]\centering
-	\subbottom[SCT = $20.87 \pm 1.49$ секунд.\label{fig:Polariation:recovery-from-halo-to-core}]{%
-		\includegraphics[height=.35\paperheight]{images/chapter4/SCT-April-2019/11th_19-55}}
-	\subbottom[SCT = $42.3 \pm 2.2$ секунд.]{%
-		\includegraphics[height=.35\paperheight]{images/chapter4/SCT-April-2019/11th_20-20}}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/chapter4/SCT-April-2019/11th_19-55}
+		\caption{SCT = $20.87 \pm 1.49$ sec.\label{fig:Polariation:recovery-from-halo-to-core}}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/chapter4/SCT-April-2019/11th_20-20}
+		\caption{SCT = $42.3 \pm 2.2$ sec.}
+	\end{subfigure}
 \end{figure}
-\begin{figure}[h]\centering
-	\contsubbottom[SCT = $70.6 \pm 4.1$ секунд.\label{fig:Polarization:halo-and-core-similar}]{%
-		\includegraphics[height=.35\paperheight]{images/chapter4/SCT-April-2019/11th_20-31}}
-	\contsubbottom[SCT = $302.0 \pm 27.5$ секунд.]{%
-		\includegraphics[height=.35\paperheight]{images/chapter4/SCT-April-2019/13th_03-23}}
-	\caption{Измерения горизонтальной поляризации во время оптимизации времени когерентности спина при подготовке к эксперименту по поиску аксионов в апреле 2019 года.\label{fig:April2019:Polarization}}
+\begin{figure}[h]\ContinuedFloat\centering
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/chapter4/SCT-April-2019/11th_20-31}
+		\caption{SCT = $70.6 \pm 4.1$ sec.\label{fig:Polarization:halo-and-core-similar}}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/chapter4/SCT-April-2019/13th_03-23}
+		\caption{SCT = $302.0 \pm 27.5$ sec.}
+	\end{subfigure}
+	\caption{Horizontal polarization measurements during SCT optimization during the axion search experiment done in April-May 2019.\label{fig:April2019:Polarization}}
 \end{figure}
 
 Такое поведение поляризации на данный момент объясняется неоднородностью поляризованности пучка. В первой половине цикла на детектор преимущественно попадают частицы из внешней (halo) части пучка (оболочки); к второй половине цикла начинается выборка частиц из центральной (core) части (ядра). Поскольку ядро плотнее чем оболочка, разброс длин орбит частиц ядра меньше, чем частиц оболочки, а значит меньше и разброс спин тюнов частиц.
@@ -55,12 +63,15 @@
 На Рисунках~\ref{fig:SCT_scan} представлена зависимость времени когерентности спина от относительной силы поля, соответственно MXL и MXG секступолей, измеренная во время оптимизации в апреле 2019 года. Наблюдается зависимость резонансного типа времени когерентности от значений относительной силы поля секступолей.
 
 \begin{figure}[h]\centering
-	\subbottom[Секступоль MXL.]{%
-		\includegraphics[height=.35\paperheight]{images/chapter4/SCT-April-2019/MXL_scan}}
-	\subbottom[Секступоль MXG.]{%
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/chapter4/SCT-April-2019/MXL_scan}
+		\caption{MXL sextupole.}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
 		\includegraphics[width=.6\paperheight]{images/chapter4/SCT-April-2019/MXG_scan}
-	}
-	\caption{Зависимость SCT от градиента секступоля.\label{fig:SCT_scan}}
+		\caption{MXG sextupole}
+	\end{subfigure}
+	\caption{SCT as a function fo the sextupole strength.\label{fig:SCT_scan}}
 \end{figure}
 
 Мы проверили, соблюдается ли такая же зависимость в рамках нашей численной модели, с учётом того, что измерения на COSY проводятся на энергии, значительно удалённой от спин-резонансной. На Рисунке~\ref{fig:SCT_resonance} изображена зависимость стандартного отклонения спин-тюнов частиц пучка от значения подавляющего декогеренцию секступоля (данные взяты из симуляции, описанной в разделе~\ref{sec:decoh:sim-imperfect}). Зависимость показывает такой же резонансный характер, как и данные эксперимента.

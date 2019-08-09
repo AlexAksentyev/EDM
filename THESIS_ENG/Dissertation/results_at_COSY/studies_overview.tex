@@ -1,31 +1,42 @@
 
 
-\section{Высокоточное измерение спин-тюна}
-Пучок дейтронов с вертикально-ориентированным вектором поляризации инжектировался в ускоритель. После подготовительной фазы, во время которой он охлаждался и банчировался, поляризация пучка разворачивалась в горизонтальную плоскость, при помощи ВЧ-соленоида, создающего спиновый резонанс. 
+\section{High precision spin tune measurement}
+An initially vertically-polarized deuteron beam was injected into the ring. After the preparatory phase, during which the beam was cooled and bunched, then the beam polarization was flipped into the horizontal plane by means of an RF solenoid inducing an imperfection resonance.~\cite[p.~7]{COSY:SpinTuneMapping}
 
-Далее, пучок непрерывно экстрагировался на углеродную мишень, и измерялась асимметрия частоты событий на верхней и нижней секциях детектора, пропорциональная горизонтальной поляризации пучка. Благодаря использованию специально разработанной для этого системы сбора данных,~\cite{COSY:DAQ} было возможно точно определить количество оборотов, сделанных пучком к времени наблюдения события на детекторе.
+After that, the beam was continuously extracted onto a carbon target, and the up-down cross-section asymmetry was measured, which is proportional the beam's horizontal polarization. Thanks to the specially designed for this purpose data acquisition system,~\cite{COSY:DAQ} it was possible to precisely determine the number of turns the beam had done in the ring by the time an event was recorded on the detector.
 
-Проблема измерения заключается в невозможности вычислить спин-тюн путём простого фитирования данных поляриметрии, с $\nu_s$ как оцениваемым параметром, поскольку частота прецессии спина происходит с частотой приблизительно 120 кГц, в то время как частота детектирования событий не превосходит 5 кГц, в связи с чем наблюдалось только одно событие за 24 оборота поляризации вокруг вертикальной оси. Для решения проблемы разреженности данных, был применён алгоритм отображения измерений на период одной осцилляции.~\cite{Eversmann:SpinTuneMeasurement}
+The problem with this measurement is that spin tune cannot be estimated via regular fitting of polarimetry data.
+The spin precession frequency is approximately 120 kHz, while the detector sampling rate does not exceed 5 kHz, hence only one event could be detected in every 24 spin rotations about the vertical axis.
+To solve the problem of data sparsity all measurements were mapped into one oscillation period.~\cite{Eversmann:SpinTuneMeasurement}
 
-В результате была получена беспрецедентная точность определения спин-тюна на уровне $10^{-10}$ в измерительном цикле цикле длительностью 100 секунд, что теоретически позволяет определить величину ЭДМ на уровне $10^{-24}$\ecm.
+This allowed for the estimation of the spin tune at a precision level of $10^{-10}$ in a 100 second measurement cycle, which theoretically allows for the detection of the EDM at the sensitivity level $10^{-24}$\ecm.
 
-\section{Юстировка квадруполей при помощи пучка}
+\section{Beam Based Alignment}
 \newcommand{\Nbpm}{N_{\mathrm{BPM}}}
-Для юстировки положения квадруполя (Beam Based Alignment~\cite{Wagner:BBA2018}), варьируют силу поля квадруполя, и наблюдают за реакцией пучка. Если пучок проходит не через центр квадруполя, он отклоняется. Величина отклонения описывается выражением
+Beam Based Alignment~\cite{Wagner:BBA2018} is a procedure to verify 
+that the beam passes through the center of a quadrupole.
+In order to so do, one varies the strength of the quadrupole and observes the changes it affects in the 
+closed orbit. If the beam does not pass through the center of the quadrupole, the closed orbit will shift;
+this shift can be described by
 \[
 \Delta x = \frac{\Delta k\cdot x(s_0)\ell}{B\rho}\cdot \frac{1}{1 - k\frac{\ell\beta(s_0)}{2B\rho\tan\pi\nu}}\cdot \frac{\sqrt{\beta(s)\beta(s_0)}}{2\sin\pi\nu}\cos\bkt{\phi(s) - \phi(s_0) - \pi\nu},
 \]
-где $\Delta x$ изменение орбиты; $s$ координата, в которой измеряется отклонение пучка; $s_0$ точка расположения квадруполя; $\Delta k$ изменение силы квадруполя; $\ell$ длина квадруполя; $\nu$ бетатронный тюн; $\phi$ бетатронная фаза; $x(s_0)$ положение пучка относительно магнитного центра квадруполя.
+where $\Delta x$ is the orbit change; $s$ is the coordinate of the beam position monitor; $s_0$ is the coordinate of the quadrupole; $\Delta k$ is the quadrupole strength change; $\ell$ is the quadrupole length; $\nu$ is the betatron tune; $\phi$ is the betatron phase; $x(s_0)$ the beam position with respect to the magnetic center of the quadrupole.
 
-Поскольку изменение орбиты $\Delta x(s)$ --- линейная функция отклонения пучка от магнитного центра квадруполя, возможно определить оптимальное положение квадруполя, минимизируя функцию
+Since the orbit change $\Delta x(s)$is a linear function of the offset of the beam with respect to the magnetic center of the quadrupole, one can determine the optimal position of the quadrupole by minimizing the function
 \[
 f = \frac{1}{\Nbpm}\sum_{i=1}^{\Nbpm} (x_i(+\Delta k) -x_i(-\Delta k)^2 \propto x^2(s_0).
 \]
 
-Впервые, проверка технологии BBA была проведена в ноябре-декабре 2017 года. Методология требует варьирования силы одного квадруполя за раз, иначе наблюдаемый эффект отклонения пучка будет суперпозицией нескольких отклонений. Поскольку квадруполи на COSY питаются группами по четыре, для варьирования силы поля единичного квадруполя были использованы дополнительные обмотки полюсов некоторых квадруполей. В этом случае, поле квадруполя становится суперпозицией двух квадрупольных полей, но это не отражается на работе методики. 
+The first time, Beam Based Alignment was tested in the November-December 2017 beam time. The methodology requires that one quadrupole's strength is varied at a time, else the observed effect will be a superposition
+of several closed orbit perturbations. Since quadrupoles at COSY are fed in groups of four, in order to vary the strength of a single quadrupole, additional coils on the poles of a quadrupole are used. In that case, 
+the field of a quadrupole becomes a superposition of two quadrupole fields; however, this deos not reflect on the methodology. 
 
-Для варьирования точки входа пучка в квадруполь использовались кикеры, отклоняющие пучок от референсной орбиты.
+During the measurement multiple different bumps were introduced into the closed orbit
+at the quadrupole position. This leads to different magnitudes of the measured effect on the
+closed orbit. Thereby multiple points could be scanned in horizontal and vertical direction
+to find the optimal beam position inside the quadrupole.~\cite[p.~60]{Wagner:BBA2018}
 
-Повторная отработка методологии была проведена в феврале 2019 года.
+The measurement was repeated in February 2019.
 
-По результатам работы, положения квадруполей были определены с точностью 0.2 мм.~\cite[стр.~182]{YellowReport}
+From a surveying procedure the quadrupole position is known to approximately 0.2 mm.~\cite[\textbf{Results and achievements at COSY}]{YellowReport}
