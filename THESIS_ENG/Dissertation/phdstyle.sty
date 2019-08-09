@@ -13,6 +13,9 @@
 \usepackage{url}
 \usepackage{siunitx}
 
+\usepackage{subcaption}
+\usepackage{multirow}
+
 \usepackage[inline,shortlabels]{enumitem}
 \setlist[enumerate,1]{label=(\alph*)}
 
@@ -22,14 +25,6 @@
 \renewcommand{\vec}{\boldsymbol}
 
 \newcommand{\const}{\mathrm{const}}
-
-% i think it's already defined in the template settings files somewhere
-%\crefname{equation}{equation}{equations}
-%\Crefname{equation}{Equation}{Equations}% For beginning \Cref
-%\crefrangelabelformat{equation}{(#3#1#4--#5#2#6)}
-%
-%\crefmultiformat{equation}{equations (#2#1#3}{, #2#1#3)}{#2#1#3}{#2#1#3}
-%\Crefmultiformat{equation}{Equations (#2#1#3}{, #2#1#3)}{#2#1#3}{#2#1#3}
 
 
 \newcommand{\W}{\Omega}
@@ -46,5 +41,7 @@
 \DeclareDocumentCommand{\SD}{m}{\sigma\bkt*{#1}}
 \DeclareDocumentCommand{\var}{m}{\sigma^2\bkt*{#1}}
 \DeclareDocumentCommand{\Xpct}{mo}{\mathrm{E}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
+
+\DeclareDocumentCommand{\g}{s}{\gamma\IfBooleanT{#1}{_{eff}}}
 
 \newcommand{\ecm}{$~e\cdot$см}

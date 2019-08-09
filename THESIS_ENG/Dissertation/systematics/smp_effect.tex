@@ -85,12 +85,16 @@ In order to cross-compare the series, we
 
 \begin{figure}[h]
   \centering
-	\subbottom[$\bar n$ component.\label{fig:sd:nbar}]{%
-    \includegraphics[height=.35\paperheight]{images/smp_sim/NBAR_variation_sd_vs_SW}}
-	\subbottom[Comparator residuals.
-	Top panel: $\epsilon_1$ residual; bottom panel: $\epsilon_2$ residual\label{fig:sd:res}]{%
-    \includegraphics[height=.35\paperheight]{images/smp_sim/residual_SD_vs_SW(both)}}
-  \caption{Standard deviation vs spin wheel roll rate.\label{fig:sd}}
+  	\begin{subfigure}{\linewidth}
+  		\includegraphics[height=.35\paperheight]{images/smp_sim/NBAR_variation_sd_vs_SW}
+  		\caption{$\bar n$ component.\label{fig:sd:nbar}}
+  	\end{subfigure}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/smp_sim/residual_SD_vs_SW(both)}
+		\caption{Comparator residuals.
+			Top panel: $\epsilon_1$ residual; bottom panel: $\epsilon_2$ residual\label{fig:sd:res}}
+	\end{subfigure}
+	\caption{Standard deviation vs spin wheel roll rate.\label{fig:sd}}
 \end{figure}
 
 \begin{table}[h]\centering

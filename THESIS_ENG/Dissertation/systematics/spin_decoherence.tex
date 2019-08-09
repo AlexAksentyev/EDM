@@ -104,14 +104,20 @@ this term can be suppressed by adjusting the RF cavity parameters.~\cite[p.~210,
 
 \begin{figure}[!h]
 	\centering
-	\subbottom[Radial offset]{%
-		\includegraphics[height=.35\paperheight]{images/decoh_sim/spin_tune_decoh_x_offset}}
-	\subbottom[Vertical offset]{%
-		\includegraphics[height=.35\paperheight]{images/decoh_sim/spin_tune_decoh_y_offset}}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/decoh_sim/spin_tune_decoh_x_offset}
+		\caption{Radial offset}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/decoh_sim/spin_tune_decoh_y_offset}
+		\caption{Vertical offset}
+	\end{subfigure}
 \end{figure}
-\begin{figure}[!h]\centering
-	\contsubbottom[Energy offset]{%
-		\includegraphics[height=.35\paperheight]{images/decoh_sim/spin_tune_decoh_d_offset}}
+\begin{figure}[!h]\ContinuedFloat\centering
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/decoh_sim/spin_tune_decoh_d_offset}
+		\caption{Energy offset}
+	\end{subfigure}
 	\caption{The dependence of a particle spin tune on its initial offset
           from the reference particle.\label{fig:decoh:perfect}}
 \end{figure}
@@ -141,19 +147,27 @@ but suppresses the accummulation of dispersion (the slope drops to $(5\pm 6)\cdo
 
 \begin{figure}[h!]
 	\centering
-	\subbottom[Sextupoles off]{%
-		\includegraphics[height=.35\paperheight]{images/decoh_sim/SX_decoh_20sec_unopt}}
-	\subbottom[Sextupoles on]{%
-		\includegraphics[height=.35\paperheight]{images/decoh_sim/SX_decoh_20sec_opt}}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/decoh_sim/SX_decoh_20sec_unopt}
+		\caption{Sextupoles off}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/decoh_sim/SX_decoh_20sec_opt}
+		\caption{Sextupoles on}
+	\end{subfigure}
 	\caption{Standard deviation of the radial spin vector component distribution in a bunch.\label{fig:decoh:SX_SD}}
 \end{figure}
 
 \begin{figure}[h!]
 	\centering
-	\subbottom[Sextupoles off]{%
-		\includegraphics[height=.35\paperheight]{images/decoh_sim/SY_decoh_20sec_unopt}}
-	\subbottom[Sextupoles on]{%
-		\includegraphics[height=.35\paperheight]{images/decoh_sim/SY_decoh_20sec_opt}}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/decoh_sim/SY_decoh_20sec_unopt}
+		\caption{Sextupoles off}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/decoh_sim/SY_decoh_20sec_opt}
+		\caption{Sextupoles on}
+	\end{subfigure}
 	\caption{Standard deviation of the radial spin vector component distribution in a bunch.\label{fig:decoh:SY_SD}}
 \end{figure}
 
@@ -203,11 +217,14 @@ In Figure~\ref{decoh:fig:full:ST_vs_y0_GSY} one can observe the unbending of the
 $G_Y \rightarrow G_Y^0$.
 \begin{figure}[h!]
 	\centering
-	\subbottom[Full range.\label{decoh:fig:full:ST_vs_y0_GSY}]{%
-		\includegraphics[width=\linewidth]{images/decoh_sim/spin_tune_vs_offset}}
-	\subbottom[Detalization.$\label{decoh:fig:zoom:ST_vs_y0_GSY}]{%
+	\begin{subfigure}{\linewidth}
+		\includegraphics[width=\linewidth]{images/decoh_sim/spin_tune_vs_offset}
+		\caption{Full range.\label{decoh:fig:full:ST_vs_y0_GSY}}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
 		\includegraphics[width=\linewidth]{images/decoh_sim/spin_tune_vs_offset_zoom}
-	}
+		\caption{Detalization.\label{decoh:fig:zoom:ST_vs_y0_GSY}}
+	\end{subfigure}
 	\caption{Spin tune $\nu_s$ as a function of the particle's vertical offset from the closed orbit.
           Color marks different $G_Y$ values.\label{decoh:fig:ST_vs_y0_GSY}}
 \end{figure}
@@ -220,10 +237,14 @@ one can observe the presence of a linear term in $\nbar_y(y)$, insensitive to th
 
 \begin{figure}[h!]
 	\centering
-	\subbottom[Full range.\label{decoh:fig:full:ny_vs_y0_GSY}]{%
-		\includegraphics[width=\linewidth]{images/decoh_sim/ny_vs_offset}}
-	\subbottom[Detalization$.\label{decoh:fig:zoom:ny_vs_y0_GSY}]{%
-		\includegraphics[width=\linewidth]{images/decoh_sim/ny_vs_offset_zoom}}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[width=\linewidth]{images/decoh_sim/ny_vs_offset}
+		\caption{Full range.\label{decoh:fig:full:ny_vs_y0_GSY}}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[width=\linewidth]{images/decoh_sim/ny_vs_offset_zoom}
+		\caption{Detalization.\label{decoh:fig:zoom:ny_vs_y0_GSY}}
+	\end{subfigure}
 	\caption{Vertical component $\bar n_y$ of the invariant spin axis as a function of the particle's
           vertical offset from the closed orbit.
           Color marks different $G_Y$ values\label{decoh:fig:ny_vs_y0_GSY}}
@@ -255,48 +276,56 @@ components of the ISA, computed at the trajectories plotted in Figure~\ref{decoh
 
 \begin{figure}[!h]
 	\centering
-	\subbottom[Sextupoles off.]{%
-		\includegraphics[width=\linewidth]{images/decoh_sim/ST_VS_YB_IMPERFECT_UNOPT}}
-	\hfill
-	\subbottom[Sextupoles on.]{%
-		\includegraphics[width=\linewidth]{images/decoh_sim/ST_VS_YB_IMPERFECT_OPTIM}}
-	\hfill
+	\begin{subfigure}{\linewidth}
+		\includegraphics[width=\linewidth]{images/decoh_sim/ST_VS_YB_IMPERFECT_UNOPT}
+		\caption{Sextupoles off.}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[width=\linewidth]{images/decoh_sim/ST_VS_YB_IMPERFECT_OPTIM}
+		\caption{Sextupoles on.}
+	\end{subfigure}
 	\caption{Particle spin tunes computed at their trajectories
           in an imperfect FS lattice.\label{decoh:fig:ST_on_traj}}
 \end{figure}
 
 \begin{figure}[!h]
 	\centering
-	\subbottom[Sextupoles off.]{%
-		\includegraphics[width=\linewidth]{images/decoh_sim/NX_VS_YB_IMPERFECT_UNOPT}}
-	\hfill
-	\subbottom[Sextupoles on.]{%
-		\includegraphics[width=\linewidth]{images/decoh_sim/NX_VS_YB_IMPERFECT_OPTIM}}
-	\hfill
+	\begin{subfigure}{\linewidth}
+		\includegraphics[width=\linewidth]{images/decoh_sim/NX_VS_YB_IMPERFECT_UNOPT}
+		\caption{Sextupoles off.}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[width=\linewidth]{images/decoh_sim/NX_VS_YB_IMPERFECT_OPTIM}
+		\caption{Sextupoles on.}
+	\end{subfigure}
 	\caption{Particle's radial ISA components computed at their trajectories
           in an imperfect FS lattice.\label{decoh:fig:NX_on_traj}}
 \end{figure}
 
 \begin{figure}[!h]
 	\centering
-	\subbottom[Sextupoles off.]{%
-		\includegraphics[width=\linewidth]{images/decoh_sim/NY_VS_YB_IMPERFECT_UNOPT}}
-	\hfill
-	\subbottom[Sextupoles on.]{%
-		\includegraphics[width=\linewidth]{images/decoh_sim/NY_VS_YB_IMPERFECT_OPTIM}}
-	\hfill
+	\begin{subfigure}{\linewidth}
+		\includegraphics[width=\linewidth]{images/decoh_sim/NY_VS_YB_IMPERFECT_UNOPT}
+		\caption{Sextupoles off.}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[width=\linewidth]{images/decoh_sim/NY_VS_YB_IMPERFECT_OPTIM}
+		\caption{Sextupoles on.}
+	\end{subfigure}
 	\caption{Particle's vertical ISA components computed at their trajectories
           in an imperfect FS lattice.\label{decoh:fig:NY_on_traj}}
 \end{figure}
 
 \begin{figure}[!h]
 	\centering
-	\subbottom[Sextupoles off.]{%
-		\includegraphics[width=\linewidth]{images/decoh_sim/NZ_VS_YB_IMPERFECT_UNOPT}}
-	\hfill
-	\subbottom[Sextupoles on.]{%
-		\includegraphics[width=\linewidth]{images/decoh_sim/NZ_VS_YB_IMPERFECT_OPTIM}}
-	\hfill
+	\begin{subfigure}{\linewidth}
+		\includegraphics[width=\linewidth]{images/decoh_sim/NZ_VS_YB_IMPERFECT_UNOPT}
+		\caption{Sextupoles off.}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[width=\linewidth]{images/decoh_sim/NZ_VS_YB_IMPERFECT_OPTIM}
+		\caption{Sextupoles on.}
+	\end{subfigure}
 	\caption{Particle's longitudinal ISA components computed at their trajectories
           in an imperfect FS lattice.\label{decoh:fig:NZ_on_traj}}
 \end{figure}
@@ -329,49 +358,76 @@ angular velocity vector) sense.~\footnote{At least this seems to be true when op
 \end{figure}
 
 \subsection{Analysis of the sextupole spin decoherence suppression mechanism}\label{sec:sext_decoh_suppression_effect_analysis}
-Исходя из уравнений~\eqref{eq:spin_tune_vs_gamma} и~\eqref{eq:EquLevMom_shift}, зависмость спин-тюна от равновесной энергии частицы можно выразить следующим образом:
+From equations~\eqref{eq:spin_tune_vs_gamma} and~\eqref{eq:EquLevMom_shift}, the dependence of spin tune of the
+particle equilibrium energy can be expressed as:
 \[
 \nu_s = G\gamma_0 + G\frac{\gamma_0^2-1}{\gamma_0}\cdot C_0\cdot f_1(\epsilon_x, \epsilon_y, Q_x, Q_y)+ G\frac{\gamma_0^2-1}{\gamma_0}\cdot C_0\cdot f_2(\alpha_1, \avg{\Delta K/K}^2),
 \]
-где $C_0$ константа, а $f_1$ и $f_2$ определяются уравнением~\eqref{eq:EquLevMom_shift}.
+where $C_0$ is a constant, $f_1$ and $f_2$ are defined in equation~\eqref{eq:EquLevMom_shift}.
 
-Поскольку частица, совершающая бетатронные колебания, автоматически совершает и синхротронные колебания, эффект секступольных полей на её спин-тюн --- это суперпозиция эффектов. Однако же частица, находящаяся на референсной орбите, но имеющая начальное отклонение по импульсу, имеет такую же длину орбиты, и совершает только синхротронные колебания. Соответственно, секступольные поля влияют на спин-тюн такой частицы только путём модификации коэффициента сжатия орбиты, т.е. функции $f_2$. 
+Since a betatron-oscillating particle does also synchrotron oscillations, the effct of sextupole fields on it
+is a superposition of effects. A particle injected onto the reference orbit, but having an initial energy
+offset, does only synchrotron oscillations. Consequently, sextupole fields affect its spin tune by only
+modifying the momentum compaction factor, i.e. $f_2$.
 
-В связи с этим, мы провели симуляцию, в которой последовательно инжектировали два пучка по 30 частиц: в первом, D-банче, частицы были распределены как $\delta\sim N(0, 0.5\cdot 10^{-6})$, во втором, Y-банче, --- $y\sim N(0, 0.5)$ мм. Остальные координаты фазового пространства имели начальное значение равное нулю. 
+In view of that, we carried out a simulation in which we consecutively injected two beams of 30 particles:
+in the first one, the D-bunch, particles were distributed as $\delta\sim N(0, 0.5\cdot 10^{-6})$, 
+in the second one, the Y-bunch, as $y\sim N(0, 0.5)$ mm. All the other phase space coordinates were initially
+set to zero.
 
-Пучки инжектировались в идеальную структуру, для того, чтобы исключить эффекты, связанные с возмущением орбит нереференсных частиц. Для первого пучка были включены только GSD секспутоли, для второго --- GSY. Градиенты секступолей варьировались $\pm 5\cdot 10^{-3}$ от оптимального значения соответствующего семейства.
+The bunches were injected into the ideal FS lattice in order to exclude effects associated with perturbations
+of non-reference orbits. For the D-bunch, only the GSD sextupoles were turned on; for the Y-bunch -- GSY. The
+sextupole gradients were varied $\pm 5\cdot 10^{-3}$ of the corresponding family's optimal gradient value.
 
-Трекинг проводился на протяжении $1.2\cdot 10^6$ оборотов, данные выводились каждые 800 оборотов.
+Spin tracking was done for $1.2\cdot 10^6$ turns, data were recorded every 800 turns.
 
-На Рисунке~\ref{fig:long_PS_sext_settings} представлены фазовые траектории частиц пучков в продольном фазовом пространстве. Мы видим, что фазовые эллипсы частиц D-банча центрированы практически~\footnote{При увеличении можно наблюдать различие центров фазовых эллипсов, но это различие не чувствительно к значению градиента секступоля, и скорее всего следствие конечности статистики.} на одной и той же точке, а их эмиттансы не меняются при изменении силы поля сексуполя. 
+In Figure~\ref{fig:long_PS_sext_settings} are plotted the particles' longitudinal phase space portraits. 
+We see that the D-bunch phase portraits are practically all centered at the same point,~\footnote{When zooming 	in, one can see that the ellipse centers are slightly different, but this difference is insensitive to
+	the sextupole gradient value, and most likely is the result of finite statistics.} and that their 
+emittances do not change when the sextupole strength is varied.
 
-В то же время фазовые портреты частиц Y-банча меняются при изменении значения градиента секступоля. При этом мы видим, что максимальная скученность их центров (следовательно равновесных уровней энергии) не соответствует оптимальному значению градиента секступоля (фазовый портрет для последнего изображён на центральной панели). Именно это наблюдение послужило для нас стимулом инжекции в структуру D-банча. Мы объясняем это наблюдение суперпозицией эффектов сжатия равновесных орбит частиц, и модификации коэффициента сжатия орбиты.
+At the same time, the Y-bunch phase portraits vary with the sextupole field strength. We observe that the 
+the ellipse centers (i.e. the equilibrium energy levels) are the most compressed at a gradient value that is
+\textbf{not} optimal (the phase portraits for the latter are drawn in the middle panel). This observation
+was what motivated us to try to inject the D-bunch in the first place. We explain this observation by the
+superposition of the orbit length and momentum compaction factor effects.
 
 \begin{figure}[h]
 	\centering
-	\subbottom[Фазовые эллипсы D-банча.]{%
+	\begin{subfigure}{\linewidth}
 		\includegraphics[width=\linewidth]{images/decoh_sim/propdef/long_phase_space_for_sext_settings_D}
-	}
-	\subbottom[Фазовые эллипсы Y-банча.]{%
+		\caption{D-bunch phase portraits.}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
 		\includegraphics[width=\linewidth]{images/decoh_sim/propdef/long_phase_space_for_sext_settings_Y}
-	}
-	\legend{Цветом различаются траектрории частиц с разным начальным вертикальным смещением от замкнутой орбиты.}
-	\caption[Продольное фазовое пространство пучка. Звёздочками отмечены центры эллипсов]{Продольное фазовое пространство пучка. Звёздочками отмечены центры эллипсов.\label{fig:long_PS_sext_settings}}
+		\caption{Y-bunch phase portraits.}
+	\end{subfigure}
+	\caption{Longitudinal phase space particle portraits. Asterisks mark the ellipse centers.
+		Colors mark trajectories of particles with differing initial vertical offset from the reference orbit.\label{fig:long_PS_sext_settings}}
 \end{figure}
 
-Для более тщательного рассмотрения эффектов секступоля на функции $f_1$ и $f_2$, мы построили зависимости средних уровней спин-тюнов частиц от их равновесных уровней энергии (Рисунок~\ref{fig:ST_vs_dkok_for_sext_strenghts}). Мы видим, что скученность точек графика для D-банча не меняется при варьировании значения градиента секступоля, а меняется только функциональная зависимость спин-тюна от равновесной энергии, как и предполагается функциональной формой $f_2$ (см. раздел~\ref{chpt1:FS-methods:effective-Lorentz-factor}). Таким образом, сигнатурой оптимизации коэффициента сжатия орбиты служит изменение функциональной зависимости $\avg{\nu_s} = f(\avg{\Delta K/K})$.
+For a more thorough analysis of the sextupoel field effects on the functions $f_1$ and $f_2$ we plotted the
+dependencies of the particles' mean spin tune levels on their equilibrium energy levels at different
+sextupole field strengths (Figure~\ref{fig:ST_vs_dkok_for_sext_strenghts}). One can see from the figure 
+that the point distribution density in the D-bunch plot does not vary with the gradient value; the only thing 
+that changes is the functional dependence of spin tune on the equilibrium energy level, as is expected from
+the functional form of $f_2$ (cf. section~\ref{chpt1:FS-methods:effective-Lorentz-factor}). Hence, the 
+signature of the sextupole field's momentum compaction effect is the change in the functional form of
+ $\avg{\nu_s} = f(\avg{\Delta K/K})$.
 
-На рисунке для Y-банча наблюдаются оба эффекта секступольного подавления декогеренции: изменяется и скученность точек (т.е. эмиттанс пучка), и функциональная зависимость.
+In the Y-bunch plot one observes two effects: both the point distribution density (i.e. the beam's longitudinal emittance) and the functional form of $\avg{\nu_s}(\avg{\Delta K/K})$ change.
 
 \begin{figure}[h]
 	\centering
-	\subbottom[Для D-банча.]{%
+	\begin{subfigure}{\linewidth}
 		\includegraphics[width=\linewidth]{images/decoh_sim/propdef/stune_vs_dkok_SS_D}
-	}
-	\subbottom[Для Y-банча.]{%
+		\caption{For the D-bunch.}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
 		\includegraphics[width=\linewidth]{images/decoh_sim/propdef/stune_vs_dkok_SS_Y}
-	}
-	\caption{Зависимость среднего уровня спин-тюна частицы от её равновесного уровня энергии для различных значений градиента секступоля.\label{fig:ST_vs_dkok_for_sext_strenghts}}
+		\caption{For the Y-bunch.}
+	\end{subfigure}
+	\caption{Particle mean spin tune level as a function of its equilibrium level energy at different sextupole strengths.\label{fig:ST_vs_dkok_for_sext_strenghts}}
 \end{figure}
 
-\paragraph{Вывод:} Симуляция подтверждает утверждения~\eqref{eq:Sext_compaction_effect} и~\eqref{eq:Sext_OL_effect}.
+\paragraph{Conclusion:} The simulation confirms statements~\eqref{eq:Sext_compaction_effect} and~\eqref{eq:Sext_OL_effect}.

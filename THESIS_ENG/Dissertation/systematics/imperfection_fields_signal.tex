@@ -45,10 +45,14 @@ results are plotted in Figure~\ref{fig:Linearity_test_shifting_gauss}.
 
 \begin{figure}[!h]
 	\centering
-	\subbottom[Spin precession axis $\nbar$ components]{%
-		\includegraphics[height=.35\paperheight]{images/fake_signal_sim/linearity_test_shifting_gauss_nbar}}
-	\subbottom[Angular velocity $\vec\W$ components]{%
-		\includegraphics[height=.35\paperheight]{images/fake_signal_sim/linearity_test_shifting_gauss_freq}}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/fake_signal_sim/linearity_test_shifting_gauss_nbar}
+		\caption{Spin precession axis $\nbar$ components.}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/fake_signal_sim/linearity_test_shifting_gauss_freq}
+		\caption{Angular velocity $\vec\W$ components.}
+	\end{subfigure}
 	\caption{Reference particle's spin precession axis and angular velocity components as
 		 functions of the mean E+B element tilt angle. Element tilts are normally distributed.
 		Color identifies the component; radial (blue) and vertical (orange).\label{fig:Linearity_test_shifting_gauss}}
@@ -72,10 +76,14 @@ elements do not contribute to the spin precession.
 
 \begin{figure}[!h]
 	\centering
-	\subbottom[Spin precession axis $\nbar$ components]{%
-		\includegraphics[height=.35\paperheight]{images/fake_signal_sim/linearity_test_compensated+microrad_nbar}}
-	\subbottom[Angular velocity vector $\vec\W$ components]{%
-		\includegraphics[height=.35\paperheight]{images/fake_signal_sim/linearity_test_compensated+microrad_freq}}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/fake_signal_sim/linearity_test_compensated+microrad_nbar}
+		\caption{Spin precession axis $\nbar$ components.}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
+		\includegraphics[height=.35\paperheight]{images/fake_signal_sim/linearity_test_compensated+microrad_freq}
+		\caption{Angular velocity vector $\vec\W$ components.}
+	\end{subfigure}
 	\caption{Reference particle's spin precession axis and angular velocity components as
 		functions of the mean E+B element tilt angle. Three mutually-compensated tilt pairs plus an uncompensated
 		rotation.
@@ -103,12 +111,14 @@ It may be explained by a difference between the CW and CCW beams' closed orbits.
 
 \begin{figure}[!h]
 	\centering
-	\subbottom[Normally distributed E+B element tilts]{%
+	\begin{subfigure}{\linewidth}
 		\includegraphics[height=.35\paperheight]{images/fake_signal_sim/linearity_test_shifting_gauss_rel_diff}	
-	}
-	\subbottom[Mutually-compensated element tilts]{%
+		\caption{Normally distributed E+B element tilts.}
+	\end{subfigure}
+	\begin{subfigure}{\linewidth}
 		\includegraphics[height=.35\paperheight]{images/fake_signal_sim/linearity_test_compensated+microrad_rel_diff}
-	}
+		\caption{Mutually-compensated element tilts.}
+	\end{subfigure}
 	\caption{Relative difference between the CW and CCW beams' spin precession axis and angular velocity radial components.
 		Color marks the compared variable: spin precession axis (blue) and abgular velocity (orange).\label{fig:Lin_test_rel_diff}}
 \end{figure}
