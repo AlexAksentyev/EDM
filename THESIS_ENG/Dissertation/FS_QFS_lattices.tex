@@ -1,42 +1,57 @@
 
-Существуют два подхода к проблеме построения накопительного кольца для измерения ЭДМ дейтрона: 
+There exist two design approaches to the problem of measuring the deuteron EDM inside a storage ring:
 \begin{enumerate*}[\itshape a\upshape)]
-	\item структура с ``замороженным'' спином (FS), и 
-	\item структура с ``квази-замороженным'' спином (QFS).
+	\item the Frozen Spin (FS) lattice, and
+	\item the Quasi-frozen spin (QFS) lattice.
 \end{enumerate*}
 
-В следующих разделах мы рассмотрим возможные варианты колец обоих типов.
+In the following sections we will consider variants of both type lattices.
 
-\subsection{Структура с ``замороженным'' спином} \label{chpt2:lattice:FS_BNL}
-В структуре FS-типа, горизонтальная проекция вектора спина частицы пучка \emph{непрерывно} сонаправлена с вектором её импульса. Для реализации условия непрерывности, в такой структуре используются цилиндрические спин-ротаторы, создающие одновременно и электростатическое, и магнитное поля. На Рисунке~\ref{fig:BNL_lattice} представлен вариант кольца FS-типа.~\cite{Senichev:Lattices} Данное кольцо имеет длину 145.85~м, и рассчитано на инжекцию пучка дейтронов на энергии 270 МэВ. В структуре предусмотрено использование ВЧ-резонатора для подавления линейного эффекта декогеренции спина путём усреднения энергии вокруг значения равновесной энергии частицы. Продольное напряжение резонатора $V = 100$ кВ, частота поля $f_{RF} = 5\cdot f_{rev}$, где частота оборота пучка $f_{rev} = 1.00$ МГц. Остающиеся нелинейные эффекты декогеренции подавляются с помощью трёх\footnote{Некоторые авторы используют
-два семейства~\cite{Eremey:Thesis} в этой структуре.} семейств секступолей.
+\subsection{The Frozen Spin lattice} \label{chpt2:lattice:FS_BNL}
+In a FS-type lattice, a beam particle's spin vector's horizontal projection and momentum vector
+are \emph{continuously} aligned. For the realization of the continuity condition, combined E+B-field
+cylindrical spin-rotators placed in the arcs are used. In figure~\ref{fig:BNL_lattice} is shown an example of a
+FS-type lattice.~\cite{Senichev:Lattices} This ring is 145.85~m in length and is designed for the deuteron
+injection energy 270 MeV. An RF cavity is used in this lattice in order to suppress linear spin decoherence
+effects by averaging particle energies. The RF voltge is $V = 100$ kV, RF frequency $f_{RF} = 5\cdot f_{rev}$,
+where the cyclotron frequency $f_{rev} = 1.00$ MHz. The remaining non-linear decoherence effects are
+suppressed by using three~\footnote{Some authors use two families~\cite{Eremey:Thesis} in this lattice.}
+sextupole families.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=\linewidth]{images/chapter2/BNL_lattice}
-	\caption{Вариант кольца, построенного по принципу ``замороженного'' спина. В арках использованы цилиндрические электро-магнитные элементы (Рисунок взят из~\cite{Senichev:Lattices})\label{fig:BNL_lattice}}
+	\caption{A FS lattice variant. Cylindrical E+B spin-rotators are used in the arc sections to fulfill
+          the FS condition. (Image is taken from~\cite{Senichev:Lattices}.)\label{fig:BNL_lattice}}
 \end{figure}
 
-Основная цель FS-концепции кольца --- максимизация ЭДМ сигнала. Однако, следует обратить внимание на то, что строгое выполнение условия замороженности спина возможно только для референсной частицы. Это связано с тем, что, как следует из уравнения~\eqref{eq:TBMT_MDM}, для заданных E-, B-полей, существует уникальное значение Лоренц-фактора $\gamma$, при котором $\W_y^{MDM} = 0$. Таким образом, даже в FS-структуре, спин-векторы большинства частиц ``заморожены'' лишь приблизительно.
+The main purpose of a FS lattice is to maximize the EDM signature signal. However, it is important to note that,
+strictly speaking, the FS condition is held only the reference particle. This is because, as follows from
+equation~\eqref{eq:TBMT_MDM}, for any given E- and B-fields there exists a unique value of the Lorentz factor
+$\gamma$ at which $\W_y^{MDM} = 0$. Hence, even in a FS lattice, most particles' spin vectors are frozen only
+approximately.
 
-\subsection{Структура с ``квази-замороженным'' спином} \label{chpt2:concept:QFS}
-В QFS-концепции кольца отказываются от непрерывного выполнения условия сонаправленности векторов поляризации и импульса пучка, требуя лишь равенства нулю \emph{совокупного за оборот} угла поворота вектора поляризации относительно импульса в электростатических ($\Phi_s^E$) и магнитных ($\Phi_s^B$) элементах (углы отсчитываются в системе центра масс):~\cite{Senichev:Lattices}
+\subsection{Quasi-Frozen Spin lattice} \label{chpt2:concept:QFS}
+In the QFS design concept, one gives up the continuity property of the FS condition, requiring only that the spin
+phase advance (in the rest frame) in the electrostatic ($\Phi_s^E$) and magnetic ($\Phi_s^B$) elements was zero
+on average (turn by turn):~\cite{Senichev:Lattices}
 \begin{equation*}
 	\sum_i \Phi_{s,i}^E = -\sum_j \Phi_{s,j}^B.
 \end{equation*}
 
-Как следует из определения спин-тюна (см. раздел~\ref{sec:TBMT_introduction}), угол поворота спин-вектора частицы относительно её импульса в электромагнитном поле $\Phi_s = \nu_s \cdot \Phi$, где $\Phi$ угол поворота импульса, а $\nu_s$ спин-тюн.
+Following the definition of spin tune (see section~\ref{sec:TBMT_introduction}), a particle's spin vector
+placed into an electromagnetic field turns by angle $\Phi_s = \nu_s \cdot \Phi$, where $\Phi$ is
+the momentum rotation angle, $\nu_s$ spin tune.
 
-Угловая скорость поворота вектора импульса частицы в магнитном поле $\vec B$ есть 
+A particle's angular momentum, when placed into a magnetic field $\vec B$ is
 \[
 \w_B = \frac qm \frac B \gamma,
 \]
-в электростатическом $\vec E$:
+into an electrostatic $\vec E$:
 \[
 \w_E = \frac qE \frac{\vec E\times \vec\beta}{c\beta^2\gamma},
 \]
-
-из чего следуют выражения для спин-тюна частицы в электростатическом и магнитном полях:
+from which follow the expressions for spin tune in the electrostatic and magnetic fields:
 \begin{equation}
 	\begin{cases}
 		\nu_s^B &= \gamma G, \\
@@ -44,39 +59,54 @@
 	\end{cases}
 \end{equation}
 
-Преимущество кольца QFS-типа над кольцом FS-типа в относительной простоте исполнения: нет необходимости использовать совмещённые цилиндрические электро-магнитные элементы; в двух вариантах QFS-кольца, рассматриваемых ниже, используются 
+The QFS lattice design has the advantage of simplicity over the FS one: there's no need to use a combined-field
+cylindrical spin rotators; in both QFS lattice variants we consider below are used either
 \begin{enumerate*}[\itshape a\upshape)]
-\item либо прямые фильтры Вина, 
-\item либо цилиндрические электростатические дефлекторы и магнитные диполи раздельно.
+\item straignht Wien filters,  or
+\item cylindrical electrostatic and magnetic elements separately.
 \end{enumerate*}
-С другой стороны, из-за появления вертикальной компоненты оси прецессии спина $\bar n_y$, максимальная амплитуда ЭДМ-сигнала уменьшается по-сравнению с полностью замороженным случаем. Фактор, на который уменьшается амплитуда~\cite{Senichev:QFS_IPAC15}
+On the other hand, due to the appearance of a vertical spin precession axis component $\bar n_y$,
+the maximum EDM signal amplitude is less compared with the pure FS case. Teh attenuation
+factor~\cite{Senichev:QFS_IPAC15}
 \[
 J_0(\Phi_s) \approx 1 - \frac{\Phi_s^2}{4},
 \]
-где $\Phi_s$ есть максимальный угол отклонения горизонтальной проекции вектора спина частицы от вектора импульса. Педположим, что этот угол не превосходит половины набега спиновой фазы за оборот $\pi\cdot \gamma G/2n$; в данном контексте $n$ --- периодичность оптики кольца. Поскольку магнитная аномалия дейтрона $G = -0.142$, для рассматриваемых ниже QFS структур $J_0\ge 0.98$.
+where $\Phi_s$ is the maximum horizontal plane spin phase advance. Assume the phase advance does not
+exceed $\pi\cdot \gamma G/2n$; in this context $n$ is the lattice periodicity. Since the deuterin animalous magnetic moment $G = -0.142$, for the QFS lattices considered below $J_0\ge 0.98$.
 
-\subsubsection{Структура с кодовым названием 6.3}\label{chpt2:lattice:QFS:6_3}
+\subsubsection{QFS lattice design ``6.3''}\label{chpt2:lattice:QFS:6_3}
 
-На Рисунке~\ref{fig:QFS_6_3_lattice} представлена структура, построенная по принципу квази-замороженного спина, в которой электростатические и магнитные поля разделены в пространстве.~\cite{Senichev:Lattices} Электростатические цилиндрические дефлекторы с отрицательной кривизной орбиты используются для компенсации набега фазы, связанного с МДМ-прецессией в магнитных арках.~\cite{Senichev:QFS_IPAC15} Кольцо длины 166.67~м рассчитано на инжекцию пучка дейтронов на энергии 270 МэВ. Для подавления эффектов декогеренции первого порядка используется ВЧ резонатор, с продольным полем $V = 100$ кВ, и рабочей частотой $f_{RF} = 5\cdot f_{rev}$, где $f_{rev} = 0.87$ МГц. Нелинейные эффекты декогеренции подавляются с помощью шести семейств секступолей.
+In Figure~\ref{fig:QFS_6_3_lattice} is presented a QFS design lattice in which the E- and B-fields are
+separated in space.~\cite{Senichev:Lattices} Negative radius electrostatic cylindrical deflectors are used
+to compensate the spin phase advance related to the MDM precession in the arc sections.~\cite{Senichev:QFS_IPAC15}
+The ring is 166.67~m length long and is dessigned for the 270 MeV injection energy. For the suppression
+of linear spin decoherence effects, an RF cavity is used, with voltage $V = 100$ kV, and operating
+frequency $f_{RF} = 5\cdot f_{rev}$, where $f_{rev} = 0.87$ MHz. Non-linear decoherence effects are suppressed
+by using six sextupole families.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=\linewidth]{images/chapter2/6_3_lattice}
-	\caption{Вариант кольца, построенного по принципу квази-замороженного спина, дизайн с разделением E- и B-полей. (Рисунок взят из~\cite{Senichev:Lattices})\label{fig:QFS_6_3_lattice}}
+	\caption{QFS lattice design variant with spatially separated E- and B-fields.
+          (Image taken from~\cite{Senichev:Lattices})\label{fig:QFS_6_3_lattice}}
 \end{figure}
 
-\subsubsection{Структура с кодовым названием E+B}\label{chpt2:lattice:QFS:EB}
+\subsubsection{QFS lattice design ``E+B''}\label{chpt2:lattice:QFS:EB}
 
-В структуре, представленной на Рисунке~\ref{fig:QFS_E+B_lattice}, используются прямые, статические фильтры Вина. Это позволяет:
+The lattice design in Figure~\ref{fig:QFS_E+B_lattice} uses plain straight, static Wien filters.
+This allows one to:
 \begin{enumerate*}[\itshape a\upshape)]
-	\item исключить нелинейные компоненты электростатического поля, возникающие в связи с кривизной дефлектора, и 
-	\item упростить структуру с инженерной точки зрения.
+	\item exclude non-linear electrostatic field components present in curved electrostatic fields, and 
+	\item simplify the lattice from the engineering point of view.
 \end{enumerate*}
 
-Длина структуры 149.21~м, энергия инжектируемых дейтронов 270 МэВ. Для подавления эффекта декогеренции первого порядка используется ВЧ-резонатор с продольным напряжением $V = 100$ кВ и частотой $f_{RF} = 5\cdot f_{rev}$, где $f_{rev} = 0.98$ МГц. Нелинейные эффекты декогеренции подавляются с помощью четырёх семейств секступолей.
+The lattice is 149.21~m in length, the injection energy is 270 MeV. The linear spin decoherence effets suppressing
+RF cavity has a longitudinal voltage $V = 100$ kV, and frequency $f_{RF} = 5\cdot f_{rev}$,
+with $f_{rev} = 0.98$ MHz. Four sextupole families are used for the suppression of non-linear decoherence effects.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=\linewidth]{images/chapter2/E+B_lattice}
-	\caption{Вариант кольца, построенного по принципу квази-замороженного спина, дизайн с прямыми фильтрами Вина. (Рисунок взят из~\cite{Senichev:Lattices})\label{fig:QFS_E+B_lattice}}
+	\caption{Straight Wien filters QFS lattice variant.
+          (Image taken from~\cite{Senichev:Lattices})\label{fig:QFS_E+B_lattice}}
 \end{figure}
 

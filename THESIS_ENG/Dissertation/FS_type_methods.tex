@@ -85,10 +85,10 @@ Also, the problem of machine imperfection-indeuced vertical plane precession is 
 \subsection{General classification of FS-type methods}
 Storage ring-based methods of searching for the EDMs of elementary particles
 can be classified into two major categories, which we will call
-\begin{inparaenum}[\itshape a\upshape)]
+\begin{enumerate*}
 \item space domain, and % integral, cumulative methods: observe an integral characteristic --- accumulated angle
 \item frequency domain % differential methods: observe an instantaneous characteristic --- angular velocity
-\end{inparaenum}
+\end{enumerate*}
 methods.
 
 In the space domain frmework, one measures a change in the \emph{spatial orientation} of the beam polarization
@@ -100,7 +100,7 @@ the vertical component of its polarization vector is observed. Under ideal condi
 the beam polarization vector from the horizontal plane is attributed to the action of the EDM.
 
 Two technical difficulties are readily apparent with this approach:
-\begin{enumerate}
+\begin{enumerate}[(1)]
 \item it poses a challenging task for polarimetry~\cite{Mane:SpinWheel};
 \item it puts very stringent constraints on the precision of the accelerator optical element alignment.
 \end{enumerate}
@@ -118,7 +118,7 @@ induced by machine imperfection fields. According to estimates done by Y. Senich
 the geodetic installation precision of accelerator elements must reach $10^{-14}$ m. Today's technology
 allows only for about $10^{-4}$ m.
 
-At the practical level of element alignment uncertainty, $\w_{syst} \gg \wedm}$,
+At the practical level of element alignment uncertainty, $\w_{syst} \gg \wedm$,
 and changes in the orientation of the polarization vector are no longer EDM-driven.
 
 Another crucial problem one faces in the space domain is geometric phase error.~\cite[p.~6]{BNL:Proton}
@@ -198,11 +198,11 @@ should not be a problem to achieve.
 
 One case left to be considered is MDM spin kicks about the $\hat x$-axis. These are not attenuated, and cause the
 most trouble. They come in three varieties:
-\begin{inparaenum}[\itshape a\upshape)]
+\begin{enumerate*}
 \item permanent, not caused by optical element misalignments;
 \item semi-permanent, caused by element tilts about the optic axis;
 \item spurious.
-\end{inparaenum}
+\end{enumerate*}
 
 Semi-permanent radial spin kicks (be they caused by magnetic or electric fields) change sign when
 the beam revolution direction is reversed from clockwise (CW) to counter-clockwise (CCW).
@@ -224,7 +224,7 @@ utilization of sextupole fields. We consider how this can be accomplished in sec
 
 \subsubsection{Machine imperfections}
 As we have seen, the problem with machine imperfections is twofold:
-\begin{enumerate*}[\itshape a\upshape)]
+\begin{enumerate*}
 \item they are practically impossible to remove at the present level of technology; but what's even worse, 
 \item their removal leaves one in the space domain, and opens the measurement up to geometric phase error.
 \end{enumerate*}
@@ -238,7 +238,7 @@ This question is considered in section~\ref{chpt3:GFF}.
 \subsection{2D FS method}\label{sec:FDM_concept}
 \subsubsection{Main features}
 The method we propose is characterized by two main features:
-\begin{enumerate}
+\begin{enumerate}[(1)]
 \item It is a frequency domain method;
 \item The fields induced by machine imperfections, instead of being suppressed,
   are used as a Koop Wheel.
@@ -249,10 +249,10 @@ The method we propose is characterized by two main features:
 \end{enumerate}
 
 The advantages of the frequency domain, such as
-\begin{inparaenum}[\itshape a\upshape)]
+\begin{enumerate*}
 \item ease of polarimetry, and
 \item immunity to geometric phase error,
-\end{inparaenum}
+\end{enumerate*}
 have been discussed in prevous sections. Now we will turn to the description of how machine imperfection fields
 can be used as a Koop Wheel.
 
@@ -284,7 +284,7 @@ devised~\cite{Senichev:FDM} a guide field flipping procedure
 based on observation of the beam polarization precession frequency in the horizontal plane.
 
 The idea behind the procedure is outlined in section~\ref{chpt3:GFF}; in order for it to make sense, we need
-to introduce the concept of the \emph{effectove Lorentz factor}
+to introduce the concept of the \emph{effective Lorentz factor}
 (see section~\ref{chpt1:FS-methods:effective-Lorentz-factor} for that).
 
 \subsubsection{Frequency estimation and major statistical properties of the polarimetry data}
@@ -326,14 +326,14 @@ at an uncertainty level of $10^{-29}~e\cdot$cm.
 	
 	\centering
 	\begin{tabular}{rrr}
-		\toprule
+		\hline
 		Info (\%$\mathrm{FI_{tot}}$) & Cycle length ($\times\tau_d$) & SNR  \\
-		\midrule
+		\hline
 		95            & 3.0                     & 0.4         \\
 		90            & 2.3                     & 1.1         \\
 		70            & 1.2                     & 5.5         \\
 		50            & 0.7                     & 11.7        \\
-		\bottomrule
+		\hline
 	\end{tabular}
 \end{table}
 

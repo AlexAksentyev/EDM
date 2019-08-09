@@ -33,12 +33,6 @@ In his 1967 paper, Andrei D. Sakharov formulated three necessary conditions that
 при величине ЭДМ $d = 10^{-24}~e\cdot$см), используется резонансный
 способ измерения~\cite{COSY:Partially-Frozen-Spin, COSY:SpinTuneMapping}, с использованием специально-созданного для COSY ВЧ Вин-фильтра.~\cite{JSlim:RFWF:Design, JSlim:RFWF:Commisioning}
 
-% {\progress} 
-% Этот раздел должен быть отдельным структурным элементом по
-% ГОСТ, но он, как правило, включается в описание актуальности
-% темы. Нужен он отдельным структурынм элемементом или нет ---
-% смотрите другие диссертации вашего совета, скорее всего не нужен.
-
 {\aim} данной работы является численное моделирование метода поиска электрического дипольного момента дейтрона в накопительном кольце с замороженным спином.
 
 Для~достижения поставленной цели необходимо было решить следующие {\tasks}:
@@ -92,47 +86,3 @@ In his 1967 paper, Andrei D. Sakharov formulated three necessary conditions that
 \end{itemize}
 
 {\contribution} Автор принимал активное участие в коллаборации JEDI, а также подготовке Yellow Report для CERN.
-
-%\publications\ Основные результаты по теме диссертации изложены в ХХ печатных изданиях~\cite{Sokolov,Gaidaenko,Lermontov,Management},
-%Х из которых изданы в журналах, рекомендованных ВАК~\cite{Sokolov,Gaidaenko}, 
-%ХХ --- в тезисах докладов~\cite{Lermontov,Management}.
-
-\ifnumequal{\value{bibliosel}}{0}{% Встроенная реализация с загрузкой файла через движок bibtex8
-    \publications\ Основные результаты по теме диссертации изложены в 7 печатных изданиях, 
-    \hl{X из которых изданы в журналах}, рекомендованных ВАК, 
-    7 "--- в тезисах докладов.%
-}{% Реализация пакетом biblatex через движок biber
-%Сделана отдельная секция, чтобы не отображались в списке цитированных материалов
-    \begin{refsection}[vak,papers,conf]% Подсчет и нумерация авторских работ. Засчитываются только те, которые были прописаны внутри \nocite{}.
-        %Чтобы сменить порядок разделов в сгрупированном списке литературы необходимо перетасовать следующие три строчки, а также команды в разделе \newcommand*{\insertbiblioauthorgrouped} в файле biblio/biblatex.tex
-        \printbibliography[heading=countauthorvak, env=countauthorvak, keyword=biblioauthorvak, section=1]%
-        \printbibliography[heading=countauthornotvak, env=countauthornotvak, keyword=biblioauthornotvak, section=1]%
-        \printbibliography[heading=countauthorconf, env=countauthorconf, keyword=biblioauthorconf, section=1]%
-        \printbibliography[heading=countauthor, env=countauthor, keyword=biblioauthor, section=1]%
-        \nocite{%Порядок перечисления в этом блоке определяет порядок вывода в списке публикаций автора
-	        	TRIC,% VAK, Scopus, WoS
-	        	PAX,% Scopus, WoS
-	        	Stats,% Scopus, WoS
-                Aksentev:IPAC17,% Scopus
-                Aksentev:LaPlas17,Aksentev:LaPlas18,Aksentev:LaPlas19,% РИНЦ
-                Aksentev:IPAC19:GFF,Aksentev:IPAC19:SMP,Aksentev:IPAC19:DECOH% Scopus
-        }%
-        \publications\ Основные результаты по теме диссертации изложены в~\arabic{citeauthor}~печатных изданиях:
-        \arabic{citeauthornotvak} изданы в журналах, индексируемых в международных базах цитирования Scopus и Web of Science,
-        %из которых \arabic{citeauthorvak} в журнале, рекомендованном ВАК, 
-        а \arabic{citeauthorconf} "--- в~тезисах докладов. Из последних, 4 работы входят в базу Scopus, 3 в РИНЦ.
-    \end{refsection}
-    \begin{refsection}[vak,papers,conf]%Блок, позволяющий отобрать из всех работ автора наиболее значимые, и только их вывести в автореферате, но считать в блоке выше общее число работ
-        \printbibliography[heading=countauthorvak, env=countauthorvak, keyword=biblioauthorvak, section=2]%
-        \printbibliography[heading=countauthornotvak, env=countauthornotvak, keyword=biblioauthornotvak, section=2]%
-        \printbibliography[heading=countauthorconf, env=countauthorconf, keyword=biblioauthorconf, section=2]%
-        \printbibliography[heading=countauthor, env=countauthor, keyword=biblioauthor, section=2]%
-        \nocite{TRIC}%vak
-        \nocite{Stats, PAX}%notvak
-        \nocite{Aksentev:LaPlas17,Aksentev:LaPlas18,Aksentev:LaPlas19,Aksentev:IPAC17,%
-	        	Aksentev:IPAC19:GFF,Aksentev:IPAC19:SMP,Aksentev:IPAC19:DECOH}%conf
-    \end{refsection}
-}
-%При использовании пакета \verb!biblatex! для автоматического подсчёта
-%количества публикаций автора по теме диссертации, необходимо
-%их~здесь перечислить с использованием команды \verb!\nocite!.

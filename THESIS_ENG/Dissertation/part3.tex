@@ -6,46 +6,45 @@
 %% then Spin decoherence and machine imperfections are considered specifically
 
 
-\chapter{Общие проблемы методов поиска ЭДМ в накопительном кольце, и их решения} \label{chpt3:top-level}
+\chapter{Universal SR EDM measurement problems and their solutions} \label{chpt3:top-level}
  
-Универсальные проблемы методов по поиску ЭДМ фундаментальных частиц в накопительном кольце можно разделить на 
-две категории:
+Universal SR EDM measurement problems can be classified into two groups:
 \begin{enumerate*}[\itshape i\upshape)]
-	\item проблемы, решаемые введением в систему Спин-Колеса, и
-	\item проблемы, имеющие специфические решения.
+	\item problems that can ba solved by introducing a spin wheel, and
+	\item problems needing specialized solutions.
 \end{enumerate*}
 
-Проблемы первой категории следуют из нестабильности оси стабильного спина частиц. К ним относятся, например, 
-локальные возмущения электромагнитных полей, а также бетатронные колебания частиц. В обоих случаях, ось стабильного спина частицы отклоняется от своего равновесного значения на непродолжительное время.
+Problems of the first catrgory follow from the instability of the invariant spin axis. Among those are,
+for example, local electromagnetic field perturbaitons, as well as perturbations to the particle
+spin dynamics caused by betatron oscillations. In both cases the particle invariant spin axis deviates from
+is equilibrium (closed orbit) orientation for a short period of time.
 
-К проблемам, имеющим специфические решения относятся спин-декогеренция, и фальш-сигнал, вызванный 
-неидеальностями ускорителя. В этом разделе мы рассмотрим суть каждой из данных проблем, опишем их возможные
-решения, и проведём соответствующие симуляции.
+Problems needing specific solutions include spin decoherence and EDM-faking MDM spin precession. In this part we
+analyze the essence of each of these problems, describe their possible solutions, and perform corresponding
+simulations.
   
-\section{Возмущения спиновой динамики}\label{chpt3:smp}
+\section{Perturbations to the spin dynamics}\label{chpt3:smp}
 \input{Dissertation/systematics/smp_effect}
 
-\section{Декогеренция спинов частиц пучка}\label{chpt3:decoherence}
-Когеренцией спина называется мера или качество сохранения поляризации
-в изначально полностью поляризованном пучке.~\cite[стр.~205]{Eremey:Thesis}
+\section{Spin decoherence}\label{chpt3:decoherence}
+Spin coherence refers to a measure or quality of preservation of polarizaion
+in an initially fully-polarized beam.~\cite[стр.~205]{Eremey:Thesis}
 
-Когда поляризованный пучок инжектируется в накопительное кольцо, спин-векторы 
-частиц пучка начинают прецессировать вокруг вертикального
-(ведущего) поля. Частота прецессии зависит от равновесного уровня
-энергии частицы, который различен для частиц пучка.
+The spin vectors of a polarized beam injected into a storage ring
+begin precessing about the vertical (guiding) field. The precession frequency
+depends on the particle equilibrium energy level, which differs across the beam particles.
 
-Это обстоятельство не является проблемой в том случае, когда начальная
-поляризация пучка вертикальна; однако метод измерения ЭДМ в
-накопительном кольце, основанный
-на принципе замороженного спина требует, чтобы вектор поляризации
-пучка был сонаправлен с его вектором импульса, т.е. лежал в
-горизонтальной плоскости. Таким образом, декогеренция спина есть
-внутренняя проблема метода замороженного спина.
+This circumstance doesn't pose a problem when the beam is vertically polarized;
+however, the FS SR EDM measurement method requires that the polarization vector be aligned with
+the beam's momentum vector, i.e. lay in the horizontal plane. Hence, spin decoherence is an
+inherent problem of the FS methodology.
 
-В настоящем разделе мы исследуем причины возникновения спин-декогеренции,
-метод борьбы с ней, а также приведём результаты симуляции, подтверждающей действенность
-метода. Для начала, однако, определим время когеренции спина, требуемое для 
-измерения ЭДМ методом замороженного кольца в пространственной области.
+In the present section we analyze the origins of spin decoherence,
+the sextupole method of its suppression, as well as the simulation results
+proving the effectiveness of the method.
+
+As an introduction, though, we estimate the spin coherence time required for
+the measurement of the EDM in the framework of the space domain methodology.
 
 \input{Dissertation/systematics/spin_decoherence}
 
