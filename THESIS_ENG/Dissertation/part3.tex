@@ -49,28 +49,26 @@ the measurement of the EDM in the framework of the space domain methodology.
 \input{Dissertation/systematics/spin_decoherence}
 
 \section{Ошибки неидеальности ускорителя}\label{chpt3:imperfections}
-Систематические ошибки, вызванные физическими неидеальностями
-ускорителя, включая неточность юстировки оптических элементов,
-вызывают фальш-сигнал ЭДМ.~\cite[стр.~230]{Eremey:Thesis} Особенно в
-этом отношении проблематичны наклоны элементов вокруг оптической оси, поскльку они
-индуцируют паразитные горизонтальные компоненты магнитного поля $B_x$
-и $B_z$, которые обе вращают спин в вертикальной плоскости; той, в которой измеряется ЭДМ.
+Systematic errors due to physical imperfections of the accelerator lattice, including
+optical element misalignments, are causative to an EDM-faking signal 
+related to MDM spin precession~\cite[з.~230]{Eremey:Thesis} Rotational magnet misalignments 
+aer particularly problematic in this respect, since they induce parasitic horizontal magnetic field
+components $B_x$ and $B_z$, both of which precess spin in the vertical plane; the one in which
+the EDM is searched for.
 
-Ю. Сеничевым были сделаны~\cite{Senichev:FDM} аналитические оценки МДМ частоты прецессии спина
-вокруг радиальной оси. Из уравнения Т-БМТ, и выражения силы Лоренца,
-скорость МДМ прецессии вокруг радиальной оси есть
+Y. Senichev made analytical estimates~\cite{Senichev:FDM}  of the radial component of
+the spin precession angular velocity vector. From the T-BMT equation, and the expression for
+the Lorentz force, the radial component can be expressed as 
 \begin{equation}
 \SD{\W_x^{MDM}} = \frac{q}{m\gamma}\frac{G+1}{\gamma}\frac{\SD{B_x}}{\sqrt{n}},
 \end{equation}
-где $n$ есть число наклонённых спин-ротаторов, и $\SD{B_x} = B_y
-\SD{\delta h}/L$, при стандартном отклонении ошибки юстировки
-$\SD{\delta h}$. При величине ошибки $\SD{\delta h} = 100$ мкм, и
-длине дефлектора $L=1$ м, $\SD{\W_x^{MDM}} \approx 100$ рад/сек.~\cite{Senichev:FDM}
+where $n$ is the number of tilted spin-rotator elements,~\footnote{The estimates were made for
+the FS lattice described in section~\ref{chpt2:lattice:FS_BNL}} and $\SD{B_x} = B_y \SD{\delta h}/L$, 
+with the misalignment error standard deviation $\SD{\delta h}$. Assuing $\SD{\delta h} = 100$ $\mu$m, 
+and the spin-rotator length $L=1$ m, $\SD{\W_x^{MDM}} \approx 100$ rad/sec.~\cite{Senichev:FDM}
 
-Мы изучили спиновую динамику в структурах с замороженным и
-квази-замороженным спином в присутствии наклонов оптических элементов
-с помощью кода COSY INFINITY. Результаты нашей симуляции согласуются с оценками,
-представленными выше.
+We analyzed the particle spin dynamics in the imperfect FS and QFS lattices using the COSY Infinity code. 
+Our simulation results tend to confirm the above estimates.
 
 \input{Dissertation/systematics/imperfection_fields_signal}
 

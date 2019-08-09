@@ -1,107 +1,114 @@
 
-\paragraph{Имплементация паразитного поля.}\label{chpt3:imperfections:implementation}
-Имплементируя неидеальности полей, мы следовали рекомендациям
-изложенным в~\cite[стр.~235]{Eremey:Thesis}. Малое возмущение
-магнитного поля, в первом приближении, действует как маленький пропорциональный поворот
-спин-вектора. Поэтому мы имплементировали наклон E+B элемента как
-домножение соответствующей матрицы поворота на его спиновую матрицу
-перехода, ``спин-кик.'' Такая имплементация наклона элемента гарантирует сохранение 
-замкнутой орбиты, что физически обусловлено появлением компенсирующего электрического поля 
-спин-ротатора при его наклоне.
+\paragraph{Imperfection field implementation}\label{chpt3:imperfections:implementation}
+When implementing the machine imperfections we followed recommendations given in~\cite[p.~235]{Eremey:Thesis}. 
+A small perturbation of the magnetic field acts like a small proportional rotation of the spin vector.
+For this reason we implemented the E+B element tilt as a product between the element's spin transfer matrix
+and the corresponding rotation matrix, a ``spin kick.'' Such an implementation guarantees the preservation of 
+the closed orbit. This orbit preservation is physically grounded in the fact that when a spin-rotator
+is tilted, there emerges a compensating electric field keeping the Lorentz force constant.
 
-
-В соответствии с уравнением~\eqref{eq:TBMT_MDM}, изменение МДМ частоты
-прецессии, ассоциированное с введённым паразитным полем $(B_x, 0, B_z)$ есть
+According to equation~\eqref{eq:TBMT_MDM}, a change in the MDM precession angular velocity
+associated with the presence of a parasitic magnetic field $(B_x, 0, B_z)$ is
 \begin{align*}
 	\Delta\W_{MDM} &= \frac qm G \cdot (B_x, 0, B_z),
-	\intertext{поэтому угол спин-кика равен}
+	\intertext{hence the spin kick angle}
 	\Theta_{kick} &= t_0\Delta\W_{MDM},
 \end{align*}
-где $t_0 = L/v_0$ пролётное время референсной частицы через элемент.
+where $t_0 = L/v_0$ is the reference particle's time of flight through the element.
 
-\subsection{Зависимость от распределения неидеальностей} \label{chpt3:imperfections:magnitude}
-Данная серия симуляций была проведена с целью подтвердить два тезиса
-касательно систематической ошибки измерения частоты прецессии спина в
-вертикальной плоскости, вызванной неточностью установки E+B элементов:
-\begin{enumerate*}[1)]
-	\item индуцированный МДМ-эффект зависит только от среднего значения
-	угла наклона элементов, но не от  конкретной последовательности
-	углов; и
-	\item эта зависимость носит линейный характер.
+\subsection{Tilt distribution dependence} \label{chpt3:imperfections:magnitude}
+This series of simulations was carried out in order to prove (or reject) the validity of two theses
+concerning the machine imperfection systematic error:
+\begin{enumerate*}[(1)]
+	\item the induced MDM spin precession angular velocity component is independent of the particular
+	element tilt distribution, and depends only on the mean tilt angle; and
+	\item this dependence is linear.
 \end{enumerate*}
 
-Симуляция была проведена следующим образом: мы распределили наклоны
-$\Theta_{tilt}$ E+B элементам FS структуры случайным образом. После
-построения матриц перехода 3-го порядка (спиновой и орбитальной), были вычислены разложения
-Тэйлора функций спин-тюна и оси прецессии спина (SPA). Члены нулевого
-порядка этих разложений представляют собой спин-тюн и SPA референсной частицы.
-
-Угловая скорость поворота спин-вектора референсной частицы вычисляется по формуле:~\cite[стр.~4]{COSY:SpinTuneMapping}
+The simulation was set up as follows: in the FS lattice described in section~\ref{chpt2:lattice:BNL_FS} 
+ E+B elements were randomly tilted about the optic axis by angles $\Theta_{tilt}$.
+ After building the third-order spin and orbital transfer maps, we computed the Taylor expansions of the
+ spin tune and spin precession axis (SPA). The zero-order terms of the Taylor expansions represent the spin tune and SPA
+ of the reference particle.
+ 
+ The reference particle spin precession angular velocity is calculated 
+ according to equation:~\cite[p.~4]{COSY:SpinTuneMapping}
 \[
 \vec\W = 2\pi/\tau_0\cdot \nu_s \cdot \bar n,
 \]
-где $\tau_0 = f^{-1}_{rev} = 10^{-6}$ секунд есть пролётное время частицы через ускоритель.
+where $\tau_0 = f^{-1}_{rev} = 10^{-6}$ seconds is the particle's time of flight through the full lattice.
 
-Симуляция была проведена 11 раз; каждый раз углы наклона
-спин-ротаторов выбирались из нормального распределения
-$N(\mu_0\cdot(i-5), \sigma_0)$, где $\mu_0 = 10\cdot \sigma_0 =
-10^{-4}$ рад, $i\in\lbrace0,\dots, 10\rbrace$. Результаты представлены
-на Рисунке~\ref{fig:Linearity_test_shifting_gauss}.
+The simulation was carried out 11 times; each time the spin-rotator tilt angles were picked
+from a normal distribution $N(\mu_0\cdot(i-5), \sigma_0)$, where 
+$\mu_0 = 10\cdot \sigma_0 = 10^{-4}$ rad, $i\in\lbrace0,\dots, 10\rbrace$. The simulation
+results are plotted in Figure~\ref{fig:Linearity_test_shifting_gauss}.
 
 \begin{figure}[!h]
 	\centering
-	\subbottom[Компоненты оси прецессии $\nbar$]{%
+	\subbottom[Spin precession axis $\nbar$ components]{%
 		\includegraphics[height=.35\paperheight]{images/fake_signal_sim/linearity_test_shifting_gauss_nbar}}
-	\subbottom[Компоненты частоты прецессии $\vec\W$]{%
+	\subbottom[Angular velocity $\vec\W$ components]{%
 		\includegraphics[height=.35\paperheight]{images/fake_signal_sim/linearity_test_shifting_gauss_freq}}
-	\legend{Цветом различаются радиальная (синий) и вертикальная (оранжевый) компоненты векторов $\bar n$, $\vec\W$.}
-	\caption{Зависимость направления и частоты прецессии спина референсной частицы в неидеальной FS-структуре со случайно-распределёнными ошибками установки спин-ротаторов от их среднего угла наклона.\label{fig:Linearity_test_shifting_gauss}}
+	\caption{Reference particle's spin precession axis and angular velocity components as
+		 functions of the mean E+B element tilt angle. Element tilts are normally distributed.
+		Color identifies the component; radial (blue) and vertical (orange).\label{fig:Linearity_test_shifting_gauss}}
 \end{figure}
 
-Из рисунка видно, что при такой установке элементов, при которой среднее значение угла наклона равно $10^{-4}$ радиан, поляризация пучка будет вращаться в вертикальной плоскости с угловой срокостью около 500 радиан/секунду. Это согласуется с оценками выше (раздел~\ref{chpt3:imperfections}), поскольку в них предполагается стандартное отклонение ошибки наклона $10^{-4}$ радиан, а также наклон $n=100$ элементов. В этом случае, стандартное отклонение среднего угла наклона элементов равно $10^{-5}$ радиан, и значит с вероятностью 67\%, МДМ прецессия в вертикальной плоскости будет происходить со скоростью до 50 рад/сек, а с вероятностью 95\% --- до 100 рад/сек.
+One can observe from the figure that a tilt distribution at which the mean tilt angle is equal to $10^{-4}$ radians, the
+beam polarization vector precesses in the vertical plane at the rate of 500 rad/sec. This agrees with the estimates
+mentioned above (section~\ref{chpt3:imperfections}), because in them a tilt error standard deviation of $10^{-4}$ rad 
+is assumed at 100 tilted elements. In that case, the mean tilt angle standard deviation is $10^{-5}$, and hence MDM
+precession occurs at a rate up to 50 rad/sec with a probability 67\%, and up to 100 rad/sec with a probability 95\%.
 
-На Рисунке~\ref{fig:Linearity_test_compensated} изображены результаты теста, в котором E+B элементы попарно повёрнуты на противоположные углы (три случайные пары), а один элемент повёрнут на угол
-$\mu_i = (i-5)\cdot 10^{-6}$ рад, $i\in\lbrace0,\dots,10\rbrace$. Обе симуляции были выполнены на энергии
-270.0092 МэВ.\footnote{На этой энергии, в идеальной структуре, $\nu_s$ и $\nbar$
-	не определены в системе координат связанной с пучком, использованной
-	COSY INFINITY. Это соответствует ситуации, когда спин не прецессирует ни в какой плоскости 
-	(горизонтальной или вертикальной), что есть условие трёхмерно-замороженного спина, 
-	для идеальной структуры.} Можно наблюдать, что скомпенсированные элементы не дают вклад во вращение
-спин-вектора референсной частицы.
+Figure~\ref{fig:Linearity_test_compensated} shows the results of a simulation in which six, randomly-picked
+E+B elements were pair-wise tilted by opposite angles, while one element was tilted by an angle
+$\mu_i = (i-5)\cdot 10^{-6}$ rad, $i\in\lbrace0,\dots,10\rbrace$. 
+
+Both simulations were done at the strict FS energy 270.0092 MeV.\footnote{At this energy, in the ideal lattice, 
+	$\nu_s$ and $\nbar$	are undefined in the beam rest frame used in COSY Infinity.
+	This corresponds to the situation when spin does not precess in any plane (either horizontal or vertical), 
+	which corresponds to the realization of the 3D FS condition in an ideal lattice.} One can see that the compensated
+elements do not contribute to the spin precession.
 
 \begin{figure}[!h]
 	\centering
-	\subbottom[Компоненты оси прецессии $\nbar$]{%
+	\subbottom[Spin precession axis $\nbar$ components]{%
 		\includegraphics[height=.35\paperheight]{images/fake_signal_sim/linearity_test_compensated+microrad_nbar}}
-	\subbottom[Компоненты частоты прецессии $\vec\W$]{%
+	\subbottom[Angular velocity vector $\vec\W$ components]{%
 		\includegraphics[height=.35\paperheight]{images/fake_signal_sim/linearity_test_compensated+microrad_freq}}
-	\legend{Цветом различаются радиальная (синий) и вертикальная (оранжевый) компоненты векторов $\bar n$, $\vec\W$.}
-	\caption{Зависимость направления и частоты прецессии спина референсной частицы в неидеальной FS-структуре в случае попарно-компенсированных ошибок установки спин-ротаторов от их среднего угла наклона.\label{fig:Linearity_test_compensated}}
+	\caption{Reference particle's spin precession axis and angular velocity components as
+		functions of the mean E+B element tilt angle. Three mutually-compensated tilt pairs plus an uncompensated
+		rotation.
+		Color identifies the component; radial (blue) and vertical (orange)\label{fig:Linearity_test_compensated}}
 \end{figure}
 
-\subsection{Равенство частот прецессии спинов частиц при движении в прямом и обратном направлениях}\label{chpt3:imperfections:CW_vs_CCW}
-На Рисунке~\ref{fig:Lin_test_rel_diff} изображена относительная разница между радиальной компонентой оси стабильного спина/угловой скоростью поворота спина частицы, соответственно для случайно-распределённой ошибки наклона элементов, и в случае попарной компенсации наклонов.
+\subsection{Comparison of the CW vs CCW beams' spin precession angular velocities}\label{chpt3:imperfections:CW_vs_CCW}
+In Figure~\ref{fig:Lin_test_rel_diff} we plotted the relative difference between the CW and CCW beams' radial SPA/angular velocity
+components in the case of both the normally-distributed and mutually-compensated tilt cases.
 
-Для радиальной компоненты оси стабильного спина, относительная разница вычислялась как 
+For the raidal SPA component the relative difference was computed as
 \[
 \delta\bar n_x = \frac{\bar n_x^{CW}(\avg{\Theta_{tilt}}) - \bar n_x^{CCW}(\avg{\Theta_{tilt}})}{\bar n_x^{CW}(\avg{\Theta_{tilt}})};
 \]
-для угловой скорости, соответственно:
+for the angular velocity:
 \[
 \delta\W_x = \frac{\W_x^{CW}(\avg{\Theta_{tilt}}) - \W_x^{CCW}(\avg{\Theta_{tilt}})}{\W_x^{CW}(\avg{\Theta_{tilt}})}.
 \]
 
-Из рисунков следует, что в обоих случаях движения пучка, ось стабильного спина наклонена одинаково; при этом существует различие между спин-тюнами CW и CCW пучков, на уровне не более десятых долей процента, которое тем сильнее, чем с меньшей скоростью крутится Спин-Колесо. Эта разница  свидетельствует об асимметричности ускорительной структуры относительно обращения направления движения, с точки зрения спиновой динамики, 
-и может объясняться различием референсных орбит прямого и обратного пучков. 
+One can observe in the figures that in both cases both beams' SPA has the same orientation; there is a difference
+between the beams' spin tunes, but it stays below the percent level. The spin tune difference grows bigger as the
+spin wheel roll rate (proportional to the mean tilt angle) gets slower. The spin tune difference may indicate that
+the lattice is asymmetric, with respect to the spin dynamics, relative to the beam circulation direction (i.e. time reversal).
+It may be explained by a difference between the CW and CCW beams' closed orbits.
 
 \begin{figure}[!h]
 	\centering
-	\subbottom[Случайно-распределённые наклоны E+B элементов]{%
+	\subbottom[Normally distributed E+B element tilts]{%
 		\includegraphics[height=.35\paperheight]{images/fake_signal_sim/linearity_test_shifting_gauss_rel_diff}	
 	}
-	\subbottom[Попарно-компенсированные наклоноы]{%
+	\subbottom[Mutually-compensated element tilts]{%
 		\includegraphics[height=.35\paperheight]{images/fake_signal_sim/linearity_test_compensated+microrad_rel_diff}
 	}
-	\legend{Цветом обозначена разница между радиальными компонентами (синий) оси стабильного спина, (оранжевый) угловой скорости поворота спина CW и CCW пучков}
-	\caption{Относительная разница между радиальными компонентами оси стабильного спина и угловой скоростью поворота спина, посчитанная относительно значения для CW-циркулирующего пучка\label{fig:Lin_test_rel_diff}}
+	\caption{Relative difference between the CW and CCW beams' spin precession axis and angular velocity radial components.
+		Color marks the compared variable: spin precession axis (blue) and abgular velocity (orange).\label{fig:Lin_test_rel_diff}}
 \end{figure}
