@@ -2,9 +2,9 @@
 \RequirePackage[l2tabu,orthodox]{nag}
 \documentclass[a4paper,14pt,oneside,openany]{memoir}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[english, russian]{babel}
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage[english, russian]{babel}
 
 \usepackage{Dissertation/phdstyle}
 
@@ -13,18 +13,14 @@
 \begin{document}
 
 \include{Dissertation/title}
-%% \include{Dissertation/introduction}    % Введение
-%\include{Dissertation/part1}           % Глава 1
-%\include{Dissertation/part3}           % Глава 3
-\include{Dissertation/part4}		   % Глава 4
-%\include{Dissertation/conclusion}      % Заключение
-%\include{Dissertation/acronyms}        % Список сокращений и условных обозначений
-%\include{Dissertation/dictionary}      % Словарь терминов
-%% \include{Dissertation/references}      % Список литературы
-%% \include{Dissertation/lists}           % Списки таблиц и изображений (иллюстративный материал)
+\include{Dissertation/introduction}   
+\include{Dissertation/part1}           
+\include{Dissertation/part3}           
+\include{Dissertation/part4}		   
+\include{Dissertation/conclusion}      
 
 
-%\include{Dissertation/Appendix/statistics}
+\include{Dissertation/Appendix/statistics}
 
 \bibliographystyle{vancouver}
 \bibliography{biblio/allcites}
