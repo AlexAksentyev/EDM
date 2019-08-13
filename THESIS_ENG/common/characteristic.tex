@@ -1,8 +1,15 @@
 
 One of the main problems of contemporary fundamental physics research is the baryon asymmetry of the universe,
-i.e. the prevalence of matter over antimatter in observed universe. At the present moment there's no evidence of the existence of primordial antimatter in our galaxy; the amount of observed antimatter is consistent with its production in secondary processes. There's also no detectable background gamma radiation that would be expected from nucleon-antinucleon annihilations, if matter and antimatter galaxies were to coexist in slusters of galaxies.~\cite{Trodden:Baryogenesis} 
+i.e. the prevalence of matter over antimatter in the observed universe. At the present moment there's 
+no evidence of the existence of primordial antimatter in our galaxy; the amount of observed antimatter 
+is consistent with its production in secondary processes. There's also no detectable background 
+gamma radiation that would be expected from nucleon-antinucleon annihilations, if matter and antimatter
+galaxies were to coexist in clusters of galaxies.~\cite{Trodden:Baryogenesis} 
 
-In his 1967 paper, Andrei D. Sakharov formulated three necessary conditions that the primordial universe must have satisfied for baryogenesis. The discovery of cosmic background radiation and CP-symmetry violation in kaon systems~\cite{Fitch:Kaon-CP-violation-1964} motivated the formulation of the conditions. The three \emph{Sakharov conditions} are:
+In his 1967 paper, Andrei D. Sakharov formulated three necessary conditions that the primordial universe 
+must have satisfied for baryogenesis. The discovery of cosmic background radiation and CP-symmetry violation 
+in kaon systems~\cite{Fitch:Kaon-CP-violation-1964} motivated the formulation of the conditions. 
+The three \emph{Sakharov conditions} are:
 \begin{itemize}
 	\item violation of the baryon number symmetry;
 	\item violation of the discrete C- and CP-symmetries;
@@ -19,15 +26,15 @@ lie in the range $10^{-33}$ to $10^{-30}$\ecm.~\cite{Harris:Neutron2007}
 This implies that particle EDMs can serve as a powerful tool
 for discovering physics beyond the SM. For example, CP-violations that are endemic in
 supersymmetric teories (SUSY) are such as to span $d_n$ values in the range of
-$10^{-29}$ to $10^{-24}~e\cdot$cm.~\cite{JEDI}
+$10^{-29}$ to $10^{-24}~e\cdot$cm.~\cite{JEDI:Website}
 
 The EDM search project started more than 50 years ago. The first neuteron EDM experiment was conducted by
-dr. N.F. Ramsey at the end of 1950s. As a result of that experiment, the upper neuteron EDM bound was set
-at $5\cdot 10^{-20}$\ecm.~\cite{Ramsey:Neutron1957} After then, multiple more precise experiments were
-carried out, and at present the upper bound on the neuteron EDM is at
+dr. N.F. Ramsey at the end of the 1950s. As a result of that experiment, the upper neuteron EDM bound was set
+at $5\cdot 10^{-20}$\ecm.~\cite{Ramsey:Neutron1957} Since then, multiple experiments 
+of increasingly high precision were carried out, and at present the upper bound on the neuteron EDM is at
 $2.9\cdot 10^{-26}$\ecm.~\cite{Baker:nEDM:Main, Baker:nEDM:Reply}
 
-Up until now, all EDM-searching experiments were carried out with electrically-neutral particles, such as
+Up until now, all EDM-searching experiments were performed on electrically-neutral particles, such as
 atoms or the neuteron. The idea of searching of a charged particle's EDM in a storage ring environment
 appeared during the development of the g-2 experiment~\cite{BNL:g-2:2001} in Brookhaven National Laboratory.
 
@@ -56,18 +63,19 @@ In 2011 the JEDI (J\"ulich Elecric Dipoe moment Investigations) collaboration wa
 The purpose of the collaboration consists not only in developing technologies for srEDM, but also in
 performing a first direct EDM measurement for deuterons.
 
-In 2018, the JEDI collaboration made a first deuteron EDM measurement at COSY. Since in a non-Frozen Spin ring
+In 2018, the JEDI collaboration made a first-ever deuteron EDM measurement at COSY. 
+Since in a non-Frozen Spin ring
 and EDM generates small-amplitude oscillations of the vertical beam polarization component
 (at the deuteron momentum 970 MeV/c used in COSY, the oscillation amplitude is on the level $3\cdot10^{-10}$
 assuming an EDM $d = 10^{-24}$\ecm), a resonance-type methodology
 was used~\cite{COSY:Partially-Frozen-Spin, COSY:SpinTuneMapping}, which uses a custom-design
 RF Wien filter~\cite{JSlim:RFWF:Design, JSlim:RFWF:Commisioning} made specially for COSY.
 
-The \textbf{goal} of the present work is to numerically model a method for searching for the deuteron EDM
-in a Frozen Spin-type storage ring.
+The \textbf{goal} of the present work is to numerically model the 2D Frozen Spin (FS) method 
+for searching for the deuteron EDM in a storage ring.
 
 In order to reach this goal, the following \textbf{objectives} were formulated:
-\begin{enumerate}[(1)]
+\begin{enumerate}
   \item Study spin decoherence in the neigborhood of spin resonance (frozen spin regime) and the sextupole
   method of its suppression. 
   \item Study the effect of betatron oscillations on the validity of the EDM statstic.
@@ -76,7 +84,7 @@ In order to reach this goal, the following \textbf{objectives} were formulated:
   when counter-injecting the beam.
 \end{enumerate}
 
-What is analyzed in the present research that was not studied previously:
+This research deals with the following problems not analyzed by previous researchers:
 \begin{enumerate}[(1)]
   \item Simulation of the spin tune calibration procedure under change of the beam circulation direction. 
   \item Analysis of the effect of betatron oscillations on the EDM statistic.
@@ -85,17 +93,17 @@ What is analyzed in the present research that was not studied previously:
 \end{enumerate}
 
 \textbf{Defended propositions.}
-\begin{enumerate}[(1)]
+\begin{enumerate}
 	\item We confirmed the analytical explanation of the mechanism of the sextupole method for
-        suppressing spin decoherence proposed by dr. Y.V. Senichev. % section 2.2.7
+        suppressing spin decoherence proposed by Y.V. Senichev. % section 2.2.7
   	\item We confirmed the proposed equality of spin tunes of particles having the same value of the
         effective Lorentz factor, and we found an interpretation fo the effective Lorentz factor as
         a measure of the particle's longitudinal emittance. % section 2.5.2
-  	\item We showed that calibration of the vertical MDM precession angular velocity component
-        by means of observing spin precession in the horizontal plane as a viable method.
+  	\item We showed that the calibration of the vertical MDM precession angular velocity component
+        by means of observing spin precession in the horizontal plane is a viable method.
   	\item We proved that perturbations to a particle's spin dynamics due to its betatron motion
-        introduce a negligibly small -- and also controllable, in the framework of the
-        2D FS method -- systematic error into the EDM statistic. % pretty well-founded
+        introduce a negligibly small (and also controllable, in the framework of the
+        2D FS method) systematic error into the EDM statistic. % pretty well-founded
          % statistics
   	\item We proved that the effective measurement cycle length ranges betwen 2 to 3
         polarization lifetimes.~\footnote{Polarization lifetime here is understood as
