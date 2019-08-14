@@ -193,17 +193,15 @@ Suppose we write the Fisher matrix as a sum:
 \end{equation}
 
 $\Fisher[i] = -\XpctO{\frac{\partial^2}{\partial\pars^2}\log f(y_i|\pars)\vert_{\pars=\pars_0}}$ could be\footnote{The $t_i$ in the structural matrix in eq.~\eqref{eq:FisherSum} worries me, because it appears that a point carries more information simply by virtue of it being measured later in time; but as far as I can tell the reason for it is that it is assumed that the point labeled as $i$ is the $i$-th point in a series, and so a later point is more informative than a point closer to the origin, all other things being equal. And it's nothing new; in linear regression we also want our predictors to be as spread out as possible.} interpreted as the information about the parameter that's carried in $y_i$.
-\begin{figure}[h]
-\centering
-\begin{subfigure}{.5\textwidth}
+\begin{figure}[h]\centering
 \begin{tikzpicture}
 	  \draw[->] (-1.5,0) -- (1.5,0) node[right] {$\mupp$};
       \draw[->] (0,-.5) -- (0, 2.3) node[above] {$I_i(\pars_0)$};
       \draw[scale=1,domain=-1.5:1.5,smooth,variable=\x,red] plot ({\x},{\x*\x});
 \end{tikzpicture}
 \caption{Fisher information of a point is a parabola of the signal derivative.}
-\end{subfigure}~
-\begin{subfigure}{.5\textwidth}
+\end{figure}
+\begin{figure}[h]\centering
 \begin{tikzpicture}
 \begin{axis}[axis lines=center, xlabel=$t$, domain=-.5:2*pi, legend pos=outer north east]
 	\addplot[color=blue, name path=signal, domain=-.1:2*pi,samples=50] {sin(deg(x))}; \addlegendentry{signal}
@@ -220,7 +218,6 @@ $\Fisher[i] = -\XpctO{\frac{\partial^2}{\partial\pars^2}\log f(y_i|\pars)\vert_{
 \end{axis}     
 \end{tikzpicture}
 \caption{Filled areas are where the points are more informative.}
-\end{subfigure}
 \end{figure}
 
 If we attribute each point a weight proportional to its Fisher information, i.e. $w_i = \cos^2(\omega t_i + \phi)$,~\footnote{The variance of $\omega$ is proportional to the (2,2)-minor, in which time doesn't figure, only the squared cosine.} the weight of a region where $\bkt{\mupp}^2 \geq\sfrac12$ is greater than that of an equivalent region with $\bkt{\mupp}^2 < \sfrac12$  by the factor:

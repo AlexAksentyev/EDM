@@ -10,6 +10,11 @@
 
 
 
+
+
+\renewcommand{\appendixname}{Appendix}% Change "chapter name" for Appendix chapters
+\renewcommand*{\cftappendixname}{Appendix~}% Addition to chapter number
+
 \begin{document}
 
 \include{Dissertation/title}
@@ -21,7 +26,7 @@
 \include{Dissertation/part4}		   
 \include{Dissertation/conclusion}      
 
-
+\appendix
 \include{Dissertation/Appendix/statistics}
 
 \bibliographystyle{vancouver}

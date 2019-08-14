@@ -1,6 +1,6 @@
 \newcommand{\dpop}{\Delta p/p}
 
-The initial goal of spin coherence time (SCT) studies at COSY was to 
+The initial goal of the spin coherence time (SCT) studies at COSY was to 
 confirm the possibility of using sextupole fields in the correction of spin tune 
 dispersion associated with the transverse beam emittances and 
 momentum dispersion ($\dpop$).~\cite{COSY:SCT:IPAC15}
@@ -25,7 +25,7 @@ assiciated with the vertical betatron oscillations.
 \end{figure}
 
 \subsection{Optimization procedure}
-In this section we descrbe the optimization procedure using the example of the 2014 experiment.~\cite{Guidoboni:STORI14}
+In this section we describe the optimization procedure using the example of the 2014 experiment.~\cite{Guidoboni:STORI14}
 The SCT optimization experiment was first performed in 2012, but then only the MXS field strength was varied.
 In 2014, a comprehensive (the field strengths of all three sextupole families were varied) SCT optimization
 study was done for the first time.
@@ -33,35 +33,37 @@ study was done for the first time.
 To separate the effects related to the beam emittances and the 
 second-order momentum dispersion $(\dpop)^2$, the beam was prepared in two different ways.
 
-In order to obtain a beam with a large $(\dpop)^2$, a polarized deuteron beam of momentum $p=0.97$~GeV/c
-is first cooled for 60 seconds, so that its emittance is minimized. After the cooling is turned off, the 
-beam is bunched (harmonic number $h=1$). Bunching is required to minimize linear spin decoherence effects.
+When studying the effect associated with a large $(\dpop)^2$, a polarized deuteron beam injected 
+at $p=0.97$~GeV/c momentum is first cooled for 60 seconds, so that its emittance is minimized. 
+After the cooling is turned off, the beam is bunched (harmonic number $h=1$). 
+Bunching is required to minimize linear spin decoherence effects.
 
-In the case of studying the effect associated with the horizontal emittance of the beam,~\footnote{
-Decoherence associated with vertical emittance could not be studied because of acceptance limitations.
-} the beam is cooled and bunched simultaneously for the initial 60 seconds, after which cooling is turned off,
-and horizontal heating is turned on for 5 seconds. The beam is heated via applying white noise to the 
-the horizontal kicker capacitor plates.
+When studying the effect associated with horizontal emittance,~\footnote{Decoherence associated with 
+	vertical emittance could not be studied because of acceptance limitations.} the beam is 
+cooled and bunched simultaneously for the initial 60 seconds, after which cooling is turned off,
+and horizontal heating is turned on for 5 seconds. The beam is heated by applying white noise to 
+the horizontal kicker plates.
 
-In both cases the beam polarization is vertically-oriented at injection. It is flipped by an RF solenoid 
+In both cases the polarization is vertically-oriented at injection. It is flipped by an RF solenoid 
 after the beam preparation at the 80-th second.
 
-The beam polarization is continuously measured by applying white noise to the vertical kicker in order to 
-extract the beam onto a 17 mm thick carbon target. After that, elastically scattered deuterons are detected
-at the EDDA polarimeter. Elastic scattering of deuterons on carbon is a spin sensitive process with a large cross section.
-
+Polarization is continuously measured by extracting the beam onto a 17 mm thick carbon target and
+detecting the scattered deuterons at the EDDA polarimeter. 
+Extraction is done by applying white noise to the vertical kicker. Elastic scattering of deuterons on 
+carbon is a spin sensitive process with a large cross section.
 
 The EDDA scintillators were grouped in four sectors (up, right, down, left); event rate asymmetry between the
-left and right sectors is proportional to the beam's vertical polarization, one between the up and down -- 
+left and right sectors is proportional to the beam's vertical polarization, the one between the up and down -- 
 to the horizontal polarization component. Horizontal plane spin precession occurs at a a rate which greatly exceeds the polarimeter sampling rate, which is why a special data acquisition system was developed in 2012.~\cite{COSY:DAQ}
 
 As a result of the experiment~\cite{Guidoboni:STORI14} a possibility of reaching an SCT over 1,000 seconds at COSY was shown. 
 
 \subsection{SCT change when going from the external to the internal beam layers}
-Below are shown SCT optimization results obtained during the April-May 2019 beam time.
+SCT optimization results obtained during the April-May 2019 beam time are shown below.
 
-In Figure series~\ref{fig:April2019:Polarization} are shown the up-down cross section asymmetry measurement 
-results. In the first two figures one can observe that in the first half (100 to 150 seconds) of the measurement cycle depolarization occurs at a high rate, but in the second half the rate drops significantly.
+In the Figure series~\ref{fig:April2019:Polarization} the up-down cross section asymmetry measurement 
+results are presented. In the first two figures one can observe that the rate of depolarization changes from
+high in the first half (100 to 150 seconds) of the measurement cycle to significantly lower in the second half.
 In Figure~\ref{fig:Polariation:recovery-from-halo-to-core} especially, we observe that polarization is increasing in the 130 to 150 second range, before it begins to gradually decrease again.
 \begin{figure}[h]\centering
 	\begin{subfigure}{\linewidth}
@@ -92,8 +94,9 @@ more dense than the halo, the orbit length (hence spin tune) dispersion is less 
 for its particles.
 
 \subsection{SCT dependence on sextupole strength}
-In Figure~\ref{fig:SCT_scan} is shown the dependence of SCT on the relative strengths of, respectively, the 
-MXL and MXG sextupoles, measured dutring the April-May 2019 beamtime. A resonance-type pattern can be observed.
+SCT dependence on the relative strengths of, respectively, the 
+MXL and MXG sextupoles, measured during the April-May 2019 beamtime
+is presented in Figure~\ref{fig:SCT_scan}. A resonance-type pattern can be observed.
 
 \begin{figure}[h]\centering
 	\begin{subfigure}{\linewidth}
@@ -107,11 +110,11 @@ MXL and MXG sextupoles, measured dutring the April-May 2019 beamtime. A resonanc
 	\caption{SCT as a function fo the sextupole strength.\label{fig:SCT_scan}}
 \end{figure}
 
-We checked if this pattern is observed within our numerical model in the FS-type lattice, in view of the 
-fact that COSY operates at an energy that is significantly far removed from resonance. 
-In Figure~\ref{fig:SCT_resonance} is plotted the dependence of the spin tune standard deviation 
-on the gradient of the corresponding sextupole's field 
-(data were taken from the simulation described in section~\ref{sec:decoh:sim-imperfect}).
+Since COSY operates at an energy that is significantly far removed from spin resonance 
+we decided to check if this pattern can be seen (within the framework of our numerical model) 
+in the FS-type lattice. 
+Spin tune standard deviation as a function of the corresponding sextupole gradient is plotted in Figure~\ref{fig:SCT_resonance}. 
+(Data were taken from the simulation described in section~\ref{sec:decoh:sim-imperfect}.)
 The same resonance pattern is observed as in the experiment.
 
 \begin{figure}[h]

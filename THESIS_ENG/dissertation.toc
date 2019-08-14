@@ -57,17 +57,17 @@
 \contentsline {section}{\numberline {3.2}High precision spin tune measurement}{85}{section.3.2}% 
 \contentsline {section}{\numberline {3.3}Beam Based Alignment}{85}{section.3.3}% 
 \contentsline {section}{\numberline {3.4}Spin coherence time optimization procedure}{87}{section.3.4}% 
-\contentsline {subsection}{Optimization procedure}{88}{section*.80}% 
+\contentsline {subsection}{Optimization procedure}{87}{section*.80}% 
 \contentsline {subsection}{SCT change when going from the external to the internal beam layers}{89}{section*.81}% 
 \contentsline {subsection}{SCT dependence on sextupole strength}{89}{section*.84}% 
 \contentsline {chapter}{Conclusion}{95}{chapter*.87}% 
-\contentsline {chapter}{\chapternumberline {4}Statistical modeling}{97}{chapter.4}% 
-\contentsline {section}{\numberline {4.1}Preliminary analysis}{98}{section.4.1}% 
+\contentsline {appendix}{\chapternumberline {A}Statistical modeling}{97}{appendix.A}% 
+\contentsline {section}{\numberline {A.1}Preliminary analysis}{98}{section.A.1}% 
 \contentsline {subsection}{Variance of the frequency estimate}{99}{section*.88}% 
 \contentsline {subsubsection}{Cross-check}{100}{section*.89}% 
 \contentsline {subsection}{Sampling modulation}{101}{section*.90}% 
-\contentsline {section}{\numberline {4.2}Detector counting rate model}{102}{section.4.2}% 
-\contentsline {section}{\numberline {4.3}Cross section asymmetry}{104}{section.4.3}% 
-\contentsline {section}{\numberline {4.4}Measurement time frame}{104}{section.4.4}% 
-\contentsline {section}{\numberline {4.5}Simulation}{106}{section.4.5}% 
-\contentsline {chapter}{Bibliography}{110}{chapter*.97}% 
+\contentsline {section}{\numberline {A.2}Detector counting rate model}{102}{section.A.2}% 
+\contentsline {section}{\numberline {A.3}Cross section asymmetry}{104}{section.A.3}% 
+\contentsline {section}{\numberline {A.4}Measurement time frame}{104}{section.A.4}% 
+\contentsline {section}{\numberline {A.5}Simulation}{107}{section.A.5}% 
+\contentsline {chapter}{Bibliography}{111}{appendix*.98}% 
