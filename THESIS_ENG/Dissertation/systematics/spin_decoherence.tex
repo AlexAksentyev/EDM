@@ -386,20 +386,21 @@ in the second one, the Y-bunch, as $y\sim N(0, 0.5)$ mm. All the other phase spa
 set to zero at injection.
 
 The tests were done in the ideal FS lattice in order to exclude effects associated with perturbations
-of non-reference orbits. For the D-bunch, only the GSD sextupoles were turned on; for the Y-bunch -- GSY. The
-sextupole gradients were varied $\pm 5\cdot 10^{-3}$ of the corresponding family's optimal gradient value.
+of non-reference (betatron) orbits. For the D-bunch, only the GSD sextupoles were turned on; 
+for the Y-bunch -- GSY. The sextupole gradients were varied $\pm 5\cdot 10^{-3}$ 
+of the corresponding family's optimal gradient value.
 
 Spin tracking was done for $1.2\cdot 10^6$ turns, data were recorded every 800 turns.
 
-In Figure~\ref{fig:long_PS_sext_settings} we plotted the particles' longitudinal phase space portraits. 
+In Figure~\ref{fig:long_PS_sext_settings} we plotted the longitudinal phase space portraits of both bunches. 
 We see that the D-bunch phase portraits are practically all centered at the same point,~\footnote{When zooming 	in, one can see that the ellipse centers are slightly different, but this difference is insensitive to
 	the sextupole gradient value, and most likely is a result of finite statistics.} and that their 
 emittances do not change when the sextupole strength is varied.
 
 At the same time, the Y-bunch phase portraits vary with the sextupole field strength. We observe that the 
-the ellipse centers (i.e. the equilibrium energy levels) are the most compressed at a gradient value that is
-\textbf{not} optimal (the phase portraits for the latter are drawn in the middle panel). This observation
-was what motivated us to try to inject the D-bunch in the first place. We explain this observation by the
+the ellipse centers (i.e. the equilibrium energy levels) are most compressed at a gradient value that is
+\textbf{not} optimal (the phase portraits for the latter occupy the middle panel). This observation
+was what motivated us to try to inject the D-bunch in the first place. We explain this phenomenon by the
 superposition of the orbit length and momentum compaction factor effects.
 
 \begin{figure}[h]
@@ -416,16 +417,20 @@ superposition of the orbit length and momentum compaction factor effects.
 		Colors mark trajectories of particles with differing initial vertical offset from the reference orbit.\label{fig:long_PS_sext_settings}}
 \end{figure}
 
-For a more thorough analysis of the sextupoel field effects on the functions $f_1$ and $f_2$ we plotted the
-dependencies of the particles' mean spin tune levels on their equilibrium energy levels at different
-sextupole field strengths (Figure~\ref{fig:ST_vs_dkok_for_sext_strenghts}). One can see from the figure 
-that the point distribution density in the D-bunch plot does not vary with the gradient value; the only thing 
-that changes is the functional dependence of spin tune on the equilibrium energy level, as is expected from
-the functional form of $f_2$ (cf. section~\ref{chpt1:FS-methods:effective-Lorentz-factor}). Hence, the 
-signature of the sextupole field's momentum compaction effect is the change in the functional form of
+For a more thorough analysis of the sextupole field effects on the functions $f_1$ and $f_2$ we plotted  time-averaged spin tune level as a function of the corresponding time-averaged energy level at different
+sextupole field strengths (Figure~\ref{fig:ST_vs_dkok_for_sext_strenghts}).~\footnote{Practically, 
+	we took spin tune and ISA values corresponding to actual particle trajectories in the accelerator.
+	So, ``correspondence'' here means that spin tune and kinetic energy are strictly linked to one another via
+	a trajectory.} One can see from the figure 
+that the point distribution density in the D-bunch plot does not vary as we change the gradient; the only thing 
+that does change is the functional dependence of spin tune on the mean energy level, as is expected from
+the functional form of $f_2$ (cf. section~\ref{chpt1:FS-methods:effective-Lorentz-factor}). Hence, we concluded
+that the signature of the sextupole field momentum compaction effect is the change in the functional form of
  $\avg{\nu_s} = f(\avg{\Delta K/K})$.
 
-In the Y-bunch plot one observes two effects: both the point distribution density (i.e. the beam's longitudinal emittance) and the functional form of $\avg{\nu_s}(\avg{\Delta K/K})$ change.
+In the Y-bunch plot one observes two effects: both the point distribution density (i.e. the beam's longitudinal emittance) and the functional form of $\avg{\nu_s}(\avg{\Delta K/K})$ change. Since the functional form change 
+is attributed to the momentum compaction factor effect, we attribute the point density to the orbit length
+effect.
 
 \begin{figure}[h]
 	\centering

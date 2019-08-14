@@ -71,17 +71,20 @@ The $\nbar^{CW}$, $\nbar^{CCW}$ tilt angles relative to the closed orbit plane a
 setting $\W_y=0$.
 
 \subsection{Simulation}
-In the simulation, we use an imperfect FS lattice~\cite{Senichev:ICAP15-MODBC4}, in which the E+B
-spin rotator elements are tilted about the optic axis by angles $\alpha\sim N(0, 5\cdot 10^{-4})$ radians.
+In the simulation, we use an imperfect FS lattice~\cite{Senichev:Lattices}, in which the E+B
+spin rotator elements are tilted about the optic axis by angles 
+\[
+\alpha\sim N(0, 5\cdot 10^{-4})\text{~rad}.
+\]
 Spin decoherence is being suppressed. The simulation is repeated three times;
 each time only one sextupole family is turned on.
-Each family's sextupole gradieent is optimized accorgding to the procedure
+Each family's sextupole gradieent is optimized according to the procedure
 described in section~\ref{sec:decoh:suppression_in_ideal_lattice}.
 
 The beam kinetic energy is 270.00 MeV. We compute third-order Taylor expansions of the
 spin and orbital transfer maps.
 
-The main body of the simulation consists in the following: using the TSS~\cite[p.~41]{COSYINF:BeamPhysMan}
+The main body of the simulation consists in the following: using the TSS~\cite[p.~41]{COSYINF:Manual:BeamPhys}
 procedure
 of COSY Infinity we compute the $\nu_s$ and $\nbar$ third-order Taylor expansions for the lattice traversed
 in the forward direction.
@@ -92,18 +95,18 @@ for the reversed lattice (as it is seen by the counter-circulating beam).
 
 \subsection{Results}
 
-In Figures~\ref{fig:X:calib_plot}, \ref{fig:Y:calib_plot}, and~\ref{fig:D:calib_plot} are shown the
-test results. Specifically, in Figures~\ref{fig:X:calib_plot:stune},
-\ref{fig:Y:calib_plot:stune}, and~\ref{fig:D:calib_plot:stune} are shown CW and CCW beams' $\nu_s$ and $\nbar_y$
-as functions of the particle's offset from reference values in the horizontal nad vertical planes,
-and in energy, respectively. One can see that the $\nu_s^{CW}$ and $\nu_s^{CCW}$ dependencies (as well as
+The test results are shown in Figures~\ref{fig:X:calib_plot}, \ref{fig:Y:calib_plot}, and~\ref{fig:D:calib_plot}. Specifically, in Figures~\ref{fig:X:calib_plot:stune},
+\ref{fig:Y:calib_plot:stune}, and~\ref{fig:D:calib_plot:stune} we plotted CW and CCW beams' $\nu_s$ and $\nbar_y$
+as functions of the particle's transverse ($x$, $y$) and energy ($\delta$) phase space coordinates,
+ respectively. One can see that the $\nu_s^{CW}$ and $\nu_s^{CCW}$ dependencies (as well as
 $\nbar_y^{CW}$ and $\nbar_y^{CCW}$) differ, but at the same time the beams' $\Delta\W_y$ discrepancy does not
-exceed $\pm3\cdot10^{-6}$ rad/sec; the spin tune discrepancy is below $10^{-13}$, that of the transverse
+exceed $\pm3\cdot10^{-6}$~rad/sec; the spin tune discrepancy is below $10^{-13}$, that of the transverse
 components of $\nbar$ the $10^{-8}$ level. Figures~\ref{fig:X:calib_plot:omegas}, \ref{fig:Y:calib_plot:omegas},
 and~\ref{fig:D:calib_plot:omegas} show the difference between the CW \& CCW beams' spin precession
-angulat velociy vectors' radial components as a function of their vertical component difference.One can observe,
+angular velociy vectors' radial components as a function of their vertical component difference. 
+One can observe,
 that when the difference $\Delta\W_y < 10^{-7}$ rad/sec (this is the statistical precision
-of a frequency estimate achievable in one cycle), the difference $\Delta \W_x < 10^{-8}$  rad/sec (i.e.,
+of a frequency estimate achievable in one cycle), the difference $\Delta \W_x < 10^{-8}$~rad/sec (i.e.,
 an order of magnitude less than the statistical precision).
 This confirmes that the equalization of the vertical plane MDM precession frequencies of counter-circulating
 beams by means of equalizing their horizontal plane precession frequencies is a viable technique.
