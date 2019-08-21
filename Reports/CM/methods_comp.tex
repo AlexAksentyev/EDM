@@ -1,0 +1,256 @@
+\documentclass{beamer}
+\usepackage[backend=biber,style=authortitle-ibid]{biblatex}
+\addbibresource{refs.bib}
+\usepackage{url}
+\usepackage[makeroom]{cancel}
+\usepackage{tcolorbox}
+\usepackage{amsmath}
+\usepackage{forest}
+
+\newcommand{\w}{\omega}
+\newcommand{\avg}[1]{\langle{#1}\rangle}
+\newcommand{\nbar}{\bar n}
+
+\title{Comparison of Frozen Spin-type EDM search methods}
+\author[shortname]{Yury Senichev \inst{1} \and \underline{Alexander Aksentev} \inst{2,3}}
+\institute[shortinst]{\inst{1} Institute for Nuclear Research of RAS \and%
+  \inst{2} Forschungszentrum J\"ulich \and%
+  \inst{3} NRNU ``MEPhI''
+}
+\date{19 February 2019}
+
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}\frametitle{Considered methods}
+  \begin{itemize}
+  \item BNL Frozen Spin
+  \item I.Koop's Spin Wheel
+  \item Y.Senichev's Frequency Domain Method
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{BNL FS}
+  \begin{itemize}
+  \item Observation of the vertical polarization component~\footcite[p.~9]{BNL:Deuteron2008}
+    $\Delta P_V \approx P\cdot\w_{EDM}\cdot t$ (making it a Space Domain method)
+  \item Cross section asymmetry $\varepsilon_{LR}\approx 5\cdot 10^{-6}$ for
+    smallest practical values of (horizontal plane) $\w_{MDM}$~\footcite[p.~18]{BNL:Deuteron2008}
+  \item[*] Challenging task for polarimetry~\footcite[p.~6]{Mane:SpinWheel}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{BNL FS}\framesubtitle{Systematics}
+  \begin{itemize}
+  \item Only known first-order systematic effect pertaining to the spin dynamics is the existence of
+    $\avg{E_V}\neq 0$~\footcite[p.~10]{BNL:Deuteron2008}
+  \item Error frequency $\w_{syst} \approx \frac{\mu\avg{E_V}}{\beta c\gamma^2}$ changes sign when reversing
+    the beam circulation direction (CW/CCW)~\footcite[p.~11]{BNL:Deuteron2008}
+  \item However, at practical values of element alignment error, $\w_{syst} \gg \w_{EDM}$, hence
+    $P_V = P\frac{\w_{EDM}}{\w}\sin(\w t + \Theta_0) \cancel{\approx}P\w_{EDM} t$;
+    a Space Domain method is inapplicable under such conditions
+  \item[*] At $\avg{E_V}\rightarrow 0$, Space Domain methods are vulnerable to
+    the geometric phase error~\footcite[p.~6]{BNL:Proton}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Geometric phase error}
+  \begin{itemize}
+  \item Caused by the non-commutativity of rotations
+  \item Formulated in the angular momentum language, it means the \emph{absence of a definite orientation} of
+    the spin precession axis (SPA): $\nbar \rightarrow 0$
+  \item[*] Call that the \emph{3D Frozen Spin} state
+    \item 3D FS is unstable: any stray magnetic field can tilt the precession plane
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{FS-type methodology}
+  \begin{block}{Conditions of success}
+    \begin{itemize}
+    \item One must always have a definite direction of the SPA
+    \item Measurements must be done in the frequency domain
+    \end{itemize}
+  \end{block}
+  These conditions are satisfied by two methods:
+  \begin{itemize}
+  \item I.Koop's ``Spin Wheel''
+  \item Y.Senichev's ``Frequency Domain''
+  \end{itemize}
+  (Both of which belong to the Frequency Domain category.)
+\end{frame}
+
+\begin{frame}\frametitle{Spin Wheel}
+  \begin{block}{}
+    The Spin Wheel is great; it satisfies both success conditions.
+  \end{block}
+  \begin{itemize}
+  \item Apply a radial magnetic field of strength $B_x$ sufficient to turn the spin vector about
+    the $\hat x$-axis with a frequency of 1 Hz
+  \item $\w_{B_X} \parallel \w_{EDM}$ hence $\w_{net} \propto \w_{EDM} + \w_{B_X}$~\footcite[p.~6]{Mane:SpinWheel}
+  \item EDM effect $\hat\w_{EDM} = \frac12\left[\w_{net}(+B_X) + \w_{net}(-B_X)\right]$
+  \item Value of $B_X$ is calibrated by measuring the vertical orbit splitting
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Spin Wheel}\framesubtitle{The good, the bad, the ugly}
+  \begin{itemize}
+  \item Higher polarization growth rate greatly simplifies the task for polarimetry
+  \item Magnetic field calibration by means of orbit split measurements seems unfeasible
+  \item Element misalignment-induced error is not accounted for:
+    \begin{align*}
+      \hat\w_{EDM} &= \frac12\left(\w_{EDM} + \cancel{\w_{B_X}} + \w_{mis} + \w_{EDM} - \cancel{\w_{B_X}} + \w_{mis} \right) \\
+      &= \w_{EDM} + \w_{mis}
+    \end{align*}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Frequency Domain Method}
+  \begin{block}{}
+    This methodology has been developed specifically to deal with
+    misalignment error.
+  \end{block}
+  \begin{itemize}
+  \item No reason to apply an external B-field; misalignment $B_X$-field provides a sufficiently fast wheel
+  \item The FS condition ensures that $\w_{net} \propto \w_{EDM} + \w_{mis}$
+  \item The same EDM estimator $\hat\w_{EDM} = \frac{\w_{net}(+B_X) + \w_{net}(-B_X)}{2}$
+  \item To flip the sign of $B_X$ one must reverse the guide field polarity (CW/CCW comeback)
+  \item The value of $B_X$ is calibrated via horizontal plane precession frequency
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{center}
+    Thank you!
+  \end{center}
+\end{frame}
+
+\begin{frame}\frametitle{Doubly-magic ring}% \framesubtitle{Fundamental
+    % assumptions}
+  \begin{block}{Fundamental assumptions}
+    \begin{enumerate}
+    \item Both beams are at Frozen Spin: $\w = \w_X = \w_{EDM} + \w_{\avg{B_r}}$\label{itm:FS}
+    \item EDM of the secondary beam $\ll$ EDM of the primary beam:
+      $\w_{EDM}^{PRI} \gg \w_{EDM}^{SEC}\rightarrow 0 \Rightarrow \w_X^{SEC} \approx \w_{\avg{B_r}}^{SEC}$;
+      \label{itm:small_EDM}
+    \item Beams on the same design orbit $\Leftrightarrow$ experience same fields:
+      $\avg{B_r}^{PRI} = \avg{B_r}^{SEC}$\label{itm:same_orbit}
+    \end{enumerate}
+  \end{block}
+  \begin{block}{Comments}
+    \begin{itemize}
+    \item[*] MDM's of both beams are known to high precision (what for?)
+    \item[**] Assumption~\ref{itm:FS} is formulated in the simplest form
+      (we'll address that later).
+    \end{itemize}
+  \end{block}
+\end{frame}
+\begin{frame}\frametitle{D-M Ring}\framesubtitle{Addressing the mass
+    objection}
+  \begin{block}{Precession frequency difference
+      (given~\ref{itm:small_EDM})}
+    $\w_X^{PRI} - \w_X^{SEC} \approx \w_{EDM}^{PRI} + \w_{\avg{B_r}}^{PRI} - \w_{\avg{B_r}}^{SEC}$
+  \end{block}
+  \begin{block}{The mass objection (to assumption~\ref{itm:same_orbit})}
+    The particles have different mass $\Leftrightarrow$ $\avg{B_r}^{PRI} =
+    \avg{B_r}^{SEC} \cancel{\Rightarrow}\w_{\avg{B_r}}^{PRI} = \w_{\avg{B_r}}^{SEC}$
+  \end{block}
+% \begin{block}{}
+  \begin{itemize}
+  % \item Precession frequency difference (given~\ref{itm:small_EDM}):
+  %   $\w_X^{PRI} - \w_X^{SEC} \approx \w_{EDM}^{PRI} + \w_{\avg{B_r}}^{PRI} - \w_{\avg{B_r}}^{SEC}$
+  % \item[Objection] (to assumption~\ref{itm:same_orbit}): The beams have different mass $\Leftrightarrow$
+  %   $\avg{B_r}^{PRI} = \avg{B_r}^{SEC} \cancel{\Rightarrow}\w_{\avg{B_r}}^{PRI} = \w_{\avg{B_r}}^{SEC}$
+  \item Using the Koop Wheel, $\w_X^{SEC} = 0 = \w_{\avg{B_r}}^{SEC} \Rightarrow \avg{B_r}^{SEC} = 0$
+    (again require~\ref{itm:small_EDM})
+  \item Given the design orbit is shared by both beams, $\w_{\avg{B_r}}^{PRI}$ is also 0, b/c
+    $\forall m,\gamma,G\left[\w_{\avg{B_r}}=\frac qm G\avg{B_r} = 0\Leftrightarrow \avg{B_r}=0\right]$
+  \item Sameness of the design orbits is guaranteed by equation
+    $p^4 - 2\mathcal B p^3 + (\mathcal B^2-\mathcal E^2)p^2 - \mathcal E^2m^2 = 0$,\\ where
+    $\mathcal B=qcB_0r_0$, $\mathcal E=qE_0r_0$, $(E_0, B_0, r_0)$ are defined by the primary beam FS condition
+  \end{itemize}
+% \end{block}
+\end{frame}
+\begin{frame}\frametitle{D-M Ring}\framesubtitle{Fundamental flaw}
+  \begin{itemize}
+  \item But by nulling $\w_{\avg{B_r}}^{PRI/SEC}$ we go to the unstable 3D FS state
+  \item Which also forces us back to the Space Domain, since $\w_X^{PRI} \approx \w_{EDM}^{PRI} \ll 1$
+  \item Thus, both the FS success conditions are violated
+  \end{itemize}
+  \begin{block}{Conclusion}
+    D-MR solves the machine imperfection fields problem, but, other than that,
+    inherits all of the original BNL FS weaknesses
+  \end{block}
+  \begin{flushright}
+    \begin{tcolorbox}[hbox]
+      \begin{minipage}[b]{.4\linewidth}
+        But does it really solve \\the imperfection fields \\problem?
+      \end{minipage}
+    \end{tcolorbox}
+  \end{flushright}
+\end{frame}
+\begin{frame}\frametitle{D-M Ring}\framesubtitle{Let's go back to
+    Assumption~\ref{itm:FS}}
+  \begin{itemize}
+  \item Our formulation of Assumption~\ref{itm:FS} as 
+    $\w_X =  \w_{EDM} + \w_{\avg{B_r}}$ is unrealistic: the existence of
+    $\avg{B_r}$ must cause $\avg{E_v}$, since we have a closed orbit
+  \item So really, it should be 
+    \begin{align*}
+      \w_X &= \w_{EDM} + \w_{MDM}(\avg{B_r} + \avg{E_v}),\\
+      \w_{MDM} &= \frac qm\left[G\avg{B_r} + a(\gamma,G)\beta\avg{E_v}\right]
+    \end{align*}
+  \item Still, we have the system
+    \begin{equation*} \left\{
+      \begin{alignedat}{2}
+        c\beta\avg{B_r}  &+ \avg{E_v} &&= 0, \\
+        G\avg{B_r} &+ a\beta\avg{E_v} &&= 0 
+      \end{alignedat} \right.
+    \end{equation*}
+    w/solution $(\avg{B_r}, \avg{E_v}) = (0,0)$, and the argument against
+    the mass objection holds up, with $\avg{B_r} \mapsto (\avg{B_r}, \avg{E_v})$
+  \end{itemize}
+\end{frame}
+\begin{frame}\frametitle{Universal SR EDM measurement problems}\framesubtitle{And their canonical solutions}
+    \begin{minipage}[t]{.5\linewidth}
+    \underline{\textbf{Solved by Spin Wheel}}
+    \begin{itemize}
+    \item Stray fields
+    \item Betatron motion
+      \item[*] Both cause variation of $\nbar$
+    \end{itemize}
+  \end{minipage}~%
+  \begin{minipage}[t]{.5\linewidth}
+    \underline{\textbf{Solved elsewise}}
+    \begin{itemize}
+    \item Spin decoherence
+      %% \item Variation of the injection point (?)
+    \item[Sol'n]: Sextupole fields
+    \item Machine imperfections 
+    \item[Sol'n]: CW/CCW injection
+    \end{itemize}
+  \end{minipage}
+  %% Of course, problems requiring the Spin Wheel solution automatically force us to the Frequency Domain.
+\end{frame}
+\begin{frame}\frametitle{Method classification}
+  \begin{forest}
+    [SR EDM Methods 
+      [Frozen Spin
+        [Space Domain
+          [BNL FS]
+          [D-M Ring]
+        ]
+        [Frequency Domain
+          [Koop SW]
+          [Senichev FDM]
+        ]
+      ]
+      [Non-Frozen Spin
+        [RF WF Method]
+      ]
+    ]
+  \end{forest}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,11 @@
+\contentsline {section}{Motivation}{1}{section*.2}% 
+\contentsline {section}{Universal SR EDM measurement problems}{1}{section*.3}% 
+\contentsline {subsection}{Spin motion perturbation}{2}{section*.4}% 
+\contentsline {subsection}{Expected machine imperfection SW roll rate}{2}{section*.5}% 
+\contentsline {subsection}{Spin decoherence}{2}{section*.7}% 
+\contentsline {subsection}{Machine imperfections}{3}{section*.8}% 
+\contentsline {section}{Methodology main features}{3}{section*.9}% 
+\contentsline {section}{EDM estimator statistic}{3}{section*.10}% 
+\contentsline {section}{Effective Lorentz factor}{3}{section*.11}% 
+\contentsline {section}{Guide field flipping}{4}{section*.12}% 
+\contentsline {section}{Statistical precision}{5}{section*.13}% 

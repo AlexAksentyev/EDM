@@ -1,0 +1,65 @@
+
+\subsection{The T-BMT equation}\label{sec:TBMT_introduction}
+The Thomas-Bargmann-Michel-Telegdi equation describes the dynamics of a spin vector $\vec s$ in
+a magnetic field $\vec B$ and electrostatic field $\vec E$. Its generalized version,
+which includes the EDM effect, can be written as (in the beam rest frame):~\cite[p.~6]{Eremey:Thesis}
+\begin{subequations}
+  \begin{align}
+    \ddt{\vec s} &= \vec s\times \bkt{\vec\W_{MDM} +\vec\W_{EDM}}, \label{eq:TBMT_main}
+    \intertext{where the MDM and EDM angular velocities $\vec\W_{MDM}$ and $\vec\W_{EDM}$ }
+    \vec\W_{MDM} &= \frac qm \bkt*{G\vec B - \bkt{G - \frac{1}{\gamma^2-1}}\frac{\vec E\times\vec\beta}{c}},\label{eq:TBMT_MDM} \\
+    \vec\W_{EDM} &= \frac qm \frac\eta2 \bkt*{\frac{\vec E}c + \vec\beta\times \vec B}.\label{eq:TBMT_EDM}
+  \end{align}
+\end{subequations}
+In the equations above, $m,~q,~G=(g-2)/2$ are respectively the particle mass, charge,
+and anomalous magnetic moment; $\beta = \sfrac{v_0}{c}$, is its relative velocity factor;
+$\gamma$ its Lorentz factor. The EDM factor $\eta$ is defined by $d = \eta\frac{q}{2mc}s$, where
+$d$ is the particle EDM, $s$ its spin.
+
+In the standard formalism it is usual to operate with the (rotational)
+one-turn spin transfer matrix:~\cite[p.~4]{COSY:SpinTuneMapping}
+\[
+\bold{t}_R = \exp\bkt{-i\pi\nu_s\vec\sigma\cdot\bar n} = \cos\pi\nu_s - i (\vec\sigma\cdot\bar n)\sin\pi\nu_s,
+\]
+
+where $\nu_s = \sfrac{\W_s}{\W_{cyc}}$, the ratio of the partile's spin precession frequency
+to its cyclotron frequency, is termed \emph{spin tune}, $\bar n$ defines the spin precession axis,
+and is called the \emph{invariant spin aixs}.
+
+\subsection{Frozen spin concept}
+From equation~\eqref{eq:TBMT_MDM} one can see that, in the absence of an EDM,
+the direction of a particle's spin vector can be fixed relative its momentum vector, i.e.
+$\vec\W_{MDM}=\vec 0$; in other words, one can realize the Frozen Spin condition.
+
+The advantage of working in the FS-regime:
+according to equations~\cref{eq:TBMT_main,eq:TBMT_MDM,eq:TBMT_EDM}, the MDM and EDM
+angular velocity vectors are orthogonal, meaning that htey add in squares in the net frequency,
+and hence the frequency shift associated with the EDM becomes a second-order effect:~\cite[p.~5]{Mane:SpinWheel}
+\[
+\w \propto \sqrt{\W_{MDM}^2 + \W_{EDM}^2} \approx \W_{MDM} + \frac{\W_{EDM}^2}{2\W_{MDM}}.
+\]
+This circumstance significantly diminishes the experimental sensitivity.
+
+However, by freezing the particle's spin in the horizontal plane, the only remaining
+MDM angular velocity component is aligned with the EDM component, and hence adds to it
+linearly, which greatly improves the sensitivity.
+
+\subsection{Realization of the FS condition in a storage ring}\label{sec:FS_in_a_ring}
+Storage rings can be classified into three groups:
+\begin{enumerate}
+	\item Purely magnetic (COSY, NICA, etc),
+	\item purely electrostatic (Brookhaven AGS Analog Ring),
+	\item combined.
+\end{enumerate}
+
+In view of equation~\eqref{eq:TBMT_MDM}, the FS condition cannot be realized in a purely magnetic ring.
+
+For particles like the proton (whose $G>0$), a purely electrostatic ring can
+be used in the FS methodological framework, if the beam has the so-called ``magic''
+energy, defined as $\gamma_{mag} = \sqrt{(1+G)/G}$.
+
+For particles whose $G<0$ (deuteron) this is impossible, and one is required to use a combined ring.
+To realize the FS condition in a combined ring, a radial electric field is introduced~\cite{BNL:Deuteron2008}:
+\begin{equation}\label{eq:FS_Er}
+E_r = \frac{GB_yc\beta\gamma^2}{1-G\beta^2\gamma^2}.
+\end{equation}

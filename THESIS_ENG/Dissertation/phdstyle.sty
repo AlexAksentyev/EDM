@@ -1,0 +1,52 @@
+\ProvidesPackage{phdstyle}
+
+\usepackage{xparse}
+\usepackage{xfrac}
+\usepackage{siunitx}
+
+\usepackage{tikz} % used in the
+\usepackage{pgfplots} % statistics appendix
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{url}
+\usepackage{siunitx}
+
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{threeparttable}
+
+\usepackage[inline,shortlabels]{enumitem}
+\setlist[enumerate,1]{label=(\arabic*)}
+
+%\newcommand{\hl}[1]{\colorbox{yellow}{#1}}
+
+\let\oldvec\vec
+\renewcommand{\vec}{\boldsymbol}
+
+\newcommand{\const}{\mathrm{const}}
+
+
+\newcommand{\W}{\Omega}
+\newcommand{\w}{\omega}
+\newcommand{\nbar}{\bar n}
+
+\newcommand{\rd}{\mathrm{d}}
+\newcommand{\ddt}[1]{\frac{\rd {#1}}{\rd t}}
+
+\DeclareDocumentCommand{\pddx}{mO{t}O{}}{\frac{\partial^{#3} {#1}}{\partial {#2}^{#3}}}
+\DeclareDocumentCommand{\bkt}{sm}{\IfBooleanTF{#1}{\left[ #2 \right]}{\left(#2\right)}}
+\DeclareDocumentCommand{\ddt}{m}{\frac{\mathrm{d} {#1}}{\mathrm{d} t}}
+\DeclareDocumentCommand{\avg}{mO{}}{\langle #1\rangle_{#2}}
+\DeclareDocumentCommand{\SD}{m}{\sigma\bkt*{#1}}
+\DeclareDocumentCommand{\var}{m}{\sigma^2\bkt*{#1}}
+\DeclareDocumentCommand{\Xpct}{mo}{\mathrm{E}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
+
+\DeclareDocumentCommand{\g}{s}{\gamma\IfBooleanT{#1}{_{eff}}}
+\newcommand{\geff}{\gamma_{eff}}
+
+\newcommand{\ecm}{$~e\cdot$cm}

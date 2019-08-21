@@ -1,0 +1,23 @@
+\ProvidesPackage{custom}
+
+\usepackage{amsmath}
+\usepackage{xfrac}
+%\usepackage{paralist}
+\usepackage{xparse}
+\usepackage{url}
+\usepackage{hyperref}
+
+\usepackage[inline]{enumitem}
+\setlist[enumerate,1]{label=\textit{\alph*)}}
+
+\newcommand{\w}{\omega}
+\newcommand{\nbar}{\bar n}
+\DeclareDocumentCommand{\ddt}{m}{\frac{\mathrm{d} {#1}}{\mathrm{d} t}}
+\DeclareDocumentCommand{\bkt}{sm}{\IfBooleanTF{#1}{\left[ #2 \right]}{\left(#2\right)}}
+\newcommand{\D}{\Delta}
+\DeclareDocumentCommand{\g}{s}{\gamma\IfBooleanT{#1}{_{eff}}}
+\newcommand{\td}{\mathrm{d}}
+\newcommand{\avg}[1]{\langle{#1}\rangle}
+\newcommand{\wedm}{\w_{edm}}
+\newcommand{\wimp}{\w_{\avg{E_v}}}
+\newcommand{\wsw}{\w_{SW}}
