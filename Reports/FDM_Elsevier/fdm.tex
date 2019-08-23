@@ -1,10 +1,13 @@
-\documentclass[]{elsarticle}
+\documentclass[12pt]{elsarticle}
 
 \usepackage{amsmath}
 \usepackage{xfrac}
 \usepackage{xparse}
 \usepackage{url}
 \usepackage{hyperref}
+
+\usepackage{tikz-cd}
+\usepackage{cleveref}
 
 \usepackage[inline]{enumitem}
 \setlist[enumerate,1]{label=\textit{\alph*)}}
@@ -22,8 +25,31 @@
 \newcommand{\wimp}{\w_{\avg{E_v}}}
 \newcommand{\wsw}{\w_{SW}}
 
+\newcommand{\vsig}{\vec\sigma}
+\newcommand{\tmi}{\Theta^{mi}}
+\newcommand{\nbmi}{\nbar_{mi}}
+\newcommand{\tsp}{\Theta^+}
+\newcommand{\tsm}{\Theta^-}
+\newcommand{\nbsol}{\nbar_{sol}}
+\newcommand{\hx}{\hat x}
+\newcommand{\tauR}{\tau_{ring}}
+\newcommand{\tauS}{\tau_{sol}}
+\newcommand{\Bsp}{\avg{B_{sol}^+}}
+\newcommand{\Bsm}{\avg{B_{sol}^-}}
+
+\newcommand{\Dbeta}{\beta_1 - \beta_2}
+\newcommand{\aGz}{\avg{G_z}}
+
+\newdefinition{rmk}{Remark}
+
+\newcommand{\FDM}{Frequency Domain Method} % the mathod should be renamed b/c FD is too unspecific a name
+
+% ADDING LINENUMBERS FOR REVIEWING:
+\usepackage{lineno}
+
 \begin{document}
-\title{2D Frozen Spin Method to Search for the Deuteron Electric Dipole Moment in a Storage Ring Environment}
+\begin{frontmatter}
+\title{\FDM to Search for the Deuteron Electric Dipole Moment in a Storage Ring Environment}
 
 \author[FZJ,INR,MEPHI]{Alexander Aksentev\corref{cor1}}
 \ead{alexaksentyev@gmail.com}
@@ -51,536 +77,211 @@
 
 
 \begin{abstract}
-  We summarize some of the main problems encountered in the project of searching
-  for the electric dipole moment of a charged particle in a storage ring environment, and propose
-  a methodology that could potentially resolve those problems.
 
-  Among the advantages of using the proposed method are: reduced stringency of the accelerator
-  element alignment specifications, improved stability of the beam spin dynamics, and easier polarimetry.
-
-  Our main conclusion is that the sensitivity level of $10^{-29}~e\cdot$cm can be reached for
-  the deuteron electric dipole moment estimate within a year of measurement time.
 \end{abstract}
 
 
 \maketitle
 
-\textbf{Keywords:} electric dipole moment; frozen spin; spin transparency; storage ring; spin decoherence.
+\begin{keyword}
+  electric dipole moment; storage ring; frozen spin; \FDM.
+\end{keyword}
 
+\end{frontmatter}
+
+\tableofcontents
+\linenumbers
 
 \section{Introduction}
-One major question to be answered by current fundamental physics research is the baryon asymmetry of the universe.
-An answer to that question could be found in the violation of CP-symmetry, one
-of the Sakharov conditions for baryogenesis. Permanent electric dipole moments (EDMs), if they exist,
-violate both the P- and T-symmetries, and in consequence of the CPT-theorem, CP-symmetry. The Standard Model (SM)
-predicts exceedingly small values for nucleon EDMs, in the range of $10^{-33}$ to $10^{-31}~e\cdot$cm, which is
-way below the current upper bound for the neuteron EDM, with $d_n = 2.9\cdot 10^{-26}~e\cdot$cm. This implies
-that particle EDMs can serve as a powerful tool for discovering physics beyond the SM. For example, CP-violations
-that are endemic in supersymmetric teories (SUSY) are such as to span $d_n$ values n teh range of $10^{-29}$ to
-$10^{-24}~e\cdot$cm.~\cite{JEDI}
+Spin rotations belong to the Spin(3) group, which is isomorphic to SU(2).
+\paragraph{Rotations in SU(2)}
+Rotation by angle $\psi$ about direction $\nbar$
+\[
+R_{\nbar}(\psi) = \exp\bkt*{-i\frac\psi2 (\nbar\cdot\vsig)},
+\]
+where $\vsig$ is the Pauli matrix vector.
 
-The idea of searching of a particle EDM in a storage ring (SR) environment appeared during the development of the
-g-2 experiment~\cite{BNL:g-2:2001} in Brookhaven National Laboratory.
-
-The dynamics of a spin-vector $\vec s$ in a magnetic field $\vec B$ and an electrostatic field $\vec E$
-is described by the Thomas-BMT equation. Its generalized version, accounting for the effect of
-the particle's electric dipole moment, can be written in the rest frame as:
-\begin{subequations}
-  \begin{align}
-    \ddt{\vec s} &= \vec s\times \bkt{\vec\W_{MDM} +\vec\W_{EDM}}, \label{eq:TBMT_main}
-    \intertext{where the magnetic (MDM) and electric (EDM) dipole moment angular velocities
-      $\vec\W_{MDM}$ and $\vec\W_{EDM}$ }
-    \vec\W_{MDM} &= \frac qm \bkt*{G\vec B - \bkt{G - \frac{1}{\gamma^2-1}}\frac{\vec E\times\vec\beta}{c}},\label{eq:TBMT_MDM} \\
-    \vec\W_{EDM} &= \frac qm \frac\eta2 \bkt*{\frac{\vec E}c + \vec\beta\times \vec B}.\label{eq:TBMT_EDM}
-  \end{align}
-\end{subequations}
-In the above equations, $m,~q,~G=(g-2)/2$ are, respectively, the mass, charge, and anomalous magnetic moment
-of the particle; $\beta = \sfrac{v_0}{c}$ is its normalized speed; $\gamma$ its Lorentz-factor.
-The EDM factor $\eta$ is defined by the equation $d = \eta\frac{q}{2mc}$, in which $d$ is the particle EDM,
-$s$ its spin.
-
-The Frozen Spin (FS) measurement concept consists in injecting a longitudinally-polarized beam
-into a storage ring having a radial electric field component
-$E_r = \frac{GB_yc\beta\gamma^2}{1-G\beta^2\gamma^2}$,~\cite[p.~10]{BNL:Deuteron2008} so that the
-magnetic dipole moment (MDM) component in~\eqref{eq:TBMT_main} is set to zero: $\vec\W_{MDM} = \vec 0$.
-Then, any tilting of the beam polarization vector out of the horizontal plane
-is attributed to the presence of an EDM. For reasons that will become apparent in the next section,
-we will refer to the FS concept as the 3D FS method.
-
-
-\section{Motivation for the 2D FS approach}
-
-FS-type storage ring-based methods for searching for the EDMs of fundamental particles
-can be classified into two major categories, which we will call
-\begin{enumerate*}%[\itshape a\upshape)]
-\item Space Domain, and % integral, cumulative methods: observe an integral characteristic --- accumulated angle
-\item Frequency Domain % differential methods: observe an instantaneous characteristic --- angular velocity
-\end{enumerate*}
-methods.
-
-In the Space Domain paradigm, one measures a \emph{change in the spatial orientation} of the beam polarisation
-vector \emph{caused by the EDM}.
-
-The original storage ring, frozen spin-type method, proposed in~\cite{BNL:Deuteron2008}, is a canonical example of
-a methodology in the space domain: an initially longitudinally-polarized beam is injected into the storage ring;
-the vertical component of its polarisation vector is observed. Under ideal conditions, any tilting of
-the beam polarisation vector from the horizontal plane is attributed to the action of the EDM.
-
-Two technical difficulties are readily apparent with this approach:
-\begin{enumerate}
-\item it poses a challenging task for polarimetry~\cite{Mane:SpinWheel};
-\item it puts very stringent constraints on the precision of the accelerator optical element alignment.
-\end{enumerate}
-
-The former is due to the requirement of detecting a change of about $5\cdot 10^{-6}$ to the
-cross section asymmetry $\varepsilon_{LR}$ in order to get to the EDM sensitivity level
-of $10^{-29}~e\cdot cm$.~\cite[p.~18]{BNL:Deuteron2008}
-
-The latter is to minimize the magnitude of the vertical plane magnetic dipole 
-moment (MDM) precession frequency:~\cite[p.~11]{BNL:Deuteron2008}
-\begin{equation}\label{eq:BNL_syst_err}
-  \w_{syst} \approx \frac{\mu\avg{E_v}}{\beta c\gamma^2},
-\end{equation}
-induced by machine imperfection fields. According to estimates done by Y. Senichev, if it is to be fulfilled,
-the geodetic installation precision of accelerator elements must reach $10^{-14}$ m. Today's technology
-allows only for about $10^{-4}$ m.
-
-At the practically-achievable level of element alignment uncertainty, $\w_{syst} \gg \wedm$,
-and changes in the orientation of the polarisation vector are no longer EDM-driven.
-
-Another crucial problem one faces in the space domain is geometric phase error.~\cite[p.~6]{BNL:Proton}
-The problem here lies in the fact that, even if one can somehow make field imperfections (either due to
-optical element misalignment or spurious electro-magnetic fields) zero
-\emph{on average}, since spin rotations are non-commutative, the polarisation rotation angle due to them
-will not be zero.
-
-By contrast, the Frequency Domain methodology is founded on measuring the EDM \emph{contribution} to the total
-(MDM and EDM together) spin precession \emph{angular velocity}.
-
-The polarisation vector is made to roll about a nearly-constant, definite direction vector $\nbar$,
-with an angular velocity that is high enough for its magnitude to be easily measureable at all times.
-Apart from easier polarimetry, the definiteness of the angular velocity vector is a safeguard against geometric
-phase error.
-
-This ``Spin Wheel'' may be externally applied~\cite{Koop:SW}, or otherwise the machine imperfection fields
-may be utilized for the same purpose (wheel roll rate determined by equation~\eqref{eq:BNL_syst_err}).
-The latter is made possible by the fact that $\w_{syst}$ changes sign when the beam revolution direction
-is reversed.~\cite[p.~11]{BNL:Deuteron2008}
-
-\section{Universal SR EDM measurement problems}
-
-By way of introduction to the proposed measurement methodology, let us briefly summarize some measurement problems
-encountered by any EDM experiment performed in a storage ring; they can be grouped into two big categories:
+\subsection{General spin rotation matrices}
+Denote
 \begin{itemize}
-\item Problems solved by a Spin Wheel:
-  \begin{itemize}
-  \item spurious electro-magnetic fields;
-  \item betatron motion.
-  \end{itemize}
-\item Problems having specific solutions:
-  \begin{itemize}
-  \item spin decoherence;
-  \item machine imperfections.
-  \end{itemize}
+\item $(\tmi, \nbmi)$ from machine imperfections;
+\item $(\tsp, \nbsol)$ for the $+\D$ solenoidal field;
+\item $(\tsm, -\nbsol)$ for the $-\D$ solenoidal field.
 \end{itemize}
 
-\subsection{Perturbations to the spin dynamics}
-Problems from the first category are ones introducing geometric phase error. Indeed, both the spurious 
-and the focusing fields, when acting on a betatron-oscillating particle, perturb the direction and
-magnitude of its spin precession angular velocity vector. The effect is a spin kick in the direction defined
-by the perturbation.
+\begin{align}
+  R^{+\D} &= \exp\bkt*{-i\bkt{\frac\tmi2(\nbmi\cdot\vsig) + \frac\tsp2(\nbsol\cdot\vsig)}} \notag\\
+  &= \exp\bkt*{-\frac i2\bkt{\tmi\nbmi + \tsp\nbsol}\cdot\vsig}, \label{eq:r1}\\
+  R^{-\D} &= \exp\bkt*{-\frac i2\bkt{\tmi\nbmi - \tsm\nbsol}\cdot\vsig}, \label{eq:r2}
+\end{align}
 
-Assume that the EDM provides a spin kick about the radial ($\hat x$-) axis. The magnitude of the angular
-velocity vector has a general form
+\section{Preliminary analytic of the Spin Wheel method}
+In SW we posit
+\begin{equation}\label{eq:SW:master}
+  \bkt{\vec\Omega_{MDM}^{+\D}\cdot\hx} = - \bkt{\vec\Omega_{MDM}^{-\D}\cdot\hx}.
+\end{equation}
+
+The spin precession angular velocity vector can be expressed via spin tune and invariant spin axis as
 \[
-  \w = \sqrt{\w_x^2 + \w_y^2 + \w_z^2},
+\vec\Omega_{spin} = \frac{2\pi}{\tauR}\cdot \nu\cdot\nbar,
 \]
-where $\w_y$ is minimized by fulfilling the frozen spin condition; $\w_z$ (the constant part of which is
-due to machine imperfections) can be minimized via the installation
-of a longitudinal solenoid on the optic axis.\footnote{1 m long, magnetic field approximately $10^{-6}$ T.} In the
-space domain, one also tries to minimize the $\wimp$ contribution to $\w_x = \wedm + \wimp$. Consequently,
-spin kicks must be minimized to (significantly) less than $\wedm$, so as to reduce geometric phase to
-less than the accumulated EDM phase.
+hence
+\begin{equation}\label{eq:SW:master:spin_tune}
+\nu^{+\D}(\nbar_{+\D}\cdot\hx) + \nu^{-\D}(\nbar_{-\D}\cdot\hx) = 0
+\end{equation}
 
-The benefit of having a Spin Wheel aligned with the EDM angular velocity is that orthogonal MDM contributions
-to the total angular velocity vector add up in squares, and hence their effect is greatly diminished:
-\begin{align*}
-  \w &= \sqrt{(\wedm + \wsw)^2 + \w_y^2 + \w_z^2} \\
-     &\approx(\wedm + \wsw)\cdot \bkt*{1 + \frac{\w_y^2 + \w_z^2}{\wsw^2}}^{\sfrac12} \\
-     &\approx (\wedm + \wsw)\cdot \bkt{1 + \frac{\w_y^2 + \w_z^2}{2\wsw^2}} \\
-     &\approx \wsw + \wedm + \underbrace{\frac12\frac{\w_y^2 + \w_z^2}{\wsw}}_{\epsilon}.
-\end{align*}
 
-Since our goal is to observe the EDM-related value shift in $\w$, we need to minimize random variable
-$\epsilon$:
+From $\D\Theta = \tau\D\Omega$ and $\D\Omega_x^{MDM} = \frac qm G B_x$, and \textbf{assuming}
+\begin{equation}\label{eq:SW:assumption:averaging}
+B_{sol}^{\pm}\tauS = \avg{B_{sol}^{\pm}}\tauR:
+\end{equation}
+\begin{equation}\label{eq:sol_spin_tunes}
+  \begin{cases}
+    \tsp &=  \tauS\frac qm G B_{sol}^+ \stackrel{\eqref{eq:SW:assumption:averaging}}{=} \tauR\frac qm G \Bsp, \\
+    \tsm &=  \tauS\frac qm G B_{sol}^- \stackrel{\eqref{eq:SW:assumption:averaging}}{=} \tauR\frac qm G \Bsm.
+  \end{cases}
+\end{equation}
+
+\begin{rmk}
+  Assumption~\eqref{eq:SW:assumption:averaging} is \textbf{required} if we want to obtain
+  $B_{sol}^\pm$ from equations of group~\eqref{eq:SW:Koop2015-9}.
+\end{rmk}
+
+From eqs~\eqref{eq:r1} and~\eqref{eq:r2}:
+\begin{equation}\label{eq:SW:master:spin_tune:expression}
+  \begin{cases}
+    \tmi\nbmi + \tsp\nbsol = \nu^{+\D}\nbar_{+\D}, \\
+    \tmi\nbmi - \tsm\nbsol = \nu^{-\D}\nbar_{-\D}.
+  \end{cases}
+\end{equation}
+
+Substituting eq~\eqref{eq:SW:master:spin_tune:expression} into~\eqref{eq:SW:master:spin_tune}, and assuming
+$\nbsol = \hx$:
+\begin{equation}\label{eq:SW:master1}
+  2\tmi(\nbmi\cdot\hx) + (\tsp - \tsm) = 0.
+\end{equation}
+
+\textbf{Assuming}\footnote{This is a generous assumption implying that $\nbmi = \hx$; i.e., this is \textbf{not}
+a non-commutativity-based argument; we assume all spin rotations commute.}
+\begin{equation}\label{eq:SW:assumption:commutativity}
+\tmi = \tauR\cdot\frac qm G\cdot \avg{B_x}^{mi},
+\end{equation}
+from~\eqref{eq:SW:master1} and~\eqref{eq:SW:assumption:averaging} obtain:
+\begin{equation}\label{eq:SW:master1:assumed}
+  2\avg{B_x}^{mi} + \bkt{\Bsp - \Bsm} = 0.
+\end{equation}
+
+From eq (9) in Koop2015, assuming in the $+\D$ case the machine imperfections and solenoid fields are co-aligned,
+in the $-\D$ anti-aligned:
+\begin{equation}\label{eq:SW:Koop2015-9}
+  \begin{cases}
+    \D^+ &= \frac{\Dbeta}{\aGz}\avg{B_x} = \frac{\Dbeta}{\aGz}\bkt{\avg{B_x}^{mi} + \Bsp}, \\
+    &\Rightarrow \Bsp = \frac{\aGz}{\Dbeta}\D^+ - \avg{B_x}^{mi}; \\
+    \D^- &= \frac{\Dbeta}{\aGz}\avg{B_x} = \frac{\Dbeta}{\aGz}\bkt{\avg{B_x}^{mi} - \Bsm}, \\
+    &\Rightarrow -\Bsm = \frac{\aGz}{\Dbeta}\D^- - \avg{B_x}^{mi}.
+  \end{cases}
+\end{equation}
+
+Substituting this into~\eqref{eq:SW:master1:assumed}:
 \[
-  \frac12\frac{\w_y^2 + \w_z^2}{\wsw} < \wedm.
+2\avg{B_x}^{mi} + \bkt{\frac{\aGz}{\Dbeta}\bkt*{\D^+ - \D^-} - 2\avg{B_x}^{mi}} = 0.
 \]
 
-Let's make some preliminary estimates. Suppose $\wsw\approx 50$ rad/sec (the reason for choosing this
-value will be explained shortly), $\wedm\approx10^{-9}$ rad/sec (corresponding to the EDM value
-$10^{-29}~e\cdot$ cm). Then, $\w_y^2 + \w_z^2$ must be reduced to less than $10^{-7}$ rad/sec, or equivalently,
-either angular velocity to less than $3\cdot 10^{-4}$ rad/sec. This is several orders of magnitude greater than
-the expected standard error on the angular velocity estimate,~\cite{Aksentev:Stats} and hence
-should not be a problem to achieve.
+In the original method, we are to make 
+\begin{equation}\label{eq:SW:method_condition}
+  \D^- = - \D^+,
+\end{equation}
+so the term in the square brackets is zero, and we are left with
+\begin{equation}\label{eq:SW:conclusion}
+  \bkt{1 - 1}\avg{B_x}^{mi} = 0.
+\end{equation}
 
-One case left to be considered is MDM spin kicks about the $\hat x$-axis. These are not attenuated, and cause the
-most trouble. They come in three varieties:
-\begin{enumerate*}%[\itshape a\upshape)]
-\item permanent, not caused by optical element misalignments;
-\item semi-permanent, caused by element tilts about the optic axis;
-\item spurious.
+So, seems that SW works, but we did two important assumptions here:
+\begin{enumerate*}[(a)]
+  \item commutativity (in order to get eq~\eqref{eq:SW:assumption:commutativity}), and
+  \item ``averaging'' of $B_{sol}$ over the ring (in order to get eq~\eqref{eq:SW:assumption:averaging}
+    and remove the $\tauS/\tauR$ from~\eqref{eq:SW:master1:assumed}).
 \end{enumerate*}
 
-Semi-permanent radial spin kicks (be they caused by magnetic or electric fields) change sign when
-the beam revolution direction is reversed from clockwise (CW) to counter-clockwise (CCW).
-Spurious kicks can be dealt with by statistical averaging.
-Permanent, insensitive to either the guide field or the beam circulation direction, cannot be controlled.
-On the bright side, their sources should not be present under normal circumstances.
+\begin{rmk}
+  If we don't use~\eqref{eq:SW:assumption:commutativity} (but still use~\eqref{eq:SW:assumption:averaging}
+  in order to obtain $B_{sol}^\pm$ from group~\eqref{eq:SW:Koop2015-9}), then eq~\eqref{eq:SW:conclusion} becomes
+  \begin{equation}\label{eq:SW:conclusion-non-comm}
+    \tmi\bkt{\nbmi\cdot\hx} - \frac qmG\cdot\tauR\avg{B_x}^{mi} = 0,
+  \end{equation}
+  which is not very informative.
+\end{rmk}
 
-For more details on spin motion perturbation effects on the measurement of the EDM in frequency domain, 
-please refer to~\cite{Aksentev:IPAC19:SMP}.
+\begin{rmk}
+  To check that eq~\eqref{eq:SW:conclusion-non-comm} is correct, assume~\eqref{eq:SW:assumption:commutativity}.
+  Then
+  \[
+  \frac qmG\tauR\avg{B_x}^{mi}\bkt{\nbmi\cdot\hx} - \frac qmG\tauR\avg{B_x}^{mi}=0,
+  \]
+  and hence
+  \[
+  \nbmi\cdot\hx = 1,
+  \]
+  which is implied by machine imperfection spin rotations adding up commutatively.
+\end{rmk}
 
-\subsection{Expected machine imperfection SW roll rate}
-In the estimates above, we used a roll rate $\wsw\approx 50$ rad/sec for the spin wheel. This is
-our expected $\w_{syst}$ caused by machine imperfections.
+\begin{rmk}\label{rmk:SW:conclusion}
+  In general, since
+  \[
+  \tmi = \tauR\cdot \frac qmG\sqrt{\avg{B_x^{mi}}^2 + \avg{B_y^{mi}}^2 + \avg{B_z^{mi}}^2},
+  \]
+  eq~\eqref{eq:SW:conclusion-non-comm} implies that
+  \begin{align}\label{eq:nbmi-expression-non-comm}
+    (\nbmi\cdot\hx) &= \frac{\frac qmG\tauR\avg{B_x}^{mi}}{\tmi}\notag\\
+    &= \frac{\avg{B_x^{mi}}}{\sqrt{\avg{B_x^{mi}}^2 + \avg{B_y^{mi}}^2 + \avg{B_z^{mi}}^2}}.
+  \end{align}
+  Which is correct.
+\end{rmk}
 
-Denote the standard deviation of the imperfection radial magnetic field distribution $\sigma[B_x]$.
-For the whole ring, MDM precession will be distributed with a standard deviation~\cite{Senichev:FDM}
-\[
-  \sigma[\w_x^{MDM}] = \frac{e}{m\gamma}\frac{G+1}{\gamma}\frac{\sigma[B_x]}{\sqrt{n}},
-\]
-where $n$ is the number of misaligned elements, $G=(g-2)/2$ is the anomalous magnetic dipole moment.
+\textbf{Conclusion.} In view of Remark~\ref{rmk:SW:conclusion}, since eq~\eqref{eq:SW:conclusion-non-comm}
+implies a valid statement, our conclusion is that the SW method resists the argument from non-commutativity.
 
-For deuterons in lattices~\cite{Senichev:Lattices} of $n$ on the order of 100 elements, rotated about the
-optic axis by angles $\Theta_{tilt}\sim N(0, 10^{-4})$ rad, Y. Senichev estimates~\cite{Senichev:FDM}
-$\w_x^{MDM}$ between 50 and 100 rad/sec. 
-
-Our simulations done in COSY INFINITY seem to confirm this result. In 
-Figure~\ref{fig:imperfections:SW_roll_rate} you see the results of the simulation 
-in which we rotated the 32 E+B spin rotator elements used in the frozen spin 
-(codename BNL) lattice~\cite{Senichev:Lattices} by angles randomly picked from
-the distribution $N(\mu_0\cdot(i-5), \sigma_0)$, where $\mu_0 = 10\cdot\sigma_0 = 10^{-4}$ rad,
-$i\in\lbrace0,\dots, 10\rbrace$.
-
-At $\avg{\Theta_{tilt}} = 10^{-4}$ we observe a roll rate of 500 rad/sec. We should keep in mind,  however, that 
-Senichev assumes $\sigma_{\Theta_{tilt}} = 10^{-4}$ rad, which means, for a lattice with $n=100$ tilted elements,
-a standard deviation of the mean $\sigma_{\avg{\Theta_{tilt}}} = {\sigma_{\Theta_{tilt}}}/{\sqrt{100}} = 10^{-5}$. The dependence of $\w_x^{MDM}$ on $\avg{\Theta_{tilt}}$
-is linear, which means in an actual lattice we would observe an $\w_{syst} \le 50$ rad/sec with 68\% probability,
-and $\w_{syst} \le 100$ rad/sec with 95\% probability, and with 27\% probability $50 \le\w_{syst}\le 100$.
-
-\begin{figure}[ht]\centering
-  \includegraphics[width=\linewidth]{Figures/linearity_test_shifting_gauss_freq.eps}
-  \caption{Spin precession frequency (radial and vertical components) versus
-    the mean E+B element tilt angle\label{fig:imperfections:SW_roll_rate}}
+\begin{figure}\centering
+  \begin{tikzcd}
+    \eqref{eq:SW:master1}
+    \arrow[r, "\eqref{eq:SW:assumption:commutativity} + \eqref{eq:SW:assumption:averaging}"]
+    \arrow[dd, "\eqref{eq:sol_spin_tunes}+" near start, "\eqref{eq:SW:assumption:averaging}+",
+      "\eqref{eq:SW:Koop2015-9}" near end]
+    & \eqref{eq:SW:master1:assumed} \arrow[r, "\eqref{eq:SW:Koop2015-9}"]
+    & \eqref{eq:SW:conclusion}\\
+    & & \\
+    \eqref{eq:SW:conclusion-non-comm}  
+  \end{tikzcd}
+  \caption{Argument diagram.}
 \end{figure}
 
+%% \paragraph{Argument from averaging} % INVALID
+%% Now, the Koop method, as far as we can tell, \textbf{depends} (conceptualy) on our ability
+%% to ``average'' the solenoidal field; if
+%% we assume that it is a local perturbation --- which is what it actually is, --- then it doesn't contribute
+%% to vertical separation of the beams' \emph{closed orbits}. Therefore, under the local perturbation model,
+%% the orbit separation is only due to the machine imperfections, and does not change when we vary the
+%% solenoidal field.
 
-\subsection{Spin decoherence}
-Spin coherence is a measure or quality of preservation of polarisation in an initially fully-polarized
-beam.~\cite{Eremey:Thesis} Spin decoherence refers to the depolarisation caused by the difference in the
-beam particles' spin precession frequencies. 
-
-The difference in spin tunes is due to the difference of the particles' orbit lengths, and hence their
-equilibrium energy levels, on which spin tune depends. One way spin decoherence can be suppressed is by
-utilization of sextupole fields. We consider how this can be accomplished in~\cite{Aksentev:IPAC19:Decoh}.
-
-\subsection{Machine imperfections}
-
-As we have seen, the problem with machine imperfections is twofold:
-\begin{enumerate*}%[\itshape a\upshape)]
-\item they are practically impossible to remove at the present level of technology; but what's even worse, 
-\item their removal leaves one in the space domain, and opens the measurement up to geometric phase error.
-\end{enumerate*}
-
-Fortunately for us, the imperfection spin kicks they induce change sign when the beam circulation direction
-is reversed. Their magnitude is also sufficient for use as a Koop Wheel. The one remaining difficulty
-is the accuracy of the Koop wheel roll direction flipping. Hopefully, we can make a persuasive
-enough argument as to how this can accomplished.
-
-\section{Main methodology features}
-
-The method we propose is characterized by two main features:
-\begin{enumerate}
-\item It is a frequency domain method;
-\item The fields induced by machine imperfections, instead of being suppressed,
-  are used as a Koop Wheel.
-  \begin{itemize}
-  \item The Koop Wheel roll direction is reversed by flipping the direction of the guide field;
-  \item its roll rate is controlled through observation of spin precession in the horizontal plane.
-  \end{itemize}
-\end{enumerate}
-
-The advantages of the frequency domain, such as
-\begin{enumerate*}%[\itshape a\upshape)]
-\item ease of polarimetry, and
-\item immunity to geometric phase error,
-\end{enumerate*}
-have been discussed in prevous sections. Now we will turn to the description of how machine imperfection fields
-can be used as a Koop Wheel.
-
-\section{EDM estimator statistic}
-Since the angular velocity measured in the frequency domain methodology includes contributions due to both the
-magnetic and electric dipole moments, the EDM estimator statistic requires two cycles to compose:
-one in which the Koop Wheel rolls forward, the other backward.
-
-The change in the Koop Wheel roll direction is affected by flipping the direction of the guide field.
-When this is done:
-$\vec B \mapsto -\vec B$, the beam circulation direction changes from clockwise (CW) to counter-clockwise (CCW): 
-$\vec\beta \mapsto -\vec\beta$, while the electrostatic field remains constant: $\vec E \mapsto \vec E$.
-According to the T-BMT equation, spin precession frequency components change like:
-\begin{subequations}
-  \begin{align}
-    \w_x^{CW} &= \w_x^{MDM, CW}   + \w_x^{EDM}, \notag\\
-    \w_x^{CCW} &= \w_x^{MDM, CCW} + \w_x^{EDM}, \notag\\
-    \w_x^{MDM, CW} &= -\w_x^{MDM, CCW}, \label{eq:CW_CCW_MDM}\\
-    \intertext{and the EDM estimator}
-    \hat\w_x^{EDM} &:= \frac12\bkt{\w_x^{CW} + \w_x^{CCW}} \label{eq:FDM_estimator} \\
-              &=  \w_x^{EDM} +
-                \underbrace{\frac12\bkt{\w_x^{MDM, CW} + \w_x^{MDM, CCW}}}_{\varepsilon \to 0}.
-  \end{align}
-\end{subequations}
-
-To keep the systematic error term $\varepsilon$ below required precision, i.e. ensure
-that equation~\eqref{eq:CW_CCW_MDM} holds with sufficient accuracy, Y. Senichev 
-devised~\cite{Senichev:FDM} a guide field flipping procedure
-based on observation of the beam polarisation precession frequency in the horizontal plane.
-
-To explain how it works, we need to introduce the concept of the effective Lorentz factor.
-
-\section{Effective Lorentz factor}
-Spin dynamics is described by the concepts of \emph{spin tune} $\nu_s$ and \emph{invariant spin axis} $\nbar$.
-Spin tune depends on the particle's  equilibrium-level energy, expressed by the Lorentz factor:
-\begin{equation}\label{eq:spin_tune_vs_gamma}
-  \begin{cases}
-    \nu_s^B &= \gamma G, \\
-    \nu_s^E &= \beta^2\gamma\bkt{\frac{1}{\gamma^2-1} - G} \\
-    &= \frac{G+1}{\gamma} - G\gamma.
-  \end{cases}
+\section{Assumptions of the Spin Wheel method}
+\newcommand{\K}[1]{K(#1)}
+\newcommand{\KEz}{K$\avg{E_z}$}
+\paragraph{Orbital dynamics}
+Koop2015 eq~(7) (henceforth referred to as \K7) and
+\begin{equation}\label{eq:Assumptions:KEz}
+  \avg{E_z} = \avg{E_z(0)} + \aGz\cdot z \tag{\KEz}
 \end{equation}
+\begin{align}
+  &\rightarrow \avg{z} = \frac{\avg{E_z(0)}}{\aGz} - \frac{\beta}{\aGz}\cdot \avg{B_x} \\
+  &\rightarrow \D = \frac{\Dbeta}{\aGz}\avg{B_x}.
+\end{align}
 
-Unfortunately, not all beam particles share the same Lorentz factor. A particle involved in betatron
-motion will have a longer orbit, and as a direct consequence of the phase stability principle,
-in an accelerating structure utilizing an RF cavity, its equilibrium energy level 
-must increase. Otherwise it cannot remain the bunch. In this section we analyze how the particle Lorentz factor
-should be modified when betatron motion, as well as non-linearities in the momentum compaction factor are
-accounted for.
+This is as far as the argument from the non-linearity of the closed orbit shift dependence
+on the magnetic field is concerned.
+So long as we believe \K7 and \KEz, we must believe \K9, and hence we cannot use that argument.
 
-The longitudinal dynamics of a particle on the reference orbit of a storage ring is described
-by the system of equations:
-\begin{equation}
-  \begin{cases}
-    \ddt{}\D\varphi &= -\w_{RF}\eta\delta, \\
-    \ddt{}\delta &= \frac{q V_{RF}\w_{RF}}{2\pi h\beta^2E}\bkt{\sin\varphi - \sin\varphi_0}.
-  \end{cases}
-\end{equation}
-In the equations above, $\D\varphi = \varphi - \varphi_0$ and
-$\delta = \bkt{p-p_0}/{p_0}$ are the deviations of the particle's phase and
-normalized momentum from those of the reference particle; all other symbols have their usual meanings.
-%% $V_{RF}$, $\w_{RF}$ are, respectively,
-%% the RF voltage and frequency; $\eta = \alpha_0 - \gamma^{-2}$ is the slip-factor,
-%% where $\alpha_0$ is the momentum compaction factor defined by $\sfrac{\Delta L}{L} = \alpha_0\delta$,
-%% $L$ being the orbit length; $h$ is the harmonic number; $E$ the total energy of the particle.
-
-The solutions of this system form a family of ellipses in the $(\varphi, \delta)$-plane, all centered at the
-point $(\varphi_0,\delta_0)$. However, if one considers a particle involved in betatron oscillations, and
-uses a higher-order Taylor expansion of the momentum compaction factor
-$\alpha = \alpha_0 + \alpha_1\delta$, the first equation of the system
-transforms into:~\cite[p.~2579]{Senichev:IPAC13}
-\begin{align*}
-  \ddt{\D\varphi} = -\w_{RF} \Bigg[\bkt{\frac{\Delta L}{L}}_\beta &+ \bkt{\alpha_0 + \gamma^{-2}}\delta \Bigg.\\
-                                                                  &+ \Bigg.\bkt{\alpha_1 - \alpha_0\gamma^{-2} + \gamma^{-4}}\delta^2\Bigg],
-\end{align*}
-where $\bkt{\frac{\Delta L}{L}}_\beta = \frac{\pi}{2L}\bkt*{\varepsilon_xQ_x + \varepsilon_yQ_y}$, is
-the betatron motion-related orbit lengthening; $\varepsilon_x$ and $\varepsilon_y$ are
-the horizontal and vertical beam emittances, and $Q_x$, $Q_y$ are the horizontal and vertical tunes.
-
-The solutions of the transformed system are no longer centered at the same single point. Orbit lengthening
-and momentum deviation cause an equilibrium-level momentum shift~\cite[p.~2581]{Senichev:IPAC13}
-\begin{equation}\label{eq:EquLevMom_shift}
-  \Delta\delta_{eq} = \frac{\gamma_0^2}{\gamma_0^2\alpha_0 - 1}\bkt*{\frac{\delta_m^2}{2}\bkt{\alpha_1 - \alpha_0\gamma^{-2} + \gamma_0^{-4}} + \bkt{\frac{\Delta L}{L}}_\beta},
-\end{equation}
-where $\delta_m$ is the amplitude of synchrotron oscillations.
-
-We call the equilibrium energy level associated with the momentum shift~\eqref{eq:EquLevMom_shift},
-the \emph{effective Lorentz factor}:
-\begin{equation}\label{eq:EffectiveGamma}
-  \g*= \gamma_0 + \beta_0^2\gamma_0\cdot\Delta\delta_{eq},
-\end{equation}
-where $\gamma_0$, $\beta_0$ are the Lorentz factor and relative velocity factor of the reference particle.
-
-Observe, that the effective Lorentz factor enables us to account for variation in the value of spin tune
-due to variation in the particle orbit length. It is crucial in the analysis of
-spin decoherence~\cite{Aksentev:IPAC19:Decoh} and its suppression by means of sextupole fields.
-
-It plays a big role, as well, in the successfull reproduction of the MDM component to the total spin precession
-angular velocity.
-
-\section{Guide field flipping}
-\newcommand{\Traj}{\mathcal T}
-\DeclareDocumentCommand{\Stab}{s}{\mathcal{S}\IfBooleanT{#1}{\vert_{\w_y=0}}}
-\newcommand{\Fail}{\mathcal F}
-\renewcommand{\D}{\mathcal D}
-
-Two aspects of the problem need to be paid attention to:
-\begin{enumerate}
-\item What needs to be kept constant from one measurement cycle to the next;
-\item How it can be observed.
-\end{enumerate}
-
-The goal of flipping the direction of the guide field is to accurately reproduce the radial component
-of the MDM spin precession frequency induced by machine imperfection fields. This point should not be overlooked:
-a mere reproduction of the \emph{magnetic field strength} would not suffice, since the injection point of the beam's centroid,
-and hence its orbit length --- and, via equations~\eqref{eq:EffectiveGamma} and~\eqref{eq:spin_tune_vs_gamma}, spin tune, --- is subject to variation. (Apart from that, the accelerating structure might not be symmetrical, in terms of spin dynamics, with regard to reversal of the beam circulation direction.)
-
-What needs to be reproduced, therefore, is not the field strength, but the effective Lorentz factor of the centroid.
-
-Regarding the second question, we mentioned earlier that the Koop Wheel roll rate
-is controlled through measurement of the horizontal plane spin precession frequency. 
-This plane was chosen because the EDM angular velocity vector points
-(mainly) in the radial direction; its vertical component is due to machine imperfection fields, and is small compared to
-the measured EDM effect. Therefore, in first approximation, when we manipulate the vertical component of the 
-combined spin precession angular velocity, we manipulate the vertical component of the MDM angular velocity vector.
-
-Moving on to the effective Lorentz factor calibration procedure.
-Let $\Traj$ denote the set of all trajectories that a particle might follow in the accelerator.
-$\Traj = \Stab \bigcup \Fail$, where $\Stab$ is the set of all stable trajectories, $\Fail$ are all trajectories
-such that if a particle gets on one, it will be lost from the bunch.
-
-Calibration is done in two phases:
-\begin{enumerate}
-\item In the first phase, the guide field value is set so that the beam particles are injected onto trajectories
-  $t\in\Stab$.
-\item In the second phase, it is fine-tuned further, so as to fulfill the FS condition in the horizontal plane.
-  By doing this, we physically move the beam trajectories into the subset $\Stab*\subset\Stab$ of trajectories 
-  for which $\w_y = 0$.
-\end{enumerate}
-
-Spin tune (and hence precession frequency) is an injective function of the
-effective Lorentz-factor $\g*$, which means
-$\w_y(\g*^1) = \w_y(\g*^2) \rightarrow \g*^1 = \g*^2$. The trajectory space $\Traj$ is partitioned into equivalence
-classes according to the value of $\g*$: trajectories characterized by the same $\g*$ are equivalent
-in terms of their spin dynamics (possess the same spin tune and invariant spin axis direction),
-and hence belong to the same equivalence class.
-Since $\w_y(\g*)$ is injective, there exists a unique $\g*^0$ at which $\w_y(\g*^0)=0$:
-\[
-  [\w_y=0] = [\g*^0] \equiv \Stab*.
-\]
-
-If the lattice didn't use sextupole fields for the suppression of decoherence,
-$\Stab*$ would be a singleton set. We have shown in~\cite{Aksentev:IPAC19:Decoh} that if sextupoles are
-utilized, then $\exists\D\subset\Stab$ such that $\forall t_1,t_2\in\D$:
-$\nu_s(t_1) = \nu_s(t_2)$, $\nbar(t_1) = \nbar(t_2)$. By adjusting the guide field strength we equate
-$\D=\Stab*$, and hence $\Stab*$ contains multiple trajectories.~\footnote{Strictly speaking,
-  even if sextupoles are used there remains some negligible dependence of spin tune
-  on the particle orbit length (linear decoherence effects, cf.~\cite{Aksentev:IPAC19:Decoh}).
-  Because of that, the equalities for $\nu_s$ and $\nbar$ are approximate, and the set $\Stab*$
-  should be viewed as fuzzy:
-  we will consider trajectories for which $|\w_y|<\delta$ for some small $\delta$ as belonging to $[\w_y=0]$.}
-
-Therefore, once we ensured that the beam polarisation does not precess in the horizontal plane,
-all of the beam particles have $\g*^0$, equal for the CW and CCW beams.
-
-Guide field flipping procedure simulation results can be found in~\cite{Aksentev:IPAC19:GFF}.
-
-
-\section{Statistical precision}
-
-Members of the JEDI Collaboration have studied the statistical precision of spin precession angular velocity 
-estimation from sparse (one detector event per 100 spin revolutions)~\cite{Pretz:Stats:Sparse} and 
-dense~\cite{Aksentev:Stats} polarisation data.
-
-According to~\cite{Pretz:Stats:Sparse}, the maximum likelihood estimator for the spin precession frequency
-estimate has a standard error 
-\[
-  \sigma_{\hat\w} = \frac{1}{PT}\sqrt{\frac{24}{N}},
-\]
-where $N$ is the total number of recorded detector events, $P$ is the beam polarisation, $T$ is the 
-measurement time. 
-
-Assuming $N=7.5\cdot 10^8$ events, polarisation $P=0.4$, and cycle duration
-$T=1,000$ seconds (same parameters as in the simulation done in~\cite{Aksentev:Stats}),
-we have $\sigma_{\hat\w} \approx 4.5\cdot 10^{-7}$ rad/sec at the cycle level. 
-Estimates made in~\cite{Aksentev:Stats} agree with this result. 
-
-This precision is sufficient to obtain a mean estimate with statistical uncertainty
-$\sigma_{\avg{\hat\w}} \approx 3\cdot 10^{-9}$ rad/sec in one year of measurement, with
-the accelerator operational 70\% of the time. An EDM of $10^{-29}~e\cdot$cm should 
-induce an $\wedm$ on the level of $10^{-9}$ rad/sec in storage rings proposed 
-in~\cite{Senichev:Lattices}. Thus, we expect to be able to measure the deuteron EDM
-at the $10^{-29}~e\cdot$cm level in one year of measurement time.
-
-\begin{thebibliography}{9}
-
-\bibitem{JEDI}
-  JEDI Collaboration. \url{http://collaborations.fz-juelich.de/ikp/jedi/about/introduction.shtml}
-
-\bibitem{BNL:g-2:2001}
-  Brown HN, Bunce G, Carey RM, Cushman P, Danby GT, Debevec PT, et al.
-  Precise measurement of the positive muon anomalous magnetic moment. PhysRevLett. 2001;86:2227–31. 
-
-  
-\bibitem{BNL:Deuteron2008}
-  D. Anastassopoulos et al., ``AGS Proposal: Search for a permanent electric dipole moment of
-  the deuteron nucleus at the $10^{-29}$ e$\cdot$cm level,'' BNL, 2008.
-
-\bibitem{Mane:SpinWheel}
-  S. Mane, ``A distillation of Koop's idea of the Spin Wheel,'' arXiv:1509.01167 [physics]
-  \url{http://arxiv.org/abs/1509.01167}.
-
-\bibitem{BNL:Proton}
-  V. Anastassopoulos et al., ``A Storage Ring Experiment to Detect a Proton Electric Dipole Moment.''
-  Rev. Sci. Instrum., 87(11), 2016.
-  \url{http://arxiv.org/abs/1502.04317}.
-
-\bibitem{Koop:SW}
-  I. Koop. ``Asymmetric energy colliding ion beams in the EDM storage ring,'' Proc. of IPAC13 (2013).
-  \url{http://accelconf.web.cern.ch/accelconf/ipac2013/papers/tupwo040.pdf}.
-
-\bibitem{Aksentev:Stats}
-  A. Aksentev, Y. Senichev. ``Statistical precision in charged particle EDM search in storage rings.''
-  2017 J. Phys.: Conf. Ser. 941 012083.
-
-\bibitem{Aksentev:IPAC19:SMP}
-  A. Aksentev, Y. Senichev, ``Spin Motion Perturbation Effect on the EDM Statistic
-  in the Frequency Domain Method,'' presented at the 10th International Particle Accelerator Conf. (IPAC'19),
-  Melbourne, Australia, May. 2019, paper MOPTS011.
-
-\bibitem{Senichev:FDM}
-  Y. Senichev, A. Aksentev, A. Ivanov, E. Valetov, ``Frequency domain method of the search for
-  the deuteron electric dipole moment in a storage ring with imperfections,'' arxiv:1711.06512 [physics.acc-ph]
-  \url{https://arxiv.org/abs/1711.06512}.
-
-\bibitem{Senichev:Lattices}
-  Y. Senichev, S. Andrianov, S. Chekmenev, M. Berz, E.Valetov. ``Investigation of Lattice for Deuteron EDM Ring,''
-  Proc. of ICAP15 (2015). \url{http://accelconf.web.cern.ch/AccelConf/ICAP2015/papers/modbc4.pdf}.
-
-\bibitem{Eremey:Thesis}
-  E. Valetov, ``Field modeling, symplectic tracking, and spin decoherence for the EDM and muon g-2 lattices.''
-  PhD tehsis, Michigan State University, Michigan, USA.
-  \url{http://collaborations.fz-juelich.de/ikp/jedi/public_files/theses/valetovphd.pdf}.
-
-\bibitem{Aksentev:IPAC19:Decoh}
-  A. Aksentev, Y. Senichev, ``Spin decoherence in the Frequency Domain Method for the search of a particle EDM,''
-  presented at the 10th International Particle Accelerator Conf. (IPAC'19), Melbourne, Australia,
-  May. 2019, paper MOPTS012.
-
-\bibitem{Senichev:IPAC13}
-  Y. Senichev et al., ``Spin tune decoherence effects in Electro- and Magnetostatic Structures.''
-  Proceedings of IPAC 2013, Shanghai, China, pp. 2579-2581.
-
-\bibitem{Aksentev:IPAC19:GFF}
-  A. Aksentev, Y. Senichev, ``Simulation of the Guide Field Flipping Procedure for the Frequency Domain Method,'' 
-  presented at the 10th International Particle Accelerator Conf. (IPAC'19), Melbourne, Australia,
-  May 2019, paper MOPTS010.
-
-\bibitem{Pretz:Stats:Sparse}
-  J. Pretz, ``Determination of polarization and frequency parameters on sparse data,'' JEDI internal
-  note \#2013/04, Sept. 23, 2013.
-  
-\bibitem{Aksentev:FDM}
-  A. Aksentev, Y. Senichev, E. Valetov, JEDI internal note \#4/2019.
-  
-\end{thebibliography}
+\paragraph{Spin dynamics} This is the argument from non-commutativity.
+For this argument cf. eq~\eqref{eq:SW:conclusion-non-comm} and Remark~\ref{rmk:SW:conclusion}, and
+the following conclusion.
 
 \end{document}
