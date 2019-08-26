@@ -6,10 +6,14 @@
 \usepackage{url}
 \usepackage{hyperref}
 
+%% \usepackage[utf8]{inputenc}
+%% \usepackage[T1]{fontenc}
+%% \usepackage[english,russian]{babel}
+
 \usepackage{tikz-cd}
 \usepackage{cleveref}
 
-\usepackage[inline]{enumitem}
+\usepackage[inline, shortlabels]{enumitem}
 \setlist[enumerate,1]{label=\textit{\alph*)}}
 
 \newcommand{\w}{\omega}
@@ -284,4 +288,41 @@ So long as we believe \K7 and \KEz, we must believe \K9, and hence we cannot use
 For this argument cf. eq~\eqref{eq:SW:conclusion-non-comm} and Remark~\ref{rmk:SW:conclusion}, and
 the following conclusion.
 
+\section{Argumument against the SW method}
+The three-fold argument against the SW method is as follows (in the order of strength):
+\begin{enumerate}[(1)]
+\item The possibility of measuring the vertical orbit separation of two co-circulating beams
+  at the sensitivity level of $10^{-12}$~m has not been shown by experiment.
+  \textbf{Counter-argument}: there's reference~\cite{Kawal} to commercially-available SQUIDs
+  capable of detecting magnetic fields on the order of fT, which is equivalent to the beam separation
+  of $10^{-12}$~m. \label{itm:arg1}
+\item Even if a SQUID-based BPM is capable of measuring orbit separation to such precision \emph{locally}, the
+  evaluation of the \emph{mean} orbit separation requires multiple local measurements,
+  and is not identical to the local measurement precision.\label{itm:arg2}
+\item Orbital and spin dynamics are idependent of each other, meaning that the observables
+  $\vec\Omega$ and $\Delta$ are not directly related.\label{itm:arg2}
+\end{enumerate}
+
+Regarding part~\ref{itm:arg2} of the above argument: we did a simulation, and confirmed that
+\[
+\sigma[\avg{\Delta}] = \frac{a_y}{\sqrt{N_{BPM}}},
+\]
+where $a_y$ is the amplitude of betatron oscillaitons, $N_{BPM}$ is the number of local BPM measurements.
+
+%% \begin{enumerate}[(1)]
+%% \item Возможность измерения разделения  орбит на уровне точности $10^{-12}$~м не была доказана экспериментально.
+%%   \textbf{Контр-аргумент}: ссылка~\cite{Kawal} на коммерчески-доступные SQUIDы, способные детектировать магнитные
+%%   поля на уровне fT, эквивлентном разделению орбит на уровне $10^{-12}$~м.
+%% \item Даже если возможно померить разделение орбит пучков на таком уровне в какой-то \emph{конкретной точке},
+%%   точность определения \emph{среднего} разделения орбит не тождественна локальной точности определения разделения
+%%   орбит.
+%% \item Орбитальная и спиновая динамики пучка независимы друг от друга, то есть наблюдаемые $\vec\Omega$ и $\Delta$
+%%   не связаны напрямую.
+%% \end{enumerate}
+
+\begin{thebibliography}{0}
+\bibitem{Kawal}
+  D. Kawal, ``Relative Beam Position Monitors for the pEDM Experiment.''
+  \url{https://apps.fz-juelich.de/pax/paxwiki/images/a/a9/DKawal_longapp_dmk_20110621.pdf}
+\end{thebibliography}
 \end{document}
