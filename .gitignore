@@ -30,6 +30,7 @@ Abstracts/*
 *.aux
 *.log
 *.out
+*.spl
 
 .~lock.*
 .DS_Store

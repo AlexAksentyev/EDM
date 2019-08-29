@@ -303,22 +303,47 @@ The three-fold argument against the SW method is as follows (in the order of str
   $\vec\Omega$ and $\Delta$ are not directly related.\label{itm:arg2}
 \end{enumerate}
 
-Regarding part~\ref{itm:arg2} of the above argument: we did a simulation, and confirmed that
+Regarding part~\ref{itm:arg1}: a counter to the counter-argument could be that the SQUID
+magnetic field measurements aren't linearly related to the beam orbit separation.
+
+Regarding part~\ref{itm:arg2} of the above argument (argument from statistics):
+we did a simulation, and confirmed that
 \[
 \sigma[\avg{\Delta}] = \frac{a_y}{\sqrt{N_{BPM}}},
 \]
 where $a_y$ is the amplitude of betatron oscillaitons, $N_{BPM}$ is the number of local BPM measurements.
 
-%% \begin{enumerate}[(1)]
-%% \item Возможность измерения разделения  орбит на уровне точности $10^{-12}$~м не была доказана экспериментально.
-%%   \textbf{Контр-аргумент}: ссылка~\cite{Kawal} на коммерчески-доступные SQUIDы, способные детектировать магнитные
-%%   поля на уровне fT, эквивлентном разделению орбит на уровне $10^{-12}$~м.
-%% \item Даже если возможно померить разделение орбит пучков на таком уровне в какой-то \emph{конкретной точке},
-%%   точность определения \emph{среднего} разделения орбит не тождественна локальной точности определения разделения
-%%   орбит.
-%% \item Орбитальная и спиновая динамики пучка независимы друг от друга, то есть наблюдаемые $\vec\Omega$ и $\Delta$
-%%   не связаны напрямую.
-%% \end{enumerate}
+
+\section{Absence of the $a_y^2$ term in SW equations}
+
+Koop stats from the T-BMT equation \K3, which is a differential equation, defining
+\[
+\W_x = \frac qmGB_x
+\]
+locally.
+Then, in \K8 he transitions to the average
+\[
+\avg{\W_x} = \frac qmG\avg{B_x}.
+\]
+I think this is where he performes
+an invalid operation, by just formally including the LHS and RHS into the angle-brackets.
+
+In our formalism,
+\begin{equation}\label{eq:spin-tune-main}
+\avg{\W_x} \propto G\gamma;
+\end{equation}
+and since
+\[
+\gamma \propto \frac{\avg{B_x}}{Q_y} + \kappa\cdot a_y^2,
+\]
+so is $\avg{\W_x}$.
+
+However, eq~\eqref{eq:spin-tune-main} itself is obtained (AFAIK) from
+\begin{align*}
+  \W_x &= \frac qmGB_x,\\
+  \W_v &= \frac{qB}{m\gamma}, \\
+  \frac{\W_x}{\W_v} &= \frac{qGB}{m}\frac{m\gamma}{qB} = \gamma G.
+\end{align*}
 
 \begin{thebibliography}{0}
 \bibitem{Kawal}
