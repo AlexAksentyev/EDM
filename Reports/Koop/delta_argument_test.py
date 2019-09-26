@@ -31,7 +31,7 @@ def fit(function, data, pguess):
     return np.array(list(zip(popt, perr)),dtype=st_type)
 
 ntrl = 100 # number of test trials
-ntrn = int(1e0)
+ntrn = int(1e0) # number of turns in the ring
 
 # BPM parameters
 nbpm = 25*ntrn # number per beamline
@@ -39,12 +39,14 @@ SQUID_meas_error = 1e-12 #local BPM measurement error
 
 # betatron oscillation parameters
 ba = 1e-6 # amplitude
-freq1 = 30 # frequency
-freq2 = freq1 + 0.074
-ph1 = 0 # phase
-ph2 = np.pi/16
-z1 = 1e-12 # closed orbit offset
-z2 = -1e-12
+freq10 = 30 # frequency
+freq20 = freq10 + .074
+freq1 = freq10 + 0*np.random.normal(0, 1e-3, ntrl).repeat(nbpm).reshape(ntrl,nbpm)
+freq2 = freq20 + 0*np.random.normal(0, 1e-3, ntrl).repeat(nbpm).reshape(ntrl,nbpm)
+ph1 = 0 + 0*np.random.normal(0,np.pi, ntrl).repeat(nbpm).reshape(ntrl,nbpm) # phase
+ph2 = np.pi/16 + 0*np.random.normal(0,np.pi, ntrl).repeat(nbpm).reshape(ntrl,nbpm)
+z1 = 1e-12/np.sqrt(ntrn) # closed orbit offset
+z2 = -1.5e-12/np.sqrt(ntrn)
 
 s = np.tile(np.linspace(0, 150*ntrn, nbpm), (ntrl,1)) # beamline coordinate
 err1 = np.random.normal(0, SQUID_meas_error, (ntrl,nbpm)) # measurement error distribution
@@ -53,8 +55,8 @@ y1 = f(s, ba, freq1, ph1, z1) + err1 # measured vertical position for the primar
 y2 = f(s, ba, freq2, ph2, z2) + err2 # same for the secondary beam
 
 # fitting vertical beam position measurements with offset-sine function
-y1par = ana.fit_matrix(s,y1,f,ini_guess={'a':ba,'w':freq1,'p':ph1,'d':0})
-y2par = ana.fit_matrix(s,y2,f,ini_guess={'a':ba,'w':freq2,'p':ph2,'d':0})
+y1par = ana.fit_matrix(s,y1,f,ini_guess={'a':ba,'w':freq10,'p':ph1.mean(),'d':0})
+y2par = ana.fit_matrix(s,y2,f,ini_guess={'a':ba,'w':freq20,'p':ph2.mean(),'d':0})
 
 
 zmean = Pair(y1par['d'][:,0], y2par['d'][:,0])
