@@ -6,18 +6,22 @@
 
 \usepackage{tikz} % used in the
 \usepackage{pgfplots} % statistics appendix
+
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{hyperref}
 \usepackage{cleveref}
 \usepackage{url}
 \usepackage{siunitx}
 
 \usepackage{subcaption}
 \usepackage{multirow}
+\usepackage{threeparttable}
 
 \usepackage[inline,shortlabels]{enumitem}
-\setlist[enumerate,1]{label=(\alph*)}
+\setlist[enumerate,1]{label=(\arabic*)}
 
 %\newcommand{\hl}[1]{\colorbox{yellow}{#1}}
 
@@ -43,5 +47,6 @@
 \DeclareDocumentCommand{\Xpct}{mo}{\mathrm{E}\bkt*{#1\IfNoValueTF{#2}{}{|~ #2}}}
 
 \DeclareDocumentCommand{\g}{s}{\gamma\IfBooleanT{#1}{_{eff}}}
+\newcommand{\geff}{\gamma_{eff}}
 
-\newcommand{\ecm}{$~e\cdot$см}
+\newcommand{\ecm}{$~e\cdot$cm}

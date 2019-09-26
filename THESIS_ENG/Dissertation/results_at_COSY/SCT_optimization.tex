@@ -1,40 +1,70 @@
 \newcommand{\dpop}{\Delta p/p}
 
-Изначальной целью экспериментов по изучению времени когерентности спина (Spin Coherence Time) на COSY было подтверждение возможности секступольных полей противодействовать дисперсии спин-тюнов, ассоциированной с 
-эмиттансом и дисперсией импульсов ($\dpop$) частиц пучка.~\cite{COSY:SCT:IPAC15} На настоящий момент, оптимизация SCT является первой фазой любого предварительного эксперимента по поиску ЭДМ на COSY.
+The initial goal of the spin coherence time (SCT) studies at COSY was to 
+confirm the possibility of using sextupole fields in the correction of spin tune 
+dispersion associated with the transverse beam emittances and 
+momentum dispersion ($\dpop$).~\cite{COSY:SCT:IPAC15}
+At the present moment, SCT optimization is the initial phase of any EDM-related 
+investigation at COSY.
 
-Секступольное подавление декогеренции используется совместно с электронным охлаждением пучка, для
-уменьшения его фазового объёма, и банчингом, для подавления линейного вклада дисперсии импульсов частиц 
-в декогеренцию. Секступоли, располагающиеся в арках, призваны подавлять эффект декогеренции второго порядка.
+Sextupole spin decoherence suppression is used together with electron cooling, in order to minimize 
+the beam's phase space volume, and bunching, which is used for the suppression of the linear spin
+decoherence effect associated with momentum dispersion.
+The sextupoles, placed in the arc sections, are used for the suppression of
+second-order spin decoherence effects.
 
-Для контроля декогеренции используются три семейства секступолей, которые маркированны соответственно: MXG, расположенный в максимуме дисперсионной функции, и контролирующий эффект декогеренции связанный с $\dpop$; MXS, расположенный в максимуме горизонтальной бета-функции $\beta_x$, и контролирующий дисперсию, связанную с горизонтальными бетатронными колебаниями; MXL, в максимуме $\beta_y$, контролирующий дисперсию, возникающую из-за вертикальных бетатронных колебаний.
+Spin decoherence is controlled by means of three sextupole families, marked respectively: MXG, 
+placed in the maximum of the dispersion function, and controlling the decoherence associated with $\dpop$;
+MXS, placed in the maximum of the horizontal beta-function $\beta_x$, and controlling the dispersion effect
+associated with horizontal betatron oscilaltions; MXL, in the maximum of $\beta_y$, controlling the dispersion
+assiciated with the vertical betatron oscillations.
 
 \begin{figure}[h]\centering
 	\includegraphics[width=\linewidth]{images/chapter4/COSY-sextupoles}
-	\caption{Кольцо COSY с отмеченными положениями секступолей для контроля времени когерентности спина. (Рисунок взят из~\cite{Guidoboni:STORI14}.)}
+	\caption{COSY ring with marked sextupole positions. (Image taken from~\cite{Guidoboni:STORI14}.)}
 \end{figure}
 
-\subsection{Процедура оптимизации}
-В этом разделе описана процедура оптимизации SCT, на примере эксперимента 2014 года.~\cite{Guidoboni:STORI14} Первый оптимизационный эксперимент проводился в 2012 году, но тогда варьировалась только напряжённость поля секступоля MXS. В 2014 году впервые проведён полноценный (варьировались градиенты всех трёх секступолей) эксперимент по оптимизации SCT. 
+\subsection{Optimization procedure}
+In this section we describe the optimization procedure using the example of the 2014 experiment.~\cite{Guidoboni:STORI14}
+The SCT optimization experiment was first performed in 2012, but then only the MXS field strength was varied.
+In 2014, a comprehensive (the field strengths of all three sextupole families were varied) SCT optimization
+study was done for the first time.
 
-Чтобы отделить эффекты декогеренции, связанные с конечностью эмиттанса пучка, и с вторым порядком дисперсии импульсов частиц $(\dpop)^2$, подготовка пучка к эксперименту проводится по-разному.
+To separate the effects related to the beam emittances and the 
+second-order momentum dispersion $(\dpop)^2$, the beam was prepared in two different ways.
 
-Для получения пучка с большим разбросом $(\dpop)^2$, поляризованный дейтронный пучок с импульсом $p=0.97$ ГэВ/с сначала охлаждается в течении 60 секунд для минимизации его эмиттанса. После отключения охлаждения пучок банчируется (гармоническое число $h=1$). Банчирование необходимо для подавления линейных эффектов декогеренции.
+When studying the effect associated with a large $(\dpop)^2$, a polarized deuteron beam injected 
+at $p=0.97$~GeV/c momentum is first cooled for 60 seconds, so that its emittance is minimized. 
+After the cooling is turned off, the beam is bunched (harmonic number $h=1$). 
+Bunching is required to minimize linear spin decoherence effects.
 
-В случае изучения декогеренции, связанной с горизонтальным эмиттансом пучка,~\footnote{Декогеренция, связанная с вертикальным эмиттансом не может быть изучена ввиду ограничений по аксептансу.} охлаждение и банчирование проводятся одновременно в течении первых 60 секунд, после чего охлаждение отключается, и на пять секунд включается горизонтальное нагревание. Пучок нагревается подачей белого шума на обкладки конденсатора горизонтального кикера.
+When studying the effect associated with horizontal emittance,~\footnote{Decoherence associated with 
+	vertical emittance could not be studied because of acceptance limitations.} the beam is 
+cooled and bunched simultaneously for the initial 60 seconds, after which cooling is turned off,
+and horizontal heating is turned on for 5 seconds. The beam is heated by applying white noise to 
+the horizontal kicker plates.
 
-В обоих случаях, пучок инжектируется с вертикально-ориентированным вектором поляризации. Поворот поляризации в горизонтальную плоскость производится ВЧ соленоидом, после подготовки пучка, на 80-й секунде.
+In both cases the polarization is vertically-oriented at injection. It is flipped by an RF solenoid 
+after the beam preparation at the 80-th second.
 
-Мониторинг поляризации пучка производится непрерывно, путём приложения белого шума на вертикальный кикер, для экстракции пучка на 17-мм углеродную мишень. Далее, эластично-рассеянные дейтроны детектируются на поляриметре EDDA. Эластичное рассеяние дейтронов на углеродной мишени чувствительно к направлению спина, и имеет большое сечение взаимодействия. 
+Polarization is continuously measured by extracting the beam onto a 17 mm thick carbon target and
+detecting the scattered deuterons at the EDDA polarimeter. 
+Extraction is done by applying white noise to the vertical kicker. Elastic scattering of deuterons on 
+carbon is a spin sensitive process with a large cross section.
 
-Сцинтилляторы поляриметра поделены на четыре группы: верхние, нижние, левые, правые; асимметрия частот событий на левом и правом детекторах пропорциональна вертикальной поляризации, а на верхнем и нижнем --- горизонтальной поляризации. Прецессия поляризации пучка в горизонтальной плоскости происходит с частотой, значительно превышающей частоту выборки поляриметра, поэтому в 2012 году была разработана специальная система сбора данных~\cite{COSY:DAQ}.
+The EDDA scintillators were grouped in four sectors (up, right, down, left); event rate asymmetry between the
+left and right sectors is proportional to the beam's vertical polarization, the one between the up and down -- 
+to the horizontal polarization component. Horizontal plane spin precession occurs at a a rate which greatly exceeds the polarimeter sampling rate, which is why a special data acquisition system was developed in 2012.~\cite{COSY:DAQ}
 
-По результатам эксперимента~\cite{Guidoboni:STORI14} была доказана возможность получать на COSY SCT свыше 1,000 секунд. 
+As a result of the experiment~\cite{Guidoboni:STORI14} a possibility of reaching an SCT over 1,000 seconds at COSY was shown. 
 
-\subsection{Изменение SCT при переходе от внешней к внутренней части пучка}
-Ниже представлены результаты оптимизации SCT, полученные в период измерений апрель-май 2019 года. 
+\subsection{SCT change when going from the external to the internal beam layers}
+SCT optimization results obtained during the April-May 2019 beam time are shown below.
 
-На серии рисунков~\ref{fig:April2019:Polarization} представлены измерения асимметрии частоты событий на верхнем и нижнем детекторах (так называемая асимметрия верх-низ), которая пропорциональна горизонтальной компоненте поляризации пучка. На первых двух рисунках можно наблюдать, что на начальном этапе (в промежутке от 100 до 150 секунд) деполяризация происходит со значительной скоростью, но во второй половине цикла скорость деполяризации падает. На Рисунке~\ref{fig:Polariation:recovery-from-halo-to-core} особенно, мы видим, что в промежутке времени приблизительно от 130 до 150 секунд поляризация начинает возрастать, прежде чем снова спадает со значительно меньшей скоростью.
+In the Figure series~\ref{fig:April2019:Polarization} the up-down cross section asymmetry measurement 
+results are presented. In the first two figures one can observe that the rate of depolarization changes from
+high in the first half (100 to 150 seconds) of the measurement cycle to significantly lower in the second half.
+In Figure~\ref{fig:Polariation:recovery-from-halo-to-core} especially, we observe that polarization is increasing in the 130 to 150 second range, before it begins to gradually decrease again.
 \begin{figure}[h]\centering
 	\begin{subfigure}{\linewidth}
 		\includegraphics[height=.35\paperheight]{images/chapter4/SCT-April-2019/11th_19-55}
@@ -57,10 +87,16 @@
 	\caption{Horizontal polarization measurements during SCT optimization during the axion search experiment done in April-May 2019.\label{fig:April2019:Polarization}}
 \end{figure}
 
-Такое поведение поляризации на данный момент объясняется неоднородностью поляризованности пучка. В первой половине цикла на детектор преимущественно попадают частицы из внешней (halo) части пучка (оболочки); к второй половине цикла начинается выборка частиц из центральной (core) части (ядра). Поскольку ядро плотнее чем оболочка, разброс длин орбит частиц ядра меньше, чем частиц оболочки, а значит меньше и разброс спин тюнов частиц.
+Such behavior can be explained by the non-uniformity of the polarization distribution. In the first half
+of the measurement cycle particles from the outer (halo) beam layer are being sampled, while by the second half
+those get exhausted, and the polarization of the internal (core) layer is being probed. Since the core is
+more dense than the halo, the orbit length (hence spin tune) dispersion is less pronounced 
+for its particles.
 
-\subsection{Зависимость времени когерентности спина от силы секступоля}
-На Рисунках~\ref{fig:SCT_scan} представлена зависимость времени когерентности спина от относительной силы поля, соответственно MXL и MXG секступолей, измеренная во время оптимизации в апреле 2019 года. Наблюдается зависимость резонансного типа времени когерентности от значений относительной силы поля секступолей.
+\subsection{SCT dependence on sextupole strength}
+SCT dependence on the relative strengths of, respectively, the 
+MXL and MXG sextupoles, measured during the April-May 2019 beamtime
+is presented in Figure~\ref{fig:SCT_scan}. A resonance-type pattern can be observed.
 
 \begin{figure}[h]\centering
 	\begin{subfigure}{\linewidth}
@@ -74,10 +110,15 @@
 	\caption{SCT as a function fo the sextupole strength.\label{fig:SCT_scan}}
 \end{figure}
 
-Мы проверили, соблюдается ли такая же зависимость в рамках нашей численной модели, с учётом того, что измерения на COSY проводятся на энергии, значительно удалённой от спин-резонансной. На Рисунке~\ref{fig:SCT_resonance} изображена зависимость стандартного отклонения спин-тюнов частиц пучка от значения подавляющего декогеренцию секступоля (данные взяты из симуляции, описанной в разделе~\ref{sec:decoh:sim-imperfect}). Зависимость показывает такой же резонансный характер, как и данные эксперимента.
+Since COSY operates at an energy that is significantly far removed from spin resonance 
+we decided to check if this pattern can be seen (within the framework of our numerical model) 
+in the FS-type lattice. 
+Spin tune standard deviation as a function of the corresponding sextupole gradient is plotted in Figure~\ref{fig:SCT_resonance}. 
+(Data were taken from the simulation described in section~\ref{sec:decoh:sim-imperfect}.)
+The same resonance pattern is observed as in the experiment.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/decoh_sim/stune_sd_vs_sext_strength_resonance}
-	\caption{Зависимость стандартного отклонения спин-тюнов частиц банча от используемого градиента подавляющего декогеренцию секступоля.\label{fig:SCT_resonance}}
+	\caption{Spin tune dispersion as a function of the sextupole field gradient.\label{fig:SCT_resonance}}
 \end{figure}

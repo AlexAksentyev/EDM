@@ -1,4 +1,4 @@
-\documentclass[]{elsarticle}
+\documentclass[preprint, review]{elsarticle}
 
 \usepackage{amsmath}
 \usepackage{xfrac}
@@ -9,6 +9,9 @@
 
 \usepackage[inline,shortlabels]{enumitem}
 \setlist[enumerate,1]{label=\textit{\alph*)}}
+
+% ADDING LINENUMBERS FOR REVIEWING:
+\usepackage{lineno}
 
 
 \DeclareDocumentCommand{\pddx}{mO{t}O{}}{\frac{\partial^{#3} {#1}}{\partial {#2}^{#3}}}
@@ -28,6 +31,7 @@
 \newcommand{\const}{\mathrm{const}}
 
 \begin{document}
+\begin{frontmatter}
 \title{Analysis of systematic errors in the frequency-based approach to estimating
   the deuteron electric dipole moment in a frozen spin storage ring}
 
@@ -67,11 +71,16 @@
 \end{abstract}
 
 
-\maketitle
+\begin{keyword}
+  electric dipole moment; frozen spin; spin transparency; spin dynamics; spin decoherence.
+\end{keyword}
 
-\textbf{Keywords:} electric dipole moment; frozen spin; spin transparency; spin dynamics; spin decoherence.
+\end{frontmatter}
+
 
 \tableofcontents
+
+\linenumbers
 
 \section{Introduction}
 The search for the electric dipole moments of elementary particles is motivated by the question of
@@ -711,7 +720,7 @@ we came to the following conclusions:
   \url{https://arxiv.org/abs/1711.06512}.
 
 \bibitem{Mane:SpinWheel}
-  S. Mane, ``A distillation of Koop's idea of the Spin Wheel,'' arXiv:1509.01167 [physics]
+  S. Mane, ``Spin Wheel,'' arXiv:1509.01167 [physics]
   \url{http://arxiv.org/abs/1509.01167}.
 
 \bibitem{COSY:SpinTuneMapping}

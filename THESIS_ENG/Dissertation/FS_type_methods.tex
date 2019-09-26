@@ -135,7 +135,7 @@ with an angular velocity that is high enough for its magnitude to be easily meas
 Apart from easier polarimetry, the definiteness of the angular velocity vector is a safeguard against geometric
 phase error.
 
-This ``Spin Wheel'' may be externally applied~\cite{Koop:SW}, or otherwise the machine imperfection fields
+This ``Spin Wheel'' may be externally applied~\cite{Koop:SpinWheel}, or otherwise the machine imperfection fields
 may be utilized for the same purpose (wheel roll rate determined by equation~\eqref{eq:BNL_syst_err}).
 The latter is made possible by the fact that $\w_{syst}$ changes sign when the beam revolution direction
 is reversed.~\cite[p.~11]{BNL:Deuteron2008}
@@ -198,7 +198,7 @@ should not be a problem to achieve.
 
 One case left to be considered is MDM spin kicks about the $\hat x$-axis. These are not attenuated, and cause the
 most trouble. They come in three varieties:
-\begin{enumerate*}
+\begin{enumerate*}[(i)]
 \item permanent, not caused by optical element misalignments;
 \item semi-permanent, caused by element tilts about the optic axis;
 \item spurious.
@@ -224,7 +224,7 @@ utilization of sextupole fields. We consider how this can be accomplished in sec
 
 \subsubsection{Machine imperfections}
 As we have seen, the problem with machine imperfections is twofold:
-\begin{enumerate*}
+\begin{enumerate*}[(i)]
 \item they are practically impossible to remove at the present level of technology; but what's even worse, 
 \item their removal leaves one in the space domain, and opens the measurement up to geometric phase error.
 \end{enumerate*}
@@ -249,7 +249,7 @@ The method we propose is characterized by two main features:
 \end{enumerate}
 
 The advantages of the frequency domain, such as
-\begin{enumerate*}
+\begin{enumerate*}[(i)]
 \item ease of polarimetry, and
 \item immunity to geometric phase error,
 \end{enumerate*}
@@ -288,22 +288,25 @@ to introduce the concept of the \emph{effective Lorentz factor}
 (see section~\ref{chpt1:FS-methods:effective-Lorentz-factor} for that).
 
 \subsubsection{Frequency estimation and major statistical properties of the polarimetry data}
-The detailed analysis of the problem of frequency estimation is in appendix~\ref{Apx:Stats}. Here, we will
-only summarize the main conclusions.
+The details of our analysis of the polarization precession frequency estimation problem can be found in
+ appendix~\ref{Apx:Stats}. In this section, we will only summarize the main conclusions.
 
-Firstly, the polarization precession freuqency is obtained via fitting a harmonic function with constant parameters to polarimetry data. This causes the problem of perturbations of the spin dynamics (e.g.,
-dut to betatron oscillations), which is analyzed in section~\ref{chpt3:smp}. According to our results,
-the proposed method is robust to this problem.
+Firstly, the frequency estimate is obtained via fitting a constant-parameter harmonic function
+to polarimetry data. Since perturbations in the spin dynamics (e.g., due to betatron oscillations) 
+induce a mismatch between the constant-parameter model and the actual data-generating function, 
+regression model specification systematic error is of concern. It is analyzed 
+in section~\ref{chpt3:smp}. According to our results, the 2D FS method is robust to this 
+systematic error.
 
-Secondly, polarimetry data are \emph{heteroskedastic}, i.e., polarimetry measurementerror grows
-toward the end of the measurement cycle.~\cite{Eversmann:Thesis} Ordinary Least Squares estimation method
+Secondly, polarimetry data are \emph{heteroskedastic}, i.e., polarimetry measurement error grows
+toward the end of the measurement cycle.~\cite{Eversmann:Thesis} The Ordinary Least Squares estimation method
 loses efficiency when fitting such data; the parameter estimate standard errors provided by it
-become biased and inconsistent. However, the estimate expectation values remain valid. For those reasons, when
-using OLS, White standard error estimates must be used.
+become biased and inconsistent. However, the expectation values of the estimates remain valid. 
+Therefore, one can still employ OLS, but together with White standard error estimates.
 But use of heteroskedastic models~\cite{Stats:R:NLREG, Stats:HeteroskedasticNRM} is still more appropriate.
 
 Thirdly, beam depolarization places stricter constraints on the duration of the measurement cycle, than
-the beam lifetime. Assume a beam with an infinite lifetime.~\footnote{Apart from anything else,
+ beam loss. Assume a beam with an infinite lifetime.~\footnote{Apart from anything else,
   this implies non-destructive polarimetry.} Obviously, when the beam is fully depolarized, it is impossible to
 obtain any information about its spin precession rate; i.e. there's a principal bound on the amount of information
 (denoted $\mathrm{FI_{tot}}$) about the spin precession frequency, which can be gathered from one injection.
@@ -317,9 +320,9 @@ measurement cycle length is limited by three polarization lifetimes.
 Fourthly, our simuilations indicate that it is possible to reach a statistical precision of the 
 $8\cdot 10^{-7}$ rad/sec in the frequency estimate in one measurement cycle, assuming the polarization
 lifetime 1,000 seconds, polarization samling frequency 375 Hz, and initial polarizaton measurement error 3\%.
-At 70\% acclerator duty this is sufficient to reach $5\cdot 10^{-9}$ rad/sec dtandard error of the mean
+At 70\% acclerator duty this is sufficient to reach $5\cdot 10^{-9}$ rad/sec standard error of the mean
 frequency estimate. Such precision is sufficient for the attainment of an EDM estimate
-at an uncertainty level of $10^{-29}~e\cdot$cm.
+at an uncertainty level of $10^{-29}$\ecm.
 
 \begin{table}[h]
 	\caption{Amount of gather information (in percents of absolute maximum), as a function of hte measurement cycle, and the corresponding signal-to-noise ratio.\label{tbl:FItot}}
@@ -390,7 +393,12 @@ and momentum deviation cause an equilibrium-level momentum shift~\cite[p.~2581]{
 \begin{equation}\label{eq:EquLevMom_shift}
 \Delta\delta_{eq} = \frac{\gamma_0^2}{\gamma_0^2\alpha_0 - 1}\bkt*{\frac{\delta_m^2}{2}\bkt{\alpha_1 - \alpha_0\gamma^{-2} + \gamma_0^{-4}} + \bkt{\frac{\Delta L}{L}}_\beta},
 \end{equation}
-where $\delta_m$ is the amplitude of synchrotron oscillations.
+where $\delta_m$ is the amplitude of synchrotron oscillations, and
+\begin{equation}\label{eq:betatron_OL}
+	\bkt{\frac{\D L}{L}}_\beta = \frac{\pi}{2L}\bkt*{\varepsilon_xQ_x + \varepsilon_yQ_y},
+\end{equation}
+is the betatron motion-related orbit lengthening. $\varepsilon_x$ and $\varepsilon_y$ are, respectively, 
+the horizontal and vertical beam emittances, $Q_x$ and $Q_y$ are the horizontal and vertical betatron tunes.
 
 We call the equilibrium energy level associated with the momentum shift~\eqref{eq:EquLevMom_shift},
 the \emph{effective Lorentz factor}:

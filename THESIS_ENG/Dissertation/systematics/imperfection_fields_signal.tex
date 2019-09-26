@@ -1,7 +1,7 @@
 
 \paragraph{Imperfection field implementation}\label{chpt3:imperfections:implementation}
-When implementing the machine imperfections we followed recommendations given in~\cite[p.~235]{Eremey:Thesis}. 
-A small perturbation of the magnetic field acts like a small proportional rotation of the spin vector.
+When implementing machine imperfections we followed recommendations given in~\cite[p.~235]{Eremey:Thesis}. 
+A small perturbation of the magnetic field acts like a proportional rotation of the spin vector.
 For this reason we implemented the E+B element tilt as a product between the element's spin transfer matrix
 and the corresponding rotation matrix, a ``spin kick.'' Such an implementation guarantees the preservation of 
 the closed orbit. This orbit preservation is physically grounded in the fact that when a spin-rotator
@@ -25,7 +25,7 @@ concerning the machine imperfection systematic error:
 	\item this dependence is linear.
 \end{enumerate*}
 
-The simulation was set up as follows: in the FS lattice described in section~\ref{chpt2:lattice:BNL_FS} 
+The simulation was set up as follows: in the FS lattice described in section~\ref{chpt2:lattice:FS_BNL} 
  E+B elements were randomly tilted about the optic axis by angles $\Theta_{tilt}$.
  After building the third-order spin and orbital transfer maps, we computed the Taylor expansions of the
  spin tune and spin precession axis (SPA). The zero-order terms of the Taylor expansions represent the spin tune and SPA
@@ -64,7 +64,7 @@ mentioned above (section~\ref{chpt3:imperfections}), because in them a tilt erro
 is assumed at 100 tilted elements. In that case, the mean tilt angle standard deviation is $10^{-5}$, and hence MDM
 precession occurs at a rate up to 50 rad/sec with a probability 67\%, and up to 100 rad/sec with a probability 95\%.
 
-Figure~\ref{fig:Linearity_test_compensated} shows the results of a simulation in which six, randomly-picked
+Figure~\ref{fig:Linearity_test_compensated} shows the results of a simulation in which six randomly-picked
 E+B elements were pair-wise tilted by opposite angles, while one element was tilted by an angle
 $\mu_i = (i-5)\cdot 10^{-6}$ rad, $i\in\lbrace0,\dots,10\rbrace$. 
 
@@ -103,9 +103,11 @@ for the angular velocity:
 \delta\W_x = \frac{\W_x^{CW}(\avg{\Theta_{tilt}}) - \W_x^{CCW}(\avg{\Theta_{tilt}})}{\W_x^{CW}(\avg{\Theta_{tilt}})}.
 \]
 
-One can observe in the figures that in both cases both beams' SPA has the same orientation; there is a difference
-between the beams' spin tunes, but it stays below the percent level. The spin tune difference grows bigger as the
-spin wheel roll rate (proportional to the mean tilt angle) gets slower. The spin tune difference may indicate that
+In the figures, one can observe that in either case both beams' SPA is oriented the same way; 
+there is some difference between the beams' spin tunes, but it stays below the percent level. 
+The spin tune difference grows bigger as the
+spin wheel roll rate (proportional to the mean tilt angle) gets slower. 
+The spin tune difference may indicate that
 the lattice is asymmetric, with respect to the spin dynamics, relative to the beam circulation direction (i.e. time reversal).
 It may be explained by a difference between the CW and CCW beams' closed orbits.
 
