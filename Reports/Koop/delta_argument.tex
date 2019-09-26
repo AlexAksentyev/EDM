@@ -1,0 +1,71 @@
+\documentclass[12pt]{report}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{amssymb,amsfonts,amsmath,mathtext, amsthm}
+\usepackage{url, hyperref}
+\usepackage{graphicx}
+\usepackage{xfrac}
+
+\newcommand{\sigSQUID}{\sigma_{SQUID}}
+\newcommand{\Ab}{a_{\beta}}
+\newcommand{\ntrl}{n}
+
+\newtheorem{rmk}{Замечание}
+
+\title{Аргумент от точности определения среднего вертикального оффсета}
+
+\begin{document}
+	\maketitle
+	
+Целью данного теста является проверка возможности определения вертикального разделения замкнутых орбит пучков на уровне $10^{-12}$~м, если:
+\begin{itemize}
+	\item в ускорителе длины 150~м равномерно распределены 25 BPM;
+	\item точность измерения вертикальной координаты пучка BPM'ом $\sigSQUID=10^{-12}$~м;
+	\item амплитуда бетатронных колебаний в вертикальной плоскости $\Ab=10^{-6}$~м.
+\end{itemize}
+
+Были сгенерированы две серии данных:
+\begin{equation}\label{eq:data}
+	\begin{cases}
+		y_1^{\ntrl}(s) &= \Ab\sin(f_1\cdot s + \phi_1) + \Delta_1 + \epsilon_1^{\ntrl},\\
+		y_2^{\ntrl}(s) &= \Ab\sin(f_2\cdot s + \phi_2) + \Delta_2 + \epsilon_2^{\ntrl};\\
+		\epsilon_1^{\ntrl},\epsilon_2^{\ntrl}&\sim N(0,\sigSQUID), \\
+		s &\in \{j\cdot\frac{150}{24}| j \in 25\}.
+	\end{cases}
+\end{equation}
+с параметрами из Таблицы~\ref{tbl:sim_param}. $\ntrl$ -- номер теста ($\ntrl\in100$).
+
+\begin{rmk}
+	$\forall\ntrl\in100$ данные отличаются только $\epsilon_1^{\ntrl},\epsilon_2^{\ntrl}$; все остальные параметры оставались неизменными. Это значит, что на каждом триале пучок приходит на каждый BPM в одной и той же точке, а вариация вертикальной координаты на данном BPM связана только с ошибкой измерения ($\sigma_{SQUID}$).
+	
+	Таким образом, $\sigma[\hat{\Delta}]$ есть \emph{статистическая} погрешность определения сдвига замкнутой орбиты.
+\end{rmk}
+
+\begin{table}[h]\centering
+	\caption{Параметры симуляции\label{tbl:sim_param}}
+	\begin{tabular}{lr}\hline
+		Параметр & Значение \\
+		\hline
+		$f_1$ & 30.000 \\
+		$f_2$ & 30.074\\
+		$\phi_1$ & 0 \\
+		$\phi_2$ & $\pi/16$ \\
+		$\Delta_1$ & $10^{-12}$ \\
+		$\Delta_2$ & $10^{-12}$\\
+		 \hline
+	\end{tabular}
+\end{table}
+
+Данные~\eqref{eq:data} были фитированы функцией 
+\begin{equation}\label{eq:fit_func}
+	f(x) = a\cdot\sin(f\cdot x + \phi) + \Delta;
+\end{equation}
+оценивались все 4 параметра: $\hat{a}^{\ntrl},\hat{f}^{\ntrl},\hat{\phi}^{\ntrl},\hat{\Delta}^{\ntrl}$.
+
+\begin{figure}[h]\centering
+	\includegraphics[width=\linewidth]{../../img/Koop/CO_offset_b1_b2_hist_vary_epsilons}
+	\caption{Гистограммы распределений оценок $\hat{\Delta}^{\ntrl}$ в случае, когда варьируются только ошибки $\epsilon_1^{\ntrl},\epsilon_2^{\ntrl}$. \label{fig:vary_only_epsilons}}
+\end{figure}
+
+\end{document}
