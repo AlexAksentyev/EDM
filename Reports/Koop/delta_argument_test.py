@@ -31,7 +31,8 @@ def fit(function, data, pguess):
     return np.array(list(zip(popt, perr)),dtype=st_type)
 
 ntrl = 100 # number of test trials
-ntrn = int(1e0) # number of turns in the ring
+ntrn = int(1e2) # number of turns in the ring
+rand = 0
 
 # BPM parameters
 nbpm = 25*ntrn # number per beamline
@@ -41,12 +42,12 @@ SQUID_meas_error = 1e-12 #local BPM measurement error
 ba = 1e-6 # amplitude
 freq10 = 30 # frequency
 freq20 = freq10 + .074
-freq1 = freq10 + 0*np.random.normal(0, 1e-3, ntrl).repeat(nbpm).reshape(ntrl,nbpm)
-freq2 = freq20 + 0*np.random.normal(0, 1e-3, ntrl).repeat(nbpm).reshape(ntrl,nbpm)
-ph1 = 0 + 0*np.random.normal(0,np.pi, ntrl).repeat(nbpm).reshape(ntrl,nbpm) # phase
-ph2 = np.pi/16 + 0*np.random.normal(0,np.pi, ntrl).repeat(nbpm).reshape(ntrl,nbpm)
-z1 = 1e-12/np.sqrt(ntrn) # closed orbit offset
-z2 = -1.5e-12/np.sqrt(ntrn)
+freq1 = freq10 + rand*np.random.normal(0, 1e-3, ntrl).repeat(nbpm).reshape(ntrl,nbpm)
+freq2 = freq20 + rand*np.random.normal(0, 1e-3, ntrl).repeat(nbpm).reshape(ntrl,nbpm)
+ph1 = 0 + rand*np.random.normal(0,np.pi, ntrl).repeat(nbpm).reshape(ntrl,nbpm) # phase
+ph2 = np.pi/16 + rand*np.random.normal(0,np.pi, ntrl).repeat(nbpm).reshape(ntrl,nbpm)
+z1 = .75e-12/np.sqrt(ntrn) # closed orbit offset
+z2 = -1.25e-12/np.sqrt(ntrn)
 
 s = np.tile(np.linspace(0, 150*ntrn, nbpm), (ntrl,1)) # beamline coordinate
 err1 = np.random.normal(0, SQUID_meas_error, (ntrl,nbpm)) # measurement error distribution
