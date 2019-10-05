@@ -1,0 +1,54 @@
+
+The number of spin revolutions per turn, spin tune $\nu_s$, depends on the particle's  equilibrium-level energy, expressed by the Lorentz factor:
+\begin{align}\label{eq:spin_tune_vs_gamma}
+\nu_s^B &= G\gamma, \tag{magnetic field}\\
+\nu_s^E &= \frac{G+1}{\gamma} - G\gamma. \tag{electric field}
+\end{align}
+
+Not all beam particles in a bunch are characterized by the same Lorentz factor. A particle involved in betatron
+motion will have a longer orbit, and as a direct consequence of the phase stability principle,
+in an accelerating structure utilizing an RF cavity, its equilibrium energy level 
+must increase.
+
+Consider the reference particle. Its longitudinal dynamics is described
+by the system of equations:
+\begin{equation}
+\begin{cases}
+\ddt{}\D\varphi &= -\w_{RF}\eta\delta, \\
+\ddt{}\delta &= \frac{q V_{RF}\w_{RF}}{2\pi h\beta^2E}(\sin\varphi - \sin\varphi_0).
+\end{cases}
+\end{equation}
+In the equations above, $\D\varphi = \varphi - \varphi_0$ and
+$\delta = (p-p_0)/{p_0}$ are the deviations of the particle's phase and
+normalized momentum from those of the reference particle; all other symbols have their usual meanings.
+%% $V_{RF}$, $\w_{RF}$ are, respectively,
+%% the RF voltage and frequency; $\eta = \alpha_0 - \gamma^{-2}$ is the slip-factor,
+%% where $\alpha_0$ is the momentum compaction factor defined by $\sfrac{\Delta L}{L} = \alpha_0\delta$,
+%% $L$ being the orbit length; $h$ is the harmonic number; $E$ the total energy of the particle.
+
+The solutions of this system form a family of ellipses in the $(\varphi, \delta)$-plane, all centered at the
+point $(\varphi_0,\delta_0)$. However, if one considers a particle involved in betatron oscillations, and
+uses a higher-order Taylor expansion of the momentum compaction factor
+$\alpha = \alpha_0 + \alpha_1\delta$, the first equation of the system
+transforms into:~\cite[p.~2579]{Senichev:IPAC13}
+\begin{align*}
+\ddt{\D\varphi} = -\w_{RF} \Bigg[\left(\frac{\Delta L}{L}\right)_\beta &+ (\alpha_0 + \gamma^{-2})\delta \Bigg.\\
+&+ \Bigg.(\alpha_1 - \alpha_0\gamma^{-2} + \gamma^{-4})\delta^2\Bigg],
+\end{align*}
+where $(\frac{\Delta L}{L})_\beta = \frac{\pi}{2L}[\varepsilon_xQ_x + \varepsilon_yQ_y]$, is
+the betatron motion-related orbit lengthening; $\varepsilon_x$ and $\varepsilon_y$ are
+the horizontal and vertical beam emittances, and $Q_x$, $Q_y$ are the horizontal and vertical tunes.
+
+The solutions of the transformed system are no longer centered at the same single point. Orbit lengthening
+and momentum deviation cause an equilibrium-level momentum shift~\cite[p.~2581]{Senichev:IPAC13}
+\begin{equation}\label{eq:EquLevMom_shift}
+\Delta\delta_{eq} = \frac{\gamma_0^2}{\gamma_0^2\alpha_0 - 1}\left[\frac{\delta_m^2}{2}(\alpha_1 - \alpha_0\gamma^{-2} + \gamma_0^{-4}) + \left(\frac{\Delta L}{L}\right)_\beta\right],
+\end{equation}
+where $\delta_m$ is the amplitude of synchrotron oscillations.
+
+We call the equilibrium energy level associated with the momentum shift~\eqref{eq:EquLevMom_shift},
+the \emph{effective Lorentz factor}:
+\begin{equation}\label{eq:EffectiveGamma}
+\geff= \gamma_0 + \beta_0^2\gamma_0\cdot\Delta\delta_{eq},
+\end{equation}
+where $\gamma_0$, $\beta_0$ are the Lorentz factor and relative velocity factor of the reference particle.
