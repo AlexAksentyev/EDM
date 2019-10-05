@@ -68,7 +68,7 @@ In the proposed methodology, non-spurious $\W_{MDM}$ is generated only by the ra
 \begin{align}
 	\W^{\pm} &= \pm \W_{MDM} + \W_{EDM},\\
 	\hat\W_{EDM} &= \frac12\left[\hat\W^+ + \hat\W^-\right] \notag\\
-	&= \W_{EDM} + \frac{1}{\sqrt{2}}\cdot\sigma_{MDM} + \epsilon,	
+	&= \W_{EDM} + \frac{1}{\sqrt{2}}\cdot\sigma_{MDM} + \epsilon,	\label{eq:EDM-estimator}
 \end{align}
 where
 $\sigma_{MDM}$ is  the statistical (model parameter estimate) error, and the difference between the two cycles' MDM spin precession rates $\epsilon~=~\W_{MDM}^+~-~\W_{MDM}^-$ is the  systematic error term.
@@ -101,16 +101,19 @@ It has been shown in~\cite[p.~56]{Aksentev:Thesis} that a particle's spin tune c
 
 Therefore, if the CW and CCW beam centroids' have equal $\geff$, we can expect the MDM components of the spin precession angular velocities to be equal as well.
 
-\subsection{Calibration of the ELF}
-Now the question becomes how the effective Lorentz factor can be calibrated.
-
+\subsubsection{Calibration of the ELF}
+Calibration of the effective Lorentz factor is done via observing spin precession in the closed orbit plane. For that purpose, a special transverse spin rotator element is used in order to suppress the vertical plane precession.  Using the fact that $\nu_s$ is an injective function of $\geff$, it follows that there exists a unique value $\geff^0$, at which the polarization vector is frozen with respect to the beam's momentum vector in the horizontal plane, i.e. $\nu_s=0$ in the rest frame. Since the tilt of the spin precession axis is the same for the CW and CCW beams,  
+\[
+\lim_{\nu_s^+ - \nu_s^- \to 0} \W_{MDM}^+ - \W_{MDM}^- = 0,
+\]
+and hence $\epsilon$ in equation~\eqref{eq:EDM-estimator} is removed.
 
 \section{Statistical precision}
 Spin precession angular velocity is estimated via non-linear fit of a constant-parameter harmonic function to polarization data. However, perturbations to the spin dynamics, caused by, for example, betatron motion, introduce a mismatch between the fit model and the data, and hence a model specification systematic error. This problem has been analyzed,~\cite{Aksentev:IPAC19:SMP} with the conclusion that this systematic error is negligible.
 
-Effective duration of the measurement cycle cannot exceed three times the polarization lifetime $\tau_d$,~\cite{Stats} where $\tau_d$ is the time during which beam polarization decreases by a factor of $e$.
+Effective measurement cycle length cannot exceed three times the polarization lifetime $\tau_d$,~\cite{Stats} where $\tau_d$ is the time during which beam polarization decreases by a factor of $e$.
 
-Simulation shows~\cite{Stats} the possibility of reaching a statistical error $\sigma[\hat\W]~=~8\cdot~10^{-7}$~rad/sec in one measurement cycle (at $\tau_d = 10^3$~sec), and $\sigma[\avg{\hat\W}]~=~5\cdot~10^{-9}$~rad/sec in one year of measurement (at 70\% accelerator time load). This should suffice to achieve an EDM estimate precision level of $10^{-29}~e\cdot$cm.
+Simulation shows~\cite{Stats} the possibility of reaching a statistical error $\sigma[\hat\W]~=~8\cdot~10^{-7}$~rad/sec in one measurement cycle (at $\tau_d = 721$~sec, cycle length $10^3$~sec), and $\sigma[\avg{\hat\W}]~=~5\cdot~10^{-9}$~rad/sec in one year of measurement (at 70\% accelerator time load). This should suffice to achieve an EDM estimate precision level of $10^{-29}~e\cdot$cm.
 
 \begin{thebibliography}{0}
 %	\bibitem{Senichev:IPAC13}
