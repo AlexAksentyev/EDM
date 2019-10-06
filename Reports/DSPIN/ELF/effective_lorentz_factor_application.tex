@@ -1,0 +1,25 @@
+In order to minimize systematic error $\epsilon$, one needs a way to keep $\W_{MDM}$ constant across multiple runs.
+
+The obvious way of trying to precisely reproduce the guiding field is inefficient for two major reasons:
+\begin{enumerate*}[(1)]
+	\item standard magnetic field measurement methods do not yield sufficient precision;
+	\item the lattice might not be symmetric enough, in terms of spin dynamics, with respect to reversal of the beam circulation direction.
+\end{enumerate*}
+Hence, we propose a different variable for calibration.
+
+We note that the number of spin revolutions per turn (spin tune $\nu_s$) depends on the particle's  equilibrium-level energy, expressed by the Lorentz factor $\gamma$:
+\begin{align}\label{eq:spin_tune_vs_gamma}
+\nu_s^B &= G\gamma, \tag{magnetic field}\\
+\nu_s^E &= \frac{G+1}{\gamma} - G\gamma. \tag{electric field}
+\end{align}
+
+Not all beam particles in a bunch are characterized by the same $\gamma$. A particle involved in betatron
+motion will have a longer orbit, and as a direct consequence of the phase stability principle,
+in an accelerating structure utilizing an RF cavity, its equilibrium energy level 
+must increase.
+
+The effective Lorentz factor is a generalization of the regular Lorentz factor accounting for betatron motion-related orbit lengthening and non-linearity of the momentum compaction factor.
+
+It has been shown in~\cite[p.~56]{Aksentev:Thesis} that a particle's spin tune can be described by a univariate function; we associate the argument of that function with the effective Lorentz factor. Consequently, spin-vectors of two particles characterized by the same value of the effective Lorentz factor precess as the same rate.
+
+Therefore, if the CW and CCW beam centroids' have equal $\geff$, we can expect the MDM components of the spin precession angular velocities to be equal as well.
